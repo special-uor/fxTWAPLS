@@ -153,6 +153,18 @@ WAPLS.w <- function(modern_taxa,
   return(list)
 }
 
+#' TWALPS training function fit
+#'
+#' @param modern_taxa 
+#' @param modern_climate 
+#' @param nPLS 
+#' @param usefx 
+#' @param fx 
+#'
+#' @return
+#' @export
+#'
+# @examples
 TWAPLS.w <- function(modern_taxa,
                      modern_climate,
                      nPLS = 5,
@@ -169,115 +181,115 @@ TWAPLS.w <- function(modern_taxa,
   sumi_yik <- colSums(y)
   
   #Define some matrix to store the values
-  u<-matrix(NA,nc,nPLS); #u of each component
-  u_sd<-matrix(NA,nc,nPLS); #u of each component, standardized the same way as r
-  optimum<-matrix(NA,nc,nPLS);  #u updated
-  t<-matrix(NA,nc,nPLS); #tolerance
-  r<-matrix(NA,nr,nPLS);  #site score
-  z<-matrix(NA,1,nPLS);  #standardize
-  s<-matrix(NA,1,nPLS);  #standardize
-  orth<-list();#store orthogonalization parameters
-  alpha<-list();#store regression coefficients
-  comp<-matrix(NA,nr,nPLS) #each component
-  fit<-matrix(NA,nr,nPLS) #current estimate
+  u <- matrix(NA, nc, nPLS) # u of each component
+  u_sd <- matrix(NA, nc, nPLS) # u of each component, standardized the same way as r
+  optimum <- matrix(NA, nc, nPLS) # u updated
+  t <- matrix(NA, nc, nPLS) # tolerance
+  r <- matrix(NA, nr, nPLS) # site score
+  z <- matrix(NA, 1, nPLS) # standardize
+  s <- matrix(NA, 1, nPLS) # standardize
+  orth <- list() # store orthogonalization parameters
+  alpha <- list() # store regression coefficients
+  comp <- matrix(NA, nr, nPLS) # each component
+  fit <- matrix(NA, nr, nPLS) # current estimate
   
-  pls<-1
-  #Step 1. Take the centred environmental variable (xi) as initial site scores (ri). 
-  r[,pls]<-x-mean(x)
+  pls <- 1
+  # Step 1. Take the centred environmental variable (xi) as initial site scores (ri). 
+  r[, pls] <- x - mean(x)
   
-  #Step 2. Calculate uk and tk
-  u[,pls] = t(y)%*%x / sumi_yik; #uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
-  n2<-matrix(NA,nc,1)
-  for(k in 1:nc){
-    t[k,pls] = sqrt(sum(y[,k]*(x-u[k,pls])^2)/sumi_yik[k])
-    n2[k]<-1/sum((y[,k]/sum(y[,k]))^2)
-    t[k,pls]<-t[k,pls]/sqrt(1-1/n2[k])
+  # Step 2. Calculate uk and tk
+  u[, pls] = t(y) %*% x / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+  n2 <- matrix(NA, nc, 1)
+  for (k in 1:nc) {
+    t[k, pls] = sqrt(sum(y[, k] * (x - u[k, pls]) ^ 2) / sumi_yik[k])
+    n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
+    t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
   }
   
-  #Step 3. Calculate new site scores (ri)
-  r[,pls] = (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
+  # Step 3. Calculate new site scores (ri)
+  r[, pls] = (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
   
-  #Step 4. For the first axis go to Step 5.
+  # Step 4. For the first axis go to Step 5.
   
-  #Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
-  z[,pls]<-mean(r[,pls],na.rm=TRUE)
-  s[,pls]<-sqrt(sum((r[,pls]-z[,pls])^2,na.rm=TRUE)/Ytottot)
-  r[,pls]<-(r[,pls]-z[,pls])/s[,pls]
+  # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
+  z[, pls] <- mean(r[, pls], na.rm = TRUE)
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+  r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   
-  #Step 6. Take the standardized score as the new component
-  comp[,pls]<-r[,pls]
+  # Step 6. Take the standardized score as the new component
+  comp[, pls] <- r[, pls]
   
-  #Step 7. Regress the environmental variable on the components obtained so far using weights and take the fitted values as current estimates 
-  if(!require(MASS)){install.packages("MASS");library(MASS)}
-  if(usefx==FALSE){
-    lm<-rlm(modern_climate~comp[,1:pls],weights = sumk_yik/Ytottot )
-  }else{
-    lm<-rlm(modern_climate~comp[,1:pls],weights = 1/fx^2 )
+  # Step 7. Regress the environmental variable on the components obtained so far
+  # using weights and take the fitted values as current estimates 
+  # if(!require(MASS)){install.packages("MASS");library(MASS)}
+  if (usefx == FALSE) {
+    lm <- rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+  } else{
+    lm <- rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
   }
   
-  fit[,pls]<-lm[["fitted.values"]]
-  alpha[[pls]]<-lm[["coefficients"]]
-  u_sd[,pls]<-(u[,pls]-z[,pls])/s[,pls]
-  optimum[,pls]<-alpha[[pls]][1]+u_sd[,pls]*alpha[[pls]][2]
+  fit[, pls] <- lm[["fitted.values"]]
+  alpha[[pls]] <- lm[["coefficients"]]
+  u_sd[, pls] <- (u[, pls] - z[, pls]) / s[, pls]
+  optimum[, pls] <- alpha[[pls]][1] + u_sd[, pls] * alpha[[pls]][2]
   
-  
-  for(pls in 2:nPLS){
-    #Go to Step 2 with the residuals of the regression as the new site scores (ri).
-    r[,pls]<-lm[["residuals"]]
+  for (pls in 2:nPLS) {
+    # Go to Step 2 with the residuals of the regression as the new site scores (ri).
+    r[, pls] <- lm[["residuals"]]
     
-    #Step 2. Calculate new uk and tk
-    u[,pls] = t(y)%*%r[,pls] / sumi_yik; #uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
-    n2<-matrix(NA,nc,1)
-    for(k in 1:nc){
-      t[k,pls] = sqrt(sum(y[,k]*(r[,pls]-u[k,pls])^2)/sumi_yik[k])
-      n2[k]<-1/sum((y[,k]/sum(y[,k]))^2)
-      t[k,pls]<-t[k,pls]/sqrt(1-1/n2[k])
+    # Step 2. Calculate new uk and tk
+    u[, pls] = t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+    n2 <- matrix(NA, nc, 1)
+    for (k in 1:nc) {
+      t[k, pls] = sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
+      n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
+      t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
     }
     
-    #Step 3. Calculate new site scores (r;) by weighted averaging of the species scores, i.e. new
+    # Step 3. Calculate new site scores (r;) by weighted averaging of the species scores, i.e. new
     r[,pls] = (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
     
-    #Step 4. For second and higher components, make the new site scores (r;) uncorrelated with the previous components by orthogonalization (Ter Braak, 1987 : Table 5 .2b)
-    v<-rep(NA,pls-1)
-    for(j in 1:(pls-1)){
-      fi<-r[,pls-j]
-      xi<-r[,pls]
-      v[pls-j]<-sum(sumk_yik*fi*xi)/Ytottot
-      xinew<-xi-v[pls-j]*fi
+    # Step 4. For second and higher components, make the new site scores (r;) 
+    # uncorrelated with the previous components by orthogonalization 
+    # (Ter Braak, 1987 : Table 5 .2b)
+    v <- rep(NA, pls - 1)
+    for (j in 1:(pls - 1)) {
+      fi <- r[, pls - j]
+      xi <- r[, pls]
+      v[pls - j] <- sum(sumk_yik * fi * xi) / Ytottot
+      xinew <- xi - v[pls - j] * fi
     }
-    orth[[pls]]<-v
-    #plot(xinew~r[,pls]);abline(0,1)
-    r[,pls]<-xinew
+    orth[[pls]] <- v
+    # plot(xinew~r[,pls]);abline(0,1)
+    r[, pls] <- xinew
     
+    # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
+    z[, pls] <- mean(r[, pls], na.rm = TRUE)
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+    r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
     
+    # Step 6. Take the standardized scores as the new component
+    comp[, pls] <- r[, pls]
     
-    #Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
-    z[,pls]<-mean(r[,pls],na.rm=TRUE)
-    s[,pls]<-sqrt(sum((r[,pls]-z[,pls])^2,na.rm=TRUE)/Ytottot)
-    r[,pls]<-(r[,pls]-z[,pls])/s[,pls]
-    
-    #Step 6. Take the standardized scores as the new component
-    comp[,pls]<-r[,pls]
-    
-    #Step 7. Regress the environmental variable (xJ on the components obtained so far using weights and take the fitted values as current estimates 
-    if(usefx==FALSE){
-      lm<-rlm(modern_climate~comp[,1:pls],weights = sumk_yik/Ytottot )
-    }else{
-      lm<-rlm(modern_climate~comp[,1:pls],weights = 1/fx^2 )
+    # Step 7. Regress the environmental variable (xJ on the components obtained 
+    # so far using weights and take the fitted values as current estimates 
+    if (usefx == FALSE) {
+      lm <- rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+    } else{
+      lm <- rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
     }
     
-    fit[,pls]<-lm[["fitted.values"]]
-    alpha[[pls]]<-lm[["coefficients"]]
+    fit[, pls] <- lm[["fitted.values"]]
+    alpha[[pls]] <- lm[["coefficients"]]
     
-    u_sd[,pls]<-(u[,pls]-z[,pls])/s[,pls]
-    optimum[,pls]<-alpha[[pls]][1]+u_sd[,1:pls]%*%as.matrix(alpha[[pls]][2:(pls+1)])
-    
+    u_sd[, pls] <- (u[, pls] - z[, pls]) / s[, pls]
+    optimum[, pls] <-
+      alpha[[pls]][1] + u_sd[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
   
-  list<-list(fit,modern_climate,colnames(modern_taxa),optimum,comp,u,t,z,s,orth,alpha,mean(modern_climate),nPLS)
-  names(list)<-c(c("fit","x","taxon_name","optimum","comp","u","t","z","s","orth","alpha","meanx","nPLS"))
+  list <- list(fit, modern_climate, colnames(modern_taxa), optimum, comp, u, t, z, s, orth, alpha, mean(modern_climate), nPLS)
+  names(list) <- c(c("fit", "x", "taxon_name", "optimum", "comp", "u", "t", "z", "s", "orth", "alpha", "meanx", "nPLS"))
   return(list)
-  
 }
 
 # Define WAPLS and TWAPLS predict funtions ----------------------------------------
