@@ -491,7 +491,9 @@ sse.sample <- function(modern_taxa,
 }
 
 #' Leave one out cross validation as rioja
-#'
+#' 
+#' @importFrom foreach `%dopar%`
+#' 
 #' @param modern_taxa 
 #' @param modern_climate 
 #' @param nPLS 
@@ -499,6 +501,7 @@ sse.sample <- function(modern_taxa,
 #' @param predictfun 
 #' @param usefx 
 #' @param fx 
+#' @param cpus
 #'
 #' @return
 #' @export
@@ -510,27 +513,55 @@ cv.w <- function(modern_taxa,
                  trainfun,
                  predictfun,
                  usefx = FALSE,
-                 fx = NA) {
+                 fx = NA,
+                 cpus = 4) {
   x <- modern_climate
   y <- modern_taxa
 
   all.cv.out <- data.frame(matrix(nrow = nrow(modern_taxa), ncol = nPLS + 1))
-  for (i in 1:length(x)) {
-    if (i %% 100 == 0) {
-      print(i)
-    } #show progress of the calculation
-    fit <- trainfun(y[-i, ], x[-i], nPLS, usefx, fx[-i])
-    xnew <- predictfun(fit, y[i, ])[["fit"]]
-    all.cv.out[i, ] <- data.frame(x[i], xnew)
-    
-  }
-  for(k in 1:ncol(all.cv.out)) {
-    if (k == 1) {
-      colnames(all.cv.out)[k] <- "test.x"
-    } else{
-      colnames(all.cv.out)[k] <- paste("comp", k - 1, sep = "")
-    }
-  } #assign column names to all.cv.out
+  
+  # Check the number of CPUs does not exceed the availability
+  avail_cpus <- parallel::detectCores() - 1
+  cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
+  
+  # Start parallel backend
+  cl <- parallel::makeCluster(cpus, setup_strategy = "sequential")
+  doParallel::registerDoParallel(cl)
+
+  # Load binary operator for backend
+  `%dopar%` <- foreach::`%dopar%`
+
+  idx <- 1:length(x)
+  all.cv.out <- foreach::foreach(i = idx,
+                                 .combine = rbind, #rbind_pb(max(idx)),
+                                 .verbose = FALSE) %dopar% {
+                                   fit <- trainfun(y[-i, ], x[-i], nPLS, usefx, fx[-i])
+                                   xnew <- predictfun(fit, y[i, ])[["fit"]]
+                                   data.frame(x[i], xnew)
+                                 }
+  parallel::stopCluster(cl) # Stop cluster
+  
+  # idx <- 1:length(x)
+  # progressr::with_progress({
+  #   p <- progressr::progressor(along = idx)
+  #   for (i in idx) {
+  #     if (i %% 100 == 0) {
+  #       print(i)
+  #     } #show progress of the calculation
+  #     fit <- trainfun(y[-i, ], x[-i], nPLS, usefx, fx[-i])
+  #     xnew <- predictfun(fit, y[i, ])[["fit"]]
+  #     all.cv.out[i, ] <- data.frame(x[i], xnew)
+  #   }
+  # })
+  # assign column names to all.cv.out
+  colnames(all.cv.out) <- c("test.x", paste0("comp", 1:nPLS))
+  # for(k in 1:ncol(all.cv.out)) {
+  #   if (k == 1) {
+  #     colnames(all.cv.out)[k] <- "test.x"
+  #   } else{
+  #     colnames(all.cv.out)[k] <- paste("comp", k - 1, sep = "")
+  #   }
+  # } #assign column names to all.cv.out
   
   return(all.cv.out)
 }
