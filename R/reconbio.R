@@ -1,20 +1,31 @@
-if(!require(matrixStats)){install.packages("matrixStats");library(matrixStats)}
+# if(!require(matrixStats)){install.packages("matrixStats");library(matrixStats)}
 
-# Funtions to get the density of x --------------------------------------
-fx<-function(x,bin){
-  pbin<-round((max(x)-min(x))/bin,digits = 0)
-  bin<-(max(x)-min(x))/pbin
-  hist<-hist(x,breaks = seq(min(x),max(x),by=bin))
-  xbin<-seq(min(x)+bin/2,max(x)-bin/2,by=bin)
-  counts<-hist[["counts"]]
-  fx<-rep(NA,length(x))
-  for(i in 1:length(x)){
-    fx[i]<-counts[which.min(abs(x[i]-xbin))]
+#' Funtion to get the density of x
+#'
+#' @param x 
+#' @param bin 
+#'
+#' @return
+#' @export
+#'
+# @examples
+fx <- function(x, bin) {
+  pbin <- round((max(x) - min(x)) / bin, digits = 0)
+  bin <- (max(x) - min(x)) / pbin
+  hist <- hist(x, breaks = seq(min(x), max(x), by = bin))
+  xbin <- seq(min(x) + bin / 2, max(x) - bin / 2, by = bin)
+  counts <- hist[["counts"]]
+  fx <- rep(NA, length(x))
+  for (i in 1:length(x)) {
+    fx[i] <- counts[which.min(abs(x[i] - xbin))]
   }
-  if(any(fx==0)){print("Some x have a count of 0!")}
-  plot(fx~x)
+  if (any(fx == 0)) {
+    print("Some x have a count of 0!")
+  }
+  plot(fx ~ x)
   return(fx)
 }
+
 # Define WAPLS and TWAPLS training funtions ----------------------------------------
 # fit represents the fitted value
 WAPLS.w<-function(modern_taxa,modern_climate,nPLS=5,usefx=FALSE,fx=NA){
