@@ -559,29 +559,51 @@ get_pseduo <- function(dist, x) {
   return(pseduo)
 }
 
-#Pseudo removed leave out cross validation
-cv.pr.w<-function(modern_taxa,modern_climate,nPLS=5,trainfun,predictfun,pseduo,usefx=FALSE,fx=NA){
-  x<-modern_climate
-  y<-modern_taxa
-  all.cv.out<-data.frame(matrix(nrow=nrow(modern_taxa),ncol=nPLS+1))
-  for(i in 1:length(x)) {
-    if(i%%100==0){print(i)} #show progress of the calculation
-    leave<-unlist(pseduo[i])
-    fit<-trainfun(y[-leave,],x[-leave],nPLS,usefx,fx[-leave])
-    xnew <- predictfun(fit, y[i,])[["fit"]]
-    all.cv.out[i,]<-data.frame(x[i],xnew)
-    
+#' Pseudo removed leave out cross validation
+#'
+#' @param modern_taxa 
+#' @param modern_climate 
+#' @param nPLS 
+#' @param trainfun 
+#' @param predictfun 
+#' @param pseduo 
+#' @param usefx 
+#' @param fx 
+#'
+#' @return
+#' @export
+#'
+# @examples
+cv.pr.w <- function(modern_taxa,
+                    modern_climate,
+                    nPLS = 5,
+                    trainfun,
+                    predictfun,
+                    pseduo,
+                    usefx = FALSE,
+                    fx = NA) {
+  x <- modern_climate
+  y <- modern_taxa
+  all.cv.out <- data.frame(matrix(nrow = nrow(modern_taxa), ncol = nPLS + 1))
+  for (i in 1:length(x)) {
+    if (i %% 100 == 0) {
+      print(i)
+    } #show progress of the calculation
+    leave <- unlist(pseduo[i])
+    fit <- trainfun(y[-leave, ], x[-leave], nPLS, usefx, fx[-leave])
+    xnew <- predictfun(fit, y[i, ])[["fit"]]
+    all.cv.out[i, ] <- data.frame(x[i], xnew)
   }
   
-  for(k in 1:ncol(all.cv.out)){
-    if(k==1){
-      colnames(all.cv.out)[k]<-"test.x"
-    }else{
-      colnames(all.cv.out)[k]<-paste("comp",k-1,sep="")
-    }}#assign column names to all.cv.out
+  for(k in 1:ncol(all.cv.out)) {
+    if (k == 1) {
+      colnames(all.cv.out)[k] <- "test.x"
+    } else{
+      colnames(all.cv.out)[k] <- paste("comp", k - 1, sep = "")
+    }
+  } #assign column names to all.cv.out
   
   return(all.cv.out)
-  
 }
 
 
