@@ -1,6 +1,6 @@
-rm(list=ls())
+rm(list = ls())
 # source("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Script/Proceedings paper/Proceedings A_Functions_v2.R")
-source("Proceedings A_Functions_v2.R")
+# source("Proceedings A_Functions_v2.R")
 ########################################################################################################
 #######################################    Training  ###################################################
 ########################################################################################################
@@ -15,43 +15,73 @@ taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
 taxa <- modern_pollen[, taxaColMin:taxaColMax]
 
 # Training ---------------------------------------------
-setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training")
+# setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training")
+dir.create(here::here("training"), FALSE)
+setwd(here::here("training"))
 
-#Get the frequency of each climate variable fx
-fx_Tmin<-fx(modern_pollen$Tmin,bin=0.02)
-fx_gdd<-fx(modern_pollen$gdd,bin=20)
-fx_alpha<-fx(modern_pollen$alpha,bin=0.002)
+# Get the frequency of each climate variable fx
+fx_Tmin <- reconbio::fx(modern_pollen$Tmin, bin = 0.02)
+fx_gdd <- reconbio::fx(modern_pollen$gdd, bin = 20)
+fx_alpha <- reconbio::fx(modern_pollen$alpha, bin = 0.002)
 
-#In step 7 of training, climate variable is regressed to the components obtained,
-#MTCO
-fit_Tmin<-WAPLS.w(taxa,modern_pollen$Tmin,nPLS=5)
-fit_t_Tmin<-TWAPLS.w(taxa,modern_pollen$Tmin,nPLS=5)
-fit_f_Tmin<-WAPLS.w(taxa,modern_pollen$Tmin,nPLS=5,usefx=TRUE,fx=fx_Tmin)
-fit_tf_Tmin<-TWAPLS.w(taxa,modern_pollen$Tmin,nPLS=5,usefx=TRUE,fx=fx_Tmin)
+# In step 7 of training, climate variable is regressed to the components obtained,
+# MTCO
+fit_Tmin <- reconbio::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+fit_t_Tmin <- reconbio::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+fit_f_Tmin <- 
+  reconbio::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5, usefx = TRUE, fx = fx_Tmin)
+fit_tf_Tmin <- 
+  reconbio::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5, usefx = TRUE, fx = fx_Tmin)
 
-#GDD0
-fit_gdd<-WAPLS.w(taxa,modern_pollen$gdd,nPLS=5)
-fit_t_gdd<-TWAPLS.w(taxa,modern_pollen$gdd,nPLS=5)
-fit_f_gdd<-WAPLS.w(taxa,modern_pollen$gdd,nPLS=4,usefx=TRUE,fx=fx_gdd)
-fit_tf_gdd<-TWAPLS.w(taxa,modern_pollen$gdd,nPLS=5,usefx=TRUE,fx=fx_gdd)
+# GDD0
+fit_gdd <- reconbio::WAPLS.w(taxa, modern_pollen$gdd, nPLS = 5)
+fit_t_gdd <- reconbio::TWAPLS.w(taxa, modern_pollen$gdd, nPLS = 5)
+fit_f_gdd <- 
+  reconbio::WAPLS.w(taxa, modern_pollen$gdd, nPLS = 4, usefx = TRUE, fx = fx_gdd)
+fit_tf_gdd <- 
+  reconbio::TWAPLS.w(taxa, modern_pollen$gdd, nPLS = 5, usefx = TRUE, fx = fx_gdd)
 
-#alpha
-fit_alpha<-WAPLS.w(taxa,modern_pollen$alpha,nPLS=5)
-fit_t_alpha<-TWAPLS.w(taxa,modern_pollen$alpha,nPLS=5)
-fit_f_alpha<-WAPLS.w(taxa,modern_pollen$alpha,nPLS=4,usefx=TRUE,fx=fx_alpha)
-fit_tf_alpha<-TWAPLS.w(taxa,modern_pollen$alpha,nPLS=5,usefx=TRUE,fx=fx_alpha)
+# alpha
+fit_alpha <- reconbio::WAPLS.w(taxa, modern_pollen$alpha, nPLS = 5)
+fit_t_alpha <- reconbio::TWAPLS.w(taxa, modern_pollen$alpha, nPLS = 5)
+fit_f_alpha <- 
+  reconbio::WAPLS.w(taxa, modern_pollen$alpha, nPLS = 4, usefx = TRUE, fx = fx_alpha)
+fit_tf_alpha <- 
+  reconbio::TWAPLS.w(taxa, modern_pollen$alpha, nPLS = 5, usefx = TRUE, fx = fx_alpha)
 
 ########################################################################################################
 ###########################   Cross validation same as rioja ###########################################
 ########################################################################################################
 
-setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Same as rioja")
+# setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Same as rioja")
+dir.create(here::here("training/cv_rioja"), FALSE)
+setwd(here::here("training/cv_rioja"))
 
 #MTCO
-cv_Tmin<-cv.w(taxa,modern_pollen$Tmin,nPLS=5, WAPLS.w, WAPLS.predict.w); write.csv(cv_Tmin,"cv_Tmin.csv")
-cv_t_Tmin<-cv.w(taxa,modern_pollen$Tmin,nPLS=5, TWAPLS.w, TWAPLS.predict.w); write.csv(cv_t_Tmin,"cv_t_Tmin.csv")
-cv_f_Tmin<-cv.w(taxa,modern_pollen$Tmin,nPLS=5, WAPLS.w, WAPLS.predict.w,usefx=TRUE,fx=fx_Tmin); write.csv(cv_f_Tmin,"cv_f_Tmin.csv")
-cv_tf_Tmin<-cv.w(taxa,modern_pollen$Tmin,nPLS=5, TWAPLS.w, TWAPLS.predict.w,usefx=TRUE,fx=fx_Tmin); write.csv(cv_tf_Tmin,"cv_tf_Tmin.csv")
+cv_Tmin <-
+  reconbio::cv.w(taxa, modern_pollen$Tmin, nPLS = 5, WAPLS.w, WAPLS.predict.w)
+write.csv(cv_Tmin, "cv_Tmin.csv")
+cv_t_Tmin <-
+  reconbio::cv.w(taxa, modern_pollen$Tmin, nPLS = 5, TWAPLS.w, TWAPLS.predict.w)
+write.csv(cv_t_Tmin, "cv_t_Tmin.csv")
+cv_f_Tmin <- reconbio::cv.w(taxa,
+                            modern_pollen$Tmin,
+                            nPLS = 5,
+                            WAPLS.w,
+                            WAPLS.predict.w,
+                            usefx = TRUE,
+                            fx = fx_Tmin
+)
+write.csv(cv_f_Tmin, "cv_f_Tmin.csv")
+cv_tf_Tmin <- reconbio::cv.w(taxa,
+                             modern_pollen$Tmin,
+                             nPLS = 5,
+                             TWAPLS.w,
+                             TWAPLS.predict.w,
+                             usefx = TRUE,
+                             fx = fx_Tmin
+)
+write.csv(cv_tf_Tmin, "cv_tf_Tmin.csv")
 
 rand_Tmin<-rand.t.test.w(cv_Tmin,n.perm=999);write.csv(rand_Tmin,"rand_Tmin.csv")
 rand_t_Tmin<-rand.t.test.w(cv_t_Tmin,n.perm=999);write.csv(rand_t_Tmin,"rand_t_Tmin.csv")
