@@ -607,55 +607,78 @@ cv.pr.w <- function(modern_taxa,
 }
 
 
-# Random t-test ---------------------------------------------
+#' Random t-test 
+#' 
 #' @importFrom stats cor
 #' @importFrom stats lm
 #' @importFrom stats rbinom
-rand.t.test.w<-function(cvoutput,n.perm=999){
-  ncomp<-ncol(cvoutput)-1
-  output<-matrix(NA,ncomp,11)
-  colnames(output)<-c("R2","Avg.Bias","Max.Bias","Min.Bias","RMSEP","delta.RMSEP","p","Compre.b0","Compre.b1","Compre.b0.se","Compre.b1.se")
+#' 
+#' @param cvoutput 
+#' @param n.perm 
+#'
+#' @return
+#' @export
+#'
+# @examples
+rand.t.test.w <- function(cvoutput, n.perm = 999) {
+  ncomp <- ncol(cvoutput) - 1
+  output <- matrix(NA, ncomp, 11)
+  colnames(output) <- c("R2",
+                        "Avg.Bias",
+                        "Max.Bias",
+                        "Min.Bias",
+                        "RMSEP",
+                        "delta.RMSEP",
+                        "p",
+                        "Compre.b0",
+                        "Compre.b1",
+                        "Compre.b0.se",
+                        "Compre.b1.se")
   
-  for(i in 1:ncomp){
-    cv.x<-cvoutput[,1]
-    cv.i<-cvoutput[,1+i]
-    output[i,"RMSEP"]<-sqrt(mean((cv.i - cv.x)^2))
-    output[i,"R2"]<-cor(cv.i,cv.x)^2
-    output[i,"Avg.Bias"]<-mean(cv.i - cv.x)
-    output[i,"Max.Bias"]<-max(abs(cv.i - cv.x))
-    output[i,"Min.Bias"]<-min(abs(cv.i - cv.x))
-    output[i,c("Compre.b0","Compre.b1")]<-summary(lm(cv.i~cv.x))[["coefficients"]][,"Estimate"]
-    output[i,c("Compre.b0.se","Compre.b1.se")]<-summary(lm(cv.i~cv.x))[["coefficients"]][,"Std. Error"]
+  for (i in 1:ncomp) {
+    cv.x <- cvoutput[, 1]
+    cv.i <- cvoutput[, 1 + i]
+    output[i, "RMSEP"] <- sqrt(mean((cv.i - cv.x) ^ 2))
+    output[i, "R2"] <- cor(cv.i, cv.x) ^ 2
+    output[i, "Avg.Bias"] <- mean(cv.i - cv.x)
+    output[i, "Max.Bias"] <- max(abs(cv.i - cv.x))
+    output[i, "Min.Bias"] <- min(abs(cv.i - cv.x))
+    output[i, c("Compre.b0", "Compre.b1")] <-
+      summary(lm(cv.i ~ cv.x))[["coefficients"]][, "Estimate"]
+    output[i, c("Compre.b0.se", "Compre.b1.se")] <-
+      summary(lm(cv.i ~ cv.x))[["coefficients"]][, "Std. Error"]
   }
-  #get delta.RMSEP
-  for(i in 1:ncomp){
-    if(i==1){
-      rmsep.null<-sqrt(mean((cv.x - mean(cv.x))^2))
-      output[i,"delta.RMSEP"]<-(output[i,"RMSEP"]-rmsep.null)*100/rmsep.null
-    }else{
-      output[i,"delta.RMSEP"]<-(output[i,"RMSEP"]-output[i-1,"RMSEP"])*100/output[i-1,"RMSEP"]
+  # get delta.RMSEP
+  for(i in 1:ncomp) {
+    if (i == 1) {
+      rmsep.null <- sqrt(mean((cv.x - mean(cv.x)) ^ 2))
+      output[i, "delta.RMSEP"] <-
+        (output[i, "RMSEP"] - rmsep.null) * 100 / rmsep.null
+    } else{
+      output[i, "delta.RMSEP"] <-
+        (output[i, "RMSEP"] - output[i - 1, "RMSEP"]) * 100 / output[i - 1, "RMSEP"]
     }
   }
-  #get p-value, which describes whether using the number of components now has a significant difference than using one less
+  # get p-value, which describes whether using the number of components now has 
+  # a significant difference than using one less
   e0 <- cv.x - mean(cv.x)
-  e <- cbind(e0, cvoutput[,2:ncol(cvoutput)]-cv.x)
+  e <- cbind(e0, cvoutput[, 2:ncol(cvoutput)] - cv.x)
   
-  t.res <- vector("numeric",ncomp)
-  t <- vector("numeric",n.perm+1)
+  t.res <- vector("numeric", ncomp)
+  t <- vector("numeric", n.perm + 1)
   t.res[] <- NA
   n <- nrow(e)
   for (i in 1:ncomp) {
-    d <- e[, i]^2 - e[, i+1]^2
-    t[1] <- mean(d, na.rm=TRUE)
+    d <- e[, i] ^ 2 - e[, i + 1] ^ 2
+    t[1] <- mean(d, na.rm = TRUE)
     for (j in 1:n.perm) {
       sig <- 2 * rbinom(n, 1, 0.5) - 1
-      t[j+1] <- mean(d * sig, na.rm=TRUE)
+      t[j + 1] <- mean(d * sig, na.rm = TRUE)
     }
-    t.res[i] <- sum(t >= t[1]) / (n.perm+1)
+    t.res[i] <- sum(t >= t[1]) / (n.perm + 1)
   }
-  output[,"p"]<-t.res
+  output[, "p"] <- t.res
   
   print(output)
   return(output)
-  
 }
