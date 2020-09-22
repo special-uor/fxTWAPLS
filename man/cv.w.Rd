@@ -11,7 +11,8 @@ cv.w(
   trainfun,
   predictfun,
   usefx = FALSE,
-  fx = NA
+  fx = NA,
+  cpus = 4
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ cv.w(
 \item{usefx}{}
 
 \item{fx}{}
+
+\item{cpus}{}
 }
 \value{
 
