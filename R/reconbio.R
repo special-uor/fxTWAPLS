@@ -367,67 +367,76 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   return(list)
 }
 
-TWAPLS.predict.w<-function(TWAPLSoutput,fossil_taxa){
-  y<-fossil_taxa
-  y<-as.matrix(y)
-  nc<-ncol(fossil_taxa);nr<-nrow(fossil_taxa)
-  Ytottot<-sum(y)
-  sumk_yik<-rowSums(y)
-  sumi_yik<-colSums(y)
+#' TWAPLS predict function
+#'
+#' @param TWAPLSoutput 
+#' @param fossil_taxa 
+#'
+#' @return
+#' @export
+#'
+# @examples
+TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
+  y <- fossil_taxa
+  y <- as.matrix(y)
+  nc <- ncol(fossil_taxa)
+  nr <- nrow(fossil_taxa)
+  Ytottot <- sum(y)
+  sumk_yik <- rowSums(y)
+  sumi_yik <- colSums(y)
   
-  nPLS<-TWAPLSoutput[["nPLS"]]
-  meanx<-TWAPLSoutput[["meanx"]]  
-  u<-TWAPLSoutput[["u"]]
-  t<-TWAPLSoutput[["t"]]
-  z<-TWAPLSoutput[["z"]]
-  s<-TWAPLSoutput[["s"]]
-  orth<-TWAPLSoutput[["orth"]]
-  alpha<-TWAPLSoutput[["alpha"]]
+  nPLS <- TWAPLSoutput[["nPLS"]]
+  meanx <- TWAPLSoutput[["meanx"]]
+  u <- TWAPLSoutput[["u"]]
+  t <- TWAPLSoutput[["t"]]
+  z <- TWAPLSoutput[["z"]]
+  s <- TWAPLSoutput[["s"]]
+  orth <- TWAPLSoutput[["orth"]]
+  alpha <- TWAPLSoutput[["alpha"]]
   
-  
-  if(nc!=nrow(u)){
+  if (nc != nrow(u)) {
     print("Number of taxa doesn't match!")
   }
-  if(all(colnames(fossil_taxa)==TWAPLSoutput[["taxon_name"]])==FALSE){
+  if (all(colnames(fossil_taxa) == TWAPLSoutput[["taxon_name"]]) == FALSE) {
     print("Taxa don't match!")
   }
   
-  #Define some matrix to store the values
-  fit<-matrix(NA,nr,nPLS)
-  r<-matrix(NA,nr,nPLS)
-  comp<-matrix(NA,nr,nPLS)
+  # Define some matrix to store the values
+  fit <- matrix(NA, nr, nPLS)
+  r <- matrix(NA, nr, nPLS)
+  comp <- matrix(NA, nr, nPLS)
   
-  pls=1
-  #xi=sumk_yik*uk/sumk_yik; 1*nsite
-  r[,pls] = (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
-  #standardize the same way
-  r[,pls]<-(r[,pls]-z[,pls])/s[,pls]
-  #multiply the same regression coefficients
-  comp[,pls]<-r[,pls]
-  fit[,1]<-alpha[[pls]][1]+comp[,pls]*alpha[[pls]][2]
+  pls <- 1
+  # xi=sumk_yik*uk/sumk_yik; 1*nsite
+  r[, pls] = (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
+  # standardize the same way
+  r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
+  # multiply the same regression coefficients
+  comp[, pls] <- r[, pls]
+  fit[, 1] <- alpha[[pls]][1] + comp[, pls] * alpha[[pls]][2]
   
-  for(pls in 2:nPLS){
-    #xi=sumk_yik*uk/sumk_yik; 1*nsite
-    r[,pls] = (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
-    #orthoganlization the same way
-    for(j in 1:(pls-1)){
-      fi<-r[,pls-j]
-      xi<-r[,pls]
-      xinew<-xi-orth[[pls]][pls-j]*fi
+  for(pls in 2:nPLS) {
+    # xi=sumk_yik*uk/sumk_yik; 1*nsite
+    r[, pls] = (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) # xi; 1*nsite
+    # orthoganlization the same way
+    for (j in 1:(pls - 1)) {
+      fi <- r[, pls - j]
+      xi <- r[, pls]
+      xinew <- xi - orth[[pls]][pls - j] * fi
     }
-    r[,pls]<-xinew
+    r[, pls] <- xinew
     
-    #standardize the same way
-    r[,pls]<-(r[,pls]-z[,pls])/s[,pls]
-    #multiply the same regression coefficients
-    comp[,pls]<-r[,pls]
-    fit[,pls]<-alpha[[pls]][1]+comp[,1:pls]%*%as.matrix(alpha[[pls]][2:(pls+1)])
+    # standardize the same way
+    r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
+    # multiply the same regression coefficients
+    comp[, pls] <- r[, pls]
+    fit[, pls] <-
+      alpha[[pls]][1] + comp[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
   
-  list<-list(fit,nPLS)
-  names(list)<-c(c("fit","nPLS"))
+  list <- list(fit, nPLS)
+  names(list) <- c(c("fit", "nPLS"))
   return(list)
-  
 }
 
 #Sample specific errors
