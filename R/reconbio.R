@@ -535,14 +535,26 @@ cv.w <- function(modern_taxa,
   return(all.cv.out)
 }
 
-# Leave out cross validation with pseudo (geographically and climatically close) sites removed from the training set ---------------------------------------------
-#Get the ones which are both geographically and climatically close, and could therefore results in pseudo-replication
-get_pseduo<-function(dist,x){
-  pseduo<-as.list(matrix(nrow=nrow(dist)))
-  for(i in 1:nrow(dist)){
-    if(i%%100==0){print(i)}
-    pseduo[[i]]<-which(dist[i,]<50000&abs(x-x[i])<0.02*(max(x)-min(x)))
-    
+#' Leave out cross validation with pseudo (geographically and climatically close) 
+#' sites removed from the training set.
+#' Get the ones which are both geographically and climatically close, and could 
+#' therefore results in pseudo-replication.
+#'
+#' @param dist 
+#' @param x 
+#'
+#' @return
+#' @export
+#'
+# @examples
+get_pseduo <- function(dist, x) {
+  pseduo <- as.list(matrix(nrow = nrow(dist)))
+  for (i in 1:nrow(dist)) {
+    if (i %% 100 == 0) {
+      print(i)
+    }
+    pseduo[[i]] <-
+      which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
   }
   return(pseduo)
 }
