@@ -74,10 +74,10 @@ WAPLS.w <- function(modern_taxa,
   r[, pls] <- x - mean(x)
   
   # Step 2. Calculate new species scores (uk* by weighted averaging of the site scores)
-  u[, pls] = t(y) %*% x / sumi_yik # uk = sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+  u[, pls] <- t(y) %*% x / sumi_yik # uk = sumi_yik*xi/sumi_yik; 1*nmodern_taxa
   
   # Step 3. Calculate new site scores (ri) by weighted averaging of the species scores
-  r[, pls] = y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
+  r[, pls] <- y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
   
   # Step 4. For the first axis go to Step 5.
   
@@ -108,10 +108,10 @@ WAPLS.w <- function(modern_taxa,
     r[, pls] <- lm[["residuals"]]
     
     # Step 2. Calculate new species scores (uk* by weighted averaging of the site scores)
-    u[, pls] = t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+    u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
     
     # Step 3. Calculate new site scores (ri) by weighted averaging of the species scores
-    r[, pls] = y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
+    r[, pls] <- y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
     
     # Step 4. For second and higher components, make the new site scores (ri) 
     # uncorrelated with the previous components by orthogonalization 
@@ -200,16 +200,16 @@ TWAPLS.w <- function(modern_taxa,
   r[, pls] <- x - mean(x)
   
   # Step 2. Calculate uk and tk
-  u[, pls] = t(y) %*% x / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+  u[, pls] <- t(y) %*% x / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
   n2 <- matrix(NA, nc, 1)
   for (k in 1:nc) {
-    t[k, pls] = sqrt(sum(y[, k] * (x - u[k, pls]) ^ 2) / sumi_yik[k])
+    t[k, pls] <- sqrt(sum(y[, k] * (x - u[k, pls]) ^ 2) / sumi_yik[k])
     n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
     t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
   }
   
   # Step 3. Calculate new site scores (ri)
-  r[, pls] = (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
+  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
   
   # Step 4. For the first axis go to Step 5.
   
@@ -240,16 +240,16 @@ TWAPLS.w <- function(modern_taxa,
     r[, pls] <- lm[["residuals"]]
     
     # Step 2. Calculate new uk and tk
-    u[, pls] = t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+    u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
     n2 <- matrix(NA, nc, 1)
     for (k in 1:nc) {
-      t[k, pls] = sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
+      t[k, pls] <- sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
       n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
       t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
     }
     
     # Step 3. Calculate new site scores (r;) by weighted averaging of the species scores, i.e. new
-    r[,pls] = (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
+    r[,pls] <- (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
     
     # Step 4. For second and higher components, make the new site scores (r;) 
     # uncorrelated with the previous components by orthogonalization 
@@ -336,7 +336,7 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   
   pls <- 1
   # xi=sumk_yik*uk/sumk_yik; 1*nsite
-  r[, pls] = y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
+  r[, pls] <- y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
   # standardize the same way
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   # multiply the same regression coefficients
@@ -408,7 +408,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   
   pls <- 1
   # xi=sumk_yik*uk/sumk_yik; 1*nsite
-  r[, pls] = (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
+  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
   # standardize the same way
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   # multiply the same regression coefficients
