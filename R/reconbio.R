@@ -439,28 +439,55 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   return(list)
 }
 
-#Sample specific errors
-sse.sample<-function(modern_taxa,modern_climate,fossil_taxa,trainfun,predictfun,nboot,nPLS,nsig,usefx,fx){
+#' Calculate Sample Specific Errors
+#'
+#' @param modern_taxa 
+#' @param modern_climate 
+#' @param fossil_taxa 
+#' @param trainfun 
+#' @param predictfun 
+#' @param nboot 
+#' @param nPLS 
+#' @param nsig 
+#' @param usefx 
+#' @param fx 
+#'
+#' @return
+#' @export
+#'
+# @examples
+sse.sample <- function(modern_taxa,
+                       modern_climate,
+                       fossil_taxa,
+                       trainfun,
+                       predictfun,
+                       nboot,
+                       nPLS,
+                       nsig,
+                       usefx,
+                       fx) {
   # Make NA filled list of names for each taxon 
-  predr<-rep(NA, nrow(fossil_taxa))
+  predr <- rep(NA, nrow(fossil_taxa))
   
   # Make many sets, run WAPLS 
-  xboot<-replicate(nboot, {                                         # Do this n times...
-    k<-sample(1:nrow(modern_taxa), size=nrow(modern_taxa), replace=TRUE) # Make list of row numbers by sampling with replacement
-    modern_taxa<-modern_taxa[k,]                                         # Reorganise modern_taxa obs in k order
-    modern_climate<-modern_climate[k]
-    col_not0<-which(colSums(modern_taxa)>0)
-    modern_taxa<-modern_taxa[,col_not0]                            # Strip out zero-sum cols
-    
-    mod<-trainfun(modern_taxa, modern_climate)                                # Apply WAPLS, with modern_climate also in k order
-    pred<-as.data.frame(predictfun(mod,fossil_taxa[,col_not0]))[,nsig]      # Make reconstruction
-    predr<-pred
-  })
+  xboot <-
+    replicate(nboot, { # Do this n times...
+      k <- sample(1:nrow(modern_taxa),
+                  size = nrow(modern_taxa),
+                  replace = TRUE) # Make list of row numbers by sampling with replacement
+      modern_taxa <- modern_taxa[k, ] # Reorganise modern_taxa obs in k order
+      modern_climate <- modern_climate[k]
+      col_not0 <- which(colSums(modern_taxa) > 0)
+      modern_taxa <- modern_taxa[, col_not0] # Strip out zero-sum cols
+      
+      mod <- trainfun(modern_taxa, modern_climate) # Apply WAPLS, with modern_climate also in k order
+      pred <- as.data.frame(predictfun(mod, fossil_taxa[, col_not0]))[, nsig] # Make reconstruction
+      predr <- pred
+    })
   
-  avg.xboot<-rowMeans(xboot, na.rm=TRUE)               
-  v1<-boot.mean.square<- rowMeans((xboot-avg.xboot)^2 , na.rm=TRUE )  
+  avg.xboot <- rowMeans(xboot, na.rm = TRUE)
+  v1 <- boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
   return(sqrt(v1))
-  
 }
 
 
