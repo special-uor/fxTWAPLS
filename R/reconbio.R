@@ -490,26 +490,47 @@ sse.sample <- function(modern_taxa,
   return(sqrt(v1))
 }
 
+#' Leave one out cross validation as rioja
+#'
+#' @param modern_taxa 
+#' @param modern_climate 
+#' @param nPLS 
+#' @param trainfun 
+#' @param predictfun 
+#' @param usefx 
+#' @param fx 
+#'
+#' @return
+#' @export
+#'
+# @examples
+cv.w <- function(modern_taxa,
+                 modern_climate,
+                 nPLS = 5,
+                 trainfun,
+                 predictfun,
+                 usefx = FALSE,
+                 fx = NA) {
+  x <- modern_climate
+  y <- modern_taxa
 
-# Leave one out cross validation as rioja---------------------------------------------
-cv.w<-function(modern_taxa,modern_climate,nPLS=5,trainfun,predictfun,usefx=FALSE,fx=NA){
-  x<-modern_climate
-  y<-modern_taxa
-
-  all.cv.out<-data.frame(matrix(nrow=nrow(modern_taxa),ncol=nPLS+1))
-  for(i in 1:length(x)) {
-    if(i%%100==0){print(i)} #show progress of the calculation
-    fit<-trainfun(y[-i,],x[-i],nPLS,usefx,fx[-i])
-    xnew <- predictfun(fit, y[i,])[["fit"]]
-    all.cv.out[i,]<-data.frame(x[i],xnew)
+  all.cv.out <- data.frame(matrix(nrow = nrow(modern_taxa), ncol = nPLS + 1))
+  for (i in 1:length(x)) {
+    if (i %% 100 == 0) {
+      print(i)
+    } #show progress of the calculation
+    fit <- trainfun(y[-i, ], x[-i], nPLS, usefx, fx[-i])
+    xnew <- predictfun(fit, y[i, ])[["fit"]]
+    all.cv.out[i, ] <- data.frame(x[i], xnew)
     
   }
-  for(k in 1:ncol(all.cv.out)){
-    if(k==1){
-      colnames(all.cv.out)[k]<-"test.x"
-    }else{
-      colnames(all.cv.out)[k]<-paste("comp",k-1,sep="")
-    }}#assign column names to all.cv.out
+  for(k in 1:ncol(all.cv.out)) {
+    if (k == 1) {
+      colnames(all.cv.out)[k] <- "test.x"
+    } else{
+      colnames(all.cv.out)[k] <- paste("comp", k - 1, sep = "")
+    }
+  } #assign column names to all.cv.out
   
   return(all.cv.out)
 }
