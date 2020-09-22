@@ -28,7 +28,9 @@ fx <- function(x, bin) {
 
 # Define WAPLS and TWAPLS training funtions fit represents the fitted value
 #' WALPS training function fit
-#'
+#' 
+#' @importFrom stats lm
+#' 
 #' @param modern_taxa 
 #' @param modern_climate 
 #' @param nPLS 
@@ -91,9 +93,9 @@ WAPLS.w <- function(modern_taxa,
   # far using weights and take the fitted values as current estimates 
   # if(!require(MASS)){install.packages("MASS");library(MASS)}
   if(usefx==FALSE) {
-    lm <- rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
   } else{
-    lm <- rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
   }
   
   fit[, pls] <- lm[["fitted.values"]]
@@ -135,9 +137,9 @@ WAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable on the components obtained so 
     # far using weights and take the fitted values as current estimates 
     if(usefx==FALSE) {
-      lm <- rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
     } else{
-      lm <- rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
     }
     
     fit[, pls] <- lm[["fitted.values"]]
@@ -154,7 +156,7 @@ WAPLS.w <- function(modern_taxa,
 }
 
 #' TWALPS training function fit
-#'
+#' @importFrom stats lm
 #' @param modern_taxa 
 #' @param modern_climate 
 #' @param nPLS 
@@ -223,9 +225,9 @@ TWAPLS.w <- function(modern_taxa,
   # using weights and take the fitted values as current estimates 
   # if(!require(MASS)){install.packages("MASS");library(MASS)}
   if (usefx == FALSE) {
-    lm <- rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
   } else{
-    lm <- rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
   }
   
   fit[, pls] <- lm[["fitted.values"]]
@@ -274,9 +276,9 @@ TWAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable (xJ on the components obtained 
     # so far using weights and take the fitted values as current estimates 
     if (usefx == FALSE) {
-      lm <- rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
     } else{
-      lm <- rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
     }
     
     fit[, pls] <- lm[["fitted.values"]]
@@ -505,6 +507,9 @@ cv.pr.w<-function(modern_taxa,modern_climate,nPLS=5,trainfun,predictfun,pseduo,u
 
 
 # Random t-test ---------------------------------------------
+#' @importFrom stats cor
+#' @importFrom stats lm
+#' @importFrom stats rbinom
 rand.t.test.w<-function(cvoutput,n.perm=999){
   ncomp<-ncol(cvoutput)-1
   output<-matrix(NA,ncomp,11)
