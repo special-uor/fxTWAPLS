@@ -1,7 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## reconbio: Reconstruction from Biotic Assemblages <img src="https://raw.githubusercontent.com/special-uor/reconbio/master/inst/images/logo.png" alt="logo" align="right" height=200px/>
+## reconbio: Reconstruction from Biotic Assemblages <img src="inst/images/logo.png" alt="logo" align="right" height=200px/>
+
+<!-- <img src="https://raw.githubusercontent.com/special-uor/reconbio/master/inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 
 <!-- badges: start -->
 
