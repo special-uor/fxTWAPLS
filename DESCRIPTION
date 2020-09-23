@@ -19,16 +19,10 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     doParallel,
-    egg,
     foreach,
-    geosphere,
-    ggmap,
-    ggsn,
-    mapdata,
     MASS,
     matrixStats,
-    parallel,
-    rlist
+    parallel
 Suggests:
     badger,
     hexSticker,
