@@ -17,10 +17,43 @@
 
 ## Overview
 
-The goal of
-`reconbio`
+The goal of `reconbio` is …
 
 ## Installation
+
+### Create a Personal Access Token (PAT) for Github
+
+This is needed to install packages from private repositories. Once
+configured, there is no need to configure it again.
+
+``` r
+# install.packages("usethis")
+usethis::browse_github_pat(scopes = "repo", 
+                           description = "R:GITHUB_PAT", 
+                           host = "https://github.com/special-uor")
+```
+
+Copy the generated token. Then, run the following command:
+
+``` r
+usethis::edit_r_environ()
+```
+
+Add a new line to the `.Renviron` file:
+
+``` bash
+GITHUB_PAT=xxxyyyzzz
+```
+
+Make sure to leave a new empty line after `GITHUB_PAT`. Restart R
+(Session \> Restart R in the RStudio menu bar), as environment variables
+are loaded from `.Renviron` only at the start of an R session. Check
+that the PAT is now available like
+so:
+
+``` r
+usethis::git_sitrep()
+```
 
 <!-- You can install the released version of IPA from [CRAN](https://CRAN.R-project.org) with: -->
 
@@ -36,7 +69,7 @@ You can install the development version from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages(c("hexSticker", "remotes"))
+# install.packages(c("hexSticker", "remotes", "usethis"))
 remotes::install_github("special-uor/reconbio")
 ```
 
