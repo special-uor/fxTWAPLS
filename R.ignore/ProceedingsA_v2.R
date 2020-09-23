@@ -8,6 +8,7 @@ rm(list = ls())
 # setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Input data")
 
 # modern_pollen<- read.csv("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Input data/Modern_Pollen_gdd_alpha_Tmin.csv", row.names=1)
+setwd(here::here("/"))
 modern_pollen <- read.csv("Modern_Pollen_gdd_alpha_Tmin.csv")
 
 taxaColMin <- which(colnames(modern_pollen) == "Abies")
@@ -57,36 +58,60 @@ fit_tf_alpha <-
 dir.create(here::here("training/cv_rioja"), FALSE)
 setwd(here::here("training/cv_rioja"))
 
+# Set the number of CPUS
+CPUS <- 15
+
 #MTCO
-cv_Tmin <-
-  reconbio::cv.w(taxa, modern_pollen$Tmin, nPLS = 5, WAPLS.w, WAPLS.predict.w)
+tictoc::tic("MTCO")
+tictoc::tic("Tmin")
+cv_Tmin <- reconbio::cv.w(taxa,
+                          modern_pollen$Tmin,
+                          nPLS = 5,
+                          reconbio::WAPLS.w,
+                          reconbio::WAPLS.predict.w,
+                          cpus = CPUS)
 write.csv(cv_Tmin, "cv_Tmin.csv")
-cv_t_Tmin <-
-  reconbio::cv.w(taxa, modern_pollen$Tmin, nPLS = 5, TWAPLS.w, TWAPLS.predict.w)
+tictoc::toc()
+tictoc::tic("t_Tmin")
+cv_t_Tmin <- reconbio::cv.w(taxa, 
+                            modern_pollen$Tmin, 
+                            nPLS = 5, 
+                            reconbio::TWAPLS.w, 
+                            reconbio::TWAPLS.predict.w, 
+                            cpus = CPUS)
 write.csv(cv_t_Tmin, "cv_t_Tmin.csv")
+tictoc::toc()
+tictoc::tic("f_Tmin")
 cv_f_Tmin <- reconbio::cv.w(taxa,
                             modern_pollen$Tmin,
                             nPLS = 5,
-                            WAPLS.w,
-                            WAPLS.predict.w,
+                            reconbio::WAPLS.w,
+                            reconbio::WAPLS.predict.w,
                             usefx = TRUE,
-                            fx = fx_Tmin
-)
+                            fx = fx_Tmin,
+                            cpus = CPUS)
 write.csv(cv_f_Tmin, "cv_f_Tmin.csv")
+tictoc::toc()
+tictoc::tic("tf_Tmin")
 cv_tf_Tmin <- reconbio::cv.w(taxa,
                              modern_pollen$Tmin,
                              nPLS = 5,
-                             TWAPLS.w,
-                             TWAPLS.predict.w,
+                             reconbio::TWAPLS.w,
+                             reconbio::TWAPLS.predict.w,
                              usefx = TRUE,
-                             fx = fx_Tmin
-)
+                             fx = fx_Tmin,
+                             cpus = CPUS)
 write.csv(cv_tf_Tmin, "cv_tf_Tmin.csv")
-
-rand_Tmin<-rand.t.test.w(cv_Tmin,n.perm=999);write.csv(rand_Tmin,"rand_Tmin.csv")
-rand_t_Tmin<-rand.t.test.w(cv_t_Tmin,n.perm=999);write.csv(rand_t_Tmin,"rand_t_Tmin.csv")
-rand_f_Tmin<-rand.t.test.w(cv_f_Tmin,n.perm=999);write.csv(rand_f_Tmin,"rand_f_Tmin.csv")
-rand_tf_Tmin<-rand.t.test.w(cv_tf_Tmin,n.perm=999);write.csv(rand_tf_Tmin,"rand_tf_Tmin.csv")
+tictoc::toc()
+rand_Tmin <- reconbio::rand.t.test.w(cv_Tmin, n.perm = 999)
+write.csv(rand_Tmin, "rand_Tmin.csv")
+rand_t_Tmin <- reconbio::rand.t.test.w(cv_t_Tmin, n.perm = 999)
+write.csv(rand_t_Tmin, "rand_t_Tmin.csv")
+rand_f_Tmin <- reconbio::rand.t.test.w(cv_f_Tmin, n.perm = 999)
+write.csv(rand_f_Tmin, "rand_f_Tmin.csv")
+rand_tf_Tmin <- reconbio::rand.t.test.w(cv_tf_Tmin, n.perm = 999)
+write.csv(rand_tf_Tmin, "rand_tf_Tmin.csv")
+tictoc::toc()
 
 #GDD0
 cv_gdd<-cv.w(taxa,modern_pollen$gdd,nPLS=5, WAPLS.w, WAPLS.predict.w); write.csv(cv_gdd,"cv_gdd.csv")
