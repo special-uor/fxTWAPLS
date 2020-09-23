@@ -37,3 +37,15 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
                       u_angle = 30, u_color = p_color, u_size = u_size,
                       filename = output)
 }
+
+# Progress combine function
+rbind_pb <- function(iterator){
+  pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
+  count <- 0
+  function(...) {
+    count <<- count + length(list(...)) - 1
+    setTxtProgressBar(pb, count)
+    flush.console()
+    rbind(...) # this can feed into .combine option of foreach
+  }
+}
