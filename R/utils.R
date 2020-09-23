@@ -38,6 +38,46 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
                       filename = output)
 }
 
+#' Perform parallel benchmarks on a function
+#'
+#' @param CPUS vector with the number of CPUs
+#' @param FUN parallel function, MUST have a parameter called "cpus"
+#' @param plot boolean flag to request a plot for the results
+#' @param quiet boolean flag to print results of each execution
+#' @param ... optional arguments for the function
+#'
+#' @export
+#'
+#' @examples
+#' # Define toy function that sleeps for (60/cpus) seconds
+#' a <- function(cpus) {Sys.sleep(60/cpus)}
+#' par_benchmark(c(1, 2, 4), a)
+#' par_benchmark(c(1, 2, 4), a, plot = TRUE)
+par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
+  tictoc::tic.clearlog()
+  for (c in CPUS) {
+    tictoc::tic(paste0("Using ", c, " CPUs"))
+    out <- FUN(..., cpus = c)
+    tictoc::toc(log = TRUE, quiet = quiet)
+  }
+  times <- unlist(tictoc::tic.log(format = TRUE))
+  times <- gsub(" sec elapsed", "", unlist(times))
+  times <- gsub(".*: ", "", unlist(times))
+  times <- as.numeric(times)
+  times_df <- data.frame(cpus = CPUS, times = times)
+  
+  if(plot) {
+    print(ggplot2::qplot(cpus, times, data = times_df) + 
+            ggplot2::geom_area(alpha = 0.5) + 
+            ggplot2::geom_line() + 
+            ggplot2::labs(x = "CPUs", y = "Execution time [seconds]") +
+            ggplot2::scale_x_continuous(breaks = 1:max(CPUS)) + 
+            ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(10))
+    )
+  }
+  return(times_df)
+}
+
 # Progress combine function
 rbind_pb <- function(iterator){
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
