@@ -15,7 +15,7 @@ par_benchmark(CPUS, FUN, plot = FALSE, quiet = FALSE, ...)
 
 \item{quiet}{boolean flag to print results of each execution}
 
-\item{...}{optional arguments for the function}
+\item{...}{optional arguments for the function, must be named; e.g. x = df}
 }
 \description{
 Perform parallel benchmarks on a function

@@ -44,7 +44,7 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' @param FUN parallel function, MUST have a parameter called "cpus"
 #' @param plot boolean flag to request a plot for the results
 #' @param quiet boolean flag to print results of each execution
-#' @param ... optional arguments for the function
+#' @param ... optional arguments for the function, must be named; e.g. x = df
 #'
 #' @export
 #'
