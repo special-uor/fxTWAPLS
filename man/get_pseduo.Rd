@@ -7,12 +7,14 @@ sites removed from the training set.
 Get the ones which are both geographically and climatically close, and could
 therefore results in pseudo-replication.}
 \usage{
-get_pseduo(dist, x)
+get_pseduo(dist, x, cpus = 4)
 }
 \arguments{
 \item{dist}{}
 
 \item{x}{}
+
+\item{cpus}{}
 }
 \value{
 

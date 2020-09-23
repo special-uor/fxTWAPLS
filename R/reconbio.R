@@ -573,21 +573,40 @@ cv.w <- function(modern_taxa,
 #'
 #' @param dist 
 #' @param x 
+#' @param cpus
 #'
 #' @return
 #' @export
 #'
 # @examples
-get_pseduo <- function(dist, x) {
-  pseduo <- as.list(matrix(nrow = nrow(dist)))
-  for (i in 1:nrow(dist)) {
-    if (i %% 100 == 0) {
-      print(i)
-    }
-    pseduo[[i]] <-
-      which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
+get_pseduo <- function(dist, x, cpus = 4) {
+  # Check the number of CPUs does not exceed the availability
+  avail_cpus <- parallel::detectCores() - 1
+  cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
+  
+  # Start parallel backend
+  cl <- parallel::makeCluster(cpus, setup_strategy = "sequential")
+  doParallel::registerDoParallel(cl)
+  
+  # Load binary operator for backend
+  `%dopar%` <- foreach::`%dopar%`
+  
+  idx <- 1:length(x)
+  pseudo <- foreach::foreach(i = idx) %dopar% {
+    which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
   }
-  return(pseduo)
+  parallel::stopCluster(cl) # Stop cluster
+  
+  
+  # pseduo <- as.list(matrix(nrow = nrow(dist)))
+  # for (i in 1:10) {
+  #   if (i %% 100 == 0) {
+  #     print(i)
+  #   }
+  #   pseduo[[i]] <-
+  #     which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
+  # }
+  return(pseudo)
 }
 
 #' Pseudo removed leave out cross validation
