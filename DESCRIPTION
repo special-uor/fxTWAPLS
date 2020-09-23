@@ -29,7 +29,8 @@ Suggests:
     knitr,
     kableExtra,
     rmarkdown,
-    testthat
+    testthat,
+    tictoc
 Depends: 
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
