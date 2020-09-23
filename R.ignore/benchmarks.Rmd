@@ -1,0 +1,62 @@
+---
+title: "Benchmarks"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "inst/figures/benchmarks-",
+  dpi = 300, 
+  fig.height = 4,
+  fig.width = 7
+)
+```
+
+
+## `cv.w`
+```{r, eval = FALSE}
+times_df <- reconbio::par_benchmark(CPUS = c(1, 2, 4, 8, 12),
+                                    FUN = reconbio::cv.w, 
+                                    plot = TRUE, 
+                                    modern_tax = taxa, 
+                                    modern_climate = modern_pollen$Tmin, 
+                                    nPLS = 5, 
+                                    trainfun = reconbio::WAPLS.w, 
+                                    predictfun = reconbio::WAPLS.predict.w)
+```
+
+```{r cv.w-output, echo = FALSE}
+times_df <- data.frame(cpus = c(1, 2, 4, 8, 12),
+                       times = c(1318.007, 693.736, 378.848, 259.177, 240.585))
+knitr::kable(times_df, col.names = c("CPUs", "Time [s]"))
+ggplot2::qplot(cpus, times, data = times_df) + 
+            ggplot2::geom_area(alpha = 0.5) + 
+            ggplot2::geom_line() + 
+            ggplot2::labs(x = "CPUs", y = "Execution time [seconds]") +
+            ggplot2::scale_x_continuous(breaks = 1:max(times_df$cpus)) + 
+            ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(10))
+```
+
+## `get_pseudo`
+```{r, eval = FALSE}
+times_df <- reconbio::par_benchmark(CPUS = c(1, 2, 4, 8, 12),
+                                    FUN = reconbio::get_pseduo, 
+                                    plot = TRUE, 
+                                    dist = dist, 
+                                    x = modern_pollen$Tmin)
+```
+
+```{r get_pseudo-pseudo, echo = FALSE}
+times_df <- data.frame(cpus = c(1, 2, 4, 8, 12),
+                       times = c(581.771, 292.639, 164.557, 119.054, 119.959))
+
+knitr::kable(times_df, col.names = c("CPUs", "Time [s]"))
+ggplot2::qplot(cpus, times, data = times_df) + 
+            ggplot2::geom_area(alpha = 0.5) + 
+            ggplot2::geom_line() + 
+            ggplot2::labs(x = "CPUs", y = "Execution time [seconds]") +
+            ggplot2::scale_x_continuous(breaks = 1:max(times_df$cpus)) + 
+            ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(10))
+```
