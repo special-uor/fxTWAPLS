@@ -24,6 +24,30 @@ times_df <- reconbio::par_benchmark(CPUS = c(1, 2, 4, 8, 12),
 
 ![](inst/figures/benchmarks-cv.w-output-1.png)<!-- -->
 
+## `cv.pr.w`
+
+``` r
+times_df <- reconbio::par_benchmark(CPUS = c(1, 2, 4, 8, 12),
+                                    FUN = reconbio::cv.pr.w, 
+                                    plot = TRUE, 
+                                    modern_tax = taxa, 
+                                    modern_climate = modern_pollen$Tmin, 
+                                    nPLS = 5, 
+                                    trainfun = reconbio::WAPLS.w, 
+                                    predictfun = reconbio::WAPLS.predict.w,
+                                    pseduo = pseduo_Tmin)
+```
+
+| CPUs | Time \[s\] |
+| ---: | ---------: |
+|    1 |   1465.608 |
+|    2 |    756.902 |
+|    4 |    413.547 |
+|    8 |    326.225 |
+|   12 |    231.002 |
+
+![](inst/figures/benchmarks-cv.pr-w-output-1.png)<!-- -->
+
 ## `get_pseudo`
 
 ``` r
