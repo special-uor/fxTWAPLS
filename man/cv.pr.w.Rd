@@ -12,7 +12,8 @@ cv.pr.w(
   predictfun,
   pseduo,
   usefx = FALSE,
-  fx = NA
+  fx = NA,
+  cpus = 4
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ cv.pr.w(
 \item{usefx}{}
 
 \item{fx}{}
+
+\item{cpus}{}
 }
 \value{
 
