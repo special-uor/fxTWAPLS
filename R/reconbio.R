@@ -2,10 +2,10 @@
 
 #' Funtion to get the density of x
 #'
-#' @param x 
-#' @param bin 
+#' @param x TODO
+#' @param bin TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -31,13 +31,13 @@ fx <- function(x, bin) {
 #' 
 #' @importFrom stats lm
 #' 
-#' @param modern_taxa 
-#' @param modern_climate 
-#' @param nPLS 
-#' @param usefx 
-#' @param fx 
+#' @param modern_taxa TODO
+#' @param modern_climate TODO
+#' @param nPLS TODO
+#' @param usefx TODO
+#' @param fx TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -157,13 +157,13 @@ WAPLS.w <- function(modern_taxa,
 
 #' TWALPS training function fit
 #' @importFrom stats lm
-#' @param modern_taxa 
-#' @param modern_climate 
-#' @param nPLS 
-#' @param usefx 
-#' @param fx 
+#' @param modern_taxa TODO
+#' @param modern_climate TODO
+#' @param nPLS TODO
+#' @param usefx TODO
+#' @param fx TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -298,10 +298,10 @@ TWAPLS.w <- function(modern_taxa,
 # fit represents the fitted value
 #' WAPLS predict function
 #'
-#' @param WAPLSoutput 
-#' @param fossil_taxa 
+#' @param WAPLSoutput TODO
+#' @param fossil_taxa TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -369,10 +369,10 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 
 #' TWAPLS predict function
 #'
-#' @param TWAPLSoutput 
-#' @param fossil_taxa 
+#' @param TWAPLSoutput TODO
+#' @param fossil_taxa TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -441,18 +441,18 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 
 #' Calculate Sample Specific Errors
 #'
-#' @param modern_taxa 
-#' @param modern_climate 
-#' @param fossil_taxa 
-#' @param trainfun 
-#' @param predictfun 
-#' @param nboot 
-#' @param nPLS 
-#' @param nsig 
-#' @param usefx 
-#' @param fx 
+#' @param modern_taxa TODO
+#' @param modern_climate TODO
+#' @param fossil_taxa TODO
+#' @param trainfun TODO
+#' @param predictfun TODO
+#' @param nboot TODO
+#' @param nPLS TODO
+#' @param nsig TODO
+#' @param usefx TODO
+#' @param fx TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -494,16 +494,16 @@ sse.sample <- function(modern_taxa,
 #' 
 #' @importFrom foreach `%dopar%`
 #' 
-#' @param modern_taxa 
-#' @param modern_climate 
-#' @param nPLS 
-#' @param trainfun 
-#' @param predictfun 
-#' @param usefx 
-#' @param fx 
-#' @param cpus
+#' @param modern_taxa TODO
+#' @param modern_climate TODO
+#' @param nPLS TODO
+#' @param trainfun TODO
+#' @param predictfun TODO
+#' @param usefx TODO
+#' @param fx TODO
+#' @param cpus TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -571,11 +571,11 @@ cv.w <- function(modern_taxa,
 #' Get the ones which are both geographically and climatically close, and could 
 #' therefore results in pseudo-replication.
 #'
-#' @param dist 
-#' @param x 
-#' @param cpus
+#' @param dist TODO
+#' @param x TODO
+#' @param cpus TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -611,17 +611,17 @@ get_pseduo <- function(dist, x, cpus = 4) {
 
 #' Pseudo removed leave out cross validation
 #'
-#' @param modern_taxa 
-#' @param modern_climate 
-#' @param nPLS 
-#' @param trainfun 
-#' @param predictfun 
-#' @param pseduo 
-#' @param usefx 
-#' @param fx 
-#' @param cpus
+#' @param modern_taxa TODO
+#' @param modern_climate TODO
+#' @param nPLS TODO
+#' @param trainfun TODO
+#' @param predictfun TODO
+#' @param pseduo TODO
+#' @param usefx TODO
+#' @param fx TODO
+#' @param cpus TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
@@ -691,10 +691,10 @@ cv.pr.w <- function(modern_taxa,
 #' @importFrom stats lm
 #' @importFrom stats rbinom
 #' 
-#' @param cvoutput 
-#' @param n.perm 
+#' @param cvoutput TODO
+#' @param n.perm TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
 # @examples
