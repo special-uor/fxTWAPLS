@@ -21,3 +21,15 @@ test_that("parallel benchmark works", {
   file.remove("./Rplots.pdf")
   expect_false(file.exists("./Rplots.pdf"))
 })
+
+test_that("rbind with progress bar works", {
+  # Load binary operator for backend
+  `%do%` <- foreach::`%do%`
+  N <- 5
+  out <- foreach::foreach(i = 1:N, 
+                          .combine = rbind_pb(N)) %do% {
+                            Sys.sleep(1)
+                            i
+                          }
+  expect_equal(c(unname(out)), 1:N)
+})
