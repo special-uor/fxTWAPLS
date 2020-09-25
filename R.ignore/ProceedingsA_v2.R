@@ -513,8 +513,8 @@ rand_pseudo_removed <- rbind.data.frame(rand_pr_Tmin,
                                         rand_pr_f_alpha,
                                         rand_pr_tf_alpha)
 #rand_pseudo_removed[,which(colnames(rand_pseudo_removed)!="p")]<-round(rand_pseudo_removed[,which(colnames(rand_pseudo_removed)!="p")],digits=2)
-write.csv(rand_pseudo_removed,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed/rand_pseudo_removed.csv")
-
+#write.csv(rand_pseudo_removed,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed/rand_pseudo_removed.csv")
+write.csv(rand_pseudo_removed, "rand_pseudo_removed.csv")
 
 #######################################################################################################################
 ################################# Plot the training results ###########################################################
