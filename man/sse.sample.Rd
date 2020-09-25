@@ -18,28 +18,28 @@ sse.sample(
 )
 }
 \arguments{
-\item{modern_taxa}{}
+\item{modern_taxa}{TODO}
 
-\item{modern_climate}{}
+\item{modern_climate}{TODO}
 
-\item{fossil_taxa}{}
+\item{fossil_taxa}{TODO}
 
-\item{trainfun}{}
+\item{trainfun}{TODO}
 
-\item{predictfun}{}
+\item{predictfun}{TODO}
 
-\item{nboot}{}
+\item{nboot}{TODO}
 
-\item{nPLS}{}
+\item{nPLS}{TODO}
 
-\item{nsig}{}
+\item{nsig}{TODO}
 
-\item{usefx}{}
+\item{usefx}{TODO}
 
-\item{fx}{}
+\item{fx}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 Calculate Sample Specific Errors

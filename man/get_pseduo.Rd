@@ -10,14 +10,14 @@ therefore results in pseudo-replication.}
 get_pseduo(dist, x, cpus = 4)
 }
 \arguments{
-\item{dist}{}
+\item{dist}{TODO}
 
-\item{x}{}
+\item{x}{TODO}
 
-\item{cpus}{}
+\item{cpus}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 Leave out cross validation with pseudo (geographically and climatically close)

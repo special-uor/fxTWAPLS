@@ -7,12 +7,12 @@
 fx(x, bin)
 }
 \arguments{
-\item{x}{}
+\item{x}{TODO}
 
-\item{bin}{}
+\item{bin}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 Funtion to get the density of x

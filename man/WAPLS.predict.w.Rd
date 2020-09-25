@@ -7,12 +7,12 @@
 WAPLS.predict.w(WAPLSoutput, fossil_taxa)
 }
 \arguments{
-\item{WAPLSoutput}{}
+\item{WAPLSoutput}{TODO}
 
-\item{fossil_taxa}{}
+\item{fossil_taxa}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 WAPLS predict function

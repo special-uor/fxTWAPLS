@@ -7,18 +7,18 @@
 WAPLS.w(modern_taxa, modern_climate, nPLS = 5, usefx = FALSE, fx = NA)
 }
 \arguments{
-\item{modern_taxa}{}
+\item{modern_taxa}{TODO}
 
-\item{modern_climate}{}
+\item{modern_climate}{TODO}
 
-\item{nPLS}{}
+\item{nPLS}{TODO}
 
-\item{usefx}{}
+\item{usefx}{TODO}
 
-\item{fx}{}
+\item{fx}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 WALPS training function fit

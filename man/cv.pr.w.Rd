@@ -17,26 +17,26 @@ cv.pr.w(
 )
 }
 \arguments{
-\item{modern_taxa}{}
+\item{modern_taxa}{TODO}
 
-\item{modern_climate}{}
+\item{modern_climate}{TODO}
 
-\item{nPLS}{}
+\item{nPLS}{TODO}
 
-\item{trainfun}{}
+\item{trainfun}{TODO}
 
-\item{predictfun}{}
+\item{predictfun}{TODO}
 
-\item{pseduo}{}
+\item{pseduo}{TODO}
 
-\item{usefx}{}
+\item{usefx}{TODO}
 
-\item{fx}{}
+\item{fx}{TODO}
 
-\item{cpus}{}
+\item{cpus}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 Pseudo removed leave out cross validation

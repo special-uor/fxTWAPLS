@@ -7,12 +7,12 @@
 rand.t.test.w(cvoutput, n.perm = 999)
 }
 \arguments{
-\item{cvoutput}{}
+\item{cvoutput}{TODO}
 
-\item{n.perm}{}
+\item{n.perm}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 Random t-test
