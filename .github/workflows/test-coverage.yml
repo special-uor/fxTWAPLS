@@ -13,6 +13,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      CODECOV_TOKEN: "75b0b4df-84ec-41c0-9593-c05874ce237d"
     steps:
       - uses: actions/checkout@v2
 
