@@ -85,11 +85,21 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' 
-#' @param iterator TODO
+#' @param iterator number of iterations
 #'
-# @export
+#' @export
 #'
-# @examples
+#' @examples
+#' \dontrun{
+#' # Load binary operator for backend
+#' `%do%` <- foreach::`%do%`
+#' N <- 5
+#' out <- foreach::foreach(i = 1:N, 
+#'                         .combine = rbind_pb(N)) %do% {
+#'                           Sys.sleep(1)
+#'                           i
+#'                         }
+#' }
 rbind_pb <- function(iterator){
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
   count <- 0
