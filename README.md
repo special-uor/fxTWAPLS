@@ -12,7 +12,7 @@
 <!-- [![R build status](https://github.com/special-uor/reconbio/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/reconbio/actions) -->
 
 [![](https://img.shields.io/badge/devel%20version-0.0.0.9000-blue.svg)](https://github.com/special-uor/reconbio)
-[![](https://codecov.io/gh/special-uor/reconbio/branch/master/graph/badge.svg)](https://codecov.io/gh/special-uor/reconbio)
+[![](https://codecov.io/gh/special-uor/reconbio/branch/master/graph/badge.svg?token=Q6SYL7AOGR)](https://codecov.io/gh/special-uor/reconbio)
 [![R build
 status](https://github.com/special-uor/reconbio/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/reconbio/actions)
 <!-- badges: end -->
