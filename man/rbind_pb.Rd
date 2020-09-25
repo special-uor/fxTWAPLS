@@ -7,8 +7,20 @@
 rbind_pb(iterator)
 }
 \arguments{
-\item{iterator}{TODO}
+\item{iterator}{number of iterations}
 }
 \description{
 rbind combine with progress bar, to be used in combination with foreach
+}
+\examples{
+\dontrun{
+# Load binary operator for backend
+`\%do\%` <- foreach::`\%do\%`
+N <- 5
+out <- foreach::foreach(i = 1:N, 
+                        .combine = rbind_pb(N)) \%do\% {
+                          Sys.sleep(1)
+                          i
+                        }
+}
 }
