@@ -17,6 +17,7 @@ test_that("parallel benchmark works", {
   # print(list.files("."))
   is.windows <- Sys.info()['sysname'] == "Windows"
   # print(paste0("Is windows ", is.windows))
+  print(paste0("OS: ", Sys.info()['sysname']))
   if (!is.windows) {
     expect_true(file.exists("./Rplots.pdf"))
     expect_false(dir.exists("./Rplots.pdf"))
