@@ -51,8 +51,10 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' @examples
 #' # Define toy function that sleeps for (60/cpus) seconds
 #' a <- function(cpus) {Sys.sleep(60/cpus)}
+#' \dontrun{
 #' par_benchmark(c(1, 2, 4), a)
 #' par_benchmark(c(1, 2, 4), a, plot = TRUE)
+#' }
 par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   tictoc::tic.clearlog()
   for (c in CPUS) {
