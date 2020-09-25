@@ -80,7 +80,16 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   return(times_df)
 }
 
-# Progress combine function
+#' rbind combine with progress bar, to be used in combination with foreach
+#' @importFrom utils flush.console
+#' @importFrom utils setTxtProgressBar
+#' @importFrom utils txtProgressBar
+#' 
+#' @param iterator TODO
+#'
+# @export
+#'
+# @examples
 rbind_pb <- function(iterator){
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
   count <- 0
