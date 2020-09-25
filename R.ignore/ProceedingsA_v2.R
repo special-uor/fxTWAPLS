@@ -114,115 +114,404 @@ write.csv(rand_tf_Tmin, "rand_tf_Tmin.csv")
 tictoc::toc()
 
 #GDD0
-cv_gdd<-cv.w(taxa,modern_pollen$gdd,nPLS=5, WAPLS.w, WAPLS.predict.w); write.csv(cv_gdd,"cv_gdd.csv")
-cv_t_gdd<-cv.w(taxa,modern_pollen$gdd,nPLS=5, TWAPLS.w, TWAPLS.predict.w); write.csv(cv_t_gdd,"cv_t_gdd.csv")
-cv_f_gdd<-cv.w(taxa,modern_pollen$gdd,nPLS=4, WAPLS.w, WAPLS.predict.w,usefx=TRUE,fx=fx_gdd); write.csv(cv_f_gdd,"cv_f_gdd.csv")
-cv_tf_gdd<-cv.w(taxa,modern_pollen$gdd,nPLS=5, TWAPLS.w, TWAPLS.predict.w,usefx=TRUE,fx=fx_gdd); write.csv(cv_tf_gdd,"cv_tf_gdd.csv")
+tictoc::tic("GDD0")
+tictoc::tic("gdd")
+cv_gdd <- reconbio::cv.w(taxa, 
+                         modern_pollen$gdd, 
+                         nPLS = 5, 
+                         reconbio::WAPLS.w, 
+                         reconbio::WAPLS.predict.w, 
+                         cpus = CPUS)
+write.csv(cv_gdd, "cv_gdd.csv")
+tictoc::toc()
+tictoc::tic("t_gdd")
+cv_t_gdd <- reconbio::cv.w(taxa, 
+                           modern_pollen$gdd, 
+                           nPLS = 5, 
+                           reconbio::TWAPLS.w, 
+                           reconbio::TWAPLS.predict.w, 
+                           cpus = CPUS)
+write.csv(cv_t_gdd, "cv_t_gdd.csv")
+tictoc::toc()
+tictoc::tic("f_gdd")
+cv_f_gdd <- reconbio::cv.w(taxa,
+                           modern_pollen$gdd,
+                           nPLS = 4,
+                           reconbio::WAPLS.w,
+                           reconbio::WAPLS.predict.w,
+                           usefx = TRUE,
+                           fx = fx_gdd,
+                           cpus = CPUS)
+write.csv(cv_f_gdd, "cv_f_gdd.csv")
+tictoc::toc()
+tictoc::tic("tf_gdd")
+cv_tf_gdd <- reconbio::cv.w(taxa,
+                            modern_pollen$gdd,
+                            nPLS = 5,
+                            reconbio::TWAPLS.w,
+                            reconbio::TWAPLS.predict.w,
+                            usefx = TRUE,
+                            fx = fx_gdd,
+                            cpus = CPUS)
+write.csv(cv_tf_gdd, "cv_tf_gdd.csv")
+tictoc::toc()
 
-rand_gdd<-rand.t.test.w(cv_gdd,n.perm=999);write.csv(rand_gdd,"rand_gdd.csv")
-rand_t_gdd<-rand.t.test.w(cv_t_gdd,n.perm=999);write.csv(rand_t_gdd,"rand_t_gdd.csv")
-rand_f_gdd<-rand.t.test.w(cv_f_gdd,n.perm=999);write.csv(rand_f_gdd,"rand_f_gdd.csv")
-rand_tf_gdd<-rand.t.test.w(cv_tf_gdd,n.perm=999);write.csv(rand_tf_gdd,"rand_tf_gdd.csv")
+rand_gdd <- reconbio::rand.t.test.w(cv_gdd, n.perm = 999)
+write.csv(rand_gdd, "rand_gdd.csv")
+rand_t_gdd <- reconbio::rand.t.test.w(cv_t_gdd, n.perm = 999)
+write.csv(rand_t_gdd, "rand_t_gdd.csv")
+rand_f_gdd <- reconbio::rand.t.test.w(cv_f_gdd, n.perm = 999)
+write.csv(rand_f_gdd, "rand_f_gdd.csv")
+rand_tf_gdd <- reconbio::rand.t.test.w(cv_tf_gdd, n.perm = 999)
+write.csv(rand_tf_gdd, "rand_tf_gdd.csv")
+tictoc::toc()
 
 #alpha
-cv_alpha<-cv.w(taxa,modern_pollen$alpha,nPLS=5, WAPLS.w, WAPLS.predict.w); write.csv(cv_alpha,"cv_alpha.csv")
-cv_t_alpha<-cv.w(taxa,modern_pollen$alpha,nPLS=5, TWAPLS.w, TWAPLS.predict.w); write.csv(cv_t_alpha,"cv_t_alpha.csv")
-cv_f_alpha<-cv.w(taxa,modern_pollen$alpha,nPLS=4, WAPLS.w, WAPLS.predict.w,usefx=TRUE,fx=fx_alpha); write.csv(cv_f_alpha,"cv_f_alpha.csv")
-cv_tf_alpha<-cv.w(taxa,modern_pollen$alpha,nPLS=5, TWAPLS.w, TWAPLS.predict.w,usefx=TRUE,fx=fx_alpha); write.csv(cv_tf_alpha,"cv_tf_alpha.csv")
+tictoc::tic("alpha") # global
+tictoc::tic("alpha") # local
+cv_alpha <- reconbio::cv.w(taxa,
+                           modern_pollen$alpha,
+                           nPLS = 5,
+                           reconbio::WAPLS.w,
+                           reconbio::WAPLS.predict.w,
+                           cpus = CPUS)
+write.csv(cv_alpha, "cv_alpha.csv")
+tictoc::toc()
+tictoc::tic("t_alpha")
+cv_t_alpha <- reconbio::cv.w(taxa,
+                             modern_pollen$alpha,
+                             nPLS = 5,
+                             reconbio::TWAPLS.w,
+                             reconbio::TWAPLS.predict.w,
+                             cpus = CPUS)
+write.csv(cv_t_alpha, "cv_t_alpha.csv")
+tictoc::toc()
+tictoc::tic("f_alpha")
+cv_f_alpha <- reconbio::cv.w(taxa,
+                             modern_pollen$alpha,
+                             nPLS = 4,
+                             reconbio::WAPLS.w,
+                             reconbio::WAPLS.predict.w,
+                             usefx = TRUE,
+                             fx = fx_alpha,
+                             cpus = CPUS)
+write.csv(cv_f_alpha, "cv_f_alpha.csv")
+tictoc::toc()
+tictoc::tic("tf_alpha")
+cv_tf_alpha <- reconbio::cv.w(taxa,
+                              modern_pollen$alpha,
+                              nPLS = 5,
+                              reconbio::TWAPLS.w,
+                              reconbio::TWAPLS.predict.w,
+                              usefx = TRUE,
+                              fx = fx_alpha,
+                              cpus = CPUS)
+write.csv(cv_tf_alpha, "cv_tf_alpha.csv")
+tictoc::toc()
 
-rand_alpha<-rand.t.test.w(cv_alpha,n.perm=999);write.csv(rand_alpha,"rand_alpha.csv")
-rand_t_alpha<-rand.t.test.w(cv_t_alpha,n.perm=999);write.csv(rand_t_alpha,"rand_t_alpha.csv")
-rand_f_alpha<-rand.t.test.w(cv_f_alpha,n.perm=999);write.csv(rand_f_alpha,"rand_f_alpha.csv")
-rand_tf_alpha<-rand.t.test.w(cv_tf_alpha,n.perm=999);write.csv(rand_tf_alpha,"rand_tf_alpha.csv")
+rand_alpha <- reconbio::rand.t.test.w(cv_alpha, n.perm = 999)
+write.csv(rand_alpha, "rand_alpha.csv")
+rand_t_alpha <- reconbio::rand.t.test.w(cv_t_alpha, n.perm = 999)
+write.csv(rand_t_alpha, "rand_t_alpha.csv")
+rand_f_alpha <- reconbio::rand.t.test.w(cv_f_alpha, n.perm = 999)
+write.csv(rand_f_alpha, "rand_f_alpha.csv")
+rand_tf_alpha <- reconbio::rand.t.test.w(cv_tf_alpha, n.perm = 999)
+write.csv(rand_tf_alpha, "rand_tf_alpha.csv")
+tictoc::toc()
 
 #Put the results together
-rand_rioja<-rbind.data.frame(rand_Tmin,rand_t_Tmin,rand_f_Tmin,rand_tf_Tmin,
-                             rand_gdd,rand_t_gdd,rand_f_gdd,rand_tf_gdd,
-                             rand_alpha,rand_t_alpha,rand_f_alpha,rand_tf_alpha
-                             )
+rand_rioja <- rbind.data.frame(rand_Tmin,
+                               rand_t_Tmin,
+                               rand_f_Tmin,
+                               rand_tf_Tmin,
+                               rand_gdd,
+                               rand_t_gdd,
+                               rand_f_gdd,
+                               rand_tf_gdd,
+                               rand_alpha,
+                               rand_t_alpha,
+                               rand_f_alpha,
+                               rand_tf_alpha)
+    
 #rand_rioja[,which(colnames(rand_rioja)!="p")]<-round(rand_rioja[,which(colnames(rand_rioja)!="p")],digits=2)
-write.csv(rand_rioja,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Same as rioja/rand_rioja.csv")
-
+# write.csv(rand_rioja,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Same as rioja/rand_rioja.csv")
+write.csv(rand_rioja, here::here("/training/cv_rioja/rand_rioja.csv"))
 
 ####################################################################################################################
 ##################### Cross validation with pseudo sites removed from the training set #############################
 ####################################################################################################################
 
-setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed")
+# setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed")
+dir.create(here::here("training/geo-clim-close-sites-removed"), FALSE)
+setwd(here::here("training/geo-clim-close-sites-removed"))
 
-#Calculate the distance between points
-point<-modern_pollen[,c("Long","Lat")]
-dist<-data.frame(matrix(nrow=nrow(point),ncol=nrow(point)))
-if(!require(geosphere)){ install.packages("geosphere");library(geosphere)}
-
-for(i in 1:nrow(point)){
-  if(i%%100==0){print(i)}
-  lon1<-point[i,"Long"]
-  lat1<-point[i,"Lat"]
-  
-  for(j in 1:nrow(point)){
-    lon2<-point[j,"Long"]
-    lat2<-point[j,"Lat"]
-    
-    dist[i,j]<-distm(c(lon1, lat1), c(lon2, lat2), fun = distHaversine)
-  }
+# Calculate the distance between points
+point <- modern_pollen[, c("Long", "Lat")]
+dist <- data.frame(matrix(nrow = nrow(point), ncol = nrow(point)))
+if (!require(geosphere)) {
+  install.packages("geosphere")
+  library(geosphere)
 }
-write.csv(dist,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed/distance.csv")
 
-#Get the geographically and climatically close sites
-dist <- read.csv("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed/distance.csv", row.names=1)
-pseduo_Tmin<-get_pseduo(dist,modern_pollen$Tmin)
-pseduo_gdd<-get_pseduo(dist,modern_pollen$gdd)
-pseduo_alpha<-get_pseduo(dist,modern_pollen$alpha)
+tictoc::tic("Distance between points")
+# Check the number of CPUs does not exceed the availability
+avail_cpus <- parallel::detectCores() - 1
+CPUS <- ifelse(CPUS > avail_cpus, avail_cpus, CPUS)
+
+# Start parallel backend
+cl <- parallel::makeCluster(CPUS, setup_strategy = "sequential")
+doParallel::registerDoParallel(cl)
+
+# Load binary operator for backend
+`%dopar%` <- foreach::`%dopar%`
+
+idx <- 1:nrow(point)
+
+
+dist <- foreach::foreach(i = idx,
+                         .combine = rbind, #rbind_pb(max(idx)),
+                         .verbose = FALSE) %dopar% {
+                           tmp <- rep(0, nrow(point))
+                           lon1 <- point[i, "Long"]
+                           lat1 <- point[i, "Lat"]
+                           for (j in 1:nrow(point)) {
+                             lon2 <- point[j, "Long"]
+                             lat2 <- point[j, "Lat"]
+                             
+                             tmp[j] <- geosphere::distm(c(lon1, lat1), 
+                                                        c(lon2, lat2), 
+                                                        fun = geosphere::distHaversine)
+                           }
+                           tmp
+                         }
+parallel::stopCluster(cl) # Stop cluster
+# for(i in 1:nrow(point)) {
+#   if (i %% 100 == 0) {
+#     print(i)
+#   }
+#   lon1 <- point[i, "Long"]
+#   lat1 <- point[i, "Lat"]
+#   
+#   for (j in 1:nrow(point)) {
+#     lon2 <- point[j, "Long"]
+#     lat2 <- point[j, "Lat"]
+#     
+#     dist[i, j] <- geosphere::distm(c(lon1, lat1), 
+#                                    c(lon2, lat2), 
+#                                    fun = geosphere::distHaversine)
+#   }
+# }
+tictoc::toc()
+write.csv(dist, "distance.csv")
+
+# Get the geographically and climatically close sites
+# dist <- read.csv("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed/distance.csv", row.names=1)
+dist <- read.csv("distance.csv", row.names = 1)
+tictoc::tic("Pseudo")
+tictoc::tic("Tmin")
+pseduo_Tmin <- reconbio::get_pseduo(dist, modern_pollen$Tmin, cpus = CPUS)
+tictoc::toc()
+tictoc::tic("gdd")
+pseduo_gdd <- reconbio::get_pseduo(dist, modern_pollen$gdd, cpus = CPUS)
+tictoc::toc()
+tictoc::tic("alpha")
+pseduo_alpha <- reconbio::get_pseduo(dist, modern_pollen$alpha, cpus = CPUS)
+tictoc::toc()
 
 if(!require(rlist)){install.packages("rlist");library(rlist)} 
-list.save(pseduo_Tmin, 'pseduo_Tmin.rdata')
-list.save(pseduo_gdd, 'pseduo_gdd.rdata')
-list.save(pseduo_alpha, 'pseduo_alpha.rdata')
+rlist::list.save(pseduo_Tmin, 'pseduo_Tmin.rdata')
+rlist::list.save(pseduo_gdd, 'pseduo_gdd.rdata')
+rlist::list.save(pseduo_alpha, 'pseduo_alpha.rdata')
 
-#Pseudo removed leave out cross validation
-pseduo_Tmin<-list.load('pseduo_Tmin.rdata')
-pseduo_gdd<-list.load('pseduo_gdd.rdata')
-pseduo_alpha<-list.load('pseduo_alpha.rdata')
+# Pseudo removed leave out cross validation
+pseduo_Tmin <- rlist::list.load('pseduo_Tmin.rdata')
+pseduo_gdd <- rlist::list.load('pseduo_gdd.rdata')
+pseduo_alpha <- rlist::list.load('pseduo_alpha.rdata')
 
-#MTCO
-cv_pr_Tmin<-cv.pr.w(taxa,modern_pollen$Tmin,nPLS=5, WAPLS.w, WAPLS.predict.w,pseduo_Tmin); write.csv(cv_pr_Tmin,"cv_pr_Tmin.csv")
-cv_pr_t_Tmin<-cv.pr.w(taxa,modern_pollen$Tmin,nPLS=5, TWAPLS.w, TWAPLS.predict.w,pseduo_Tmin); write.csv(cv_pr_t_Tmin,"cv_pr_t_Tmin.csv")
-cv_pr_f_Tmin<-cv.pr.w(taxa,modern_pollen$Tmin,nPLS=5, WAPLS.w, WAPLS.predict.w,usefx=TRUE,fx=fx_Tmin,pseduo_Tmin); write.csv(cv_pr_f_Tmin,"cv_pr_f_Tmin.csv")
-cv_pr_tf_Tmin<-cv.pr.w(taxa,modern_pollen$Tmin,nPLS=5, TWAPLS.w, TWAPLS.predict.w,usefx=TRUE,fx=fx_Tmin,pseduo_Tmin); write.csv(cv_pr_tf_Tmin,"cv_pr_tf_Tmin.csv")
+# MTCO
+tictoc::tic("Pseudo MTCO")
+tictoc::tic("Tmin")
+cv_pr_Tmin <- reconbio::cv.pr.w(taxa,
+                                modern_pollen$Tmin,
+                                nPLS = 5,
+                                reconbio::WAPLS.w,
+                                reconbio::WAPLS.predict.w,
+                                pseduo_Tmin,
+                                cpus = CPUS)
+write.csv(cv_pr_Tmin, "cv_pr_Tmin.csv")
+tictoc::toc()
+tictoc::tic("t_Tmin")
+cv_pr_t_Tmin <- reconbio::cv.pr.w(taxa,
+                                  modern_pollen$Tmin,
+                                  nPLS = 5,
+                                  reconbio::TWAPLS.w,
+                                  reconbio::TWAPLS.predict.w,
+                                  pseduo_Tmin,
+                                  cpus = CPUS)
+write.csv(cv_pr_t_Tmin, "cv_pr_t_Tmin.csv")
+tictoc::toc()
+tictoc::tic("f_Tmin")
+cv_pr_f_Tmin <- reconbio::cv.pr.w(taxa,
+                                  modern_pollen$Tmin,
+                                  nPLS = 5,
+                                  reconbio::WAPLS.w,
+                                  reconbio::WAPLS.predict.w,
+                                  usefx = TRUE,
+                                  fx = fx_Tmin,
+                                  pseduo_Tmin,
+                                  cpus = CPUS)
+write.csv(cv_pr_f_Tmin, "cv_pr_f_Tmin.csv")
+tictoc::toc()
+tictoc::tic("tf_Tmin")
+cv_pr_tf_Tmin <- reconbio::cv.pr.w(taxa,
+                                   modern_pollen$Tmin,
+                                   nPLS = 5,
+                                   reconbio::TWAPLS.w,
+                                   reconbio::TWAPLS.predict.w,
+                                   usefx = TRUE,
+                                   fx = fx_Tmin,
+                                   pseduo_Tmin,
+                                   cpus = CPUS)
+write.csv(cv_pr_tf_Tmin, "cv_pr_tf_Tmin.csv")
+tictoc::toc()
 
-rand_pr_Tmin<-rand.t.test.w(cv_pr_Tmin,n.perm=999);write.csv(rand_pr_Tmin,"rand_pr_Tmin.csv")
-rand_pr_t_Tmin<-rand.t.test.w(cv_pr_t_Tmin,n.perm=999);write.csv(rand_pr_t_Tmin,"rand_pr_t_Tmin.csv")
-rand_pr_f_Tmin<-rand.t.test.w(cv_pr_f_Tmin,n.perm=999);write.csv(rand_pr_f_Tmin,"rand_pr_f_Tmin.csv")
-rand_pr_tf_Tmin<-rand.t.test.w(cv_pr_tf_Tmin,n.perm=999);write.csv(rand_pr_tf_Tmin,"rand_pr_tf_Tmin.csv")
+rand_pr_Tmin <- reconbio::rand.t.test.w(cv_pr_Tmin, n.perm = 999)
+write.csv(rand_pr_Tmin, "rand_pr_Tmin.csv")
+rand_pr_t_Tmin <- reconbio::rand.t.test.w(cv_pr_t_Tmin, n.perm = 999)
+write.csv(rand_pr_t_Tmin, "rand_pr_t_Tmin.csv")
+rand_pr_f_Tmin <- reconbio::rand.t.test.w(cv_pr_f_Tmin, n.perm = 999)
+write.csv(rand_pr_f_Tmin, "rand_pr_f_Tmin.csv")
+rand_pr_tf_Tmin <- reconbio::rand.t.test.w(cv_pr_tf_Tmin, n.perm = 999)
+write.csv(rand_pr_tf_Tmin, "rand_pr_tf_Tmin.csv")
+tictoc::toc()
 
-#GDD0
-cv_pr_gdd<-cv.pr.w(taxa,modern_pollen$gdd,nPLS=5, WAPLS.w, WAPLS.predict.w,pseduo_gdd); write.csv(cv_pr_gdd,"cv_pr_gdd.csv")
-cv_pr_t_gdd<-cv.pr.w(taxa,modern_pollen$gdd,nPLS=5, TWAPLS.w, TWAPLS.predict.w,pseduo_gdd); write.csv(cv_pr_t_gdd,"cv_pr_t_gdd.csv")
-cv_pr_f_gdd<-cv.pr.w(taxa,modern_pollen$gdd,nPLS=4, WAPLS.w, WAPLS.predict.w,usefx=TRUE,fx=fx_gdd,pseduo_gdd); write.csv(cv_pr_f_gdd,"cv_pr_f_gdd.csv")
-cv_pr_tf_gdd<-cv.pr.w(taxa,modern_pollen$gdd,nPLS=5, TWAPLS.w, TWAPLS.predict.w,usefx=TRUE,fx=fx_gdd,pseduo_gdd); write.csv(cv_pr_tf_gdd,"cv_pr_tf_gdd.csv")
+# GDD0
+tictoc::tic("Pseudo GDD0")
+tictoc::tic("gdd")
+cv_pr_gdd <- reconbio::cv.pr.w(taxa,
+                               modern_pollen$gdd,
+                               nPLS = 5,
+                               reconbio::WAPLS.w,
+                               reconbio::WAPLS.predict.w,
+                               pseduo_gdd,
+                               cpus = CPUS)
+write.csv(cv_pr_gdd, "cv_pr_gdd.csv")
+tictoc::toc()
+tictoc::tic("t_gdd")
+cv_pr_t_gdd <- reconbio::cv.pr.w(taxa,
+                                 modern_pollen$gdd,
+                                 nPLS = 5,
+                                 reconbio::TWAPLS.w,
+                                 reconbio::TWAPLS.predict.w,
+                                 pseduo_gdd,
+                                 cpus = CPUS)
+write.csv(cv_pr_t_gdd, "cv_pr_t_gdd.csv")
+tictoc::toc()
+tictoc::tic("f_gdd")
+cv_pr_f_gdd <- reconbio::cv.pr.w(taxa,
+                                 modern_pollen$gdd,
+                                 nPLS = 4,
+                                 reconbio::WAPLS.w,
+                                 reconbio::WAPLS.predict.w,
+                                 usefx = TRUE,
+                                 fx = fx_gdd,
+                                 pseduo_gdd,
+                                 cpus = CPUS)
+write.csv(cv_pr_f_gdd, "cv_pr_f_gdd.csv")
+tictoc::toc()
+tictoc::tic("tf_gdd")
+cv_pr_tf_gdd <- reconbio::cv.pr.w(taxa,
+                                  modern_pollen$gdd,
+                                  nPLS = 5,
+                                  reconbio::TWAPLS.w,
+                                  reconbio::TWAPLS.predict.w,
+                                  usefx = TRUE,
+                                  fx = fx_gdd,
+                                  pseduo_gdd,
+                                  cpus = CPUS)
+write.csv(cv_pr_tf_gdd, "cv_pr_tf_gdd.csv")
+tictoc::toc()
 
-rand_pr_gdd<-rand.t.test.w(cv_pr_gdd,n.perm=999);write.csv(rand_pr_gdd,"rand_pr_gdd.csv")
-rand_pr_t_gdd<-rand.t.test.w(cv_pr_t_gdd,n.perm=999);write.csv(rand_pr_t_gdd,"rand_pr_t_gdd.csv")
-rand_pr_f_gdd<-rand.t.test.w(cv_pr_f_gdd,n.perm=999);write.csv(rand_pr_f_gdd,"rand_pr_f_gdd.csv")
-rand_pr_tf_gdd<-rand.t.test.w(cv_pr_tf_gdd,n.perm=999);write.csv(rand_pr_tf_gdd,"rand_pr_tf_gdd.csv")
+rand_pr_gdd <- reconbio::rand.t.test.w(cv_pr_gdd, n.perm = 999)
+write.csv(rand_pr_gdd, "rand_pr_gdd.csv")
+rand_pr_t_gdd <- reconbio::rand.t.test.w(cv_pr_t_gdd, n.perm = 999)
+write.csv(rand_pr_t_gdd, "rand_pr_t_gdd.csv")
+rand_pr_f_gdd <- reconbio::rand.t.test.w(cv_pr_f_gdd, n.perm = 999)
+write.csv(rand_pr_f_gdd, "rand_pr_f_gdd.csv")
+rand_pr_tf_gdd <- reconbio::rand.t.test.w(cv_pr_tf_gdd, n.perm = 999)
+write.csv(rand_pr_tf_gdd, "rand_pr_tf_gdd.csv")
+tictoc::toc()
 
-#alpha
-cv_pr_alpha<-cv.pr.w(taxa,modern_pollen$alpha,nPLS=5, WAPLS.w, WAPLS.predict.w,pseduo_alpha); write.csv(cv_pr_alpha,"cv_pr_alpha.csv")
-cv_pr_t_alpha<-cv.pr.w(taxa,modern_pollen$alpha,nPLS=5, TWAPLS.w, TWAPLS.predict.w,pseduo_alpha); write.csv(cv_pr_t_alpha,"cv_pr_t_alpha.csv")
-cv_pr_f_alpha<-cv.pr.w(taxa,modern_pollen$alpha,nPLS=4, WAPLS.w, WAPLS.predict.w,usefx=TRUE,fx=fx_alpha,pseduo_alpha); write.csv(cv_pr_f_alpha,"cv_pr_f_alpha.csv")
-cv_pr_tf_alpha<-cv.pr.w(taxa,modern_pollen$alpha,nPLS=5, TWAPLS.w, TWAPLS.predict.w,usefx=TRUE,fx=fx_alpha,pseduo_alpha); write.csv(cv_pr_tf_alpha,"cv_pr_tf_alpha.csv")
+# alpha
+tictoc::tic("Pseudo alpha")
+tictoc::tic("alpha")
+cv_pr_alpha <- reconbio::cv.pr.w(taxa,
+                                 modern_pollen$alpha,
+                                 nPLS = 5,
+                                 reconbio::WAPLS.w,
+                                 reconbio::WAPLS.predict.w,
+                                 pseduo_alpha,
+                                 cpus = CPUS)
+write.csv(cv_pr_alpha, "cv_pr_alpha.csv")
+tictoc::toc()
+tictoc::tic("t_alpha")
+cv_pr_t_alpha <- reconbio::cv.pr.w(taxa,
+                                   modern_pollen$alpha,
+                                   nPLS = 5,
+                                   reconbio::TWAPLS.w,
+                                   reconbio::TWAPLS.predict.w,
+                                   pseduo_alpha,
+                                   cpus = CPUS)
+write.csv(cv_pr_t_alpha, "cv_pr_t_alpha.csv")
+tictoc::toc()
+tictoc::tic("f_alpha")
+cv_pr_f_alpha <- reconbio::cv.pr.w(taxa,
+                                   modern_pollen$alpha,
+                                   nPLS = 4,
+                                   reconbio::WAPLS.w,
+                                   reconbio::WAPLS.predict.w,
+                                   usefx = TRUE,
+                                   fx = fx_alpha,
+                                   pseduo_alpha,
+                                   cpus = CPUS)
+write.csv(cv_pr_f_alpha, "cv_pr_f_alpha.csv")
+tictoc::toc()
+tictoc::tic("tf_alpha")
+cv_pr_tf_alpha <- reconbio::cv.pr.w(taxa,
+                                    modern_pollen$alpha,
+                                    nPLS = 5,
+                                    reconbio::TWAPLS.w,
+                                    reconbio::TWAPLS.predict.w,
+                                    usefx = TRUE,
+                                    fx = fx_alpha,
+                                    pseduo_alpha,
+                                    cpus = CPUS)
+write.csv(cv_pr_tf_alpha, "cv_pr_tf_alpha.csv")
+tictoc::toc()
 
-rand_pr_alpha<-rand.t.test.w(cv_pr_alpha,n.perm=999);write.csv(rand_pr_alpha,"rand_pr_alpha.csv")
-rand_pr_t_alpha<-rand.t.test.w(cv_pr_t_alpha,n.perm=999);write.csv(rand_pr_t_alpha,"rand_pr_t_alpha.csv")
-rand_pr_f_alpha<-rand.t.test.w(cv_pr_f_alpha,n.perm=999);write.csv(rand_pr_f_alpha,"rand_pr_f_alpha.csv")
-rand_pr_tf_alpha<-rand.t.test.w(cv_pr_tf_alpha,n.perm=999);write.csv(rand_pr_tf_alpha,"rand_pr_tf_alpha.csv")
+rand_pr_alpha <- reconbio::rand.t.test.w(cv_pr_alpha, n.perm = 999)
+write.csv(rand_pr_alpha, "rand_pr_alpha.csv")
+rand_pr_t_alpha <- reconbio::rand.t.test.w(cv_pr_t_alpha, n.perm = 999)
+write.csv(rand_pr_t_alpha, "rand_pr_t_alpha.csv")
+rand_pr_f_alpha <- reconbio::rand.t.test.w(cv_pr_f_alpha, n.perm = 999)
+write.csv(rand_pr_f_alpha, "rand_pr_f_alpha.csv")
+rand_pr_tf_alpha <- reconbio::rand.t.test.w(cv_pr_tf_alpha, n.perm = 999)
+write.csv(rand_pr_tf_alpha, "rand_pr_tf_alpha.csv")
+tictoc::toc()
 
 #Put the results together
-rand_pseudo_removed<-rbind.data.frame(rand_pr_Tmin,rand_pr_t_Tmin,rand_pr_f_Tmin,rand_pr_tf_Tmin,
-                             rand_pr_gdd,rand_pr_t_gdd,rand_pr_f_gdd,rand_pr_tf_gdd,
-                             rand_pr_alpha,rand_pr_t_alpha,rand_pr_f_alpha,rand_pr_tf_alpha
-)
+rand_pseudo_removed <- rbind.data.frame(rand_pr_Tmin,
+                                        rand_pr_t_Tmin,
+                                        rand_pr_f_Tmin,
+                                        rand_pr_tf_Tmin,
+                                        rand_pr_gdd,
+                                        rand_pr_t_gdd,
+                                        rand_pr_f_gdd,
+                                        rand_pr_tf_gdd,
+                                        rand_pr_alpha,
+                                        rand_pr_t_alpha,
+                                        rand_pr_f_alpha,
+                                        rand_pr_tf_alpha)
 #rand_pseudo_removed[,which(colnames(rand_pseudo_removed)!="p")]<-round(rand_pseudo_removed[,which(colnames(rand_pseudo_removed)!="p")],digits=2)
 write.csv(rand_pseudo_removed,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed/rand_pseudo_removed.csv")
 
@@ -281,28 +570,28 @@ core<-Holocene[,-c(1:3)]
 setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core")
 
 #MTCO
-fossil_Tmin<-WAPLS.predict.w(fit_Tmin,core)
-fossil_t_Tmin<-TWAPLS.predict.w(fit_t_Tmin,core)
-fossil_f_Tmin<-WAPLS.predict.w(fit_f_Tmin,core)
-fossil_tf_Tmin<-TWAPLS.predict.w(fit_tf_Tmin,core)
+fossil_Tmin<-reconbio::WAPLS.predict.w(fit_Tmin,core)
+fossil_t_Tmin<-reconbio::TWAPLS.predict.w(fit_t_Tmin,core)
+fossil_f_Tmin<-reconbio::WAPLS.predict.w(fit_f_Tmin,core)
+fossil_tf_Tmin<-reconbio::TWAPLS.predict.w(fit_tf_Tmin,core)
 
 core_sig_Tmin<-core.sig(fossil_Tmin,3, fossil_t_Tmin,3, fossil_f_Tmin,3, fossil_tf_Tmin,4)
 core_sig_Tmin<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_Tmin)
 
 #GDD0
-fossil_gdd<-WAPLS.predict.w(fit_gdd,core)
-fossil_t_gdd<-TWAPLS.predict.w(fit_t_gdd,core)
-fossil_f_gdd<-WAPLS.predict.w(fit_f_gdd,core)
-fossil_tf_gdd<-TWAPLS.predict.w(fit_tf_gdd,core)
+fossil_gdd<-reconbio::WAPLS.predict.w(fit_gdd,core)
+fossil_t_gdd<-reconbio::TWAPLS.predict.w(fit_t_gdd,core)
+fossil_f_gdd<-reconbio::WAPLS.predict.w(fit_f_gdd,core)
+fossil_tf_gdd<-reconbio::TWAPLS.predict.w(fit_tf_gdd,core)
 
 core_sig_gdd<-core.sig(fossil_gdd,2, fossil_t_gdd,2, fossil_f_gdd,2, fossil_tf_gdd,3)
 core_sig_gdd<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_gdd)
 
 #alpha
-fossil_alpha<-WAPLS.predict.w(fit_alpha,core)
-fossil_t_alpha<-TWAPLS.predict.w(fit_t_alpha,core)
-fossil_f_alpha<-WAPLS.predict.w(fit_f_alpha,core)
-fossil_tf_alpha<-TWAPLS.predict.w(fit_tf_alpha,core)
+fossil_alpha<-reconbio::WAPLS.predict.w(fit_alpha,core)
+fossil_t_alpha<-reconbio::TWAPLS.predict.w(fit_t_alpha,core)
+fossil_f_alpha<-reconbio::WAPLS.predict.w(fit_f_alpha,core)
+fossil_tf_alpha<-reconbio::TWAPLS.predict.w(fit_tf_alpha,core)
 
 core_sig_alpha<-core.sig(fossil_alpha,3, fossil_t_alpha,4, fossil_f_alpha,2, fossil_tf_alpha,3)
 core_sig_alpha<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_alpha)
@@ -317,30 +606,30 @@ write.csv(core_sig_alpha,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Dat
 
 #Get the sample specific error
 #MTCO
-sse_Tmin_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_Tmin_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_Tmin_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
-sse_Tmin_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
+sse_Tmin_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
+sse_Tmin_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
 
 sse_core_sig_Tmin<-cbind.data.frame(sse_Tmin_WAPLS,sse_Tmin_TWAPLS,sse_Tmin_WAPLS.fx,sse_Tmin_TWAPLS.fx)
 colnames(sse_core_sig_Tmin)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
 write.csv(sse_core_sig_Tmin,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_Tmin.csv")
 
 #GDD0
-sse_gdd_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
-sse_gdd_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
+sse_gdd_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
+sse_gdd_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
 
 sse_core_sig_gdd<-cbind.data.frame(sse_gdd_WAPLS,sse_gdd_TWAPLS,sse_gdd_WAPLS.fx,sse_gdd_TWAPLS.fx)
 colnames(sse_core_sig_gdd)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
 write.csv(sse_core_sig_gdd,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_gdd.csv")
 
 #alpha
-sse_alpha_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_alpha_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
-sse_alpha_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
-sse_alpha_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
+sse_alpha_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_alpha_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
+sse_alpha_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
+sse_alpha_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
 
 sse_core_sig_alpha<-cbind.data.frame(sse_alpha_WAPLS,sse_alpha_TWAPLS,sse_alpha_WAPLS.fx,sse_alpha_TWAPLS.fx)
 colnames(sse_core_sig_alpha)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
@@ -758,50 +1047,50 @@ fx_alpha<-fx(modern_pollen$alpha,bin=0.002)
 #In step 7 of training, climate variable is regressed to the components obtained,
 taxa1<-taxa[,-which(colnames(taxa)==multimodalTaxon)]
 #MTCO
-fit_Tmin1<-WAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5)
-fit_t_Tmin1<-TWAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5)
-fit_f_Tmin1<-WAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5,usefx=TRUE,fx=fx_Tmin)
-fit_tf_Tmin1<-TWAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5,usefx=TRUE,fx=fx_Tmin)
+fit_Tmin1<-reconbio::WAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5)
+fit_t_Tmin1<-reconbio::TWAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5)
+fit_f_Tmin1<-reconbio::WAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5,usefx=TRUE,fx=fx_Tmin)
+fit_tf_Tmin1<-reconbio::TWAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5,usefx=TRUE,fx=fx_Tmin)
 
 #GDD0
-fit_gdd1<-WAPLS.w(taxa1,modern_pollen$gdd,nPLS=5)
-fit_t_gdd1<-TWAPLS.w(taxa1,modern_pollen$gdd,nPLS=5)
-fit_f_gdd1<-WAPLS.w(taxa1,modern_pollen$gdd,nPLS=4,usefx=TRUE,fx=fx_gdd)
-fit_tf_gdd1<-TWAPLS.w(taxa1,modern_pollen$gdd,nPLS=5,usefx=TRUE,fx=fx_gdd)
+fit_gdd1<-reconbio::WAPLS.w(taxa1,modern_pollen$gdd,nPLS=5)
+fit_t_gdd1<-reconbio::TWAPLS.w(taxa1,modern_pollen$gdd,nPLS=5)
+fit_f_gdd1<-reconbio::WAPLS.w(taxa1,modern_pollen$gdd,nPLS=4,usefx=TRUE,fx=fx_gdd)
+fit_tf_gdd1<-reconbio::TWAPLS.w(taxa1,modern_pollen$gdd,nPLS=5,usefx=TRUE,fx=fx_gdd)
 
 #alpha
-fit_alpha1<-WAPLS.w(taxa1,modern_pollen$alpha,nPLS=5)
-fit_t_alpha1<-TWAPLS.w(taxa1,modern_pollen$alpha,nPLS=5)
-fit_f_alpha1<-WAPLS.w(taxa1,modern_pollen$alpha,nPLS=4,usefx=TRUE,fx=fx_alpha)
-fit_tf_alpha1<-TWAPLS.w(taxa1,modern_pollen$alpha,nPLS=5,usefx=TRUE,fx=fx_alpha)
+fit_alpha1<-reconbio::WAPLS.w(taxa1,modern_pollen$alpha,nPLS=5)
+fit_t_alpha1<-reconbio::TWAPLS.w(taxa1,modern_pollen$alpha,nPLS=5)
+fit_f_alpha1<-reconbio::WAPLS.w(taxa1,modern_pollen$alpha,nPLS=4,usefx=TRUE,fx=fx_alpha)
+fit_tf_alpha1<-reconbio::TWAPLS.w(taxa1,modern_pollen$alpha,nPLS=5,usefx=TRUE,fx=fx_alpha)
 
 # Reconstruction with multimodal taxa removed ---------------------------------------------
 
 core1<-core[,-which(colnames(core)==multimodalTaxon)]
 
 #MTCO
-fossil_Tmin1<-WAPLS.predict.w(fit_Tmin1,core1)
-fossil_t_Tmin1<-TWAPLS.predict.w(fit_t_Tmin1,core1)
-fossil_f_Tmin1<-WAPLS.predict.w(fit_f_Tmin1,core1)
-fossil_tf_Tmin1<-TWAPLS.predict.w(fit_tf_Tmin1,core1)
+fossil_Tmin1<-reconbio::WAPLS.predict.w(fit_Tmin1,core1)
+fossil_t_Tmin1<-reconbio::TWAPLS.predict.w(fit_t_Tmin1,core1)
+fossil_f_Tmin1<-reconbio::WAPLS.predict.w(fit_f_Tmin1,core1)
+fossil_tf_Tmin1<-reconbio::TWAPLS.predict.w(fit_tf_Tmin1,core1)
 
 core_sig_Tmin1<-core.sig(fossil_Tmin1,3, fossil_t_Tmin1,3, fossil_f_Tmin1,3, fossil_tf_Tmin1,4)
 core_sig_Tmin1<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_Tmin1)
 
 #GDD0
-fossil_gdd1<-WAPLS.predict.w(fit_gdd1,core1)
-fossil_t_gdd1<-TWAPLS.predict.w(fit_t_gdd1,core1)
-fossil_f_gdd1<-WAPLS.predict.w(fit_f_gdd1,core1)
-fossil_tf_gdd1<-TWAPLS.predict.w(fit_tf_gdd1,core1)
+fossil_gdd1<-reconbio::WAPLS.predict.w(fit_gdd1,core1)
+fossil_t_gdd1<-reconbio::TWAPLS.predict.w(fit_t_gdd1,core1)
+fossil_f_gdd1<-reconbio::WAPLS.predict.w(fit_f_gdd1,core1)
+fossil_tf_gdd1<-reconbio::TWAPLS.predict.w(fit_tf_gdd1,core1)
 
 core_sig_gdd1<-core.sig(fossil_gdd1,2, fossil_t_gdd1,2, fossil_f_gdd1,2, fossil_tf_gdd1,3)
 core_sig_gdd1<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_gdd1)
 
 #alpha
-fossil_alpha1<-WAPLS.predict.w(fit_alpha1,core1)
-fossil_t_alpha1<-TWAPLS.predict.w(fit_t_alpha1,core1)
-fossil_f_alpha1<-WAPLS.predict.w(fit_f_alpha1,core1)
-fossil_tf_alpha1<-TWAPLS.predict.w(fit_tf_alpha1,core1)
+fossil_alpha1<-reconbio::WAPLS.predict.w(fit_alpha1,core1)
+fossil_t_alpha1<-reconbio::TWAPLS.predict.w(fit_t_alpha1,core1)
+fossil_f_alpha1<-reconbio::WAPLS.predict.w(fit_f_alpha1,core1)
+fossil_tf_alpha1<-reconbio::TWAPLS.predict.w(fit_tf_alpha1,core1)
 
 core_sig_alpha1<-core.sig(fossil_alpha1,3, fossil_t_alpha1,4, fossil_f_alpha1,2, fossil_tf_alpha1,3)
 core_sig_alpha1<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_alpha1)
@@ -809,28 +1098,28 @@ core_sig_alpha1<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_alp
 
 #Get the sample specific error
 #MTCO
-sse_Tmin_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_Tmin_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_Tmin_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
-sse_Tmin_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
+sse_Tmin_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
+sse_Tmin_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
 
 sse_core_sig_Tmin1<-cbind.data.frame(sse_Tmin_WAPLS1,sse_Tmin_TWAPLS1,sse_Tmin_WAPLS.fx1,sse_Tmin_TWAPLS.fx1)
 colnames(sse_core_sig_Tmin1)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
 
 #GDD0
-sse_gdd_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
-sse_gdd_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
+sse_gdd_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
+sse_gdd_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
 
 sse_core_sig_gdd1<-cbind.data.frame(sse_gdd_WAPLS1,sse_gdd_TWAPLS1,sse_gdd_WAPLS.fx1,sse_gdd_TWAPLS.fx1)
 colnames(sse_core_sig_gdd1)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
 
 #alpha
-sse_alpha_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_alpha_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
-sse_alpha_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=WAPLS.w,predictfun=WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
-sse_alpha_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=TWAPLS.w,predictfun=TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
+sse_alpha_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_alpha_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
+sse_alpha_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=reconbio::WAPLS.w,predictfun=reconbio::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
+sse_alpha_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=reconbio::TWAPLS.w,predictfun=reconbio::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
 
 sse_core_sig_alpha1<-cbind.data.frame(sse_alpha_WAPLS1,sse_alpha_TWAPLS1,sse_alpha_WAPLS.fx1,sse_alpha_TWAPLS.fx1)
 colnames(sse_core_sig_alpha1)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
