@@ -16,11 +16,12 @@ test_that("parallel benchmark works", {
   expect_output(par_benchmark(c(4), a, quiet = FALSE, plot = TRUE))
   # print(list.files("."))
   is.windows <- Sys.info()['sysname'] == "Windows"
-  print(paste0("Is windows ", is.windows))
-  if (!is.windows)
+  # print(paste0("Is windows ", is.windows))
+  if (!is.windows) {
     expect_true(file.exists("./Rplots.pdf"))
-  expect_false(dir.exists("./Rplots.pdf"))
-  # expect_gt(file.size("Rplots.pdf"), 0)
+    expect_false(dir.exists("./Rplots.pdf"))
+    expect_gt(file.size("Rplots.pdf"), 0)
+  }
   file.remove("./Rplots.pdf")
   expect_false(file.exists("./Rplots.pdf"))
 })
