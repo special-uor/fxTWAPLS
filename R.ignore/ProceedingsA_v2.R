@@ -309,24 +309,24 @@ write.csv(dist, "distance.csv")
 dist <- read.csv("distance.csv", row.names = 1)
 tictoc::tic("Pseudo")
 tictoc::tic("Tmin")
-pseduo_Tmin <- fxTWAPLS::get_pseduo(dist, modern_pollen$Tmin, cpus = CPUS)
+pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, modern_pollen$Tmin, cpus = CPUS)
 tictoc::toc()
 tictoc::tic("gdd")
-pseduo_gdd <- fxTWAPLS::get_pseduo(dist, modern_pollen$gdd, cpus = CPUS)
+pseudo_gdd <- fxTWAPLS::get_pseudo(dist, modern_pollen$gdd, cpus = CPUS)
 tictoc::toc()
 tictoc::tic("alpha")
-pseduo_alpha <- fxTWAPLS::get_pseduo(dist, modern_pollen$alpha, cpus = CPUS)
+pseudo_alpha <- fxTWAPLS::get_pseudo(dist, modern_pollen$alpha, cpus = CPUS)
 tictoc::toc()
 
 if(!require(rlist)){install.packages("rlist");library(rlist)} 
-rlist::list.save(pseduo_Tmin, 'pseduo_Tmin.rdata')
-rlist::list.save(pseduo_gdd, 'pseduo_gdd.rdata')
-rlist::list.save(pseduo_alpha, 'pseduo_alpha.rdata')
+rlist::list.save(pseudo_Tmin, 'pseudo_Tmin.rdata')
+rlist::list.save(pseudo_gdd, 'pseudo_gdd.rdata')
+rlist::list.save(pseudo_alpha, 'pseudo_alpha.rdata')
 
 # Pseudo removed leave out cross validation
-pseduo_Tmin <- rlist::list.load('pseduo_Tmin.rdata')
-pseduo_gdd <- rlist::list.load('pseduo_gdd.rdata')
-pseduo_alpha <- rlist::list.load('pseduo_alpha.rdata')
+pseudo_Tmin <- rlist::list.load('pseudo_Tmin.rdata')
+pseudo_gdd <- rlist::list.load('pseudo_gdd.rdata')
+pseudo_alpha <- rlist::list.load('pseudo_alpha.rdata')
 
 # MTCO
 tictoc::tic("Pseudo MTCO")
@@ -336,7 +336,7 @@ cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
                                 nPLS = 5,
                                 fxTWAPLS::WAPLS.w,
                                 fxTWAPLS::WAPLS.predict.w,
-                                pseduo_Tmin,
+                                pseudo_Tmin,
                                 cpus = CPUS)
 write.csv(cv_pr_Tmin, "cv_pr_Tmin.csv")
 tictoc::toc()
@@ -346,7 +346,7 @@ cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
                                   nPLS = 5,
                                   fxTWAPLS::TWAPLS.w,
                                   fxTWAPLS::TWAPLS.predict.w,
-                                  pseduo_Tmin,
+                                  pseudo_Tmin,
                                   cpus = CPUS)
 write.csv(cv_pr_t_Tmin, "cv_pr_t_Tmin.csv")
 tictoc::toc()
@@ -358,7 +358,7 @@ cv_pr_f_Tmin <- fxTWAPLS::cv.pr.w(taxa,
                                   fxTWAPLS::WAPLS.predict.w,
                                   usefx = TRUE,
                                   fx = fx_Tmin,
-                                  pseduo_Tmin,
+                                  pseudo_Tmin,
                                   cpus = CPUS)
 write.csv(cv_pr_f_Tmin, "cv_pr_f_Tmin.csv")
 tictoc::toc()
@@ -370,7 +370,7 @@ cv_pr_tf_Tmin <- fxTWAPLS::cv.pr.w(taxa,
                                    fxTWAPLS::TWAPLS.predict.w,
                                    usefx = TRUE,
                                    fx = fx_Tmin,
-                                   pseduo_Tmin,
+                                   pseudo_Tmin,
                                    cpus = CPUS)
 write.csv(cv_pr_tf_Tmin, "cv_pr_tf_Tmin.csv")
 tictoc::toc()
@@ -393,7 +393,7 @@ cv_pr_gdd <- fxTWAPLS::cv.pr.w(taxa,
                                nPLS = 5,
                                fxTWAPLS::WAPLS.w,
                                fxTWAPLS::WAPLS.predict.w,
-                               pseduo_gdd,
+                               pseudo_gdd,
                                cpus = CPUS)
 write.csv(cv_pr_gdd, "cv_pr_gdd.csv")
 tictoc::toc()
@@ -403,7 +403,7 @@ cv_pr_t_gdd <- fxTWAPLS::cv.pr.w(taxa,
                                  nPLS = 5,
                                  fxTWAPLS::TWAPLS.w,
                                  fxTWAPLS::TWAPLS.predict.w,
-                                 pseduo_gdd,
+                                 pseudo_gdd,
                                  cpus = CPUS)
 write.csv(cv_pr_t_gdd, "cv_pr_t_gdd.csv")
 tictoc::toc()
@@ -415,7 +415,7 @@ cv_pr_f_gdd <- fxTWAPLS::cv.pr.w(taxa,
                                  fxTWAPLS::WAPLS.predict.w,
                                  usefx = TRUE,
                                  fx = fx_gdd,
-                                 pseduo_gdd,
+                                 pseudo_gdd,
                                  cpus = CPUS)
 write.csv(cv_pr_f_gdd, "cv_pr_f_gdd.csv")
 tictoc::toc()
@@ -427,7 +427,7 @@ cv_pr_tf_gdd <- fxTWAPLS::cv.pr.w(taxa,
                                   fxTWAPLS::TWAPLS.predict.w,
                                   usefx = TRUE,
                                   fx = fx_gdd,
-                                  pseduo_gdd,
+                                  pseudo_gdd,
                                   cpus = CPUS)
 write.csv(cv_pr_tf_gdd, "cv_pr_tf_gdd.csv")
 tictoc::toc()
@@ -450,7 +450,7 @@ cv_pr_alpha <- fxTWAPLS::cv.pr.w(taxa,
                                  nPLS = 5,
                                  fxTWAPLS::WAPLS.w,
                                  fxTWAPLS::WAPLS.predict.w,
-                                 pseduo_alpha,
+                                 pseudo_alpha,
                                  cpus = CPUS)
 write.csv(cv_pr_alpha, "cv_pr_alpha.csv")
 tictoc::toc()
@@ -460,7 +460,7 @@ cv_pr_t_alpha <- fxTWAPLS::cv.pr.w(taxa,
                                    nPLS = 5,
                                    fxTWAPLS::TWAPLS.w,
                                    fxTWAPLS::TWAPLS.predict.w,
-                                   pseduo_alpha,
+                                   pseudo_alpha,
                                    cpus = CPUS)
 write.csv(cv_pr_t_alpha, "cv_pr_t_alpha.csv")
 tictoc::toc()
@@ -472,7 +472,7 @@ cv_pr_f_alpha <- fxTWAPLS::cv.pr.w(taxa,
                                    fxTWAPLS::WAPLS.predict.w,
                                    usefx = TRUE,
                                    fx = fx_alpha,
-                                   pseduo_alpha,
+                                   pseudo_alpha,
                                    cpus = CPUS)
 write.csv(cv_pr_f_alpha, "cv_pr_f_alpha.csv")
 tictoc::toc()
@@ -484,7 +484,7 @@ cv_pr_tf_alpha <- fxTWAPLS::cv.pr.w(taxa,
                                     fxTWAPLS::TWAPLS.predict.w,
                                     usefx = TRUE,
                                     fx = fx_alpha,
-                                    pseduo_alpha,
+                                    pseudo_alpha,
                                     cpus = CPUS)
 write.csv(cv_pr_tf_alpha, "cv_pr_tf_alpha.csv")
 tictoc::toc()

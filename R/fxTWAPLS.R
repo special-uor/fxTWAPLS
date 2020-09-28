@@ -608,7 +608,7 @@ cv.w <- function(modern_taxa,
 #' @export
 #'
 # @examples
-get_pseduo <- function(dist, x, cpus = 4) {
+get_pseudo <- function(dist, x, cpus = 4) {
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
@@ -627,12 +627,12 @@ get_pseduo <- function(dist, x, cpus = 4) {
   parallel::stopCluster(cl) # Stop cluster
   
   
-  # pseduo <- as.list(matrix(nrow = nrow(dist)))
+  # pseudo <- as.list(matrix(nrow = nrow(dist)))
   # for (i in 1:10) {
   #   if (i %% 100 == 0) {
   #     print(i)
   #   }
-  #   pseduo[[i]] <-
+  #   pseudo[[i]] <-
   #     which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
   # }
   return(pseudo)
@@ -650,8 +650,8 @@ get_pseduo <- function(dist, x, cpus = 4) {
 #'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
 #'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
 #'     \code{\link{TWAPLS.predict.w}}
-#' @param pseduo the geographically and climatically close sites to each test 
-#'     site, obtained from \code{\link{get_pseduo}} function
+#' @param pseudo the geographically and climatically close sites to each test 
+#'     site, obtained from \code{\link{get_pseudo}} function
 #' @param usefx boolean flag on whether or not use fx correction.
 #' @param fx the frequency of the climate value for fx correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
@@ -668,7 +668,7 @@ cv.pr.w <- function(modern_taxa,
                     nPLS = 5,
                     trainfun,
                     predictfun,
-                    pseduo,
+                    pseudo,
                     usefx = FALSE,
                     fx = NA,
                     cpus = 4) {
@@ -689,7 +689,7 @@ cv.pr.w <- function(modern_taxa,
   idx <- 1:length(x)
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind) %dopar% {
-                                   leave <- unlist(pseduo[i])
+                                   leave <- unlist(pseudo[i])
                                    fit <- trainfun(y[-leave, ], x[-leave], nPLS, usefx, fx[-leave])
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
                                    data.frame(x[i], xnew)
@@ -705,7 +705,7 @@ cv.pr.w <- function(modern_taxa,
   #   if (i %% 100 == 0) {
   #     print(i)
   #   } #show progress of the calculation
-  #   leave <- unlist(pseduo[i])
+  #   leave <- unlist(pseudo[i])
   #   fit <- trainfun(y[-leave, ], x[-leave], nPLS, usefx, fx[-leave])
   #   xnew <- predictfun(fit, y[i, ])[["fit"]]
   #   all.cv.out[i, ] <- data.frame(x[i], xnew)

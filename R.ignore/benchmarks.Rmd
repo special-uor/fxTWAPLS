@@ -49,7 +49,7 @@ times_df <- fxTWAPLS::par_benchmark(CPUS = c(1, 2, 4, 8, 12),
                                     nPLS = 5, 
                                     trainfun = fxTWAPLS::WAPLS.w, 
                                     predictfun = fxTWAPLS::WAPLS.predict.w,
-                                    pseduo = pseduo_Tmin)
+                                    pseudo = pseudo_Tmin)
 ```
 
 ```{r cv.pr-w-output, echo = FALSE}
@@ -67,7 +67,7 @@ ggplot2::qplot(cpus, times, data = times_df) +
 ## `get_pseudo`
 ```{r, eval = FALSE}
 times_df <- fxTWAPLS::par_benchmark(CPUS = c(1, 2, 4, 8, 12),
-                                    FUN = fxTWAPLS::get_pseduo, 
+                                    FUN = fxTWAPLS::get_pseudo, 
                                     plot = TRUE, 
                                     dist = dist, 
                                     x = modern_pollen$Tmin)
