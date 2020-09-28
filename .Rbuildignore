@@ -3,3 +3,6 @@
 ^\.Rproj\.user$
 ^R\.ignore$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
