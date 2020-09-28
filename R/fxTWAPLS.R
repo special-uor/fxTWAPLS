@@ -33,7 +33,7 @@ fx <- function(x, bin) {
 #'     sampling site, each column represents a taxon.
 #' @param modern_climate the modern climate value at each sampling site
 #' @param nPLS the number of components to be extracted
-#' @param usefx boolean  flag on whether or not use fx correction.
+#' @param usefx boolean flag on whether or not use fx correction.
 #' @param fx the frequency of the climate value for fx correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
@@ -92,8 +92,7 @@ WAPLS.w <- function(modern_taxa,
   comp[, pls] <- r[, pls]
   
   # Step 7. Regress the environmental variable (xJ on the components obtained so 
-  # far using weights and take the fitted values as current estimates 
-  # if(!require(MASS)){install.packages("MASS");library(MASS)}
+  # far using weights and take the fitted values as current estimates
   if(usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
   } else{
@@ -157,15 +156,21 @@ WAPLS.w <- function(modern_taxa,
   return(list)
 }
 
-#' TWALPS training function fit
+#' TWALPS training function, which can choose to perform fx correction
+#' 
 #' @importFrom stats lm
-#' @param modern_taxa TODO
-#' @param modern_climate TODO
-#' @param nPLS TODO
-#' @param usefx TODO
-#' @param fx TODO
+#' 
+#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#'     sampling site, each column represents a taxon.
+#' @param modern_climate the modern climate value at each sampling site
+#' @param nPLS the number of components to be extracted
+#' @param usefx boolean flag on whether or not use fx correction.
+#' @param fx the frequency of the climate value for fx correction: if 
+#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#'     be obtained from the \code{\link{fx}} function.
 #'
-#' @return TODO
+#' @return a list of the training results, which will be used by the predict 
+#'     function. fit is the fitted value of modern training result.
 #' @export
 #'
 # @examples
@@ -225,7 +230,6 @@ TWAPLS.w <- function(modern_taxa,
   
   # Step 7. Regress the environmental variable on the components obtained so far
   # using weights and take the fitted values as current estimates 
-  # if(!require(MASS)){install.packages("MASS");library(MASS)}
   if (usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
   } else{
@@ -296,14 +300,15 @@ TWAPLS.w <- function(modern_taxa,
   return(list)
 }
 
-# Define WAPLS and TWAPLS predict funtions ----------------------------------------
-# fit represents the fitted value
 #' WAPLS predict function
 #'
-#' @param WAPLSoutput TODO
-#' @param fossil_taxa TODO
+#' @param WAPLSoutput the output of the \code{\link{WAPLS.w}} training function, 
+#'     either with or without fx correction
+#' @param fossil_taxa fossil taxa abundance data to reconstruct past climates, 
+#'     each row represents a site to be reconstructed, each column represents a 
+#'     taxon.
 #'
-#' @return TODO
+#' @return a list of the reconstruction results. fit is the fitted value.
 #' @export
 #'
 # @examples
@@ -371,10 +376,13 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 
 #' TWAPLS predict function
 #'
-#' @param TWAPLSoutput TODO
-#' @param fossil_taxa TODO
+#' @param TWAPLSoutput the output of the \code{\link{TWAPLS.w}} training 
+#'     function, either with or without fx correction
+#' @param fossil_taxa fossil taxa abundance data to reconstruct past climates, 
+#'     each row represents a site to be reconstructed, each column represents 
+#'     a taxon.
 #'
-#' @return TODO
+#' @return a list of the reconstruction results. fit is the fitted value.
 #' @export
 #'
 # @examples
@@ -443,18 +451,28 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 
 #' Calculate Sample Specific Errors
 #'
-#' @param modern_taxa TODO
-#' @param modern_climate TODO
-#' @param fossil_taxa TODO
-#' @param trainfun TODO
-#' @param predictfun TODO
-#' @param nboot TODO
-#' @param nPLS TODO
-#' @param nsig TODO
-#' @param usefx TODO
-#' @param fx TODO
+#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#'     sampling site, each column represents a taxon.
+#' @param modern_climate the modern climate value at each sampling site
+#' @param fossil_taxa fossil taxa abundance data to reconstruct past climates, 
+#'     each row represents a site to be reconstructed, each column represents a 
+#'     taxon.
+#' @param trainfun training function you want to use, either 
+#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}
+#' @param predictfun predict function you want to use: if \code{trainfun} is 
+#'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
+#'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
+#'     \code{\link{TWAPLS.predict.w}}
+#' @param nboot the number of bootstrap cycles you want to use
+#' @param nPLS the number of components to be extracted
+#' @param nsig the significant number of components to use to reconstruct past 
+#'     climates, this can be obtained from the cross-validation results.
+#' @param usefx boolean flag on whether or not use fx correction.
+#' @param fx the frequency of the climate value for fx correction: if 
+#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#'     be obtained from the \code{\link{fx}} function.
 #'
-#' @return TODO
+#' @return the bootstrapped standard error for each site
 #' @export
 #'
 # @examples
@@ -492,20 +510,28 @@ sse.sample <- function(modern_taxa,
   return(sqrt(v1))
 }
 
-#' Leave one out cross validation as rioja
+#' Leave one out cross validation as \link{rioja}
 #' 
 #' @importFrom foreach `%dopar%`
 #' 
-#' @param modern_taxa TODO
-#' @param modern_climate TODO
-#' @param nPLS TODO
-#' @param trainfun TODO
-#' @param predictfun TODO
-#' @param usefx TODO
-#' @param fx TODO
-#' @param cpus TODO
+#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#'     sampling site, each column represents a taxon.
+#' @param modern_climate the modern climate value at each sampling site
+#' @param nPLS the number of components to be extracted
+#' @param trainfun training function you want to use, either 
+#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}
+#' @param predictfun predict function you want to use: if \code{trainfun} is 
+#'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
+#'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
+#'     \code{\link{TWAPLS.predict.w}}
+#' @param usefx boolean flag on whether or not use fx correction.
+#' @param fx the frequency of the climate value for fx correction: if 
+#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#'     be obtained from the \code{\link{fx}} function.
+#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#'     \code{parallel::detectCores()} for available CPUs on your machine.
 #'
-#' @return TODO
+#' @return leave-one-out cross validation results
 #' @export
 #'
 # @examples
@@ -573,11 +599,12 @@ cv.w <- function(modern_taxa,
 #' Get the ones which are both geographically and climatically close, and could 
 #' therefore results in pseudo-replication.
 #'
-#' @param dist TODO
-#' @param x TODO
-#' @param cpus TODO
+#' @param dist distance matrix which contains the distance from other sites.
+#' @param x the modern climate values
+#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#'     \code{parallel::detectCores()} for available CPUs on your machine.
 #'
-#' @return TODO
+#' @return the geographically and climatically close sites to each test site.
 #' @export
 #'
 # @examples
@@ -613,17 +640,26 @@ get_pseduo <- function(dist, x, cpus = 4) {
 
 #' Pseudo removed leave out cross validation
 #'
-#' @param modern_taxa TODO
-#' @param modern_climate TODO
-#' @param nPLS TODO
-#' @param trainfun TODO
-#' @param predictfun TODO
-#' @param pseduo TODO
-#' @param usefx TODO
-#' @param fx TODO
-#' @param cpus TODO
+#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#'     sampling site, each column represents a taxon.
+#' @param modern_climate the modern climate value at each sampling site
+#' @param nPLS the number of components to be extracted
+#' @param trainfun training function you want to use, either 
+#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}
+#' @param predictfun predict function you want to use: if \code{trainfun} is 
+#'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
+#'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
+#'     \code{\link{TWAPLS.predict.w}}
+#' @param pseduo the geographically and climatically close sites to each test 
+#'     site, obtained from \code{\link{get_pseduo}} function
+#' @param usefx boolean flag on whether or not use fx correction.
+#' @param fx the frequency of the climate value for fx correction: if 
+#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#'     be obtained from the \code{\link{fx}} function.
+#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#'     \code{parallel::detectCores()} for available CPUs on your machine.
 #'
-#' @return TODO
+#' @return leave-one-out cross validation results
 #' @export
 #'
 # @examples
@@ -693,10 +729,13 @@ cv.pr.w <- function(modern_taxa,
 #' @importFrom stats lm
 #' @importFrom stats rbinom
 #' 
-#' @param cvoutput TODO
-#' @param n.perm TODO
+#' @param cvoutput cross-validation output either from \code{\link{cv.w}} or 
+#'     \code{\link{cv.pr.w}}
+#' @param n.perm the number of permutation times to get the p value, which 
+#'     assesses whether using the current number of components is significantly 
+#'     different from using one less.
 #'
-#' @return TODO
+#' @return a matrix of the statistics of the cross-validation results
 #' @export
 #'
 # @examples
