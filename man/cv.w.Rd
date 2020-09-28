@@ -2,7 +2,8 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{cv.w}
 \alias{cv.w}
-\title{Leave one out cross validation as \link{rioja}}
+\title{Leave one out cross validation as
+rioja (https://cran.r-project.org/package=rioja)}
 \usage{
 cv.w(
   modern_taxa,
@@ -44,5 +45,6 @@ be obtained from the \code{\link{fx}} function.}
 leave-one-out cross validation results
 }
 \description{
-Leave one out cross validation as \link{rioja}
+Leave one out cross validation as
+rioja (https://cran.r-project.org/package=rioja)
 }
