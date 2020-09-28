@@ -2,18 +2,20 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{fx}
 \alias{fx}
-\title{Funtion to get the density of x}
+\title{Funtion to get the frequency of the climate value, which will be used to
+provide fx correction for WA-PLS and TWA-PLS}
 \usage{
 fx(x, bin)
 }
 \arguments{
-\item{x}{TODO}
+\item{x}{the modern climate values}
 
-\item{bin}{TODO}
+\item{bin}{binwidth to get the frequency of the modern climate values}
 }
 \value{
-TODO
+the frequency of the modern climate values
 }
 \description{
-Funtion to get the density of x
+Funtion to get the frequency of the climate value, which will be used to
+provide fx correction for WA-PLS and TWA-PLS
 }

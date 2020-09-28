@@ -1,11 +1,10 @@
-# if(!require(matrixStats)){install.packages("matrixStats");library(matrixStats)}
-
-#' Funtion to get the density of x
+#' Funtion to get the frequency of the climate value, which will be used to 
+#'     provide fx correction for WA-PLS and TWA-PLS
 #'
-#' @param x TODO
-#' @param bin TODO
+#' @param x the modern climate values 
+#' @param bin binwidth to get the frequency of the modern climate values
 #'
-#' @return TODO
+#' @return the frequency of the modern climate values
 #' @export
 #'
 # @examples
@@ -26,18 +25,21 @@ fx <- function(x, bin) {
   return(fx)
 }
 
-# Define WAPLS and TWAPLS training funtions fit represents the fitted value
-#' WALPS training function fit
+#' WALPS training function, which can choose to perform fx correction
 #' 
 #' @importFrom stats lm
 #' 
-#' @param modern_taxa TODO
-#' @param modern_climate TODO
-#' @param nPLS TODO
-#' @param usefx TODO
-#' @param fx TODO
+#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#'     sampling site, each column represents a taxon.
+#' @param modern_climate the modern climate value at each sampling site
+#' @param nPLS the number of components to be extracted
+#' @param usefx boolean  flag on whether or not use fx correction.
+#' @param fx the frequency of the climate value for fx correction: if 
+#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#'     be obtained from the \code{\link{fx}} function.
 #'
-#' @return TODO
+#' @return a list of the training results, which will be used by the predict 
+#'     function. fit is the fitted value of modern training result.
 #' @export
 #'
 # @examples
