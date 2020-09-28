@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{cv.w}
 \alias{cv.w}
-\title{Leave one out cross validation as rioja}
+\title{Leave one out cross validation as \link{rioja}}
 \usage{
 cv.w(
   modern_taxa,
@@ -16,25 +16,33 @@ cv.w(
 )
 }
 \arguments{
-\item{modern_taxa}{TODO}
+\item{modern_taxa}{the modern taxa abundance data, each row represents a
+sampling site, each column represents a taxon.}
 
-\item{modern_climate}{TODO}
+\item{modern_climate}{the modern climate value at each sampling site}
 
-\item{nPLS}{TODO}
+\item{nPLS}{the number of components to be extracted}
 
-\item{trainfun}{TODO}
+\item{trainfun}{training function you want to use, either
+\code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}}
 
-\item{predictfun}{TODO}
+\item{predictfun}{predict function you want to use: if \code{trainfun} is
+\code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}};
+if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be
+\code{\link{TWAPLS.predict.w}}}
 
-\item{usefx}{TODO}
+\item{usefx}{boolean flag on whether or not use fx correction.}
 
-\item{fx}{TODO}
+\item{fx}{the frequency of the climate value for fx correction: if
+\code{usefx} is FALSE, this should be \code{NA}; otherwise, this should
+be obtained from the \code{\link{fx}} function.}
 
-\item{cpus}{TODO}
+\item{cpus}{number of CPUs for simultaneous iterations to execute, check
+\code{parallel::detectCores()} for available CPUs on your machine.}
 }
 \value{
-TODO
+leave-one-out cross validation results
 }
 \description{
-Leave one out cross validation as rioja
+Leave one out cross validation as \link{rioja}
 }

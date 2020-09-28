@@ -7,12 +7,15 @@
 TWAPLS.predict.w(TWAPLSoutput, fossil_taxa)
 }
 \arguments{
-\item{TWAPLSoutput}{TODO}
+\item{TWAPLSoutput}{the output of the \code{\link{TWAPLS.w}} training
+function, either with or without fx correction}
 
-\item{fossil_taxa}{TODO}
+\item{fossil_taxa}{fossil taxa abundance data to reconstruct past climates,
+each row represents a site to be reconstructed, each column represents
+a taxon.}
 }
 \value{
-TODO
+a list of the reconstruction results. fit is the fitted value.
 }
 \description{
 TWAPLS predict function

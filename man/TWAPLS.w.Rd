@@ -2,24 +2,28 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{TWAPLS.w}
 \alias{TWAPLS.w}
-\title{TWALPS training function fit}
+\title{TWALPS training function, which can choose to perform fx correction}
 \usage{
 TWAPLS.w(modern_taxa, modern_climate, nPLS = 5, usefx = FALSE, fx = NA)
 }
 \arguments{
-\item{modern_taxa}{TODO}
+\item{modern_taxa}{the modern taxa abundance data, each row represents a
+sampling site, each column represents a taxon.}
 
-\item{modern_climate}{TODO}
+\item{modern_climate}{the modern climate value at each sampling site}
 
-\item{nPLS}{TODO}
+\item{nPLS}{the number of components to be extracted}
 
-\item{usefx}{TODO}
+\item{usefx}{boolean flag on whether or not use fx correction.}
 
-\item{fx}{TODO}
+\item{fx}{the frequency of the climate value for fx correction: if
+\code{usefx} is FALSE, this should be \code{NA}; otherwise, this should
+be obtained from the \code{\link{fx}} function.}
 }
 \value{
-TODO
+a list of the training results, which will be used by the predict
+function. fit is the fitted value of modern training result.
 }
 \description{
-TWALPS training function fit
+TWALPS training function, which can choose to perform fx correction
 }

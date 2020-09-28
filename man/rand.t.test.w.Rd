@@ -7,12 +7,15 @@
 rand.t.test.w(cvoutput, n.perm = 999)
 }
 \arguments{
-\item{cvoutput}{TODO}
+\item{cvoutput}{cross-validation output either from \code{\link{cv.w}} or
+\code{\link{cv.pr.w}}}
 
-\item{n.perm}{TODO}
+\item{n.perm}{the number of permutation times to get the p value, which
+assesses whether using the current number of components is significantly
+different from using one less.}
 }
 \value{
-TODO
+a matrix of the statistics of the cross-validation results
 }
 \description{
 Random t-test

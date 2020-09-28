@@ -14,7 +14,7 @@ sampling site, each column represents a taxon.}
 
 \item{nPLS}{the number of components to be extracted}
 
-\item{usefx}{boolean  flag on whether or not use fx correction.}
+\item{usefx}{boolean flag on whether or not use fx correction.}
 
 \item{fx}{the frequency of the climate value for fx correction: if
 \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should
