@@ -5,14 +5,14 @@
 \title{Create hexagonal logo for the package}
 \usage{
 hex_logo(
-  subplot = system.file("images/cave-painting.png", package = "reconbio"),
+  subplot = system.file("images/cave-painting.png", package = "fxTWAPLS"),
   dpi = 600,
   h_color = "#000000",
   h_fill = "#696969",
-  output = system.file("images/logo.png", package = "reconbio"),
-  package = "reconbio",
+  output = system.file("images/logo.png", package = "fxTWAPLS"),
+  package = "fxTWAPLS",
   p_color = "#eeeeee",
-  url = "https://github.com/special-uor/reconbio",
+  url = "https://github.com/special-uor/fxTWAPLS",
   u_size = 1.3
 )
 }

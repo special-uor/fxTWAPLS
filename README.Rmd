@@ -12,20 +12,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-## reconbio: Reconstruction from Biotic Assemblages <img src="inst/images/logo.png" alt="logo" align="right" height=200px/>
-<!-- <img src="https://raw.githubusercontent.com/special-uor/reconbio/master/inst/images/logo.png" alt="logo" align="right" height=200px/> -->
+## fxTWAPLS: Reconstruction from Biotic Assemblages <img src="inst/images/logo.png" alt="logo" align="right" height=200px/>
+<!-- <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 
 <!-- badges: start -->
-<!-- `r badger::badge_code_size("special-uor/reconbio")` -->
-<!-- [![R build status](https://github.com/special-uor/reconbio/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/reconbio/actions) -->
-`r badger::badge_devel("special-uor/reconbio", "blue")`
-`r badger::badge_codecov("special-uor/reconbio", "Q6SYL7AOGR")`
-[![R build status](https://github.com/special-uor/reconbio/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/reconbio/actions)
+<!-- `r badger::badge_code_size("special-uor/fxTWAPLS")` -->
+<!-- [![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions) -->
+`r badger::badge_devel("special-uor/fxTWAPLS", "blue")`
+`r badger::badge_codecov("special-uor/fxTWAPLS", "Q6SYL7AOGR")`
+[![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions)
 <!-- badges: end -->
 
 ## Overview
 
-The goal of `reconbio` is ...
+The goal of `fxTWAPLS` is ...
 
 ## Installation
 
@@ -57,17 +57,17 @@ Check that the PAT is now available like so:
 usethis::git_sitrep()
 ```
 
-<!-- You can install the released version of IPA from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- You can install the released version of fxTWAPLS from [CRAN](https://CRAN.R-project.org) with: -->
 
 <!-- ``` r -->
-<!-- install.packages("IPA") -->
+<!-- install.packages("fxTWAPLS") -->
 <!-- ``` -->
 
 <!-- And the development version from [GitHub](https://github.com/) with: -->
 You can install the development version from [GitHub](https://github.com/) with:
 ``` r
 # install.packages(c("hexSticker", "remotes", "usethis"))
-remotes::install_github("special-uor/reconbio")
+remotes::install_github("special-uor/fxTWAPLS")
 ```
 
 ## Example

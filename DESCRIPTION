@@ -1,4 +1,4 @@
-Package: reconbio
+Package: fxTWAPLS
 Title: Reconstruction from Biotic Assemblages
 Version: 0.0.0.9000
 Authors@R: c(

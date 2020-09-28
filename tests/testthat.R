@@ -1,4 +1,4 @@
 library(testthat)
-library(reconbio)
+library(fxTWAPLS)
 
-test_check("reconbio")
+test_check("fxTWAPLS")
