@@ -510,7 +510,8 @@ sse.sample <- function(modern_taxa,
   return(sqrt(v1))
 }
 
-#' Leave one out cross validation as \link{rioja}
+#' Leave one out cross validation as 
+#' rioja (https://cran.r-project.org/package=rioja)
 #' 
 #' @importFrom foreach `%dopar%`
 #' 
