@@ -13,7 +13,7 @@ hex_logo(
   package = "fxTWAPLS",
   p_color = "#eeeeee",
   url = "https://github.com/special-uor/fxTWAPLS",
-  u_size = 1.3
+  u_size = 1.25
 )
 }
 \arguments{
