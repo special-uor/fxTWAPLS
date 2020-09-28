@@ -9,8 +9,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-6250-0148")),
     person(given = "Roberto",
            family = "Villegas-Diaz",
-           role = c("aut", "cre"),
-           email = "villegas.roberto@hotmail.com",
+           role = c("cre"),
+           email = "r.villegas-diaz@reading.ac.uk",
            comment = c(ORCID = "0000-0001-5036-8661"))
     )
 Description: What the package does (one paragraph).
@@ -29,6 +29,7 @@ Suggests:
     hexSticker,
     knitr,
     kableExtra,
+    pkgdown,
     rmarkdown,
     scales,
     testthat,
