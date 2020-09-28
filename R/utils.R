@@ -27,7 +27,7 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
                      package = "fxTWAPLS",
                      p_color = "#eeeeee",
                      url = "https://github.com/special-uor/fxTWAPLS",
-                     u_size = 1.30) {
+                     u_size = 1.25) {
   hexSticker::sticker(subplot = subplot, package = package,
                       h_color = h_color,  h_fill = h_fill,
                       dpi = dpi,
