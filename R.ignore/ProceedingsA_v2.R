@@ -1,15 +1,14 @@
 rm(list = ls())
-# source("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Script/Proceedings paper/Proceedings A_Functions_v2.R")
-# source("Proceedings A_Functions_v2.R")
 ########################################################################################################
 #######################################    Training  ###################################################
 ########################################################################################################
 
 # setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Input data")
-
-# modern_pollen<- read.csv("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Input data/Modern_Pollen_gdd_alpha_Tmin.csv", row.names=1)
 setwd(here::here("/"))
-modern_pollen <- read.csv("Modern_Pollen_gdd_alpha_Tmin.csv")
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE))
 
 taxaColMin <- which(colnames(modern_pollen) == "Abies")
 taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
@@ -675,7 +674,11 @@ if(!require(mapdata)){ install.packages("mapdata");library(mapdata)}
 if(!require(sf)){ install.packages("sf");library(sf)}
 
 setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training plots")
-modern_pollen<- read.csv("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Input data/Modern_Pollen_gdd_alpha_Tmin.csv", row.names=1)
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE),
+                          row.names = 1)
 
 world <- map_data("world") 
 minLong<-min(modern_pollen$Long);maxLong<-max(modern_pollen$Long);
