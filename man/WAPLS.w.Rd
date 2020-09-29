@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{WAPLS.w}
 \alias{WAPLS.w}
-\title{WALPS training function, which can choose to perform fx correction}
+\title{WA-LPS training function, which can perform \code{fx} correction}
 \usage{
 WAPLS.w(modern_taxa, modern_climate, nPLS = 5, usefx = FALSE, fx = NA)
 }
@@ -14,9 +14,9 @@ sampling site, each column represents a taxon.}
 
 \item{nPLS}{the number of components to be extracted}
 
-\item{usefx}{boolean flag on whether or not use fx correction.}
+\item{usefx}{boolean flag on whether or not use \code{fx} correction.}
 
-\item{fx}{the frequency of the climate value for fx correction: if
+\item{fx}{the frequency of the climate value for \code{fx} correction: if
 \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should
 be obtained from the \code{\link{fx}} function.}
 }
@@ -25,7 +25,7 @@ a list of the training results, which will be used by the predict
 function. fit is the fitted value of modern training result.
 }
 \description{
-WALPS training function, which can choose to perform fx correction
+WA-LPS training function, which can perform \code{fx} correction
 }
 \examples{
 \dontrun{

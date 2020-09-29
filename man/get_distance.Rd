@@ -2,7 +2,8 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{get_distance}
 \alias{get_distance}
-\title{Get the distance between points}
+\title{Get the distance between points, the output will be used in
+\code{\link{get_pseudo}}}
 \usage{
 get_distance(point, cpus = 4, test_mode = FALSE, test_it = 5)
 }
@@ -23,7 +24,8 @@ distance matrix, the value at the ith row, means the distance between
 the ith sampling site and the whole sampling sites
 }
 \description{
-Get the distance between points
+Get the distance between points, the output will be used in
+\code{\link{get_pseudo}}
 }
 \examples{
 \dontrun{
@@ -33,7 +35,7 @@ Get the distance between points
                                           package = "fxTWAPLS", 
                                           mustWork = TRUE))
     point <- modern_pollen[, c("Long", "Lat")]
-    dist <- get_distance(point, cpus = 1)
+    dist <- fxTWAPLS::get_distance(point, cpus = 1)
 }
 
 }

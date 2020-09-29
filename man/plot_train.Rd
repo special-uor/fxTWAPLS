@@ -2,7 +2,9 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{plot_train}
 \alias{plot_train}
-\title{Plot the training results}
+\title{Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and \code{x}, which shows the degree
+of overall compression}
 \usage{
 plot_train(train_output, col)
 }
@@ -17,7 +19,9 @@ how many number of components you want to use}
 plotting status
 }
 \description{
-Plot the training results
+Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and \code{x}, which shows the degree
+of overall compression
 }
 \examples{
 \dontrun{
@@ -52,10 +56,10 @@ Plot the training results
                                       nPLS = 5, 
                                       usefx = TRUE, 
                                       fx = fx_Tmin)
-    plot_train(fit_Tmin, 1)
-    plot_train(fit_f_Tmin, 1)
-    plot_train(fit_t_Tmin, 1)
-    plot_train(fit_tf_Tmin, 1)
+    fxTWAPLS::plot_train(fit_Tmin, 1)
+    fxTWAPLS::plot_train(fit_f_Tmin, 1)
+    fxTWAPLS::plot_train(fit_t_Tmin, 1)
+    fxTWAPLS::plot_train(fit_tf_Tmin, 1)
 }
 }
 \seealso{

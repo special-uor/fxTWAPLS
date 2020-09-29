@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{cv.w}
 \alias{cv.w}
-\title{Leave one out cross validation as
+\title{Leave-one-out cross-validation as
 rioja (\url{https://cran.r-project.org/package=rioja})}
 \usage{
 cv.w(
@@ -52,7 +52,7 @@ of iterations, \code{test_it}, for testing purpouses only.}
 leave-one-out cross validation results
 }
 \description{
-Leave one out cross validation as
+Leave-one-out cross-validation as
 rioja (\url{https://cran.r-project.org/package=rioja})
 }
 \examples{

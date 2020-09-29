@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{rand.t.test.w}
 \alias{rand.t.test.w}
-\title{Random t-test}
+\title{Do a random t-test to the cross-validation results}
 \usage{
 rand.t.test.w(cvoutput, n.perm = 999)
 }
@@ -18,7 +18,7 @@ different from using one less.}
 a matrix of the statistics of the cross-validation results
 }
 \description{
-Random t-test
+Do a random t-test to the cross-validation results
 }
 \examples{
 \dontrun{

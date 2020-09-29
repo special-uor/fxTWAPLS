@@ -2,7 +2,9 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{plot_residuals}
 \alias{plot_residuals}
-\title{Plot the residuals of the training results}
+\title{Plot the residuals, the black line is 0 line, the red line is the locally
+estimated scatterplot smoothing, which shows the degree of local
+compression}
 \usage{
 plot_residuals(train_output, col)
 }
@@ -17,7 +19,9 @@ how many number of components you want to use}
 plotting status
 }
 \description{
-Plot the residuals of the training results
+Plot the residuals, the black line is 0 line, the red line is the locally
+estimated scatterplot smoothing, which shows the degree of local
+compression
 }
 \examples{
 \dontrun{
@@ -52,10 +56,10 @@ Plot the residuals of the training results
                                       nPLS = 5, 
                                       usefx = TRUE, 
                                       fx = fx_Tmin)
-    plot_residuals(fit_Tmin, 1)
-    plot_residuals(fit_f_Tmin, 1)
-    plot_residuals(fit_t_Tmin, 1)
-    plot_residuals(fit_tf_Tmin, 1)
+    fxTWAPLS::plot_residuals(fit_Tmin, 1)
+    fxTWAPLS::plot_residuals(fit_f_Tmin, 1)
+    fxTWAPLS::plot_residuals(fit_t_Tmin, 1)
+    fxTWAPLS::plot_residuals(fit_tf_Tmin, 1)
 }
 }
 \seealso{

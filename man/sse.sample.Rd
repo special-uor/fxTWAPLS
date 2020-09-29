@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{sse.sample}
 \alias{sse.sample}
-\title{Calculate Sample Specific Errors}
+\title{Function to calculate Sample Specific Errors}
 \usage{
 sse.sample(
   modern_taxa,
@@ -66,7 +66,7 @@ of iterations, \code{test_it}, for testing purpouses only.}
 the bootstrapped standard error for each site
 }
 \description{
-Calculate Sample Specific Errors
+Function to calculate Sample Specific Errors
 }
 \examples{
 \dontrun{
@@ -98,31 +98,31 @@ Calculate Sample Specific Errors
     
     ## SSE
     ### without fx
-    sse_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
-                                 modern_climate = modern_pollen$Tmin,
-                                 fossil_taxa = core,
-                                 trainfun = fxTWAPLS::WAPLS.w,
-                                 predictfun = fxTWAPLS::WAPLS.predict.w,
-                                 nboot = 100,
-                                 nPLS = 5,
-                                 nsig = 3,
-                                 usefx = FALSE,
-                                 fx = NA,
-                                 cpus = 1,
-                                 seed = 1)
+    sse_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+                                           modern_climate = modern_pollen$Tmin,
+                                           fossil_taxa = core,
+                                           trainfun = fxTWAPLS::WAPLS.w,
+                                           predictfun = fxTWAPLS::WAPLS.predict.w,
+                                           nboot = 100,
+                                           nPLS = 5,
+                                           nsig = 3,
+                                           usefx = FALSE,
+                                           fx = NA,
+                                           cpus = 1,
+                                           seed = 1)
     ### with fx
-    sse_f_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
-                                   modern_climate = modern_pollen$Tmin,
-                                   fossil_taxa = core,
-                                   trainfun = fxTWAPLS::WAPLS.w,
-                                   predictfun = fxTWAPLS::WAPLS.predict.w,
-                                   nboot = 100,
-                                   nPLS = 5,
-                                   nsig = 3,
-                                   usefx = TRUE,
-                                   fx = fx_Tmin,
-                                   cpus = 1,
-                                   seed = 1)
+    sse_f_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+                                             modern_climate = modern_pollen$Tmin,
+                                             fossil_taxa = core,
+                                             trainfun = fxTWAPLS::WAPLS.w,
+                                             predictfun = fxTWAPLS::WAPLS.predict.w,
+                                             nboot = 100,
+                                             nPLS = 5,
+                                             nsig = 3,
+                                             usefx = TRUE,
+                                             fx = fx_Tmin,
+                                             cpus = 1,
+                                             seed = 1)
 }
 
 }

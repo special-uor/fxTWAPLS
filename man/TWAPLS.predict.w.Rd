@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{TWAPLS.predict.w}
 \alias{TWAPLS.predict.w}
-\title{TWAPLS predict function}
+\title{TWA-PLS predict function}
 \usage{
 TWAPLS.predict.w(TWAPLSoutput, fossil_taxa)
 }
@@ -15,10 +15,46 @@ each row represents a site to be reconstructed, each column represents
 a taxon.}
 }
 \value{
-a list of the reconstruction results. fit is the fitted value.
+a list of the reconstruction results. \code{fit} is the fitted value.
 }
 \description{
-TWAPLS predict function
+TWA-PLS predict function
+}
+\examples{
+\dontrun{
+    # Load modern pollen data
+    modern_pollen <- read.csv(system.file("extdata", 
+                                         "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                         package = "fxTWAPLS", 
+                                         mustWork = TRUE))
+    
+    # Extract taxa
+    taxaColMin <- which(colnames(modern_pollen) == "Abies")
+    taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+    taxa <- modern_pollen[, taxaColMin:taxaColMax]
+    
+    # Get the frequency of each climate variable fx
+    fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+    fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+    fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+
+    # MTCO
+    ## For the k-th entity
+    k <- 1
+    fit_t_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa[-k, ], 
+                                     modern_climate = modern_pollen$Tmin[-k], 
+                                     nPLS = 5)
+    fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa[-k, ], 
+                                      modern_climate = modern_pollen$Tmin[-k],
+                                      nPLS = 5, 
+                                      usefx = TRUE, 
+                                      fx = fx_Tmin[-k])
+    predict_tTmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, 
+                                                taxa[k, ])[["fit"]]
+    predict_tf_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin, 
+                                                  taxa[k, ])[["fit"]]
+}
+
 }
 \seealso{
 \code{\link{TWAPLS.w}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{fx}
 \alias{fx}
-\title{Funtion to get the frequency of the climate value, which will be used to
+\title{Function to get the frequency of the climate value, which will be used to
 provide fx correction for WA-PLS and TWA-PLS}
 \usage{
 fx(x, bin)
@@ -16,7 +16,7 @@ fx(x, bin)
 the frequency of the modern climate values
 }
 \description{
-Funtion to get the frequency of the climate value, which will be used to
+Function to get the frequency of the climate value, which will be used to
 provide fx correction for WA-PLS and TWA-PLS
 }
 \examples{

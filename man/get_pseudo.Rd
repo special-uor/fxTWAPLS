@@ -2,10 +2,10 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{get_pseudo}
 \alias{get_pseudo}
-\title{Leave out cross validation with pseudo (geographically and climatically close)
-sites removed from the training set.
-Get the ones which are both geographically and climatically close, and could
-therefore results in pseudo-replication.}
+\title{Get the sites which are both geographically and climatically close to the
+test site, which could result in pseudo-replication and inflate the
+cross-validation statistics. The output will be used in
+\code{\link{cv.pr.w}}}
 \usage{
 get_pseudo(dist, x, cpus = 4, test_mode = FALSE, test_it = 5)
 }
@@ -26,10 +26,10 @@ of iterations, \code{test_it}, for testing purpouses only.}
 the geographically and climatically close sites to each test site.
 }
 \description{
-Leave out cross validation with pseudo (geographically and climatically close)
-sites removed from the training set.
-Get the ones which are both geographically and climatically close, and could
-therefore results in pseudo-replication.
+Get the sites which are both geographically and climatically close to the
+test site, which could result in pseudo-replication and inflate the
+cross-validation statistics. The output will be used in
+\code{\link{cv.pr.w}}
 }
 \examples{
 \dontrun{
@@ -39,7 +39,7 @@ therefore results in pseudo-replication.
                                           package = "fxTWAPLS", 
                                           mustWork = TRUE))
     point <- modern_pollen[, c("Long", "Lat")]
-    dist <- get_distance(point, cpus = 1)
+    dist <- fxTWAPLS::get_distance(point, cpus = 1)
     pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
                                         modern_pollen$Tmin, 
                                         cpus = 1)
