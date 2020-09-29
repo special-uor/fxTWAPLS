@@ -750,3 +750,50 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
   print(output)
   return(output)
 }
+
+#' Get the distance between points
+#' 
+#' @importFrom foreach `%dopar%` 
+#' 
+#' @param point each row represents a sampling site, the first column is 
+#'     longitude and the second column is latitude, both in decimal format
+#' 
+#' @return distance matrix, the value at the ith row, means the distance between 
+#'     the ith sampling site and the whole sampling sites
+#' @export
+#' 
+# @examples
+get_distance <- function(point) {
+  colnames(point) <- c("Long", "Lat")
+  tictoc::tic("Distance between points")
+  
+  # Check the number of CPUs does not exceed the availability
+  avail_cpus <- parallel::detectCores() - 1
+  CPUS <- ifelse(CPUS > avail_cpus, avail_cpus, CPUS)
+  
+  # Start parallel backend
+  cl <- parallel::makeCluster(CPUS, setup_strategy = "sequential")
+  doParallel::registerDoParallel(cl)
+  
+  # Load binary operator for backend
+  `%dopar%` <- foreach::`%dopar%`
+  idx <- 1:nrow(point)
+  dist <- foreach::foreach(i = idx,
+                           .combine = rbind) %dopar% {
+                             tmp <- rep(0, nrow(point))
+                             lon1 <- point[i, "Long"]
+                             lat1 <- point[i, "Lat"]
+                             for (j in 1:nrow(point)) {
+                               lon2 <- point[j, "Long"]
+                               lat2 <- point[j, "Lat"]
+                               tmp[j] <- geosphere::distm(c(lon1, lat1),
+                                                          c(lon2, lat2),
+                                                          fun = geosphere::distHaversine)
+                             }
+                             tmp
+                           }
+  
+  parallel::stopCluster(cl) # Stop cluster
+  tictoc::toc()
+  return(dist)
+}
