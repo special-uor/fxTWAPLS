@@ -29,7 +29,8 @@ Imports:
     ggplot2,
     MASS,
     matrixStats,
-    parallel
+    parallel,
+    tictoc
 Suggests:
     badger,
     hexSticker,
@@ -38,8 +39,7 @@ Suggests:
     pkgdown,
     rmarkdown,
     scales,
-    testthat,
-    tictoc
+    testthat
 Depends: 
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
