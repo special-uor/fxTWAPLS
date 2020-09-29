@@ -9,10 +9,10 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-6250-0148")),
     person(given = "Roberto",
            family = "Villegas-Diaz",
-           role = c("cre"),
+           role = c("aut", "cre"),
            email = "r.villegas-diaz@reading.ac.uk",
-           comment = c(ORCID = "0000-0001-5036-8661"))
-    )
+           comment = c(ORCID = "0000-0001-5036-8661")),
+    person("SPECIAL Research Group @ University of Reading", role = c("cph")))
 Description: The goal of fxTWAPLS is to provide an improvement of WAPLS by 
     including the tolerances of taxa and the frequency of the sampled climate 
     variable. This package also provides a way of leave-out cross-validation 
@@ -22,6 +22,8 @@ Description: The goal of fxTWAPLS is to provide an improvement of WAPLS by
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/special-uor/fxTWAPLS, https://special-uor.github.io/fxTWAPLS/
+BugReports: https://github.com/special-uor/fxTWAPLS/issues
 Imports:
     doParallel,
     foreach,
@@ -44,5 +46,4 @@ Depends:
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-VignetteBuilder: knitr
 Language: en-GB
