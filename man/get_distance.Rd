@@ -30,4 +30,8 @@ Get the distance between points
     point <- modern_pollen[, c("Long", "Lat")]
     dist <- get_distance(point, cpus = 1)
 }
+
+}
+\seealso{
+\code{\link{get_pseudo}}
 }
