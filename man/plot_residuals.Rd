@@ -16,3 +16,6 @@ how many number of components you want to use}
 \description{
 Plot the residuals of the training results
 }
+\seealso{
+\code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
+}

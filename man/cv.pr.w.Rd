@@ -57,3 +57,8 @@ leave-one-out cross validation results
 \description{
 Pseudo removed leave out cross validation
 }
+\seealso{
+\code{\link{fx}}, \code{\link{TWAPLS.w}},
+\code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and
+\code{\link{WAPLS.predict.w}}
+}

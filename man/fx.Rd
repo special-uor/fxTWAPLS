@@ -37,4 +37,9 @@ provide fx correction for WA-PLS and TWA-PLS
     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 }
+
+}
+\seealso{
+\code{\link{cv.w}}, \code{\link{cv.pr.w}}, and
+\code{\link{sse.sample}}
 }

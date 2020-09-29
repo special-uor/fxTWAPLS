@@ -20,3 +20,6 @@ a list of the reconstruction results. fit is the fitted value.
 \description{
 WAPLS predict function
 }
+\seealso{
+\code{\link{WAPLS.w}}
+}

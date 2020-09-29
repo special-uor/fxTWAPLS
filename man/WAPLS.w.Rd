@@ -56,5 +56,6 @@ WALPS training function, which can choose to perform fx correction
 
 }
 \seealso{
-\code{\link{fx}} and \code{\link{TWAPLS.w}}
+\code{\link{fx}}, \code{\link{TWAPLS.w}}, and
+\code{\link{WAPLS.predict.w}}
 }

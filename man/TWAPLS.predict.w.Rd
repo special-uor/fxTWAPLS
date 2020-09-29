@@ -20,3 +20,6 @@ a list of the reconstruction results. fit is the fitted value.
 \description{
 TWAPLS predict function
 }
+\seealso{
+\code{\link{TWAPLS.w}}
+}

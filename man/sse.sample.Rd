@@ -68,3 +68,66 @@ the bootstrapped standard error for each site
 \description{
 Calculate Sample Specific Errors
 }
+\examples{
+\dontrun{
+    # Load modern pollen data
+    modern_pollen <- read.csv(system.file("extdata", 
+                                         "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                         package = "fxTWAPLS", 
+                                         mustWork = TRUE))
+    
+    # Extract taxa
+    taxaColMin <- which(colnames(modern_pollen) == "Abies")
+    taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+    taxa <- modern_pollen[, taxaColMin:taxaColMax]
+    
+    # Get the frequency of each climate variable fx
+    fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+    fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+    fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+    
+    # Load reconstruction data
+    Holocene <- read.csv(system.file("extdata", "Holocene.csv", 
+                                     package = "fxTWAPLS", 
+                                     mustWork = TRUE), 
+                         row.names = 1)
+    core <- Holocene[, -c(1:3)]
+    # MTCO
+    ## fx
+    fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+    
+    ## SSE
+    ### without fx
+    sse_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
+                                 modern_climate = modern_pollen$Tmin,
+                                 fossil_taxa = core,
+                                 trainfun = fxTWAPLS::WAPLS.w,
+                                 predictfun = fxTWAPLS::WAPLS.predict.w,
+                                 nboot = 100,
+                                 nPLS = 5,
+                                 nsig = 3,
+                                 usefx = FALSE,
+                                 fx = NA,
+                                 cpus = 1,
+                                 seed = 1)
+    ### with fx
+    sse_f_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
+                                   modern_climate = modern_pollen$Tmin,
+                                   fossil_taxa = core,
+                                   trainfun = fxTWAPLS::WAPLS.w,
+                                   predictfun = fxTWAPLS::WAPLS.predict.w,
+                                   nboot = 100,
+                                   nPLS = 5,
+                                   nsig = 3,
+                                   usefx = TRUE,
+                                   fx = fx_Tmin,
+                                   cpus = 1,
+                                   seed = 1)
+}
+
+}
+\seealso{
+\code{\link{fx}}, \code{\link{TWAPLS.w}},
+\code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and
+\code{\link{WAPLS.predict.w}}
+}
