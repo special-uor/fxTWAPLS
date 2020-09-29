@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • fxTWAPLS</title>
+<title>Plot the residuals of the training results — plot_residuals • fxTWAPLS</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Plot the residuals of the training results — plot_residuals" />
+<meta property="og:description" content="Plot the residuals of the training results" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -100,137 +101,36 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Plot the residuals of the training results</h1>
+    
+    <div class="hidden name"><code>plot_residuals.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Plot the residuals of the training results</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>plot_residuals</span><span class='op'>(</span><span class='va'>train_output</span>, <span class='va'>col</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="TWAPLS.predict.w.html">TWAPLS.predict.w()</a></code> </p>
-        </td>
-        <td><p>TWAPLS predict function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="TWAPLS.w.html">TWAPLS.w()</a></code> </p>
-        </td>
-        <td><p>TWALPS training function, which can choose to perform fx correction</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="WAPLS.predict.w.html">WAPLS.predict.w()</a></code> </p>
-        </td>
-        <td><p>WAPLS predict function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="WAPLS.w.html">WAPLS.w()</a></code> </p>
-        </td>
-        <td><p>WALPS training function, which can choose to perform fx correction</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cv.pr.w.html">cv.pr.w()</a></code> </p>
-        </td>
-        <td><p>Pseudo removed leave out cross validation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cv.w.html">cv.w()</a></code> </p>
-        </td>
-        <td><p>Leave one out cross validation as
-rioja (https://cran.r-project.org/package=rioja)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fx.html">fx()</a></code> </p>
-        </td>
-        <td><p>Funtion to get the frequency of the climate value, which will be used to
-provide fx correction for WA-PLS and TWA-PLS</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_distance.html">get_distance()</a></code> </p>
-        </td>
-        <td><p>Get the distance between points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_pseudo.html">get_pseudo()</a></code> </p>
-        </td>
-        <td><p>Leave out cross validation with pseudo (geographically and climatically close)
-sites removed from the training set.
-Get the ones which are both geographically and climatically close, and could
-therefore results in pseudo-replication.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="hex_logo.html">hex_logo()</a></code> </p>
-        </td>
-        <td><p>Create hexagonal logo for the package</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="par_benchmark.html">par_benchmark()</a></code> </p>
-        </td>
-        <td><p>Perform parallel benchmarks on a function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_residuals.html">plot_residuals()</a></code> </p>
-        </td>
-        <td><p>Plot the residuals of the training results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_train.html">plot_train()</a></code> </p>
-        </td>
-        <td><p>Plot the training results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rand.t.test.w.html">rand.t.test.w()</a></code> </p>
-        </td>
-        <td><p>Random t-test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rbind_pb.html">rbind_pb()</a></code> </p>
-        </td>
-        <td><p>rbind combine with progress bar, to be used in combination with foreach</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sse.sample.html">sse.sample()</a></code> </p>
-        </td>
-        <td><p>Calculate Sample Specific Errors</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>train_output</th>
+      <td><p>Training output, can be the output of WAPLS, WAPLS with
+fx correction, TWAPLS, or TWAPLS with fx correction</p></td>
+    </tr>
+    <tr>
+      <th>col</th>
+      <td><p>choose which column of the fitted value to plot, in other words,
+how many number of components you want to use</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
