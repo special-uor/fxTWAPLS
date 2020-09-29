@@ -799,10 +799,12 @@ get_distance <- function(point) {
 }
 
 #' Plot the training results
+#' 
 #' @param train_output Training output, can be the output of WAPLS, WAPLS with 
 #'     fx correction, TWAPLS, or TWAPLS with fx correction
 #' @param col choose which column of the fitted value to plot, in other words, 
 #'     how many number of components you want to use
+#'     
 #' @export
 #' 
 # @examples
@@ -823,4 +825,32 @@ plot.train <- function(train_output, col) {
     ggplot2::geom_smooth(method = 'lm',
                          formula = y ~ x,
                          color = 'red')
+}
+
+#' Plot the residuals of the training results
+#' 
+#' @param train_output Training output, can be the output of WAPLS, WAPLS with 
+#'     fx correction, TWAPLS, or TWAPLS with fx correction
+#' @param col choose which column of the fitted value to plot, in other words, 
+#'     how many number of components you want to use
+#'     
+#' @export
+#' 
+# @examples
+plot.residuals <- function(train_output, col) {
+  x <- train_output[["x"]]
+  residuals <- train_output[["fit"]][, col] - train_output[["x"]]
+  plotdata <- cbind.data.frame(x, residuals)
+  
+  maxr <- max(abs(residuals))
+
+  # plot the residuals, the black line is 0 line, the red line is the locally 
+  # estimated scatterplot smoothing, which shows the degree of local compression
+  ggplot2::ggplot(plotdata, aes(x, residuals)) + 
+    ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
+    ggplot2::geom_abline(slope = 0, intercept = 0) + 
+    ggplot2::xlim(min(x), max(x)) + ggplot2::ylim(-maxr, maxr) +
+    ggplot2::geom_smooth(method = 'loess',
+                         color = 'red',
+                         se = FALSE)
 }
