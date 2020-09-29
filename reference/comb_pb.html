@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create hexagonal logo for the package — hex_logo • fxTWAPLS</title>
+<title>Combine results with progress bar, to be used in combination with foreach — comb_pb • fxTWAPLS</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Create hexagonal logo for the package — hex_logo" />
-<meta property="og:description" content="Create hexagonal logo for the package" />
+<meta property="og:title" content="Combine results with progress bar, to be used in combination with foreach — comb_pb" />
+<meta property="og:description" content="Combine results with progress bar, to be used in combination with foreach" />
 
 
 
@@ -103,76 +103,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create hexagonal logo for the package</h1>
+    <h1>Combine results with progress bar, to be used in combination with foreach</h1>
     
-    <div class="hidden name"><code>hex_logo.Rd</code></div>
+    <div class="hidden name"><code>comb_pb.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create hexagonal logo for the package</p>
+    <p>Combine results with progress bar, to be used in combination with foreach</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hex_logo</span><span class='op'>(</span>
-  subplot <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"images/cave-painting.png"</span>, package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span><span class='op'>)</span>,
-  dpi <span class='op'>=</span> <span class='fl'>600</span>,
-  h_color <span class='op'>=</span> <span class='st'>"#000000"</span>,
-  h_fill <span class='op'>=</span> <span class='st'>"#696969"</span>,
-  output <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"images/logo.png"</span>, package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span><span class='op'>)</span>,
-  package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span>,
-  p_color <span class='op'>=</span> <span class='st'>"#eeeeee"</span>,
-  url <span class='op'>=</span> <span class='st'>"https://github.com/special-uor/fxTWAPLS"</span>,
-  u_size <span class='op'>=</span> <span class='fl'>1.25</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>comb_pb</span><span class='op'>(</span><span class='va'>iterator</span>, FUN <span class='op'>=</span> <span class='va'>rbind</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>subplot</th>
-      <td><p>image to use as the main logo</p></td>
+      <th>iterator</th>
+      <td><p>number of iterations</p></td>
     </tr>
     <tr>
-      <th>dpi</th>
-      <td><p>plot resolution (dots-per-inch)</p></td>
+      <th>FUN</th>
+      <td><p>function to combine the results</p></td>
     </tr>
     <tr>
-      <th>h_color</th>
-      <td><p>color for hexagon border</p></td>
-    </tr>
-    <tr>
-      <th>h_fill</th>
-      <td><p>color to fill hexagon</p></td>
-    </tr>
-    <tr>
-      <th>output</th>
-      <td><p>output file (hexagonal logo)</p></td>
-    </tr>
-    <tr>
-      <th>package</th>
-      <td><p>title for logo (package name)</p></td>
-    </tr>
-    <tr>
-      <th>p_color</th>
-      <td><p>color for package name</p></td>
-    </tr>
-    <tr>
-      <th>url</th>
-      <td><p>URL for package repository or website</p></td>
-    </tr>
-    <tr>
-      <th>u_size</th>
-      <td><p>text size for URL</p></td>
+      <th>...</th>
+      <td><p>optional parameters</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>hexagonal logo</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>hex_logo</span><span class='op'>(</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>hex_logo</span><span class='op'>(</span><span class='st'>"inst/images/cave-painting.png"</span>, output <span class='op'>=</span> <span class='st'>"inst/images/logo.png"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Load binary operator for backend</span>
+<span class='va'>`%do%`</span> <span class='op'>&lt;-</span> <span class='fu'>foreach</span><span class='fu'>::</span><span class='va'>`%do%`</span>
+<span class='va'>N</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
+<span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'>foreach</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/foreach/man/foreach.html'>foreach</a></span><span class='op'>(</span>i <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>N</span>, 
+                        .combine <span class='op'>=</span> <span class='fu'>comb_pb</span><span class='op'>(</span><span class='va'>N</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%do%</span> <span class='op'>{</span>
+                          <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+                          <span class='va'>i</span>
+                        <span class='op'>}</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
