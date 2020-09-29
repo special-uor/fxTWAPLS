@@ -2,9 +2,8 @@ rm(list = ls())
 ########################################################################################################
 #######################################    Training  ###################################################
 ########################################################################################################
-
-# setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Input data")
-setwd(here::here("/"))
+dir.create(here::here("proceedings"), FALSE)
+setwd(here::here("proceedings"))
 modern_pollen <- read.csv(system.file("extdata", 
                                       "Modern_Pollen_gdd_alpha_Tmin.csv", 
                                       package = "fxTWAPLS", 
@@ -63,7 +62,7 @@ CPUS <- 15
 #MTCO
 tictoc::tic("MTCO")
 tictoc::tic("Tmin")
-cv_Tmin <- fxTWAPLS::cv.w(taxa,
+cv_Tmin2 <- fxTWAPLS::cv.w(taxa,
                           modern_pollen$Tmin,
                           nPLS = 5,
                           fxTWAPLS::WAPLS.w,
@@ -111,6 +110,16 @@ write.csv(rand_f_Tmin, "rand_f_Tmin.csv")
 rand_tf_Tmin <- fxTWAPLS::rand.t.test.w(cv_tf_Tmin, n.perm = 999)
 write.csv(rand_tf_Tmin, "rand_tf_Tmin.csv")
 tictoc::toc()
+
+## Load data
+cv_Tmin <- read.csv("cv_Tmin.csv", row.names = 1)
+cv_t_Tmin <- read.csv("cv_t_Tmin.csv", row.names = 1)
+cv_f_Tmin <- read.csv("cv_f_Tmin.csv", row.names = 1)
+cv_tf_Tmin <- read.csv("cv_tf_Tmin.csv", row.names = 1)
+rand_Tmin <- read.csv("rand_Tmin.csv", row.names = 1)
+rand_t_Tmin <- read.csv("rand_t_Tmin.csv", row.names = 1)
+rand_f_Tmin <- read.csv("rand_f_Tmin.csv", row.names = 1)
+rand_tf_Tmin <- read.csv("rand_tf_Tmin.csv", row.names = 1)
 
 #GDD0
 tictoc::tic("GDD0")
@@ -165,7 +174,17 @@ rand_tf_gdd <- fxTWAPLS::rand.t.test.w(cv_tf_gdd, n.perm = 999)
 write.csv(rand_tf_gdd, "rand_tf_gdd.csv")
 tictoc::toc()
 
-#alpha
+## Load data
+cv_gdd <- read.csv("cv_gdd.csv", row.names = 1)
+cv_t_gdd <- read.csv("cv_t_gdd.csv", row.names = 1)
+cv_f_gdd <- read.csv("cv_f_gdd.csv", row.names = 1)
+cv_tf_gdd <- read.csv("cv_tf_gdd.csv", row.names = 1)
+rand_gdd <- read.csv("rand_gdd.csv", row.names = 1)
+rand_t_gdd <- read.csv("rand_t_gdd.csv", row.names = 1)
+rand_f_gdd <- read.csv("rand_f_gdd.csv", row.names = 1)
+rand_tf_gdd <- read.csv("rand_tf_gdd.csv", row.names = 1)
+
+# alpha
 tictoc::tic("alpha") # global
 tictoc::tic("alpha") # local
 cv_alpha <- fxTWAPLS::cv.w(taxa,
@@ -217,6 +236,16 @@ write.csv(rand_f_alpha, "rand_f_alpha.csv")
 rand_tf_alpha <- fxTWAPLS::rand.t.test.w(cv_tf_alpha, n.perm = 999)
 write.csv(rand_tf_alpha, "rand_tf_alpha.csv")
 tictoc::toc()
+
+## Load data
+cv_alpha <- read.csv("cv_alpha.csv", row.names = 1)
+cv_t_alpha <- read.csv("cv_t_alpha.csv", row.names = 1)
+cv_f_alpha <- read.csv("cv_f_alpha.csv", row.names = 1)
+cv_tf_alpha <- read.csv("cv_tf_alpha.csv", row.names = 1)
+rand_alpha <- read.csv("rand_alpha.csv", row.names = 1)
+rand_t_alpha <- read.csv("rand_t_alpha.csv", row.names = 1)
+rand_f_alpha <- read.csv("rand_f_alpha.csv", row.names = 1)
+rand_tf_alpha <- read.csv("rand_tf_alpha.csv", row.names = 1)
 
 #Put the results together
 rand_rioja <- rbind.data.frame(rand_Tmin,
@@ -571,8 +600,11 @@ plot.train.residual.sig(train_same_Tmin,train_same_gdd,train_same_alpha)
 ####################################    Reconstruction  ################################################
 ########################################################################################################
 
-Holocene <- read.csv("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Input data/Holocene.csv", row.names=1)
-core<-Holocene[,-c(1:3)]
+Holocene <- read.csv(system.file("extdata", "Holocene.csv", 
+                                 package = "fxTWAPLS", 
+                                 mustWork = TRUE), 
+                     row.names = 1)
+core <- Holocene[, -c(1:3)]
 
 setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core")
 
@@ -613,7 +645,21 @@ write.csv(core_sig_alpha,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Dat
 
 #Get the sample specific error
 #MTCO
-sse_Tmin_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_WAPLS <-
+  sse.sample(
+    modern_taxa = taxa,
+    modern_climate = modern_pollen$Tmin,
+    fossil_taxa = core,
+    trainfun = fxTWAPLS::WAPLS.w,
+    predictfun = fxTWAPLS::WAPLS.predict.w,
+    nboot = 100,
+    nPLS = 5,
+    nsig = 3,
+    usefx = FALSE,
+    fx = NA,
+    cpus = 15,
+    seed = 2
+  )
 sse_Tmin_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
 sse_Tmin_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
 sse_Tmin_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
