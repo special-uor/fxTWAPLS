@@ -1,4 +1,4 @@
-#' Funtion to get the frequency of the climate value, which will be used to 
+#' Function to get the frequency of the climate value, which will be used to 
 #'     provide fx correction for WA-PLS and TWA-PLS
 #'
 #' @param x the modern climate values 
@@ -45,7 +45,7 @@ fx <- function(x, bin) {
   return(fx)
 }
 
-#' WALPS training function, which can choose to perform fx correction
+#' WA-LPS training function, which can perform \code{fx} correction
 #' 
 #' @importFrom stats lm
 #' 
@@ -53,8 +53,8 @@ fx <- function(x, bin) {
 #'     sampling site, each column represents a taxon.
 #' @param modern_climate the modern climate value at each sampling site
 #' @param nPLS the number of components to be extracted
-#' @param usefx boolean flag on whether or not use fx correction.
-#' @param fx the frequency of the climate value for fx correction: if 
+#' @param usefx boolean flag on whether or not use \code{fx} correction.
+#' @param fx the frequency of the climate value for \code{fx} correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #'
@@ -204,7 +204,7 @@ WAPLS.w <- function(modern_taxa,
   return(list)
 }
 
-#' TWALPS training function, which can choose to perform fx correction
+#' TWA-LPS training function, which can perform \code{fx} correction
 #' 
 #' @importFrom stats lm
 #' 
@@ -212,8 +212,8 @@ WAPLS.w <- function(modern_taxa,
 #'     sampling site, each column represents a taxon.
 #' @param modern_climate the modern climate value at each sampling site
 #' @param nPLS the number of components to be extracted
-#' @param usefx boolean flag on whether or not use fx correction.
-#' @param fx the frequency of the climate value for fx correction: if 
+#' @param usefx boolean flag on whether or not use \code{fx} correction.
+#' @param fx the frequency of the climate value for \code{fx} correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #'
@@ -376,7 +376,7 @@ TWAPLS.w <- function(modern_taxa,
   return(list)
 }
 
-#' WAPLS predict function
+#' WA-PLS predict function
 #'
 #' @param WAPLSoutput the output of the \code{\link{WAPLS.w}} training function, 
 #'     either with or without fx correction
@@ -384,11 +384,10 @@ TWAPLS.w <- function(modern_taxa,
 #'     each row represents a site to be reconstructed, each column represents a 
 #'     taxon.
 #'
-#' @return a list of the reconstruction results. fit is the fitted value.
+#' @return a list of the reconstruction results. \code{fit} is the fitted value.
 #' @export
 #'
 #' @seealso \code{\link{WAPLS.w}}
-# @examples
 WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   y <- fossil_taxa
   y <- as.matrix(y)
@@ -451,7 +450,7 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   return(list)
 }
 
-#' TWAPLS predict function
+#' TWA-PLS predict function
 #'
 #' @param TWAPLSoutput the output of the \code{\link{TWAPLS.w}} training 
 #'     function, either with or without fx correction
@@ -459,7 +458,7 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #'     each row represents a site to be reconstructed, each column represents 
 #'     a taxon.
 #'
-#' @return a list of the reconstruction results. fit is the fitted value.
+#' @return a list of the reconstruction results. \code{fit} is the fitted value.
 #' @export
 #'
 #' @seealso \code{\link{TWAPLS.w}}
@@ -527,7 +526,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   return(list)
 }
 
-#' Calculate Sample Specific Errors
+#' Function to calculate Sample Specific Errors
 #'
 #' @param modern_taxa the modern taxa abundance data, each row represents a 
 #'     sampling site, each column represents a taxon.
@@ -689,8 +688,8 @@ sse.sample <- function(modern_taxa,
   return(sqrt(v1))
 }
 
-#' Leave one out cross validation as 
-#' rioja (\url{https://cran.r-project.org/package=rioja})
+#' Leave-one-out cross-validation as 
+#'     rioja (\url{https://cran.r-project.org/package=rioja})
 #' 
 #' @importFrom foreach `%dopar%`
 #' 
@@ -803,10 +802,80 @@ cv.w <- function(modern_taxa,
   return(all.cv.out)
 }
 
-#' Leave out cross validation with pseudo (geographically and climatically close) 
-#' sites removed from the training set.
-#' Get the ones which are both geographically and climatically close, and could 
-#' therefore results in pseudo-replication.
+#' Get the distance between points, the output will be used in 
+#'     \code{\link{get_pseudo}}
+#' 
+#' @importFrom foreach `%dopar%` 
+#' 
+#' @param point each row represents a sampling site, the first column is 
+#'     longitude and the second column is latitude, both in decimal format
+#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#'     \code{parallel::detectCores()} for available CPUs on your machine.
+#' @param test_mode boolean flag to execute the function with a limited number
+#'     of iterations, \code{test_it}, for testing purpouses only.
+#' @param test_it number of iterations to use in the test mode
+#'    
+#' @return distance matrix, the value at the ith row, means the distance between 
+#'     the ith sampling site and the whole sampling sites
+#' @export
+#' 
+#' @examples
+#' \dontrun{
+#'     # Load modern pollen data
+#'     modern_pollen <- read.csv(system.file("extdata", 
+#'                                           "Modern_Pollen_gdd_alpha_Tmin.csv", 
+#'                                           package = "fxTWAPLS", 
+#'                                           mustWork = TRUE))
+#'     point <- modern_pollen[, c("Long", "Lat")]
+#'     dist <- get_distance(point, cpus = 1)
+#' }
+#' 
+#' @seealso \code{\link{get_pseudo}}
+get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
+  colnames(point) <- c("Long", "Lat")
+  tictoc::tic("Distance between points")
+  
+  # Check the number of CPUs does not exceed the availability
+  avail_cpus <- parallel::detectCores() - 1
+  cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
+  
+  # Start parallel backend
+  cl <- parallel::makeCluster(cpus, setup_strategy = "sequential")
+  doParallel::registerDoParallel(cl)
+  
+  # Load binary operator for backend
+  `%dopar%` <- foreach::`%dopar%`
+  
+  # Create list of indices to loop through
+  idx <- 1:nrow(point)
+  # Reduce the list of indices, if test_mode = TRUE
+  if (test_mode) {
+    idx <- 1:test_it
+  }
+  dist <- foreach::foreach(i = idx,
+                           .combine = rbind) %dopar% {
+                             tmp <- rep(0, nrow(point))
+                             lon1 <- point[i, "Long"]
+                             lat1 <- point[i, "Lat"]
+                             for (j in 1:nrow(point)) {
+                               lon2 <- point[j, "Long"]
+                               lat2 <- point[j, "Lat"]
+                               tmp[j] <- geosphere::distm(c(lon1, lat1),
+                                                          c(lon2, lat2),
+                                                          fun = geosphere::distHaversine)
+                             }
+                             tmp
+                           }
+  
+  parallel::stopCluster(cl) # Stop cluster
+  tictoc::toc()
+  return(dist)
+}
+
+#' Get the sites which are both geographically and climatically close to the 
+#'     test site, which could result in pseudo-replication and inflate the 
+#'     cross-validation statistics. The output will be used in 
+#'     \code{\link{cv.pr.w}}
 #'
 #' @param dist distance matrix which contains the distance from other sites.
 #' @param x the modern climate values
@@ -858,7 +927,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
   return(pseudo)
 }
 
-#' Pseudo removed leave out cross validation
+#' Pseudo-removed leave-out cross-validation
 #'
 #' @param modern_taxa the modern taxa abundance data, each row represents a 
 #'     sampling site, each column represents a taxon.
@@ -935,8 +1004,7 @@ cv.pr.w <- function(modern_taxa,
   return(all.cv.out)
 }
 
-
-#' Random t-test 
+#' Do a random t-test to the cross-validation results
 #' 
 #' @importFrom stats cor
 #' @importFrom stats lm
@@ -1059,76 +1127,9 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
   return(output)
 }
 
-#' Get the distance between points
-#' 
-#' @importFrom foreach `%dopar%` 
-#' 
-#' @param point each row represents a sampling site, the first column is 
-#'     longitude and the second column is latitude, both in decimal format
-#' @param cpus number of CPUs for simultaneous iterations to execute, check
-#'     \code{parallel::detectCores()} for available CPUs on your machine.
-#' @param test_mode boolean flag to execute the function with a limited number
-#'     of iterations, \code{test_it}, for testing purpouses only.
-#' @param test_it number of iterations to use in the test mode
-#'    
-#' @return distance matrix, the value at the ith row, means the distance between 
-#'     the ith sampling site and the whole sampling sites
-#' @export
-#' 
-#' @examples
-#' \dontrun{
-#'     # Load modern pollen data
-#'     modern_pollen <- read.csv(system.file("extdata", 
-#'                                           "Modern_Pollen_gdd_alpha_Tmin.csv", 
-#'                                           package = "fxTWAPLS", 
-#'                                           mustWork = TRUE))
-#'     point <- modern_pollen[, c("Long", "Lat")]
-#'     dist <- get_distance(point, cpus = 1)
-#' }
-#' 
-#' @seealso \code{\link{get_pseudo}}
-get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
-  colnames(point) <- c("Long", "Lat")
-  tictoc::tic("Distance between points")
-  
-  # Check the number of CPUs does not exceed the availability
-  avail_cpus <- parallel::detectCores() - 1
-  cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
-  
-  # Start parallel backend
-  cl <- parallel::makeCluster(cpus, setup_strategy = "sequential")
-  doParallel::registerDoParallel(cl)
-  
-  # Load binary operator for backend
-  `%dopar%` <- foreach::`%dopar%`
-  
-  # Create list of indices to loop through
-  idx <- 1:nrow(point)
-  # Reduce the list of indices, if test_mode = TRUE
-  if (test_mode) {
-    idx <- 1:test_it
-  }
-  dist <- foreach::foreach(i = idx,
-                           .combine = rbind) %dopar% {
-                             tmp <- rep(0, nrow(point))
-                             lon1 <- point[i, "Long"]
-                             lat1 <- point[i, "Lat"]
-                             for (j in 1:nrow(point)) {
-                               lon2 <- point[j, "Long"]
-                               lat2 <- point[j, "Lat"]
-                               tmp[j] <- geosphere::distm(c(lon1, lat1),
-                                                          c(lon2, lat2),
-                                                          fun = geosphere::distHaversine)
-                             }
-                             tmp
-                           }
-  
-  parallel::stopCluster(cl) # Stop cluster
-  tictoc::toc()
-  return(dist)
-}
-
-#' Plot the training results
+#' Plot the training results, the black line is the 1:1 line, the red line is 
+#'     the linear regression line to fitted and \code{x}, which shows the degree 
+#'     of overall compression
 #' 
 #' @param train_output Training output, can be the output of WAPLS, WAPLS with 
 #'     fx correction, TWAPLS, or TWAPLS with fx correction
@@ -1198,7 +1199,9 @@ plot_train <- function(train_output, col) {
   return(TRUE)
 }
 
-#' Plot the residuals of the training results
+#' Plot the residuals, the black line is 0 line, the red line is the locally 
+#'     estimated scatterplot smoothing, which shows the degree of local 
+#'     compression
 #' 
 #' @param train_output Training output, can be the output of WAPLS, WAPLS with 
 #'     fx correction, TWAPLS, or TWAPLS with fx correction
