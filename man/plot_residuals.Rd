@@ -13,8 +13,50 @@ fx correction, TWAPLS, or TWAPLS with fx correction}
 \item{col}{choose which column of the fitted value to plot, in other words,
 how many number of components you want to use}
 }
+\value{
+plotting status
+}
 \description{
 Plot the residuals of the training results
+}
+\examples{
+\dontrun{
+    # Load modern pollen data
+    modern_pollen <- read.csv(system.file("extdata", 
+                                         "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                         package = "fxTWAPLS", 
+                                         mustWork = TRUE))
+    
+    # Extract taxa
+    taxaColMin <- which(colnames(modern_pollen) == "Abies")
+    taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+    taxa <- modern_pollen[, taxaColMin:taxaColMax]
+    
+    # Get the frequency of each climate variable fx
+    fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+    fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+    fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+
+    # MTCO
+    ## WAPLS
+    fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+    fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
+                                    modern_pollen$Tmin, 
+                                    nPLS = 5, 
+                                    usefx = TRUE, 
+                                    fx = fx_Tmin)
+    ## TWAPLS
+    fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+    fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
+                                      modern_pollen$Tmin, 
+                                      nPLS = 5, 
+                                      usefx = TRUE, 
+                                      fx = fx_Tmin)
+    plot_residuals(fit_Tmin, 1)
+    plot_residuals(fit_f_Tmin, 1)
+    plot_residuals(fit_t_Tmin, 1)
+    plot_residuals(fit_tf_Tmin, 1)
+}
 }
 \seealso{
 \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
