@@ -110,17 +110,17 @@ test_that("Pseudo removed LOOCV works", {
                                       cpus = 1, 
                                       test_mode = TRUE,
                                       test_it = test_it)
-  # Test TWAPLS
+  # Test WAPLS
   cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
                                   modern_pollen$Tmin,
                                   nPLS = 5,
-                                  fxTWAPLS::WAPLS.w,
-                                  fxTWAPLS::WAPLS.predict.w,
+                                  fxTWAPLS::TWAPLS.w,
+                                  fxTWAPLS::TWAPLS.predict.w,
                                   pseudo_Tmin,
                                   cpus = 1,
                                   test_mode = TRUE,
                                   test_it = test_it)
-  # Test WAPLS
+  # Test TWAPLS
   cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
                                     modern_pollen$Tmin,
                                     nPLS = 5,
