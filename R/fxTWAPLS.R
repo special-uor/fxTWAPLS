@@ -797,3 +797,30 @@ get_distance <- function(point) {
   tictoc::toc()
   return(dist)
 }
+
+#' Plot the training results
+#' @param train_output Training output, can be the output of WAPLS, WAPLS with 
+#'     fx correction, TWAPLS, or TWAPLS with fx correction
+#' @param col choose which column of the fitted value to plot, in other words, 
+#'     how many number of components you want to use
+#' @export
+#' 
+# @examples
+plot.train <- function(train_output, col) {
+  x <- train_output[["x"]]
+  fitted <- train_output[["fit"]][, col]
+  plotdata <- cbind.data.frame(x, fitted)
+  
+  max <- max(fitted, x)
+  min <- min(fitted, x)
+
+  # plot the fitted curve, the black line is the 1:1 line, the red line is the 
+  # linear regression line to fitted and x, which shows the overall compression
+  ggplot2::ggplot(plotdata, aes(x, fitted)) + 
+    ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
+    ggplot2::geom_abline(slope = 1, intercept = 0) + 
+    ggplot2::xlim(min, max) + ggplot2::ylim(min, max) +
+    ggplot2::geom_smooth(method = 'lm',
+                         formula = y ~ x,
+                         color = 'red')
+}
