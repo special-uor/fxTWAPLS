@@ -691,6 +691,10 @@ sse.sample <- function(modern_taxa,
 #'                                 fx = fx_Tmin,
 #'                                 cpus = CPUS)  
 #' }
+#' 
+#' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, 
+#'     \code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and 
+#'     \code{\link{WAPLS.predict.w}}
 cv.w <- function(modern_taxa,
                  modern_climate,
                  nPLS = 5,
