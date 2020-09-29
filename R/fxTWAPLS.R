@@ -857,22 +857,33 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #' 
 #' @param point each row represents a sampling site, the first column is 
 #'     longitude and the second column is latitude, both in decimal format
-#' 
+#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#'     \code{parallel::detectCores()} for available CPUs on your machine.
+#'     
 #' @return distance matrix, the value at the ith row, means the distance between 
 #'     the ith sampling site and the whole sampling sites
 #' @export
 #' 
-# @examples
-get_distance <- function(point) {
+#' @examples
+#' \dontrun{
+#'     # Load modern pollen data
+#'     modern_pollen <- read.csv(system.file("extdata", 
+#'                                           "Modern_Pollen_gdd_alpha_Tmin.csv", 
+#'                                           package = "fxTWAPLS", 
+#'                                           mustWork = TRUE))
+#'     point <- modern_pollen[, c("Long", "Lat")]
+#'     dist <- get_distance(point, cpus = 1)
+#' }
+get_distance <- function(point, cpus = 4) {
   colnames(point) <- c("Long", "Lat")
   tictoc::tic("Distance between points")
   
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
-  CPUS <- ifelse(CPUS > avail_cpus, avail_cpus, CPUS)
+  cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
   # Start parallel backend
-  cl <- parallel::makeCluster(CPUS, setup_strategy = "sequential")
+  cl <- parallel::makeCluster(cpus, setup_strategy = "sequential")
   doParallel::registerDoParallel(cl)
   
   # Load binary operator for backend

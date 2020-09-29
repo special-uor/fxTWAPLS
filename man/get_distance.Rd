@@ -4,11 +4,14 @@
 \alias{get_distance}
 \title{Get the distance between points}
 \usage{
-get_distance(point)
+get_distance(point, cpus = 4)
 }
 \arguments{
 \item{point}{each row represents a sampling site, the first column is
 longitude and the second column is latitude, both in decimal format}
+
+\item{cpus}{number of CPUs for simultaneous iterations to execute, check
+\code{parallel::detectCores()} for available CPUs on your machine.}
 }
 \value{
 distance matrix, the value at the ith row, means the distance between
@@ -16,4 +19,15 @@ the ith sampling site and the whole sampling sites
 }
 \description{
 Get the distance between points
+}
+\examples{
+\dontrun{
+    # Load modern pollen data
+    modern_pollen <- read.csv(system.file("extdata", 
+                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                          package = "fxTWAPLS", 
+                                          mustWork = TRUE))
+    point <- modern_pollen[, c("Long", "Lat")]
+    dist <- get_distance(point, cpus = 1)
+}
 }
