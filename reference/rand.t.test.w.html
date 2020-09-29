@@ -133,7 +133,55 @@ different from using one less.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a matrix of the statistics of the cross-validation results</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code><a href='cv.w.html'>cv.w</a></code> and <code><a href='cv.pr.w.html'>cv.pr.w</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='co'># Load modern pollen data</span>
+    <span class='va'>modern_pollen</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, 
+                                         <span class='st'>"Modern_Pollen_gdd_alpha_Tmin.csv"</span>, 
+                                         package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span>, 
+                                         mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+    
+    <span class='co'># Extract taxa</span>
+    <span class='va'>taxaColMin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Abies"</span><span class='op'>)</span>
+    <span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Zygophyllaceae"</span><span class='op'>)</span>
+    <span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
+    
+    <span class='co'># Get the frequency of each climate variable fx</span>
+    <span class='va'>fx_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, bin <span class='op'>=</span> <span class='fl'>0.02</span><span class='op'>)</span>
+    <span class='va'>fx_gdd</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>gdd</span>, bin <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
+    <span class='va'>fx_alpha</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>alpha</span>, bin <span class='op'>=</span> <span class='fl'>0.002</span><span class='op'>)</span>
+    
+    <span class='co'># MTCO</span>
+    <span class='co'>## fx</span>
+    <span class='va'>fit_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='WAPLS.w.html'>WAPLS.w</a></span><span class='op'>(</span><span class='va'>taxa</span>, <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, nPLS <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+    
+    <span class='co'>## LOOCV</span>
+    <span class='co'>### without fx</span>
+    <span class='va'>cv_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='cv.w.html'>cv.w</a></span><span class='op'>(</span><span class='va'>taxa</span>,
+                              <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                              nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                              <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                              <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                              cpus <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <span class='co'>### with fx</span>
+    <span class='va'>cv_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='cv.w.html'>cv.w</a></span><span class='op'>(</span><span class='va'>taxa</span>,
+                                <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                                usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                                fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
+                                cpus <span class='op'>=</span> <span class='va'>CPUS</span><span class='op'>)</span>
+   <span class='co'>## Random t-test</span>
+   <span class='va'>rand_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>rand.t.test.w</span><span class='op'>(</span><span class='va'>cv_Tmin</span>, n.perm <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span>
+   <span class='va'>rand_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>rand.t.test.w</span><span class='op'>(</span><span class='va'>cv_f_Tmin</span>, n.perm <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
