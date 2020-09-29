@@ -80,12 +80,14 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   return(times_df)
 }
 
-#' rbind combine with progress bar, to be used in combination with foreach
+#' Combine results with progress bar, to be used in combination with foreach
 #' @importFrom utils flush.console
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' 
 #' @param iterator number of iterations
+#' @param FUN function to combine the results
+#' @param ... optional parameters
 #'
 #' @export
 #'
@@ -95,18 +97,18 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' `%do%` <- foreach::`%do%`
 #' N <- 5
 #' out <- foreach::foreach(i = 1:N, 
-#'                         .combine = rbind_pb(N)) %do% {
+#'                         .combine = comb_pb(N)) %do% {
 #'                           Sys.sleep(1)
 #'                           i
 #'                         }
 #' }
-rbind_pb <- function(iterator){
+comb_pb <- function(iterator, FUN = rbind, ...) {
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
   count <- 0
   function(...) {
     count <<- count + length(list(...)) - 1
     setTxtProgressBar(pb, count)
     flush.console()
-    rbind(...) # this can feed into .combine option of foreach
+    FUN(...) # this can feed into .combine option of foreach
   }
 }
