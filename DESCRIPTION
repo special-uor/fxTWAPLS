@@ -32,7 +32,6 @@ Imports:
     parallel
 Suggests:
     badger,
-    ggplot2,
     hexSticker,
     knitr,
     kableExtra,
