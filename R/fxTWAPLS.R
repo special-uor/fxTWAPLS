@@ -808,7 +808,7 @@ get_distance <- function(point) {
 #' @export
 #' 
 # @examples
-plot.train <- function(train_output, col) {
+plot_train <- function(train_output, col) {
   x <- train_output[["x"]]
   fitted <- train_output[["fit"]][, col]
   plotdata <- cbind.data.frame(x, fitted)
@@ -833,11 +833,11 @@ plot.train <- function(train_output, col) {
 #'     fx correction, TWAPLS, or TWAPLS with fx correction
 #' @param col choose which column of the fitted value to plot, in other words, 
 #'     how many number of components you want to use
-#'     
+#' 
 #' @export
 #' 
 # @examples
-plot.residuals <- function(train_output, col) {
+plot_residuals <- function(train_output, col) {
   x <- train_output[["x"]]
   residuals <- train_output[["fit"]][, col] - train_output[["x"]]
   plotdata <- cbind.data.frame(x, residuals)
