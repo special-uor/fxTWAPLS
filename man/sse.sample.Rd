@@ -14,7 +14,9 @@ sse.sample(
   nPLS,
   nsig,
   usefx,
-  fx
+  fx,
+  cpus = 4,
+  seed = NULL
 )
 }
 \arguments{
@@ -47,6 +49,11 @@ climates, this can be obtained from the cross-validation results.}
 \item{fx}{the frequency of the climate value for fx correction: if
 \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should
 be obtained from the \code{\link{fx}} function.}
+
+\item{cpus}{number of CPUs for simultaneous iterations to execute, check
+\code{parallel::detectCores()} for available CPUs on your machine.}
+
+\item{seed}{seed for reproducibility}
 }
 \value{
 the bootstrapped standard error for each site

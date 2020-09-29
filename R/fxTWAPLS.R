@@ -471,6 +471,9 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #' @param fx the frequency of the climate value for fx correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
+#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#'     \code{parallel::detectCores()} for available CPUs on your machine.
+#' @param seed seed for reproducibility
 #'
 #' @return the bootstrapped standard error for each site
 #' @export
@@ -485,25 +488,53 @@ sse.sample <- function(modern_taxa,
                        nPLS,
                        nsig,
                        usefx,
-                       fx) {
-  # Make NA filled list of names for each taxon 
-  predr <- rep(NA, nrow(fossil_taxa))
+                       fx,
+                       cpus = 4,
+                       seed = NULL) {
+  # Check the number of CPUs does not exceed the availability
+  avail_cpus <- parallel::detectCores() - 1
+  cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
-  # Make many sets, run WAPLS 
-  xboot <-
-    replicate(nboot, { # Do this n times...
-      k <- sample(1:nrow(modern_taxa),
-                  size = nrow(modern_taxa),
-                  replace = TRUE) # Make list of row numbers by sampling with replacement
-      modern_taxa <- modern_taxa[k, ] # Reorganise modern_taxa obs in k order
-      modern_climate <- modern_climate[k]
-      col_not0 <- which(colSums(modern_taxa) > 0)
-      modern_taxa <- modern_taxa[, col_not0] # Strip out zero-sum cols
-      
-      mod <- trainfun(modern_taxa, modern_climate) # Apply WAPLS, with modern_climate also in k order
-      pred <- as.data.frame(predictfun(mod, fossil_taxa[, col_not0]))[, nsig] # Make reconstruction
-      predr <- pred
-    })
+  # Start parallel backend
+  cl <- parallel::makeCluster(cpus)
+  doParallel::registerDoParallel(cl)
+  
+  # Load binary operator for backend
+  `%dopar%` <- foreach::`%dopar%`
+  # `%dorng%` <- doRNG::`%dorng%`
+  
+  # Set seed for reproducibility
+  set.seed(seed)
+  
+  # Make list of row numbers by sampling with 
+  # replacement
+  k_samples <- replicate(nboot, sample(1:nrow(modern_taxa),
+                                         size = nrow(modern_taxa),
+                                         replace = TRUE))
+  idx <- 1:nboot
+  xboot <- foreach::foreach(i = idx,
+                            .combine = cbind) %dopar% {
+                              # Extract list of row numbers by sampling with 
+                              # replacement
+                              k <- k_samples[, i]
+                              # k <- sample(1:nrow(modern_taxa),
+                              #             size = nrow(modern_taxa),
+                              #             replace = TRUE)
+                              
+                              # Reorganise modern_taxa obs in k order
+                              modern_taxa <- modern_taxa[k, ] 
+                              modern_climate <- modern_climate[k]
+                              col_not0 <- which(colSums(modern_taxa) > 0)
+                              # Strip out zero-sum cols
+                              modern_taxa <- modern_taxa[, col_not0]
+                              # Apply train function, with modern_climate also 
+                              # in k order
+                              mod <- trainfun(modern_taxa, modern_climate)
+                              # Make reconstruction
+                              predictfun(mod, 
+                                         fossil_taxa[, col_not0])$fit[, nsig]
+                            }
+  parallel::stopCluster(cl) # Stop cluster
   
   avg.xboot <- rowMeans(xboot, na.rm = TRUE)
   v1 <- boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
@@ -546,8 +577,6 @@ cv.w <- function(modern_taxa,
                  cpus = 4) {
   x <- modern_climate
   y <- modern_taxa
-
-  all.cv.out <- data.frame(matrix(nrow = nrow(modern_taxa), ncol = nPLS + 1))
   
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
@@ -562,7 +591,7 @@ cv.w <- function(modern_taxa,
 
   idx <- 1:length(x)
   all.cv.out <- foreach::foreach(i = idx,
-                                 .combine = rbind, #rbind_pb(max(idx)),
+                                 .combine = rbind, #comb_pb(max(idx)),
                                  .verbose = FALSE) %dopar% {
                                    fit <- trainfun(y[-i, ], x[-i], nPLS, usefx, fx[-i])
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
