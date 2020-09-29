@@ -25,6 +25,9 @@
 #'     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
 #'     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 #' }
+#' 
+#' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and 
+#'     \code{\link{sse.sample}}
 fx <- function(x, bin) {
   pbin <- round((max(x) - min(x)) / bin, digits = 0)
   bin <- (max(x) - min(x)) / pbin
@@ -86,7 +89,8 @@ fx <- function(x, bin) {
 #'                                     fx = fx_Tmin)
 #' }
 #' 
-#' @seealso \code{\link{fx}} and \code{\link{TWAPLS.w}}
+#' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, and
+#'     \code{\link{WAPLS.predict.w}}
 WAPLS.w <- function(modern_taxa, 
                     modern_climate, 
                     nPLS = 5, 
@@ -244,7 +248,8 @@ WAPLS.w <- function(modern_taxa,
 #'                                       fx = fx_Tmin)
 #' }
 #' 
-#' @seealso \code{\link{fx}} and \code{\link{WAPLS.w}}
+#' @seealso \code{\link{fx}}, \code{\link{TWAPLS.predict.w}}, and
+#'     \code{\link{WAPLS.w}}
 TWAPLS.w <- function(modern_taxa,
                      modern_climate,
                      nPLS = 5,
@@ -382,6 +387,7 @@ TWAPLS.w <- function(modern_taxa,
 #' @return a list of the reconstruction results. fit is the fitted value.
 #' @export
 #'
+#' @seealso \code{\link{WAPLS.w}}
 # @examples
 WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   y <- fossil_taxa
@@ -456,6 +462,7 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #' @return a list of the reconstruction results. fit is the fitted value.
 #' @export
 #'
+#' @seealso \code{\link{TWAPLS.w}}
 # @examples
 TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   y <- fossil_taxa
@@ -552,7 +559,66 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #' @return the bootstrapped standard error for each site
 #' @export
 #'
-# @examples
+#' @examples
+#' \dontrun{
+#'     # Load modern pollen data
+#'     modern_pollen <- read.csv(system.file("extdata", 
+#'                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
+#'                                          package = "fxTWAPLS", 
+#'                                          mustWork = TRUE))
+#'     
+#'     # Extract taxa
+#'     taxaColMin <- which(colnames(modern_pollen) == "Abies")
+#'     taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+#'     taxa <- modern_pollen[, taxaColMin:taxaColMax]
+#'     
+#'     # Get the frequency of each climate variable fx
+#'     fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+#'     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+#'     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+#'     
+#'     # Load reconstruction data
+#'     Holocene <- read.csv(system.file("extdata", "Holocene.csv", 
+#'                                      package = "fxTWAPLS", 
+#'                                      mustWork = TRUE), 
+#'                          row.names = 1)
+#'     core <- Holocene[, -c(1:3)]
+#'     # MTCO
+#'     ## fx
+#'     fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+#'     
+#'     ## SSE
+#'     ### without fx
+#'     sse_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
+#'                                  modern_climate = modern_pollen$Tmin,
+#'                                  fossil_taxa = core,
+#'                                  trainfun = fxTWAPLS::WAPLS.w,
+#'                                  predictfun = fxTWAPLS::WAPLS.predict.w,
+#'                                  nboot = 100,
+#'                                  nPLS = 5,
+#'                                  nsig = 3,
+#'                                  usefx = FALSE,
+#'                                  fx = NA,
+#'                                  cpus = 1,
+#'                                  seed = 1)
+#'     ### with fx
+#'     sse_f_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
+#'                                    modern_climate = modern_pollen$Tmin,
+#'                                    fossil_taxa = core,
+#'                                    trainfun = fxTWAPLS::WAPLS.w,
+#'                                    predictfun = fxTWAPLS::WAPLS.predict.w,
+#'                                    nboot = 100,
+#'                                    nPLS = 5,
+#'                                    nsig = 3,
+#'                                    usefx = TRUE,
+#'                                    fx = fx_Tmin,
+#'                                    cpus = 1,
+#'                                    seed = 1)
+#' }
+#' 
+#' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, 
+#'     \code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and 
+#'     \code{\link{WAPLS.predict.w}}
 sse.sample <- function(modern_taxa,
                        modern_climate,
                        fossil_taxa,
@@ -819,6 +885,9 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' @return leave-one-out cross validation results
 #' @export
 #'
+#' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, 
+#'     \code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and 
+#'     \code{\link{WAPLS.predict.w}}
 # @examples
 cv.pr.w <- function(modern_taxa,
                     modern_climate,
@@ -1024,6 +1093,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'     
 #' @export
 #' 
+#' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
 # @examples
 plot_train <- function(train_output, col) {
   x <- train_output[["x"]]
@@ -1053,6 +1123,7 @@ plot_train <- function(train_output, col) {
 #' 
 #' @export
 #' 
+#' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
 # @examples
 plot_residuals <- function(train_output, col) {
   x <- train_output[["x"]]
