@@ -2,11 +2,11 @@
 #'
 #' @param subplot image to use as the main logo
 #' @param dpi plot resolution (dots-per-inch)
-#' @param h_color color for hexagon border
-#' @param h_fill color to fill hexagon
+#' @param h_color colour for hexagon border
+#' @param h_fill colour to fill hexagon
 #' @param output output file (hexagonal logo)
 #' @param package title for logo (package name)
-#' @param p_color color for package name
+#' @param p_color colour for package name
 #' @param url URL for package repository or website
 #' @param u_size text size for URL
 #'

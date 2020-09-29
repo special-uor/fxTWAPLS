@@ -2,7 +2,7 @@
 #'     provide fx correction for WA-PLS and TWA-PLS
 #'
 #' @param x the modern climate values 
-#' @param bin binwidth to get the frequency of the modern climate values
+#' @param bin bin-width to get the frequency of the modern climate values
 #'
 #' @return the frequency of the modern climate values
 #' @export
@@ -620,7 +620,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param seed seed for reproducibility
 #' @param test_mode boolean flag to execute the function with a limited number
-#'     of iterations, \code{test_it}, for testing purpouses only.
+#'     of iterations, \code{test_it}, for testing purposes only.
 #' @param test_it number of iterations to use in the test mode
 #'
 #' @return the bootstrapped standard error for each site
@@ -778,7 +778,7 @@ sse.sample <- function(modern_taxa,
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param test_mode boolean flag to execute the function with a limited number
-#'     of iterations, \code{test_it}, for testing purpouses only.
+#'     of iterations, \code{test_it}, for testing purposes only.
 #' @param test_it number of iterations to use in the test mode
 #'
 #' @return leave-one-out cross validation results
@@ -880,11 +880,11 @@ cv.w <- function(modern_taxa,
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param test_mode boolean flag to execute the function with a limited number
-#'     of iterations, \code{test_it}, for testing purpouses only.
+#'     of iterations, \code{test_it}, for testing purposes only.
 #' @param test_it number of iterations to use in the test mode
 #'    
-#' @return distance matrix, the value at the ith row, means the distance between 
-#'     the ith sampling site and the whole sampling sites
+#' @return distance matrix, the value at the i-th row, means the distance 
+#'     between the i-th sampling site and the whole sampling sites
 #' @export
 #' 
 #' @examples
@@ -950,7 +950,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param test_mode boolean flag to execute the function with a limited number
-#'     of iterations, \code{test_it}, for testing purpouses only.
+#'     of iterations, \code{test_it}, for testing purposes only.
 #' @param test_it number of iterations to use in the test mode
 #' 
 #' @return the geographically and climatically close sites to each test site.
@@ -1016,7 +1016,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param test_mode boolean flag to execute the function with a limited number
-#'     of iterations, \code{test_it}, for testing purpouses only.
+#'     of iterations, \code{test_it}, for testing purposes only.
 #' @param test_it number of iterations to use in the test mode
 #'
 #' @return leave-one-out cross validation results
