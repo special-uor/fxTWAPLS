@@ -9,7 +9,7 @@ comb_pb(iterator, FUN = rbind, ...)
 \arguments{
 \item{iterator}{number of iterations}
 
-\item{FUN}{function to combine the results}
+\item{FUN}{function to combine the results \link{default: rbind}}
 
 \item{...}{optional parameters}
 }
