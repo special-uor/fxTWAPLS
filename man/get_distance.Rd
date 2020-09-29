@@ -4,7 +4,7 @@
 \alias{get_distance}
 \title{Get the distance between points}
 \usage{
-get_distance(point, cpus = 4)
+get_distance(point, cpus = 4, test_mode = FALSE, test_it = 5)
 }
 \arguments{
 \item{point}{each row represents a sampling site, the first column is
@@ -12,6 +12,11 @@ longitude and the second column is latitude, both in decimal format}
 
 \item{cpus}{number of CPUs for simultaneous iterations to execute, check
 \code{parallel::detectCores()} for available CPUs on your machine.}
+
+\item{test_mode}{boolean flag to execute the function with a limited number
+of iterations, \code{test_it}, for testing purpouses only.}
+
+\item{test_it}{number of iterations to use in the test mode}
 }
 \value{
 distance matrix, the value at the ith row, means the distance between

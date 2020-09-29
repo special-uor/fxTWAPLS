@@ -13,7 +13,9 @@ cv.w(
   predictfun,
   usefx = FALSE,
   fx = NA,
-  cpus = 4
+  cpus = 4,
+  test_mode = FALSE,
+  test_it = 5
 )
 }
 \arguments{
@@ -40,6 +42,11 @@ be obtained from the \code{\link{fx}} function.}
 
 \item{cpus}{number of CPUs for simultaneous iterations to execute, check
 \code{parallel::detectCores()} for available CPUs on your machine.}
+
+\item{test_mode}{boolean flag to execute the function with a limited number
+of iterations, \code{test_it}, for testing purpouses only.}
+
+\item{test_it}{number of iterations to use in the test mode}
 }
 \value{
 leave-one-out cross validation results
