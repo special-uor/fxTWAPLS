@@ -89,7 +89,7 @@ You can install the development version from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages(c("hexSticker", "remotes", "usethis"))
+install.packages("remotes")
 remotes::install_github("special-uor/fxTWAPLS")
 ```
 
