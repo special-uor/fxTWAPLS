@@ -69,6 +69,21 @@ test_that("LOOCV as in rioja works", {
   expect_equal(dim(cv_Tmin), c(test_it, 6))
 })
 
+test_that("Random t-test works", {
+  # MTCO
+  test_it <- 5 # Number of iterations for testing mode
+  cv_Tmin <- fxTWAPLS::cv.w(taxa,
+                            modern_pollen$Tmin,
+                            nPLS = 5,
+                            fxTWAPLS::WAPLS.w,
+                            fxTWAPLS::WAPLS.predict.w,
+                            cpus = 1,
+                            test_mode = TRUE,
+                            test_it = test_it)
+  expect_output(rand_Tmin <- fxTWAPLS::rand.t.test.w(cv_Tmin, n.perm = 999))
+  expect_equal(dim(cv_Tmin), c(test_it, 6))
+})
+
 test_that("Get distance between points works", {
   N <- 100 # Subset
   point <- modern_pollen[1:N, c("Long", "Lat")]
