@@ -21,6 +21,7 @@ Imports:
     doParallel,
     foreach,
     geosphere,
+    ggplot2,
     MASS,
     matrixStats,
     parallel
