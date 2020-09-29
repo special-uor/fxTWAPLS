@@ -417,8 +417,8 @@ TWAPLS.w <- function(modern_taxa,
 #'                                     usefx = TRUE, 
 #'                                     fx = fx_Tmin[-k])
 #'     predict_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_Tmin, taxa[k, ])[["fit"]]
-#'     predict_f_Tmin <- WAPLS.predict.w(fit_f_Tmin, 
-#'                                       taxa[k, ])[["fit"]]
+#'     predict_f_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_f_Tmin, 
+#'                                                 taxa[k, ])[["fit"]]
 #' }
 #' 
 #' @seealso \code{\link{WAPLS.w}}
@@ -656,31 +656,31 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'     
 #'     ## SSE
 #'     ### without fx
-#'     sse_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
-#'                                  modern_climate = modern_pollen$Tmin,
-#'                                  fossil_taxa = core,
-#'                                  trainfun = fxTWAPLS::WAPLS.w,
-#'                                  predictfun = fxTWAPLS::WAPLS.predict.w,
-#'                                  nboot = 100,
-#'                                  nPLS = 5,
-#'                                  nsig = 3,
-#'                                  usefx = FALSE,
-#'                                  fx = NA,
-#'                                  cpus = 1,
-#'                                  seed = 1)
+#'     sse_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+#'                                            modern_climate = modern_pollen$Tmin,
+#'                                            fossil_taxa = core,
+#'                                            trainfun = fxTWAPLS::WAPLS.w,
+#'                                            predictfun = fxTWAPLS::WAPLS.predict.w,
+#'                                            nboot = 100,
+#'                                            nPLS = 5,
+#'                                            nsig = 3,
+#'                                            usefx = FALSE,
+#'                                            fx = NA,
+#'                                            cpus = 1,
+#'                                            seed = 1)
 #'     ### with fx
-#'     sse_f_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
-#'                                    modern_climate = modern_pollen$Tmin,
-#'                                    fossil_taxa = core,
-#'                                    trainfun = fxTWAPLS::WAPLS.w,
-#'                                    predictfun = fxTWAPLS::WAPLS.predict.w,
-#'                                    nboot = 100,
-#'                                    nPLS = 5,
-#'                                    nsig = 3,
-#'                                    usefx = TRUE,
-#'                                    fx = fx_Tmin,
-#'                                    cpus = 1,
-#'                                    seed = 1)
+#'     sse_f_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+#'                                              modern_climate = modern_pollen$Tmin,
+#'                                              fossil_taxa = core,
+#'                                              trainfun = fxTWAPLS::WAPLS.w,
+#'                                              predictfun = fxTWAPLS::WAPLS.predict.w,
+#'                                              nboot = 100,
+#'                                              nPLS = 5,
+#'                                              nsig = 3,
+#'                                              usefx = TRUE,
+#'                                              fx = fx_Tmin,
+#'                                              cpus = 1,
+#'                                              seed = 1)
 #' }
 #' 
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, 
@@ -895,7 +895,7 @@ cv.w <- function(modern_taxa,
 #'                                           package = "fxTWAPLS", 
 #'                                           mustWork = TRUE))
 #'     point <- modern_pollen[, c("Long", "Lat")]
-#'     dist <- get_distance(point, cpus = 1)
+#'     dist <- fxTWAPLS::get_distance(point, cpus = 1)
 #' }
 #' 
 #' @seealso \code{\link{get_pseudo}}
@@ -964,7 +964,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'                                           package = "fxTWAPLS", 
 #'                                           mustWork = TRUE))
 #'     point <- modern_pollen[, c("Long", "Lat")]
-#'     dist <- get_distance(point, cpus = 1)
+#'     dist <- fxTWAPLS::get_distance(point, cpus = 1)
 #'     pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
 #'                                         modern_pollen$Tmin, 
 #'                                         cpus = 1)
@@ -1241,10 +1241,10 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #'                                       nPLS = 5, 
 #'                                       usefx = TRUE, 
 #'                                       fx = fx_Tmin)
-#'     plot_train(fit_Tmin, 1)
-#'     plot_train(fit_f_Tmin, 1)
-#'     plot_train(fit_t_Tmin, 1)
-#'     plot_train(fit_tf_Tmin, 1)
+#'     fxTWAPLS::plot_train(fit_Tmin, 1)
+#'     fxTWAPLS::plot_train(fit_f_Tmin, 1)
+#'     fxTWAPLS::plot_train(fit_t_Tmin, 1)
+#'     fxTWAPLS::plot_train(fit_tf_Tmin, 1)
 #' }
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
 plot_train <- function(train_output, col) {
@@ -1313,10 +1313,10 @@ plot_train <- function(train_output, col) {
 #'                                       nPLS = 5, 
 #'                                       usefx = TRUE, 
 #'                                       fx = fx_Tmin)
-#'     plot_residuals(fit_Tmin, 1)
-#'     plot_residuals(fit_f_Tmin, 1)
-#'     plot_residuals(fit_t_Tmin, 1)
-#'     plot_residuals(fit_tf_Tmin, 1)
+#'     fxTWAPLS::plot_residuals(fit_Tmin, 1)
+#'     fxTWAPLS::plot_residuals(fit_f_Tmin, 1)
+#'     fxTWAPLS::plot_residuals(fit_t_Tmin, 1)
+#'     fxTWAPLS::plot_residuals(fit_tf_Tmin, 1)
 #' }
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
 plot_residuals <- function(train_output, col) {
