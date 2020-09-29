@@ -50,12 +50,16 @@ test_that("TWPALS training function works", {
 
 test_that("LOOCV as in rioja works", {
   # MTCO
-  # cv_Tmin <- fxTWAPLS::cv.w(taxa[1:500, ],
-  #                           modern_pollen$Tmin[1:500],
-  #                           nPLS = 5,
-  #                           fxTWAPLS::WAPLS.w,
-  #                           fxTWAPLS::WAPLS.predict.w,
-  #                           cpus = 4)
+  test_it <- 5 # Number of iterations for testing mode
+  cv_Tmin <- fxTWAPLS::cv.w(taxa,
+                            modern_pollen$Tmin,
+                            nPLS = 5,
+                            fxTWAPLS::WAPLS.w,
+                            fxTWAPLS::WAPLS.predict.w,
+                            cpus = 1,
+                            test_mode = TRUE,
+                            test_it = test_it)
+  expect_equal(dim(cv_Tmin), c(test_it, 6))
 })
 
 test_that("Get distance between points works", {
@@ -65,10 +69,33 @@ test_that("Get distance between points works", {
   expect_equal(dim(dist), c(N, N))
 })
 
-test_that("Get pseudo works", {
+test_that("Pseudo removed works", {
   N <- 100 # Subset
   point <- modern_pollen[1:N, c("Long", "Lat")]
   dist <- get_distance(point, cpus = 1)
-  pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, modern_pollen$Tmin[1:100], cpus = 1)
+  pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, modern_pollen$Tmin[1:N], cpus = 1)
   expect_equal(length(pseudo_Tmin), N)
+})
+
+test_that("Pseudo removed LOOCV works", {
+  test_it <- 5 # Number of iterations for testing mode
+  point <- modern_pollen[, c("Long", "Lat")]
+  dist <- get_distance(point, 
+                       cpus = 1, 
+                       test_mode = TRUE,
+                       test_it = test_it)
+  pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, modern_pollen$Tmin, 
+                                      cpus = 1, 
+                                      test_mode = TRUE,
+                                      test_it = test_it)
+  cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
+                                  modern_pollen$Tmin,
+                                  nPLS = 5,
+                                  fxTWAPLS::WAPLS.w,
+                                  fxTWAPLS::WAPLS.predict.w,
+                                  pseudo_Tmin,
+                                  cpus = 1,
+                                  test_mode = TRUE,
+                                  test_it = test_it)
+  expect_equal(dim(cv_pr_Tmin), c(test_it, 6))
 })
