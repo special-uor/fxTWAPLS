@@ -122,7 +122,9 @@
   <span class='va'>nPLS</span>,
   <span class='va'>nsig</span>,
   <span class='va'>usefx</span>,
-  <span class='va'>fx</span>
+  <span class='va'>fx</span>,
+  cpus <span class='op'>=</span> <span class='fl'>4</span>,
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -177,6 +179,15 @@ climates, this can be obtained from the cross-validation results.</p></td>
       <td><p>the frequency of the climate value for fx correction: if
 <code>usefx</code> is FALSE, this should be <code>NA</code>; otherwise, this should
 be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
+    </tr>
+    <tr>
+      <th>cpus</th>
+      <td><p>number of CPUs for simultaneous iterations to execute, check
+<code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> for available CPUs on your machine.</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>seed for reproducibility</p></td>
     </tr>
     </table>
 
