@@ -95,4 +95,10 @@ rioja (\url{https://cran.r-project.org/package=rioja})
                                 fx = fx_Tmin,
                                 cpus = CPUS)  
 }
+
+}
+\seealso{
+\code{\link{fx}}, \code{\link{TWAPLS.w}},
+\code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and
+\code{\link{WAPLS.predict.w}}
 }
