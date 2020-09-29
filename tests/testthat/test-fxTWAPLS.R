@@ -9,6 +9,13 @@ taxaColMin <- which(colnames(modern_pollen) == "Abies")
 taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
 taxa <- modern_pollen[, taxaColMin:taxaColMax]
 
+# Load reconstruction data
+Holocene <- read.csv(system.file("extdata", "Holocene.csv", 
+                                         package = "fxTWAPLS", 
+                                         mustWork = TRUE), 
+                     row.names = 1)
+core <- Holocene[, -c(1:3)]
+
 # Get the frequency of each climate variable fx
 fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
 fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
@@ -88,6 +95,7 @@ test_that("Pseudo removed LOOCV works", {
                                       cpus = 1, 
                                       test_mode = TRUE,
                                       test_it = test_it)
+  # Test TWAPLS
   cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
                                   modern_pollen$Tmin,
                                   nPLS = 5,
@@ -97,5 +105,36 @@ test_that("Pseudo removed LOOCV works", {
                                   cpus = 1,
                                   test_mode = TRUE,
                                   test_it = test_it)
+  # Test WAPLS
+  cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
+                                    modern_pollen$Tmin,
+                                    nPLS = 5,
+                                    fxTWAPLS::TWAPLS.w,
+                                    fxTWAPLS::TWAPLS.predict.w,
+                                    pseudo_Tmin,
+                                    cpus = 1, 
+                                    test_mode = TRUE,
+                                    test_it = test_it)
   expect_equal(dim(cv_pr_Tmin), c(test_it, 6))
+  expect_equal(dim(cv_pr_t_Tmin), c(test_it, 6))
+})
+
+test_that("SSE sample works", {
+  test_it <- 5 # Number of iterations for testing mode
+  # MTCO
+  sse_Tmin_WAPLS <- sse.sample(modern_taxa = taxa,
+                               modern_climate = modern_pollen$Tmin,
+                               fossil_taxa = core,
+                               trainfun = fxTWAPLS::WAPLS.w,
+                               predictfun = fxTWAPLS::WAPLS.predict.w,
+                               nboot = 100,
+                               nPLS = 5,
+                               nsig = 3,
+                               usefx = FALSE,
+                               fx = NA,
+                               cpus = 1,
+                               seed = 1,
+                               test_mode = TRUE,
+                               test_it = test_it)
+      
 })
