@@ -64,3 +64,11 @@ test_that("Get distance between points works", {
   expect_output(dist <- get_distance(point, cpus = 1))
   expect_equal(dim(dist), c(N, N))
 })
+
+test_that("Get pseudo works", {
+  N <- 100 # Subset
+  point <- modern_pollen[1:N, c("Long", "Lat")]
+  dist <- get_distance(point, cpus = 1)
+  pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, modern_pollen$Tmin[1:100], cpus = 1)
+  expect_equal(length(pseudo_Tmin), N)
+})
