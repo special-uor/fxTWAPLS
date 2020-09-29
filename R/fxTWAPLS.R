@@ -569,29 +569,7 @@ cv.w <- function(modern_taxa,
                                    data.frame(x[i], xnew)
                                  }
   parallel::stopCluster(cl) # Stop cluster
-  
-  # idx <- 1:length(x)
-  # progressr::with_progress({
-  #   p <- progressr::progressor(along = idx)
-  #   for (i in idx) {
-  #     if (i %% 100 == 0) {
-  #       print(i)
-  #     } #show progress of the calculation
-  #     fit <- trainfun(y[-i, ], x[-i], nPLS, usefx, fx[-i])
-  #     xnew <- predictfun(fit, y[i, ])[["fit"]]
-  #     all.cv.out[i, ] <- data.frame(x[i], xnew)
-  #   }
-  # })
-  # assign column names to all.cv.out
   colnames(all.cv.out) <- c("test.x", paste0("comp", 1:nPLS))
-  # for(k in 1:ncol(all.cv.out)) {
-  #   if (k == 1) {
-  #     colnames(all.cv.out)[k] <- "test.x"
-  #   } else{
-  #     colnames(all.cv.out)[k] <- paste("comp", k - 1, sep = "")
-  #   }
-  # } #assign column names to all.cv.out
-  
   return(all.cv.out)
 }
 
@@ -626,16 +604,6 @@ get_pseudo <- function(dist, x, cpus = 4) {
     which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
   }
   parallel::stopCluster(cl) # Stop cluster
-  
-  
-  # pseudo <- as.list(matrix(nrow = nrow(dist)))
-  # for (i in 1:10) {
-  #   if (i %% 100 == 0) {
-  #     print(i)
-  #   }
-  #   pseudo[[i]] <-
-  #     which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
-  # }
   return(pseudo)
 }
 
@@ -699,26 +667,6 @@ cv.pr.w <- function(modern_taxa,
   
   # assign column names to all.cv.out
   colnames(all.cv.out) <- c("test.x", paste0("comp", 1:nPLS))
-  
-  ### Serial version
-  # all.cv.out <- data.frame(matrix(nrow = nrow(modern_taxa), ncol = nPLS + 1))
-  # for (i in 1:length(x)) {
-  #   if (i %% 100 == 0) {
-  #     print(i)
-  #   } #show progress of the calculation
-  #   leave <- unlist(pseudo[i])
-  #   fit <- trainfun(y[-leave, ], x[-leave], nPLS, usefx, fx[-leave])
-  #   xnew <- predictfun(fit, y[i, ])[["fit"]]
-  #   all.cv.out[i, ] <- data.frame(x[i], xnew)
-  # }
-  
-  # for(k in 1:ncol(all.cv.out)) {
-  #   if (k == 1) {
-  #     colnames(all.cv.out)[k] <- "test.x"
-  #   } else{
-  #     colnames(all.cv.out)[k] <- paste("comp", k - 1, sep = "")
-  #   }
-  # } #assign column names to all.cv.out
   
   return(all.cv.out)
 }
