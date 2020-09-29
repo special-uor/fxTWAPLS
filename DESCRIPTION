@@ -1,5 +1,5 @@
 Package: fxTWAPLS
-Title: Improved version of WAPLS
+Title: An Improved Version of WAPLS
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Mengmeng",
