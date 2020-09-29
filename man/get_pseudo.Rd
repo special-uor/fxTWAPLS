@@ -26,3 +26,20 @@ sites removed from the training set.
 Get the ones which are both geographically and climatically close, and could
 therefore results in pseudo-replication.
 }
+\examples{
+\dontrun{
+    # Load modern pollen data
+    modern_pollen <- read.csv(system.file("extdata", 
+                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                          package = "fxTWAPLS", 
+                                          mustWork = TRUE))
+    point <- modern_pollen[, c("Long", "Lat")]
+    dist <- get_distance(point, cpus = 1)
+    pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
+                                        modern_pollen$Tmin, 
+                                        cpus = 1)
+}
+}
+\seealso{
+\code{\link{get_distance}}
+}
