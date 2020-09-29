@@ -12,16 +12,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-## fxTWAPLS: An Improved Version of WAPLS 
+## fxTWAPLS: An Improved Version of WAPLS <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/>
 <!-- <img src="inst/images/logo.png" alt="logo" align="right" height=200px/> -->
-<!-- <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 
 <!-- badges: start -->
-<!-- `r badger::badge_code_size("special-uor/fxTWAPLS")` -->
-<!-- [![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions) -->
-`r badger::badge_devel("special-uor/fxTWAPLS", "blue")`
+`r badger::badge_code_size("special-uor/fxTWAPLS")`
+`r badger::badge_devel("special-uor/fxTWAPLS", "yellow")`
 `r badger::badge_codecov("special-uor/fxTWAPLS", "Q6SYL7AOGR")`
-[![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions)
+`r badger::badge_github_actions("special-uor/fxTWAPLS")`
+<!-- [![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions) -->
 <!-- badges: end -->
 
 ## Overview
