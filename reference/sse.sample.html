@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Sample Specific Errors — sse.sample • fxTWAPLS</title>
+<title>Function to calculate Sample Specific Errors — sse.sample • fxTWAPLS</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate Sample Specific Errors — sse.sample" />
-<meta property="og:description" content="Calculate Sample Specific Errors" />
+<meta property="og:title" content="Function to calculate Sample Specific Errors — sse.sample" />
+<meta property="og:description" content="Function to calculate Sample Specific Errors" />
 
 
 
@@ -87,6 +87,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -103,13 +106,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Sample Specific Errors</h1>
+    <h1>Function to calculate Sample Specific Errors</h1>
     
     <div class="hidden name"><code>sse.sample.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate Sample Specific Errors</p>
+    <p>Function to calculate Sample Specific Errors</p>
     </div>
 
     <pre class="usage"><span class='fu'>sse.sample</span><span class='op'>(</span>
@@ -241,31 +244,31 @@ of iterations, <code>test_it</code>, for testing purpouses only.</p></td>
     
     <span class='co'>## SSE</span>
     <span class='co'>### without fx</span>
-    <span class='va'>sse_Tmin_WAPLS</span> <span class='op'>&lt;-</span> <span class='fu'>sse.sample</span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>,
-                                 modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
-                                 fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
-                                 trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                                 predictfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
-                                 nboot <span class='op'>=</span> <span class='fl'>100</span>,
-                                 nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                                 nsig <span class='op'>=</span> <span class='fl'>3</span>,
-                                 usefx <span class='op'>=</span> <span class='cn'>FALSE</span>,
-                                 fx <span class='op'>=</span> <span class='cn'>NA</span>,
-                                 cpus <span class='op'>=</span> <span class='fl'>1</span>,
-                                 seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <span class='va'>sse_Tmin_WAPLS</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>sse.sample</span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>,
+                                           modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                           fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
+                                           trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                                           predictfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                                           nboot <span class='op'>=</span> <span class='fl'>100</span>,
+                                           nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                           nsig <span class='op'>=</span> <span class='fl'>3</span>,
+                                           usefx <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                                           fx <span class='op'>=</span> <span class='cn'>NA</span>,
+                                           cpus <span class='op'>=</span> <span class='fl'>1</span>,
+                                           seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
     <span class='co'>### with fx</span>
-    <span class='va'>sse_f_Tmin_WAPLS</span> <span class='op'>&lt;-</span> <span class='fu'>sse.sample</span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>,
-                                   modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
-                                   fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
-                                   trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                                   predictfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
-                                   nboot <span class='op'>=</span> <span class='fl'>100</span>,
-                                   nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                                   nsig <span class='op'>=</span> <span class='fl'>3</span>,
-                                   usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                                   fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
-                                   cpus <span class='op'>=</span> <span class='fl'>1</span>,
-                                   seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <span class='va'>sse_f_Tmin_WAPLS</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>sse.sample</span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>,
+                                             modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                             fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
+                                             trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                                             predictfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                                             nboot <span class='op'>=</span> <span class='fl'>100</span>,
+                                             nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                             nsig <span class='op'>=</span> <span class='fl'>3</span>,
+                                             usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                                             fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
+                                             cpus <span class='op'>=</span> <span class='fl'>1</span>,
+                                             seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>

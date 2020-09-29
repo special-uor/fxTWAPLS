@@ -86,6 +86,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -130,25 +133,25 @@
         <td>
           <p><code><a href="TWAPLS.predict.w.html">TWAPLS.predict.w()</a></code> </p>
         </td>
-        <td><p>TWAPLS predict function</p></td>
+        <td><p>TWA-PLS predict function</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="TWAPLS.w.html">TWAPLS.w()</a></code> </p>
         </td>
-        <td><p>TWALPS training function, which can choose to perform fx correction</p></td>
+        <td><p>TWA-LPS training function, which can perform <code>fx</code> correction</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="WAPLS.predict.w.html">WAPLS.predict.w()</a></code> </p>
         </td>
-        <td><p>WAPLS predict function</p></td>
+        <td><p>WA-PLS predict function</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="WAPLS.w.html">WAPLS.w()</a></code> </p>
         </td>
-        <td><p>WALPS training function, which can choose to perform fx correction</p></td>
+        <td><p>WA-LPS training function, which can perform <code>fx</code> correction</p></td>
       </tr><tr>
         
         <td>
@@ -160,36 +163,37 @@
         <td>
           <p><code><a href="cv.pr.w.html">cv.pr.w()</a></code> </p>
         </td>
-        <td><p>Pseudo removed leave out cross validation</p></td>
+        <td><p>Pseudo-removed leave-out cross-validation</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="cv.w.html">cv.w()</a></code> </p>
         </td>
-        <td><p>Leave one out cross validation as
+        <td><p>Leave-one-out cross-validation as
 rioja (<a href='https://cran.r-project.org/package=rioja'>https://cran.r-project.org/package=rioja</a>)</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="fx.html">fx()</a></code> </p>
         </td>
-        <td><p>Funtion to get the frequency of the climate value, which will be used to
+        <td><p>Function to get the frequency of the climate value, which will be used to
 provide fx correction for WA-PLS and TWA-PLS</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="get_distance.html">get_distance()</a></code> </p>
         </td>
-        <td><p>Get the distance between points</p></td>
+        <td><p>Get the distance between points, the output will be used in
+<code>get_pseudo</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="get_pseudo.html">get_pseudo()</a></code> </p>
         </td>
-        <td><p>Leave out cross validation with pseudo (geographically and climatically close)
-sites removed from the training set.
-Get the ones which are both geographically and climatically close, and could
-therefore results in pseudo-replication.</p></td>
+        <td><p>Get the sites which are both geographically and climatically close to the
+test site, which could result in pseudo-replication and inflate the
+cross-validation statistics. The output will be used in
+<code>cv.pr.w</code></p></td>
       </tr><tr>
         
         <td>
@@ -207,25 +211,29 @@ therefore results in pseudo-replication.</p></td>
         <td>
           <p><code><a href="plot_residuals.html">plot_residuals()</a></code> </p>
         </td>
-        <td><p>Plot the residuals of the training results</p></td>
+        <td><p>Plot the residuals, the black line is 0 line, the red line is the locally
+estimated scatterplot smoothing, which shows the degree of local
+compression</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="plot_train.html">plot_train()</a></code> </p>
         </td>
-        <td><p>Plot the training results</p></td>
+        <td><p>Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and <code>x</code>, which shows the degree
+of overall compression</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="rand.t.test.w.html">rand.t.test.w()</a></code> </p>
         </td>
-        <td><p>Random t-test</p></td>
+        <td><p>Do a random t-test to the cross-validation results</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="sse.sample.html">sse.sample()</a></code> </p>
         </td>
-        <td><p>Calculate Sample Specific Errors</p></td>
+        <td><p>Function to calculate Sample Specific Errors</p></td>
       </tr>
     </tbody>
     </table>

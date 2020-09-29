@@ -6,7 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot the training results — plot_train • fxTWAPLS</title>
+<title>Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and x, which shows the degree
+of overall compression — plot_train • fxTWAPLS</title>
 
 
 <!-- jquery -->
@@ -39,8 +41,12 @@
 
 
 
-<meta property="og:title" content="Plot the training results — plot_train" />
-<meta property="og:description" content="Plot the training results" />
+<meta property="og:title" content="Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and x, which shows the degree
+of overall compression — plot_train" />
+<meta property="og:description" content="Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and x, which shows the degree
+of overall compression" />
 
 
 
@@ -87,6 +93,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -103,13 +112,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot the training results</h1>
+    <h1>Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and <code>x</code>, which shows the degree
+of overall compression</h1>
     
     <div class="hidden name"><code>plot_train.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot the training results</p>
+    <p>Plot the training results, the black line is the 1:1 line, the red line is
+the linear regression line to fitted and <code>x</code>, which shows the degree
+of overall compression</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>train_output</span>, <span class='va'>col</span><span class='op'>)</span></pre>
@@ -169,10 +182,10 @@ how many number of components you want to use</p></td>
                                       nPLS <span class='op'>=</span> <span class='fl'>5</span>, 
                                       usefx <span class='op'>=</span> <span class='cn'>TRUE</span>, 
                                       fx <span class='op'>=</span> <span class='va'>fx_Tmin</span><span class='op'>)</span>
-    <span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
-    <span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_f_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
-    <span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_t_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
-    <span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_tf_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
+    <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
+    <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_f_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
+    <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_t_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
+    <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_tf_Tmin</span>, <span class='fl'>1</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
