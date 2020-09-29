@@ -300,7 +300,6 @@ dist <- fxTWAPLS::get_distance(point, cpus = CPUS)
 write.csv(dist, "distance.csv")
 
 # Get the geographically and climatically close sites
-# dist <- read.csv("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training fitness/Geographically and climatically close sites removed/distance.csv", row.names=1)
 dist <- read.csv("distance.csv", row.names = 1)
 tictoc::tic("Pseudo")
 tictoc::tic("Tmin")
