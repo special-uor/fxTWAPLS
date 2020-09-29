@@ -121,7 +121,9 @@
   <span class='va'>pseudo</span>,
   usefx <span class='op'>=</span> <span class='cn'>FALSE</span>,
   fx <span class='op'>=</span> <span class='cn'>NA</span>,
-  cpus <span class='op'>=</span> <span class='fl'>4</span>
+  cpus <span class='op'>=</span> <span class='fl'>4</span>,
+  test_mode <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  test_it <span class='op'>=</span> <span class='fl'>5</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -171,6 +173,15 @@ be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
       <th>cpus</th>
       <td><p>number of CPUs for simultaneous iterations to execute, check
 <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> for available CPUs on your machine.</p></td>
+    </tr>
+    <tr>
+      <th>test_mode</th>
+      <td><p>boolean flag to execute the function with a limited number
+of iterations, <code>test_it</code>, for testing purpouses only.</p></td>
+    </tr>
+    <tr>
+      <th>test_it</th>
+      <td><p>number of iterations to use in the test mode</p></td>
     </tr>
     </table>
 

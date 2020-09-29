@@ -124,7 +124,9 @@
   <span class='va'>usefx</span>,
   <span class='va'>fx</span>,
   cpus <span class='op'>=</span> <span class='fl'>4</span>,
-  seed <span class='op'>=</span> <span class='cn'>NULL</span>
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>,
+  test_mode <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  test_it <span class='op'>=</span> <span class='fl'>5</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -188,6 +190,15 @@ be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
     <tr>
       <th>seed</th>
       <td><p>seed for reproducibility</p></td>
+    </tr>
+    <tr>
+      <th>test_mode</th>
+      <td><p>boolean flag to execute the function with a limited number
+of iterations, <code>test_it</code>, for testing purpouses only.</p></td>
+    </tr>
+    <tr>
+      <th>test_it</th>
+      <td><p>number of iterations to use in the test mode</p></td>
     </tr>
     </table>
 
