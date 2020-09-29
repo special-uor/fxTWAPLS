@@ -57,3 +57,10 @@ test_that("LOOCV as in rioja works", {
   #                           fxTWAPLS::WAPLS.predict.w,
   #                           cpus = 4)
 })
+
+test_that("Get distance between points works", {
+  N <- 100 # Subset
+  point <- modern_pollen[1:N, c("Long", "Lat")]
+  expect_output(dist <- get_distance(point, cpus = 1))
+  expect_equal(dim(dist), c(N, N))
+})
