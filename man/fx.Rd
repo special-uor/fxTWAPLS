@@ -10,7 +10,7 @@ fx(x, bin)
 \arguments{
 \item{x}{the modern climate values}
 
-\item{bin}{binwidth to get the frequency of the modern climate values}
+\item{bin}{bin-width to get the frequency of the modern climate values}
 }
 \value{
 the frequency of the modern climate values

@@ -44,7 +44,7 @@ be obtained from the \code{\link{fx}} function.}
 \code{parallel::detectCores()} for available CPUs on your machine.}
 
 \item{test_mode}{boolean flag to execute the function with a limited number
-of iterations, \code{test_it}, for testing purpouses only.}
+of iterations, \code{test_it}, for testing purposes only.}
 
 \item{test_it}{number of iterations to use in the test mode}
 }

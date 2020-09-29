@@ -21,15 +21,15 @@ hex_logo(
 
 \item{dpi}{plot resolution (dots-per-inch)}
 
-\item{h_color}{color for hexagon border}
+\item{h_color}{colour for hexagon border}
 
-\item{h_fill}{color to fill hexagon}
+\item{h_fill}{colour to fill hexagon}
 
 \item{output}{output file (hexagonal logo)}
 
 \item{package}{title for logo (package name)}
 
-\item{p_color}{color for package name}
+\item{p_color}{colour for package name}
 
 \item{url}{URL for package repository or website}
 

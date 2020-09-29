@@ -15,13 +15,13 @@ longitude and the second column is latitude, both in decimal format}
 \code{parallel::detectCores()} for available CPUs on your machine.}
 
 \item{test_mode}{boolean flag to execute the function with a limited number
-of iterations, \code{test_it}, for testing purpouses only.}
+of iterations, \code{test_it}, for testing purposes only.}
 
 \item{test_it}{number of iterations to use in the test mode}
 }
 \value{
-distance matrix, the value at the ith row, means the distance between
-the ith sampling site and the whole sampling sites
+distance matrix, the value at the i-th row, means the distance
+between the i-th sampling site and the whole sampling sites
 }
 \description{
 Get the distance between points, the output will be used in
