@@ -86,7 +86,7 @@ fx <- function(x, bin) {
 #'                                 fx = fx_Tmin)
 #' }
 #' 
-#' @seealso \code{\link{fx}} and \code{\link{TWAPLS.W}}
+#' @seealso \code{\link{fx}} and \code{\link{TWAPLS.w}}
 WAPLS.w <- function(modern_taxa, 
                     modern_climate, 
                     nPLS = 5, 
@@ -244,7 +244,7 @@ WAPLS.w <- function(modern_taxa,
 #'                                   fx = fx_Tmin)
 #' }
 #' 
-#' @seealso \code{\link{fx}} and \code{\link{WAPLS.W}}
+#' @seealso \code{\link{fx}} and \code{\link{WAPLS.w}}
 TWAPLS.w <- function(modern_taxa,
                      modern_climate,
                      nPLS = 5,
@@ -613,7 +613,7 @@ sse.sample <- function(modern_taxa,
 }
 
 #' Leave one out cross validation as 
-#' rioja (https://cran.r-project.org/package=rioja)
+#' rioja (\url{https://cran.r-project.org/package=rioja})
 #' 
 #' @importFrom foreach `%dopar%`
 #' 

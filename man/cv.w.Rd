@@ -3,7 +3,7 @@
 \name{cv.w}
 \alias{cv.w}
 \title{Leave one out cross validation as
-rioja (https://cran.r-project.org/package=rioja)}
+rioja (\url{https://cran.r-project.org/package=rioja})}
 \usage{
 cv.w(
   modern_taxa,
@@ -46,5 +46,5 @@ leave-one-out cross validation results
 }
 \description{
 Leave one out cross validation as
-rioja (https://cran.r-project.org/package=rioja)
+rioja (\url{https://cran.r-project.org/package=rioja})
 }

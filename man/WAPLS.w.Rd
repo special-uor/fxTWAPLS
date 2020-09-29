@@ -56,5 +56,5 @@ fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa,
 
 }
 \seealso{
-\code{\link{fx}} and \code{\link{TWAPLS.W}}
+\code{\link{fx}} and \code{\link{TWAPLS.w}}
 }

@@ -86,7 +86,7 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' @importFrom utils txtProgressBar
 #' 
 #' @param iterator number of iterations
-#' @param FUN function to combine the results [default: rbind]
+#' @param FUN function to combine the results (default: rbind)
 #' @param ... optional parameters
 #'
 #' @export
