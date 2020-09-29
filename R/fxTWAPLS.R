@@ -1137,8 +1137,47 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'     
 #' @export
 #' 
+#' @return plotting status
+#' 
+#' @examples
+#' \dontrun{
+#'     # Load modern pollen data
+#'     modern_pollen <- read.csv(system.file("extdata", 
+#'                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
+#'                                          package = "fxTWAPLS", 
+#'                                          mustWork = TRUE))
+#'     
+#'     # Extract taxa
+#'     taxaColMin <- which(colnames(modern_pollen) == "Abies")
+#'     taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+#'     taxa <- modern_pollen[, taxaColMin:taxaColMax]
+#'     
+#'     # Get the frequency of each climate variable fx
+#'     fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+#'     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+#'     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+#' 
+#'     # MTCO
+#'     ## WAPLS
+#'     fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+#'     fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
+#'                                     modern_pollen$Tmin, 
+#'                                     nPLS = 5, 
+#'                                     usefx = TRUE, 
+#'                                     fx = fx_Tmin)
+#'     ## TWAPLS
+#'     fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+#'     fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
+#'                                       modern_pollen$Tmin, 
+#'                                       nPLS = 5, 
+#'                                       usefx = TRUE, 
+#'                                       fx = fx_Tmin)
+#'     plot_train(fit_Tmin, 1)
+#'     plot_train(fit_f_Tmin, 1)
+#'     plot_train(fit_t_Tmin, 1)
+#'     plot_train(fit_tf_Tmin, 1)
+#' }
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
-# @examples
 plot_train <- function(train_output, col) {
   x <- train_output[["x"]]
   fitted <- train_output[["fit"]][, col]
@@ -1149,13 +1188,14 @@ plot_train <- function(train_output, col) {
 
   # plot the fitted curve, the black line is the 1:1 line, the red line is the 
   # linear regression line to fitted and x, which shows the overall compression
-  ggplot2::ggplot(plotdata, aes(x, fitted)) + 
+  ggplot2::ggplot(plotdata, ggplot2::aes(x, fitted)) + 
     ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
     ggplot2::geom_abline(slope = 1, intercept = 0) + 
     ggplot2::xlim(min, max) + ggplot2::ylim(min, max) +
     ggplot2::geom_smooth(method = 'lm',
                          formula = y ~ x,
                          color = 'red')
+  return(TRUE)
 }
 
 #' Plot the residuals of the training results
@@ -1167,8 +1207,47 @@ plot_train <- function(train_output, col) {
 #' 
 #' @export
 #' 
+#' @return plotting status
+#' 
+#' @examples
+#' \dontrun{
+#'     # Load modern pollen data
+#'     modern_pollen <- read.csv(system.file("extdata", 
+#'                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
+#'                                          package = "fxTWAPLS", 
+#'                                          mustWork = TRUE))
+#'     
+#'     # Extract taxa
+#'     taxaColMin <- which(colnames(modern_pollen) == "Abies")
+#'     taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+#'     taxa <- modern_pollen[, taxaColMin:taxaColMax]
+#'     
+#'     # Get the frequency of each climate variable fx
+#'     fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+#'     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+#'     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+#' 
+#'     # MTCO
+#'     ## WAPLS
+#'     fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+#'     fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
+#'                                     modern_pollen$Tmin, 
+#'                                     nPLS = 5, 
+#'                                     usefx = TRUE, 
+#'                                     fx = fx_Tmin)
+#'     ## TWAPLS
+#'     fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+#'     fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
+#'                                       modern_pollen$Tmin, 
+#'                                       nPLS = 5, 
+#'                                       usefx = TRUE, 
+#'                                       fx = fx_Tmin)
+#'     plot_residuals(fit_Tmin, 1)
+#'     plot_residuals(fit_f_Tmin, 1)
+#'     plot_residuals(fit_t_Tmin, 1)
+#'     plot_residuals(fit_tf_Tmin, 1)
+#' }
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
-# @examples
 plot_residuals <- function(train_output, col) {
   x <- train_output[["x"]]
   residuals <- train_output[["fit"]][, col] - train_output[["x"]]
@@ -1178,11 +1257,12 @@ plot_residuals <- function(train_output, col) {
 
   # plot the residuals, the black line is 0 line, the red line is the locally 
   # estimated scatterplot smoothing, which shows the degree of local compression
-  ggplot2::ggplot(plotdata, aes(x, residuals)) + 
+  ggplot2::ggplot(plotdata, ggplot2::aes(x, residuals)) + 
     ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
     ggplot2::geom_abline(slope = 0, intercept = 0) + 
     ggplot2::xlim(min(x), max(x)) + ggplot2::ylim(-maxr, maxr) +
     ggplot2::geom_smooth(method = 'loess',
                          color = 'red',
                          se = FALSE)
+  return(TRUE)
 }
