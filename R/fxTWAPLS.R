@@ -545,6 +545,9 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param seed seed for reproducibility
+#' @param test_mode boolean flag to execute the function with a limited number
+#'     of iterations, \code{test_it}, for testing purpouses only.
+#' @param test_it number of iterations to use in the test mode
 #'
 #' @return the bootstrapped standard error for each site
 #' @export
@@ -561,7 +564,9 @@ sse.sample <- function(modern_taxa,
                        usefx,
                        fx,
                        cpus = 4,
-                       seed = NULL) {
+                       seed = NULL,
+                       test_mode = FALSE,
+                       test_it = 5) {
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
@@ -582,7 +587,13 @@ sse.sample <- function(modern_taxa,
   k_samples <- replicate(nboot, sample(1:nrow(modern_taxa),
                                          size = nrow(modern_taxa),
                                          replace = TRUE))
+  
+  # Create list of indices to loop through
   idx <- 1:nboot
+  # Reduce the list of indices, if test_mode = TRUE
+  if (test_mode) {
+    idx <- 1:test_it
+  }
   xboot <- foreach::foreach(i = idx,
                             .combine = cbind) %dopar% {
                               # Extract list of row numbers by sampling with 
@@ -633,6 +644,9 @@ sse.sample <- function(modern_taxa,
 #'     be obtained from the \code{\link{fx}} function.
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
+#' @param test_mode boolean flag to execute the function with a limited number
+#'     of iterations, \code{test_it}, for testing purpouses only.
+#' @param test_it number of iterations to use in the test mode
 #'
 #' @return leave-one-out cross validation results
 #' @export
@@ -645,7 +659,9 @@ cv.w <- function(modern_taxa,
                  predictfun,
                  usefx = FALSE,
                  fx = NA,
-                 cpus = 4) {
+                 cpus = 4,
+                 test_mode = FALSE,
+                 test_it = 5) {
   x <- modern_climate
   y <- modern_taxa
   
@@ -659,8 +675,13 @@ cv.w <- function(modern_taxa,
 
   # Load binary operator for backend
   `%dopar%` <- foreach::`%dopar%`
-
+  
+  # Create list of indices to loop through
   idx <- 1:length(x)
+  # Reduce the list of indices, if test_mode = TRUE
+  if (test_mode) {
+    idx <- 1:test_it
+  }
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind, #comb_pb(max(idx)),
                                  .verbose = FALSE) %dopar% {
@@ -682,7 +703,10 @@ cv.w <- function(modern_taxa,
 #' @param x the modern climate values
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
-#'
+#' @param test_mode boolean flag to execute the function with a limited number
+#'     of iterations, \code{test_it}, for testing purpouses only.
+#' @param test_it number of iterations to use in the test mode
+#' 
 #' @return the geographically and climatically close sites to each test site.
 #' @export
 #'
@@ -700,7 +724,7 @@ cv.w <- function(modern_taxa,
 #'                                         cpus = 1)
 #' }
 #' @seealso \code{\link{get_distance}}
-get_pseudo <- function(dist, x, cpus = 4) {
+get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
@@ -712,7 +736,12 @@ get_pseudo <- function(dist, x, cpus = 4) {
   # Load binary operator for backend
   `%dopar%` <- foreach::`%dopar%`
   
+  # Create list of indices to loop through
   idx <- 1:length(x)
+  # Reduce the list of indices, if test_mode = TRUE
+  if (test_mode) {
+    idx <- 1:test_it
+  }
   pseudo <- foreach::foreach(i = idx) %dopar% {
     which(dist[i, ] < 50000 & abs(x - x[i]) < 0.02 * (max(x) - min(x)))
   }
@@ -740,6 +769,9 @@ get_pseudo <- function(dist, x, cpus = 4) {
 #'     be obtained from the \code{\link{fx}} function.
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
+#' @param test_mode boolean flag to execute the function with a limited number
+#'     of iterations, \code{test_it}, for testing purpouses only.
+#' @param test_it number of iterations to use in the test mode
 #'
 #' @return leave-one-out cross validation results
 #' @export
@@ -753,7 +785,9 @@ cv.pr.w <- function(modern_taxa,
                     pseudo,
                     usefx = FALSE,
                     fx = NA,
-                    cpus = 4) {
+                    cpus = 4,
+                    test_mode = TRUE,
+                    test_it = 5) {
   x <- modern_climate
   y <- modern_taxa
   
@@ -768,7 +802,12 @@ cv.pr.w <- function(modern_taxa,
   # Load binary operator for backend
   `%dopar%` <- foreach::`%dopar%`
   
+  # Create list of indices to loop through
   idx <- 1:length(x)
+  # Reduce the list of indices, if test_mode = TRUE
+  if (test_mode) {
+    idx <- 1:test_it
+  }
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind) %dopar% {
                                    leave <- unlist(pseudo[i])
@@ -872,7 +911,10 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #'     longitude and the second column is latitude, both in decimal format
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
-#'     
+#' @param test_mode boolean flag to execute the function with a limited number
+#'     of iterations, \code{test_it}, for testing purpouses only.
+#' @param test_it number of iterations to use in the test mode
+#'    
 #' @return distance matrix, the value at the ith row, means the distance between 
 #'     the ith sampling site and the whole sampling sites
 #' @export
@@ -889,7 +931,7 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #' }
 #' 
 #' @seealso \code{\link{get_pseudo}}
-get_distance <- function(point, cpus = 4) {
+get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   colnames(point) <- c("Long", "Lat")
   tictoc::tic("Distance between points")
   
@@ -903,7 +945,13 @@ get_distance <- function(point, cpus = 4) {
   
   # Load binary operator for backend
   `%dopar%` <- foreach::`%dopar%`
+  
+  # Create list of indices to loop through
   idx <- 1:nrow(point)
+  # Reduce the list of indices, if test_mode = TRUE
+  if (test_mode) {
+    idx <- 1:test_it
+  }
   dist <- foreach::foreach(i = idx,
                            .combine = rbind) %dopar% {
                              tmp <- rep(0, nrow(point))
