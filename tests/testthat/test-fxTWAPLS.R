@@ -155,15 +155,15 @@ test_that("SSE sample works", {
 })
 
 test_that("plot training data works", {
-  expect_true(plot_train(fit_Tmin, 1))
-  expect_true(plot_train(fit_f_Tmin, 1))
-  expect_true(plot_train(fit_t_Tmin, 1))
-  expect_true(plot_train(fit_tf_Tmin, 1))
+  expect_true(plot_train(fit_Tmin, 3))
+  expect_true(plot_train(fit_f_Tmin, 3))
+  expect_true(plot_train(fit_t_Tmin, 3))
+  expect_true(plot_train(fit_tf_Tmin, 3))
 })
 
 test_that("plot residuals works", {
-  expect_true(plot_residuals(fit_Tmin, 1))
-  expect_true(plot_residuals(fit_f_Tmin, 1))
-  expect_true(plot_residuals(fit_t_Tmin, 1))
-  expect_true(plot_residuals(fit_tf_Tmin, 1))
+  expect_true(plot_residuals(fit_Tmin, 3))
+  expect_true(plot_residuals(fit_f_Tmin, 3))
+  expect_true(plot_residuals(fit_t_Tmin, 3))
+  expect_true(plot_residuals(fit_tf_Tmin, 3))
 })
