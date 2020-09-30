@@ -128,7 +128,7 @@
     <tr>
       <th>TWAPLSoutput</th>
       <td><p>the output of the <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code> training
-function, either with or without fx correction</p></td>
+function, either with or without <code>fx</code> correction</p></td>
     </tr>
     <tr>
       <th>fossil_taxa</th>
@@ -158,26 +158,34 @@ a taxon.</p></td>
     <span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Zygophyllaceae"</span><span class='op'>)</span>
     <span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
     
+    <span class='co'># Load reconstruction data</span>
+    <span class='va'>Holocene</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"Holocene.csv"</span>,
+                                     package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span>,
+                                     mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+                         row.names <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <span class='va'>taxaColMin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>Holocene</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Abies"</span><span class='op'>)</span>
+    <span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>Holocene</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Zygophyllaceae"</span><span class='op'>)</span>
+    <span class='va'>core</span> <span class='op'>&lt;-</span> <span class='va'>Holocene</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
+    
     <span class='co'># Get the frequency of each climate variable fx</span>
     <span class='va'>fx_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, bin <span class='op'>=</span> <span class='fl'>0.02</span><span class='op'>)</span>
     <span class='va'>fx_gdd</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>gdd</span>, bin <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
     <span class='va'>fx_alpha</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>alpha</span>, bin <span class='op'>=</span> <span class='fl'>0.002</span><span class='op'>)</span>
 
     <span class='co'># MTCO</span>
-    <span class='co'>## For the k-th entity</span>
-    <span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
-    <span class='va'>fit_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='TWAPLS.w.html'>TWAPLS.w</a></span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span><span class='op'>[</span><span class='op'>-</span><span class='va'>k</span>, <span class='op'>]</span>, 
-                                     modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>k</span><span class='op'>]</span>, 
+    <span class='co'>## Train</span>
+    <span class='va'>fit_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='TWAPLS.w.html'>TWAPLS.w</a></span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>, 
+                                     modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
                                      nPLS <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-    <span class='va'>fit_tf_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='TWAPLS.w.html'>TWAPLS.w</a></span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span><span class='op'>[</span><span class='op'>-</span><span class='va'>k</span>, <span class='op'>]</span>, 
-                                      modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>k</span><span class='op'>]</span>,
+    <span class='va'>fit_tf_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='TWAPLS.w.html'>TWAPLS.w</a></span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>, 
+                                      modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
                                       nPLS <span class='op'>=</span> <span class='fl'>5</span>, 
                                       usefx <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-                                      fx <span class='op'>=</span> <span class='va'>fx_Tmin</span><span class='op'>[</span><span class='op'>-</span><span class='va'>k</span><span class='op'>]</span><span class='op'>)</span>
-    <span class='va'>predict_tTmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>TWAPLS.predict.w</span><span class='op'>(</span><span class='va'>fit_t_Tmin</span>, 
-                                                <span class='va'>taxa</span><span class='op'>[</span><span class='va'>k</span>, <span class='op'>]</span><span class='op'>)</span><span class='op'>[[</span><span class='st'>"fit"</span><span class='op'>]</span><span class='op'>]</span>
-    <span class='va'>predict_tf_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>TWAPLS.predict.w</span><span class='op'>(</span><span class='va'>fit_tf_Tmin</span>, 
-                                                  <span class='va'>taxa</span><span class='op'>[</span><span class='va'>k</span>, <span class='op'>]</span><span class='op'>)</span><span class='op'>[[</span><span class='st'>"fit"</span><span class='op'>]</span><span class='op'>]</span>
+                                      fx <span class='op'>=</span> <span class='va'>fx_Tmin</span><span class='op'>)</span>
+    
+    <span class='co'>## Predict</span>
+    <span class='va'>fossil_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>TWAPLS.predict.w</span><span class='op'>(</span><span class='va'>fit_t_Tmin</span>, <span class='va'>core</span><span class='op'>)</span>
+    <span class='va'>fossil_tf_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>TWAPLS.predict.w</span><span class='op'>(</span><span class='va'>fit_tf_Tmin</span>, <span class='va'>core</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>

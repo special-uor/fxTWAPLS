@@ -182,11 +182,11 @@ climates, this can be obtained from the cross-validation results.</p></td>
     </tr>
     <tr>
       <th>usefx</th>
-      <td><p>boolean flag on whether or not use fx correction.</p></td>
+      <td><p>boolean flag on whether or not use <code>fx</code> correction.</p></td>
     </tr>
     <tr>
       <th>fx</th>
-      <td><p>the frequency of the climate value for fx correction: if
+      <td><p>the frequency of the climate value for <code>fx</code> correction: if
 <code>usefx</code> is FALSE, this should be <code>NA</code>; otherwise, this should
 be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
     </tr>
@@ -242,7 +242,10 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
                                      package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span>, 
                                      mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, 
                          row.names <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-    <span class='va'>core</span> <span class='op'>&lt;-</span> <span class='va'>Holocene</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>]</span>
+    <span class='va'>taxaColMin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>Holocene</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Abies"</span><span class='op'>)</span>
+    <span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>Holocene</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Zygophyllaceae"</span><span class='op'>)</span>
+    <span class='va'>core</span> <span class='op'>&lt;-</span> <span class='va'>Holocene</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
+    
     <span class='co'># MTCO</span>
     <span class='co'>## fx</span>
     <span class='va'>fit_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='WAPLS.w.html'>WAPLS.w</a></span><span class='op'>(</span><span class='va'>taxa</span>, <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, nPLS <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
