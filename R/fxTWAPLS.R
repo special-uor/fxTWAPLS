@@ -400,25 +400,33 @@ TWAPLS.w <- function(modern_taxa,
 #'     taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
 #'     taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #'     
+#'     # Load reconstruction data
+#'     Holocene <- read.csv(system.file("extdata", "Holocene.csv",
+#'                                      package = "fxTWAPLS",
+#'                                      mustWork = TRUE),
+#'                          row.names = 1)
+#'     taxaColMin <- which(colnames(Holocene) == "Abies")
+#'     taxaColMax <- which(colnames(Holocene) == "Zygophyllaceae")
+#'     core <- Holocene[, taxaColMin:taxaColMax]
+#'     
 #'     # Get the frequency of each climate variable fx
 #'     fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
 #'     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
 #'     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 #' 
 #'     # MTCO
-#'     ## For the k-th entity
-#'     k <- 1
-#'     fit_Tmin <- fxTWAPLS::WAPLS.w(modern_taxa = taxa[-k, ], 
-#'                                   modern_climate = modern_pollen$Tmin[-k], 
+#'     ## Train
+#'     fit_Tmin <- fxTWAPLS::WAPLS.w(modern_taxa = taxa, 
+#'                                   modern_climate = modern_pollen$Tmin, 
 #'                                   nPLS = 5)
-#'     fit_f_Tmin <- fxTWAPLS::WAPLS.w(modern_taxa = taxa[-k, ], 
-#'                                     modern_climate = modern_pollen$Tmin[-k],
+#'     fit_f_Tmin <- fxTWAPLS::WAPLS.w(modern_taxa = taxa, 
+#'                                     modern_climate = modern_pollen$Tmin,
 #'                                     nPLS = 5, 
 #'                                     usefx = TRUE, 
-#'                                     fx = fx_Tmin[-k])
-#'     predict_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_Tmin, taxa[k, ])[["fit"]]
-#'     predict_f_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_f_Tmin, 
-#'                                                 taxa[k, ])[["fit"]]
+#'                                     fx = fx_Tmin)
+#'     ## Predict
+#'     fossil_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_Tmin, core)
+#'     fossil_f_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_f_Tmin, core)
 #' }
 #' 
 #' @seealso \code{\link{WAPLS.w}}
@@ -508,26 +516,34 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #'     taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
 #'     taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #'     
+#'     # Load reconstruction data
+#'     Holocene <- read.csv(system.file("extdata", "Holocene.csv",
+#'                                      package = "fxTWAPLS",
+#'                                      mustWork = TRUE),
+#'                          row.names = 1)
+#'     taxaColMin <- which(colnames(Holocene) == "Abies")
+#'     taxaColMax <- which(colnames(Holocene) == "Zygophyllaceae")
+#'     core <- Holocene[, taxaColMin:taxaColMax]
+#'     
 #'     # Get the frequency of each climate variable fx
 #'     fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
 #'     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
 #'     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 #' 
 #'     # MTCO
-#'     ## For the k-th entity
-#'     k <- 1
-#'     fit_t_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa[-k, ], 
-#'                                      modern_climate = modern_pollen$Tmin[-k], 
+#'     ## Train
+#'     fit_t_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa, 
+#'                                      modern_climate = modern_pollen$Tmin, 
 #'                                      nPLS = 5)
-#'     fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa[-k, ], 
-#'                                       modern_climate = modern_pollen$Tmin[-k],
+#'     fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa, 
+#'                                       modern_climate = modern_pollen$Tmin,
 #'                                       nPLS = 5, 
 #'                                       usefx = TRUE, 
-#'                                       fx = fx_Tmin[-k])
-#'     predict_tTmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, 
-#'                                                 taxa[k, ])[["fit"]]
-#'     predict_tf_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin, 
-#'                                                   taxa[k, ])[["fit"]]
+#'                                       fx = fx_Tmin)
+#'     
+#'     ## Predict
+#'     fossil_t_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, core)
+#'     fossil_tf_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin, core)
 #' }
 #' 
 #' @seealso \code{\link{TWAPLS.w}}
@@ -649,7 +665,10 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'                                      package = "fxTWAPLS", 
 #'                                      mustWork = TRUE), 
 #'                          row.names = 1)
-#'     core <- Holocene[, -c(1:3)]
+#'     taxaColMin <- which(colnames(Holocene) == "Abies")
+#'     taxaColMax <- which(colnames(Holocene) == "Zygophyllaceae")
+#'     core <- Holocene[, taxaColMin:taxaColMax]
+#'     
 #'     # MTCO
 #'     ## fx
 #'     fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
@@ -1274,10 +1293,10 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #'                                       nPLS = 5, 
 #'                                       usefx = TRUE, 
 #'                                       fx = fx_Tmin)
-#'     fxTWAPLS::plot_train(fit_Tmin, 1)
-#'     fxTWAPLS::plot_train(fit_f_Tmin, 1)
-#'     fxTWAPLS::plot_train(fit_t_Tmin, 1)
-#'     fxTWAPLS::plot_train(fit_tf_Tmin, 1)
+#'     fxTWAPLS::plot_train(fit_Tmin, 3)
+#'     fxTWAPLS::plot_train(fit_f_Tmin, 3)
+#'     fxTWAPLS::plot_train(fit_t_Tmin, 3)
+#'     fxTWAPLS::plot_train(fit_tf_Tmin, 3)
 #' }
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
 plot_train <- function(train_output, col) {
@@ -1346,10 +1365,10 @@ plot_train <- function(train_output, col) {
 #'                                       nPLS = 5, 
 #'                                       usefx = TRUE, 
 #'                                       fx = fx_Tmin)
-#'     fxTWAPLS::plot_residuals(fit_Tmin, 1)
-#'     fxTWAPLS::plot_residuals(fit_f_Tmin, 1)
-#'     fxTWAPLS::plot_residuals(fit_t_Tmin, 1)
-#'     fxTWAPLS::plot_residuals(fit_tf_Tmin, 1)
+#'     fxTWAPLS::plot_residuals(fit_Tmin, 3)
+#'     fxTWAPLS::plot_residuals(fit_f_Tmin, 3)
+#'     fxTWAPLS::plot_residuals(fit_t_Tmin, 3)
+#'     fxTWAPLS::plot_residuals(fit_tf_Tmin, 3)
 #' }
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
 plot_residuals <- function(train_output, col) {
