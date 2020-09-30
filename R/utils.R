@@ -14,8 +14,8 @@
 #' @export
 #'
 #' @examples
-#' hex_logo()
 #' \dontrun{
+#'     hex_logo()
 #'     hex_logo("inst/images/cave-painting.png", 
 #'              output = "inst/images/logo.png")
 #' }
@@ -51,9 +51,9 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' @export
 #'
 #' @examples
-#' # Define toy function that sleeps for (60/cpus) seconds
-#' a <- function(cpus) {Sys.sleep(60/cpus)}
 #' \dontrun{
+#'     # Define toy function that sleeps for (60/cpus) seconds
+#'     a <- function(cpus) {Sys.sleep(60/cpus)}
 #'     par_benchmark(c(1, 2, 4), a)
 #'     par_benchmark(c(1, 2, 4), a, plot = TRUE)
 #' }
