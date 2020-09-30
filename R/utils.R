@@ -58,6 +58,7 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #'     par_benchmark(c(1, 2, 4), a, plot = TRUE)
 #' }
 par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
+  cpus <- NULL # Local binding
   tictoc::tic.clearlog()
   for (c in CPUS) {
     tictoc::tic(paste0("Using ", c, " CPUs"))

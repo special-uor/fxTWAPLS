@@ -719,6 +719,7 @@ sse.sample <- function(modern_taxa,
                        seed = NULL,
                        test_mode = FALSE,
                        test_it = 5) {
+  i <- NULL # Local binding
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
@@ -857,6 +858,7 @@ cv.w <- function(modern_taxa,
                  cpus = 4,
                  test_mode = FALSE,
                  test_it = 5) {
+  i <- NULL # Local binding
   x <- modern_climate
   y <- modern_taxa
   
@@ -919,6 +921,7 @@ cv.w <- function(modern_taxa,
 #' 
 #' @seealso \code{\link{get_pseudo}}
 get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
+  i <- NULL # Local binding
   colnames(point) <- c("Long", "Lat")
   tictoc::tic("Distance between points")
   
@@ -990,6 +993,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' }
 #' @seealso \code{\link{get_distance}}
 get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
+  i <- NULL # Local binding
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
@@ -1089,6 +1093,7 @@ cv.pr.w <- function(modern_taxa,
                     cpus = 4,
                     test_mode = TRUE,
                     test_it = 5) {
+  i <- NULL # Local binding
   x <- modern_climate
   y <- modern_taxa
   
