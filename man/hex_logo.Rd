@@ -42,8 +42,8 @@ hexagonal logo
 Create hexagonal logo for the package
 }
 \examples{
-hex_logo()
 \dontrun{
+    hex_logo()
     hex_logo("inst/images/cave-painting.png", 
              output = "inst/images/logo.png")
 }
