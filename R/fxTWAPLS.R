@@ -1,6 +1,8 @@
 #' Function to get the frequency of the climate value, which will be used to 
 #'     provide \code{fx} correction for WA-PLS and TWA-PLS
 #'
+#' @importFrom graphics plot
+#' 
 #' @param x the modern climate values 
 #' @param bin bin-width to get the frequency of the modern climate values
 #'
