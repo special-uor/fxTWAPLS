@@ -42,10 +42,11 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' Perform parallel benchmarks on a function
 #'
 #' @param CPUS vector with the number of CPUs
-#' @param FUN parallel function, MUST have a parameter called "cpus"
+#' @param FUN parallel function, MUST have a parameter called \code{cpus}
 #' @param plot boolean flag to request a plot for the results
 #' @param quiet boolean flag to print results of each execution
-#' @param ... optional arguments for the function, must be named; e.g. x = df
+#' @param ... optional arguments for the function, must be named; e.g. 
+#'     \code{x = test_df}
 #'
 #' @export
 #'
@@ -81,13 +82,15 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   return(times_df)
 }
 
-#' Combine results with progress bar, to be used in combination with foreach
+#' Combine results with progress bar, to be used in combination with 
+#'     \code{foreach::foreach}
+#'     
 #' @importFrom utils flush.console
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' 
 #' @param iterator number of iterations
-#' @param FUN function to combine the results (default: rbind)
+#' @param FUN function to combine the results (default: \code{rbind})
 #' @param ... optional parameters
 #'
 #' @export

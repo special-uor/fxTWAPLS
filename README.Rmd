@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## fxTWAPLS: An Improved Version of WAPLS <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/>
+## fxTWAPLS: An Improved Version of WA-PLS <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/>
 <!-- <img src="inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 
 <!-- badges: start -->
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The goal of `fxTWAPLS` is to provide an improvement of WAPLS by including the 
+The goal of `fxTWAPLS` is to provide an improvement of WA-PLS by including the 
 tolerances of taxa and the frequency of the sampled climate variable. This 
 package also provides a way of leave-out cross-validation that removes both the 
 test site and sites that are both geographically close and climatically close 

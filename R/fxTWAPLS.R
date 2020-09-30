@@ -1,5 +1,5 @@
 #' Function to get the frequency of the climate value, which will be used to 
-#'     provide fx correction for WA-PLS and TWA-PLS
+#'     provide \code{fx} correction for WA-PLS and TWA-PLS
 #'
 #' @param x the modern climate values 
 #' @param bin bin-width to get the frequency of the modern climate values
@@ -379,7 +379,7 @@ TWAPLS.w <- function(modern_taxa,
 #' WA-PLS predict function
 #'
 #' @param WAPLSoutput the output of the \code{\link{WAPLS.w}} training function, 
-#'     either with or without fx correction
+#'     either with or without \code{fx} correction
 #' @param fossil_taxa fossil taxa abundance data to reconstruct past climates, 
 #'     each row represents a site to be reconstructed, each column represents a 
 #'     taxon.
@@ -495,7 +495,7 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #' TWA-PLS predict function
 #'
 #' @param TWAPLSoutput the output of the \code{\link{TWAPLS.w}} training 
-#'     function, either with or without fx correction
+#'     function, either with or without \code{fx} correction
 #' @param fossil_taxa fossil taxa abundance data to reconstruct past climates, 
 #'     each row represents a site to be reconstructed, each column represents 
 #'     a taxon.
@@ -628,8 +628,8 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #' @param nPLS the number of components to be extracted
 #' @param nsig the significant number of components to use to reconstruct past 
 #'     climates, this can be obtained from the cross-validation results.
-#' @param usefx boolean flag on whether or not use fx correction.
-#' @param fx the frequency of the climate value for fx correction: if 
+#' @param usefx boolean flag on whether or not use \code{fx} correction.
+#' @param fx the frequency of the climate value for \code{fx} correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
@@ -776,7 +776,7 @@ sse.sample <- function(modern_taxa,
 }
 
 #' Leave-one-out cross-validation as 
-#'     rioja (\url{https://cran.r-project.org/package=rioja})
+#'     \code{rioja} (\url{https://cran.r-project.org/package=rioja})
 #' 
 #' @importFrom foreach `%dopar%`
 #' 
@@ -790,8 +790,8 @@ sse.sample <- function(modern_taxa,
 #'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
 #'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
 #'     \code{\link{TWAPLS.predict.w}}
-#' @param usefx boolean flag on whether or not use fx correction.
-#' @param fx the frequency of the climate value for fx correction: if 
+#' @param usefx boolean flag on whether or not use \code{fx} correction.
+#' @param fx the frequency of the climate value for \code{fx} correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
@@ -902,8 +902,8 @@ cv.w <- function(modern_taxa,
 #'     of iterations, \code{test_it}, for testing purposes only.
 #' @param test_it number of iterations to use in the test mode
 #'    
-#' @return distance matrix, the value at the i-th row, means the distance 
-#'     between the i-th sampling site and the whole sampling sites
+#' @return distance matrix, the value at the \code{i-th} row, means the distance 
+#'     between the \code{i-th} sampling site and the whole sampling sites
 #' @export
 #' 
 #' @examples
@@ -1028,8 +1028,8 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'     \code{\link{TWAPLS.predict.w}}
 #' @param pseudo the geographically and climatically close sites to each test 
 #'     site, obtained from \code{\link{get_pseudo}} function
-#' @param usefx boolean flag on whether or not use fx correction.
-#' @param fx the frequency of the climate value for fx correction: if 
+#' @param usefx boolean flag on whether or not use \code{fx} correction.
+#' @param fx the frequency of the climate value for \code{fx} correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #' @param cpus number of CPUs for simultaneous iterations to execute, check
@@ -1251,8 +1251,8 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #'     the linear regression line to fitted and \code{x}, which shows the degree 
 #'     of overall compression
 #' 
-#' @param train_output Training output, can be the output of WAPLS, WAPLS with 
-#'     fx correction, TWAPLS, or TWAPLS with fx correction
+#' @param train_output Training output, can be the output of WA-PLS, WA-PLS with 
+#'     \code{fx} correction, TWA-PLS, or TWA-PLS with \code{fx} correction
 #' @param col choose which column of the fitted value to plot, in other words, 
 #'     how many number of components you want to use
 #'     
@@ -1323,8 +1323,8 @@ plot_train <- function(train_output, col) {
 #'     estimated scatterplot smoothing, which shows the degree of local 
 #'     compression
 #' 
-#' @param train_output Training output, can be the output of WAPLS, WAPLS with 
-#'     fx correction, TWAPLS, or TWAPLS with fx correction
+#' @param train_output Training output, can be the output of WA-PLS, WA-PLS with 
+#'     \code{fx} correction, TWA-PLS, or TWA-PLS with \code{fx} correction
 #' @param col choose which column of the fitted value to plot, in other words, 
 #'     how many number of components you want to use
 #' 
