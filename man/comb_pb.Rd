@@ -2,19 +2,21 @@
 % Please edit documentation in R/utils.R
 \name{comb_pb}
 \alias{comb_pb}
-\title{Combine results with progress bar, to be used in combination with foreach}
+\title{Combine results with progress bar, to be used in combination with
+\code{foreach::foreach}}
 \usage{
 comb_pb(iterator, FUN = rbind, ...)
 }
 \arguments{
 \item{iterator}{number of iterations}
 
-\item{FUN}{function to combine the results (default: rbind)}
+\item{FUN}{function to combine the results (default: \code{rbind})}
 
 \item{...}{optional parameters}
 }
 \description{
-Combine results with progress bar, to be used in combination with foreach
+Combine results with progress bar, to be used in combination with
+\code{foreach::foreach}
 }
 \examples{
 \dontrun{

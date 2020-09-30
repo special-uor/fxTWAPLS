@@ -46,9 +46,9 @@ if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be
 \item{nsig}{the significant number of components to use to reconstruct past
 climates, this can be obtained from the cross-validation results.}
 
-\item{usefx}{boolean flag on whether or not use fx correction.}
+\item{usefx}{boolean flag on whether or not use \code{fx} correction.}
 
-\item{fx}{the frequency of the climate value for fx correction: if
+\item{fx}{the frequency of the climate value for \code{fx} correction: if
 \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should
 be obtained from the \code{\link{fx}} function.}
 
@@ -91,7 +91,10 @@ Function to calculate Sample Specific Errors
                                      package = "fxTWAPLS", 
                                      mustWork = TRUE), 
                          row.names = 1)
-    core <- Holocene[, -c(1:3)]
+    taxaColMin <- which(colnames(Holocene) == "Abies")
+    taxaColMax <- which(colnames(Holocene) == "Zygophyllaceae")
+    core <- Holocene[, taxaColMin:taxaColMax]
+    
     # MTCO
     ## fx
     fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)

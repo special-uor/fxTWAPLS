@@ -20,8 +20,8 @@ of iterations, \code{test_it}, for testing purposes only.}
 \item{test_it}{number of iterations to use in the test mode}
 }
 \value{
-distance matrix, the value at the i-th row, means the distance
-between the i-th sampling site and the whole sampling sites
+distance matrix, the value at the \code{i-th} row, means the distance
+between the \code{i-th} sampling site and the whole sampling sites
 }
 \description{
 Get the distance between points, the output will be used in

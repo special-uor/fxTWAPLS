@@ -9,8 +9,8 @@ compression}
 plot_residuals(train_output, col)
 }
 \arguments{
-\item{train_output}{Training output, can be the output of WAPLS, WAPLS with
-fx correction, TWAPLS, or TWAPLS with fx correction}
+\item{train_output}{Training output, can be the output of WA-PLS, WA-PLS with
+\code{fx} correction, TWA-PLS, or TWA-PLS with \code{fx} correction}
 
 \item{col}{choose which column of the fitted value to plot, in other words,
 how many number of components you want to use}
@@ -56,10 +56,10 @@ compression
                                       nPLS = 5, 
                                       usefx = TRUE, 
                                       fx = fx_Tmin)
-    fxTWAPLS::plot_residuals(fit_Tmin, 1)
-    fxTWAPLS::plot_residuals(fit_f_Tmin, 1)
-    fxTWAPLS::plot_residuals(fit_t_Tmin, 1)
-    fxTWAPLS::plot_residuals(fit_tf_Tmin, 1)
+    fxTWAPLS::plot_residuals(fit_Tmin, 3)
+    fxTWAPLS::plot_residuals(fit_f_Tmin, 3)
+    fxTWAPLS::plot_residuals(fit_t_Tmin, 3)
+    fxTWAPLS::plot_residuals(fit_tf_Tmin, 3)
 }
 }
 \seealso{

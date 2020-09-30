@@ -8,7 +8,7 @@ TWAPLS.predict.w(TWAPLSoutput, fossil_taxa)
 }
 \arguments{
 \item{TWAPLSoutput}{the output of the \code{\link{TWAPLS.w}} training
-function, either with or without fx correction}
+function, either with or without \code{fx} correction}
 
 \item{fossil_taxa}{fossil taxa abundance data to reconstruct past climates,
 each row represents a site to be reconstructed, each column represents
@@ -33,26 +33,34 @@ TWA-PLS predict function
     taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
     taxa <- modern_pollen[, taxaColMin:taxaColMax]
     
+    # Load reconstruction data
+    Holocene <- read.csv(system.file("extdata", "Holocene.csv",
+                                     package = "fxTWAPLS",
+                                     mustWork = TRUE),
+                         row.names = 1)
+    taxaColMin <- which(colnames(Holocene) == "Abies")
+    taxaColMax <- which(colnames(Holocene) == "Zygophyllaceae")
+    core <- Holocene[, taxaColMin:taxaColMax]
+    
     # Get the frequency of each climate variable fx
     fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
     fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
     fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 
     # MTCO
-    ## For the k-th entity
-    k <- 1
-    fit_t_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa[-k, ], 
-                                     modern_climate = modern_pollen$Tmin[-k], 
+    ## Train
+    fit_t_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa, 
+                                     modern_climate = modern_pollen$Tmin, 
                                      nPLS = 5)
-    fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa[-k, ], 
-                                      modern_climate = modern_pollen$Tmin[-k],
+    fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(modern_taxa = taxa, 
+                                      modern_climate = modern_pollen$Tmin,
                                       nPLS = 5, 
                                       usefx = TRUE, 
-                                      fx = fx_Tmin[-k])
-    predict_tTmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, 
-                                                taxa[k, ])[["fit"]]
-    predict_tf_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin, 
-                                                  taxa[k, ])[["fit"]]
+                                      fx = fx_Tmin)
+    
+    ## Predict
+    fossil_t_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, core)
+    fossil_tf_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin, core)
 }
 
 }

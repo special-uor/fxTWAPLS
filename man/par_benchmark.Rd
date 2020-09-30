@@ -9,13 +9,14 @@ par_benchmark(CPUS, FUN, plot = FALSE, quiet = FALSE, ...)
 \arguments{
 \item{CPUS}{vector with the number of CPUs}
 
-\item{FUN}{parallel function, MUST have a parameter called "cpus"}
+\item{FUN}{parallel function, MUST have a parameter called \code{cpus}}
 
 \item{plot}{boolean flag to request a plot for the results}
 
 \item{quiet}{boolean flag to print results of each execution}
 
-\item{...}{optional arguments for the function, must be named; e.g. x = df}
+\item{...}{optional arguments for the function, must be named; e.g.
+\code{x = test_df}}
 }
 \description{
 Perform parallel benchmarks on a function

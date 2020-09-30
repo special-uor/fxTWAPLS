@@ -3,7 +3,7 @@
 \name{fx}
 \alias{fx}
 \title{Function to get the frequency of the climate value, which will be used to
-provide fx correction for WA-PLS and TWA-PLS}
+provide \code{fx} correction for WA-PLS and TWA-PLS}
 \usage{
 fx(x, bin)
 }
@@ -17,7 +17,7 @@ the frequency of the modern climate values
 }
 \description{
 Function to get the frequency of the climate value, which will be used to
-provide fx correction for WA-PLS and TWA-PLS
+provide \code{fx} correction for WA-PLS and TWA-PLS
 }
 \examples{
 \dontrun{
