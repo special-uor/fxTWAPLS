@@ -19,7 +19,7 @@ status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)
 
 ## Overview
 
-The goal of `fxTWAPLS` is to provide an improvement of WA-PLS by
+The goal of this package is to provide an improved version of WA-PLS by
 including the tolerances of taxa and the frequency of the sampled
 climate variable. This package also provides a way of leave-out
 cross-validation that removes both the test site and sites that are both
