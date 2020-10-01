@@ -37,7 +37,7 @@ fx <- function(x, bin) {
   xbin <- seq(min(x) + bin / 2, max(x) - bin / 2, by = bin)
   counts <- hist[["counts"]]
   fx <- rep(NA, length(x))
-  for (i in 1:length(x)) {
+  for (i in seq_len(x)) {
     fx[i] <- counts[which.min(abs(x[i] - xbin))]
   }
   if (any(fx == 0)) {
@@ -188,7 +188,8 @@ WAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable on the components obtained so 
     # far using weights and take the fitted values as current estimates 
     if(usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                      weights = sumk_yik / Ytottot)
     } else{
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
     }
@@ -590,7 +591,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   
   for(pls in 2:nPLS) {
     # xi=sumk_yik*uk/sumk_yik; 1*nsite
-    r[, pls] = (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) # xi; 1*nsite
+    r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) # xi; 1*nsite
     # orthoganlization the same way
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
@@ -739,7 +740,7 @@ sse.sample <- function(modern_taxa,
   
   # Make list of row numbers by sampling with 
   # replacement
-  k_samples <- replicate(nboot, sample(1:nrow(modern_taxa),
+  k_samples <- replicate(nboot, sample(seq_len(nrow(modern_taxa)),
                                          size = nrow(modern_taxa),
                                          replace = TRUE))
   
@@ -876,7 +877,7 @@ cv.w <- function(modern_taxa,
   `%dopar%` <- foreach::`%dopar%`
   
   # Create list of indices to loop through
-  idx <- 1:length(x)
+  idx <- seq_len(x)
   # Reduce the list of indices, if test_mode = TRUE
   if (test_mode) {
     idx <- 1:test_it
@@ -939,7 +940,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   `%dopar%` <- foreach::`%dopar%`
   
   # Create list of indices to loop through
-  idx <- 1:nrow(point)
+  idx <- seq_len(nrow(point))
   # Reduce the list of indices, if test_mode = TRUE
   if (test_mode) {
     idx <- 1:test_it
@@ -949,7 +950,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
                              tmp <- rep(0, nrow(point))
                              lon1 <- point[i, "Long"]
                              lat1 <- point[i, "Lat"]
-                             for (j in 1:nrow(point)) {
+                             for (j in seq_len(nrow(point))) {
                                lon2 <- point[j, "Long"]
                                lat2 <- point[j, "Lat"]
                                tmp[j] <- geosphere::distm(c(lon1, lat1),
@@ -1008,7 +1009,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
   `%dopar%` <- foreach::`%dopar%`
   
   # Create list of indices to loop through
-  idx <- 1:length(x)
+  idx <- seq_len(length(x))
   # Reduce the list of indices, if test_mode = TRUE
   if (test_mode) {
     idx <- 1:test_it
@@ -1111,7 +1112,7 @@ cv.pr.w <- function(modern_taxa,
   `%dopar%` <- foreach::`%dopar%`
   
   # Create list of indices to loop through
-  idx <- 1:length(x)
+  idx <- seq_len(length(x))
   # Reduce the list of indices, if test_mode = TRUE
   if (test_mode) {
     idx <- 1:test_it
