@@ -37,7 +37,7 @@ fx <- function(x, bin) {
   xbin <- seq(min(x) + bin / 2, max(x) - bin / 2, by = bin)
   counts <- hist[["counts"]]
   fx <- rep(NA, length(x))
-  for (i in seq_len(x)) {
+  for (i in seq_len(length(x))) {
     fx[i] <- counts[which.min(abs(x[i] - xbin))]
   }
   if (any(fx == 0)) {
@@ -907,7 +907,7 @@ cv.w <- function(modern_taxa,
   `%dopar%` <- foreach::`%dopar%`
   
   # Create list of indices to loop through
-  idx <- seq_len(x)
+  idx <- seq_len(length(x))
   # Reduce the list of indices, if test_mode = TRUE
   if (test_mode) {
     idx <- 1:test_it
