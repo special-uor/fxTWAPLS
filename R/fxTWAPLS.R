@@ -47,7 +47,7 @@ fx <- function(x, bin) {
   return(fx)
 }
 
-#' WA-LPS training function, which can perform \code{fx} correction
+#' WA-PLS training function, which can perform \code{fx} correction
 #' 
 #' @importFrom stats lm
 #' 
@@ -237,7 +237,7 @@ WAPLS.w <- function(modern_taxa,
   return(list)
 }
 
-#' TWA-LPS training function, which can perform \code{fx} correction
+#' TWA-PLS training function, which can perform \code{fx} correction
 #' 
 #' @importFrom stats lm
 #' 
@@ -770,9 +770,9 @@ sse.sample <- function(modern_taxa,
   
   # Make list of row numbers by sampling with 
   # replacement
-  k_samples <- replicate(nboot, sample(seq_len(nrow(modern_taxa)),
-                                         size = nrow(modern_taxa),
-                                         replace = TRUE))
+  k_samples <- replicate(nboot, sample(1:nrow(modern_taxa),
+                                       size = nrow(modern_taxa),
+                                       replace = TRUE))
   
   # Create list of indices to loop through
   idx <- 1:nboot
@@ -782,25 +782,30 @@ sse.sample <- function(modern_taxa,
   }
   xboot <- foreach::foreach(i = idx,
                             .combine = cbind) %dopar% {
-                              # Extract list of row numbers by sampling with 
-                              # replacement
-                              k <- k_samples[, i]
-                              # k <- sample(1:nrow(modern_taxa),
-                              #             size = nrow(modern_taxa),
-                              #             replace = TRUE)
-                              
-                              # Reorganise modern_taxa obs in k order
-                              modern_taxa <- modern_taxa[k, ] 
-                              modern_climate <- modern_climate[k]
-                              col_not0 <- which(colSums(modern_taxa) > 0)
-                              # Strip out zero-sum cols
-                              modern_taxa <- modern_taxa[, col_not0]
-                              # Apply train function, with modern_climate also 
-                              # in k order
-                              mod <- trainfun(modern_taxa, modern_climate)
-                              # Make reconstruction
-                              predictfun(mod, 
-                                         fossil_taxa[, col_not0])$fit[, nsig]
+                              tryCatch({
+                                # Extract list of row numbers by sampling with 
+                                # replacement
+                                k <- k_samples[, i]
+                                
+                                # Reorganise modern_taxa obs in k order
+                                modern_taxak <- modern_taxa[k, ] 
+                                modern_climatek <- modern_climate[k]
+                                fxk<-fx[k]
+                                col_not0 <- which(colSums(modern_taxak) > 0)
+                                # Strip out zero-sum cols
+                                modern_taxak <- modern_taxak[, col_not0]
+                                # Apply train function, with modern_climate also 
+                                # in k order
+                                if(usefx==FALSE){
+                                  mod <- trainfun(modern_taxak, modern_climatek, nPLS=nPLS)
+                                }else{
+                                  mod <- trainfun(modern_taxak, modern_climatek, nPLS=nPLS, usefx=TRUE, fx=fxk)
+                                }
+                                
+                                # Make reconstruction
+                                predictfun(mod, 
+                                           fossil_taxa[, col_not0])$fit[, nsig]
+                              }, error=function(e){})
                             }
   parallel::stopCluster(cl) # Stop cluster
   
@@ -808,6 +813,7 @@ sse.sample <- function(modern_taxa,
   v1 <- boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
   return(sqrt(v1))
 }
+
 
 #' Leave-one-out cross-validation as 
 #'     \code{rioja} (\url{https://cran.r-project.org/package=rioja})
