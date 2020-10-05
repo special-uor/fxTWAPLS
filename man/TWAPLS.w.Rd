@@ -2,7 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{TWAPLS.w}
 \alias{TWAPLS.w}
-\title{TWA-LPS training function, which can perform \code{fx} correction}
+\title{TWA-PLS training function, which can perform \code{fx} correction}
 \usage{
 TWAPLS.w(modern_taxa, modern_climate, nPLS = 5, usefx = FALSE, fx = NA)
 }
@@ -25,7 +25,7 @@ a list of the training results, which will be used by the predict
 function. fit is the fitted value of modern training result.
 }
 \description{
-TWA-LPS training function, which can perform \code{fx} correction
+TWA-PLS training function, which can perform \code{fx} correction
 }
 \examples{
 \dontrun{

@@ -100,14 +100,14 @@ remotes::install_github("special-uor/fxTWAPLS")
   - Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison
     Sandy P.. An improved statistical approach for reconstructing past
     climates from biotic assemblages. *Proc. R. Soc. A.* 2020
-    (submitted) - [`fxTWAPLS
-    v0.0.1`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.1)
+    (submitted) \[[`fxTWAPLS
+    v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2)\]
 
 <!-- end list -->
 
 ``` r
 install.packages("remotes")
-remotes::install_github("special-uor/fxTWAPLS@v0.0.1")
+remotes::install_github("special-uor/fxTWAPLS@v0.0.2")
 ```
 
 <!-- ## Example -->
