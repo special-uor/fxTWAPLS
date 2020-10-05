@@ -87,7 +87,7 @@ CPUS <- 15
 # MTCO
 tictoc::tic("MTCO")
 tictoc::tic("Tmin")
-cv_Tmin2 <- fxTWAPLS::cv.w(taxa,
+cv_Tmin <- fxTWAPLS::cv.w(taxa,
                            modern_pollen$Tmin,
                            nPLS = 5,
                            fxTWAPLS::WAPLS.w,
