@@ -300,7 +300,8 @@ TWAPLS.w <- function(modern_taxa,
   
   #Define some matrix to store the values
   u <- matrix(NA, nc, nPLS) # u of each component
-  u_sd <- matrix(NA, nc, nPLS) # u of each component, standardized the same way as r
+  # u of each component, standardized the same way as r
+  u_sd <- matrix(NA, nc, nPLS)
   optimum <- matrix(NA, nc, nPLS) # u updated
   t <- matrix(NA, nc, nPLS) # tolerance
   r <- matrix(NA, nr, nPLS) # site score
@@ -312,7 +313,8 @@ TWAPLS.w <- function(modern_taxa,
   fit <- matrix(NA, nr, nPLS) # current estimate
   
   pls <- 1
-  # Step 1. Take the centred environmental variable (xi) as initial site scores (ri). 
+  # Step 1. Take the centred environmental variable (xi) as initial site 
+  # scores (ri). 
   r[, pls] <- x - mean(x)
   
   # Step 2. Calculate uk and tk
@@ -325,7 +327,8 @@ TWAPLS.w <- function(modern_taxa,
   }
   
   # Step 3. Calculate new site scores (ri)
-  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
+  #xi; 1*nsite
+  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
   
   # Step 4. For the first axis go to Step 5.
   
@@ -340,8 +343,9 @@ TWAPLS.w <- function(modern_taxa,
   # Step 7. Regress the environmental variable on the components obtained so far
   # using weights and take the fitted values as current estimates 
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
-  } else{
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                    weights = sumk_yik / Ytottot)
+  } else {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
   }
   
@@ -351,11 +355,13 @@ TWAPLS.w <- function(modern_taxa,
   optimum[, pls] <- alpha[[pls]][1] + u_sd[, pls] * alpha[[pls]][2]
   
   for (pls in 2:nPLS) {
-    # Go to Step 2 with the residuals of the regression as the new site scores (ri).
+    # Go to Step 2 with the residuals of the regression as the new site 
+    # scores (ri).
     r[, pls] <- lm[["residuals"]]
     
     # Step 2. Calculate new uk and tk
-    u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+    # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+    u[, pls] <- t(y) %*% r[, pls] / sumi_yik
     n2 <- matrix(NA, nc, 1)
     for (k in 1:nc) {
       t[k, pls] <- sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
@@ -363,7 +369,8 @@ TWAPLS.w <- function(modern_taxa,
       t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
     }
     
-    # Step 3. Calculate new site scores (r;) by weighted averaging of the species scores, i.e. new
+    # Step 3. Calculate new site scores (r;) by weighted averaging of the 
+    # species scores, i.e. new
     r[,pls] <- (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
     
     # Step 4. For second and higher components, make the new site scores (r;) 
@@ -391,8 +398,9 @@ TWAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable (xJ on the components obtained 
     # so far using weights and take the fitted values as current estimates 
     if (usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
-    } else{
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                      weights = sumk_yik / Ytottot)
+    } else {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
     }
     
@@ -404,8 +412,32 @@ TWAPLS.w <- function(modern_taxa,
       alpha[[pls]][1] + u_sd[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
   
-  list <- list(fit, modern_climate, colnames(modern_taxa), optimum, comp, u, t, z, s, orth, alpha, mean(modern_climate), nPLS)
-  names(list) <- c(c("fit", "x", "taxon_name", "optimum", "comp", "u", "t", "z", "s", "orth", "alpha", "meanx", "nPLS"))
+  list <- list(fit, 
+               modern_climate, 
+               colnames(modern_taxa), 
+               optimum, 
+               comp, 
+               u, 
+               t, 
+               z, 
+               s, 
+               orth, 
+               alpha, 
+               mean(modern_climate), 
+               nPLS)
+  names(list) <- c("fit", 
+                   "x", 
+                   "taxon_name", 
+                   "optimum", 
+                   "comp", 
+                   "u", 
+                   "t", 
+                   "z", 
+                   "s", 
+                   "orth", 
+                   "alpha", 
+                   "meanx", 
+                   "nPLS")
   return(list)
 }
 
@@ -612,7 +644,8 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   
   pls <- 1
   # xi=sumk_yik*uk/sumk_yik; 1*nsite
-  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) #xi; 1*nsite
+  # xi; 1*nsite
+  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
   # standardize the same way
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   # multiply the same regression coefficients
@@ -621,7 +654,8 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   
   for(pls in 2:nPLS) {
     # xi=sumk_yik*uk/sumk_yik; 1*nsite
-    r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2)) # xi; 1*nsite
+    # xi; 1*nsite
+    r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
     # orthoganlization the same way
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
@@ -796,10 +830,16 @@ sse.sample <- function(modern_taxa,
                                 modern_taxak <- modern_taxak[, col_not0]
                                 # Apply train function, with modern_climate also 
                                 # in k order
-                                if(usefx==FALSE){
-                                  mod <- trainfun(modern_taxak, modern_climatek, nPLS=nPLS)
-                                }else{
-                                  mod <- trainfun(modern_taxak, modern_climatek, nPLS=nPLS, usefx=TRUE, fx=fxk)
+                                if (usefx == FALSE) {
+                                  mod <- trainfun(modern_taxak, 
+                                                  modern_climatek, 
+                                                  nPLS = nPLS)
+                                } else {
+                                  mod <- trainfun(modern_taxak, 
+                                                  modern_climatek, 
+                                                  nPLS = nPLS, 
+                                                  usefx = TRUE, 
+                                                  fx = fxk)
                                 }
                                 
                                 # Make reconstruction
@@ -921,7 +961,11 @@ cv.w <- function(modern_taxa,
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind, #comb_pb(max(idx)),
                                  .verbose = FALSE) %dopar% {
-                                   fit <- trainfun(y[-i, ], x[-i], nPLS, usefx, fx[-i])
+                                   fit <- trainfun(y[-i, ], 
+                                                   x[-i], 
+                                                   nPLS, 
+                                                   usefx, 
+                                                   fx[-i])
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
                                    data.frame(x[i], xnew)
                                  }
@@ -1156,7 +1200,11 @@ cv.pr.w <- function(modern_taxa,
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind) %dopar% {
                                    leave <- unlist(pseudo[i])
-                                   fit <- trainfun(y[-leave, ], x[-leave], nPLS, usefx, fx[-leave])
+                                   fit <- trainfun(y[-leave, ], 
+                                                   x[-leave], 
+                                                   nPLS, 
+                                                   usefx, 
+                                                   fx[-leave])
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
                                    data.frame(x[i], xnew)
                                  }
@@ -1262,7 +1310,7 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
       rmsep.null <- sqrt(mean((cv.x - mean(cv.x)) ^ 2))
       output[i, "delta.RMSEP"] <-
         (output[i, "RMSEP"] - rmsep.null) * 100 / rmsep.null
-    } else{
+    } else {
       output[i, "delta.RMSEP"] <-
         (output[i, "RMSEP"] - output[i - 1, "RMSEP"]) * 100 / output[i - 1, "RMSEP"]
     }
