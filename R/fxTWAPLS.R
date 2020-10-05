@@ -122,13 +122,16 @@ WAPLS.w <- function(modern_taxa,
   fit <- matrix(NA, nr, nPLS) # current estimate
   
   pls <- 1
-  # Step 1. Take the centred environmental variable(xi) as initial site scores (ri). 
+  # Step 1. Take the centred environmental variable(xi) as initial site 
+  # scores (ri). 
   r[, pls] <- x - mean(x)
   
-  # Step 2. Calculate new species scores (uk* by weighted averaging of the site scores)
+  # Step 2. Calculate new species scores (uk* by weighted averaging of the 
+  # site scores)
   u[, pls] <- t(y) %*% x / sumi_yik # uk = sumi_yik*xi/sumi_yik; 1*nmodern_taxa
   
-  # Step 3. Calculate new site scores (ri) by weighted averaging of the species scores
+  # Step 3. Calculate new site scores (ri) by weighted averaging of the species 
+  # scores
   r[, pls] <- y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
   
   # Step 4. For the first axis go to Step 5.
@@ -141,10 +144,11 @@ WAPLS.w <- function(modern_taxa,
   # Step 6. Take the standardized score as the new component
   comp[, pls] <- r[, pls]
   
-  # Step 7. Regress the environmental variable (xJ on the components obtained so 
-  # far using weights and take the fitted values as current estimates
+  # Step 7. Regress the environmental variable (xJ on the components obtained 
+  # so far using weights and take the fitted values as current estimates
   if(usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = sumk_yik / Ytottot)
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                    weights = sumk_yik / Ytottot)
   } else{
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
   }
@@ -155,14 +159,19 @@ WAPLS.w <- function(modern_taxa,
   optimum[, pls] <- alpha[[pls]][1] + u_sd[, pls] * alpha[[pls]][2]
   
   for(pls in 2:nPLS) {
-    # Go to Step 2 with the residuals of the regression as the new site scores (rJ.
+    # Go to Step 2 with the residuals of the regression as the new site 
+    # scores (rJ.
     r[, pls] <- lm[["residuals"]]
     
-    # Step 2. Calculate new species scores (uk* by weighted averaging of the site scores)
-    u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+    # Step 2. Calculate new species scores (uk* by weighted averaging of the 
+    # site scores)
+    # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+    u[, pls] <- t(y) %*% r[, pls] / sumi_yik
     
-    # Step 3. Calculate new site scores (ri) by weighted averaging of the species scores
-    r[, pls] <- y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
+    # Step 3. Calculate new site scores (ri) by weighted averaging of the 
+    # species scores
+    # xi=sumk_yik*uk/sumk_yik; 1*nsite
+    r[, pls] <- y %*% u[, pls] / sumk_yik 
     
     # Step 4. For second and higher components, make the new site scores (ri) 
     # uncorrelated with the previous components by orthogonalization 
@@ -202,8 +211,29 @@ WAPLS.w <- function(modern_taxa,
       alpha[[pls]][1] + u_sd[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
   
-  list <- list(fit, modern_climate, colnames(modern_taxa), optimum,comp, u, z, s, orth, alpha, mean(modern_climate), nPLS)
-  names(list) <- c(c("fit", "x", "taxon_name", "optimum", "comp", "u", "z", "s", "orth", "alpha", "meanx", "nPLS"))
+  list <- list(fit, 
+               modern_climate, 
+               colnames(modern_taxa), 
+               optimum,comp, 
+               u, 
+               z, 
+               s, 
+               orth, 
+               alpha, 
+               mean(modern_climate), 
+               nPLS)
+  names(list) <- c("fit", 
+                   "x", 
+                   "taxon_name", 
+                   "optimum", 
+                   "comp", 
+                   "u", 
+                   "z", 
+                   "s", 
+                   "orth", 
+                   "alpha", 
+                   "meanx", 
+                   "nPLS")
   return(list)
 }
 
