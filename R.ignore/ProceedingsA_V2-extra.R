@@ -1,116 +1,411 @@
-# MTCO
-fossil_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_Tmin, core)
-fossil_t_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, core)
-fossil_f_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_f_Tmin, core)
-fossil_tf_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin, core)
+########################################################################################################
+##################################    Define some functions     ########################################
+########################################################################################################
+#Get and plot the training results -------------------------
+train.sig<-function(modern_climate,fit,nsig, fit_t,nsig_t, fit_f,nsig_f, fit_tf,nsig_tf){
+  train<-cbind.data.frame(modern_climate,fit[["fit"]][,nsig],fit_t[["fit"]][,nsig_t],
+                          fit_f[["fit"]][,nsig_f],fit_tf[["fit"]][,nsig_tf])
+  colnames(train)<-c("x","WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")
+  return(train)
+}
+plot.train.sig<-function(train_sig_Tmin,train_sig_gdd,train_sig_alpha){
+  if(!require(ggplot2)){ install.packages("ggplot2");library(ggplot2)}
+  if(!require(egg)){ install.packages("egg");library(egg)}
+  
+  #MTCO
+  max_Tmin<-max(train_sig_Tmin);min_Tmin<-min(train_sig_Tmin)
+  p1_Tmin<-ggplot(train_sig_Tmin,aes(x,WAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_Tmin, x =min_Tmin,label="(a)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression(paste("WA-PLS  MTCO"," ", (degree~C))), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))
+  
+  p2_Tmin<-ggplot(train_sig_Tmin,aes(x,TWAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_Tmin, x =min_Tmin,label="(b)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression(paste("TWA-PLS  MTCO"," ", (degree~C))), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))
+  
+  p3_Tmin<-ggplot(train_sig_Tmin,aes(x,WAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_Tmin, x =min_Tmin,label="(c)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression(paste("WA-PLS with fx  MTCO"," ", (degree~C))), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))
+  
+  p4_Tmin<-ggplot(train_sig_Tmin,aes(x,TWAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_Tmin, x =min_Tmin,label="(d)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression(paste("TWA-PLS with fx  MTCO"," ", (degree~C))), x = expression(paste("MTCO"," ", (degree~C))))+
+    scale_y_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_Tmin,max_Tmin),breaks=c(-50,-25,0,25),labels = function(x) sprintf("%g", x))
+  
+  
+  
+  #GDD0
+  max_gdd<-max(train_sig_gdd);min_gdd<-min(train_sig_gdd)
+  p1_gdd<-ggplot(train_sig_gdd,aes(x,WAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_gdd, x =min_gdd,label="(e)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= bquote('WA-PLS  '~ GDD[0]), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))
+  
+  p2_gdd<-ggplot(train_sig_gdd,aes(x,TWAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_gdd, x =min_gdd,label="(f)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= bquote('TWA-PLS  '~ GDD[0]), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))
+  
+  p3_gdd<-ggplot(train_sig_gdd,aes(x,WAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_gdd, x =min_gdd,label="(g)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= bquote('WA-PLS with fx  '~ GDD[0]), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))
+  
+  p4_gdd<-ggplot(train_sig_gdd,aes(x,TWAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_gdd, x =min_gdd,label="(h)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= bquote('TWA-PLS with fx  '~ GDD[0]), x = bquote(GDD[0]))+
+    scale_y_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_gdd,max_gdd),breaks=c(0,3000,6000,9000),labels = function(x) sprintf("%g", x))
+  
+  
+  #alpha
+  max_alpha<-max(train_sig_alpha);min_alpha<-min(train_sig_alpha)
+  p1_alpha<-ggplot(train_sig_alpha,aes(x,WAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_alpha, x =min_alpha,label="(i)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression("WA-PLS   "*alpha), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))
+  
+  p2_alpha<-ggplot(train_sig_alpha,aes(x,TWAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_alpha, x =min_alpha,label="(j)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression("TWA-PLS   "*alpha), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))
+  
+  p3_alpha<-ggplot(train_sig_alpha,aes(x,WAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_alpha, x =min_alpha,label="(k)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression("WA-PLS with fx   "*alpha), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))
+  
+  p4_alpha<-ggplot(train_sig_alpha,aes(x,TWAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_alpha, x =min_alpha,label="(l)")+geom_abline(slope=1, intercept=0)+
+    geom_smooth(method='lm', formula= y~x,color='red')+
+    labs(y= expression("TWA-PLS with fx   "*alpha), x = expression(alpha))+
+    scale_y_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_alpha,max_alpha),breaks=c(0,0.5,1,1.5),labels = function(x) sprintf("%0.2f", x))
+  
+  p<-ggarrange(p1_Tmin,p1_gdd,p1_alpha,
+               p2_Tmin,p2_gdd,p2_alpha,
+               p3_Tmin,p3_gdd,p3_alpha,
+               p4_Tmin,p4_gdd,p4_alpha,  ncol = 3)
+  ggsave(file="Training results.jpeg",p,width=9.5,height=10)
+  
+}
+plot.train.residual.sig<-function(train_sig_Tmin,train_sig_gdd,train_sig_alpha){
+  if(!require(ggplot2)){ install.packages("ggplot2");library(ggplot2)}
+  if(!require(egg)){ install.packages("egg");library(egg)}
+  
+  #Get the residuals
+  train_residual_sig_Tmin<-cbind.data.frame(train_sig_Tmin[,"x"],train_sig_Tmin[,-1]-train_sig_Tmin[,"x"])
+  colnames(train_residual_sig_Tmin)<-c("x","WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")
+  train_residual_sig_gdd<-cbind.data.frame(train_sig_gdd[,"x"],train_sig_gdd[,-1]-train_sig_gdd[,"x"])
+  colnames(train_residual_sig_gdd)<-c("x","WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")
+  train_residual_sig_alpha<-cbind.data.frame(train_sig_alpha[,"x"],train_sig_alpha[,-1]-train_sig_alpha[,"x"])
+  colnames(train_residual_sig_alpha)<-c("x","WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")
+  
+  #MTCO
+  max_x_Tmin<-max(train_residual_sig_Tmin[,1]);min_x_Tmin<-min(train_residual_sig_Tmin[,1])
+  max_y_Tmin<-max(train_residual_sig_Tmin[,-1]);min_y_Tmin<-min(train_residual_sig_Tmin[,-1])
+  
+  p1_Tmin<-ggplot(train_residual_sig_Tmin,aes(x,WAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_Tmin, x = min_x_Tmin,label="(a)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression(paste("WA-PLS  MTCO"," ", (degree~C))), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_Tmin,max_y_Tmin),breaks=c(-30,-20,-10,0,10,20,30),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_Tmin,max_x_Tmin),breaks=c(-40,-30,-20,-10,0,10,20),labels = function(x) sprintf("%g", x))
+  
+  p2_Tmin<-ggplot(train_residual_sig_Tmin,aes(x,TWAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_Tmin, x = min_x_Tmin,label="(b)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression(paste("TWA-PLS  MTCO"," ", (degree~C))), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_Tmin,max_y_Tmin),breaks=c(-30,-20,-10,0,10,20,30),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_Tmin,max_x_Tmin),breaks=c(-40,-30,-20,-10,0,10,20),labels = function(x) sprintf("%g", x))
+  
+  p3_Tmin<-ggplot(train_residual_sig_Tmin,aes(x,WAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_Tmin, x = min_x_Tmin,label="(c)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression(paste("WA-PLS with fx  MTCO"," ", (degree~C))), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_Tmin,max_y_Tmin),breaks=c(-30,-20,-10,0,10,20,30),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_Tmin,max_x_Tmin),breaks=c(-40,-30,-20,-10,0,10,20),labels = function(x) sprintf("%g", x))
+  
+  p4_Tmin<-ggplot(train_residual_sig_Tmin,aes(x,TWAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_Tmin, x = min_x_Tmin,label="(d)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression(paste("TWA-PLS with fx  MTCO"," ", (degree~C))), x = expression(paste("MTCO"," ", (degree~C))))+
+    scale_y_continuous(limits=c(min_y_Tmin,max_y_Tmin),breaks=c(-30,-20,-10,0,10,20,30),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_Tmin,max_x_Tmin),breaks=c(-40,-30,-20,-10,0,10,20),labels = function(x) sprintf("%g", x))
+  
+  
+  
+  #GDD0
+  max_x_gdd<-max(train_residual_sig_gdd[,1]);min_x_gdd<-min(train_residual_sig_gdd[,1])
+  max_y_gdd<-max(train_residual_sig_gdd[,-1]);min_y_gdd<-min(train_residual_sig_gdd[,-1])
+  
+  p1_gdd<-ggplot(train_residual_sig_gdd,aes(x,WAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_gdd, x =min_x_gdd,label="(e)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= bquote('WA-PLS  '~ GDD[0]), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_gdd,max_y_gdd),breaks=c(-4000,-3000,-2000,-1000,0,1000,2000,3000,4000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_gdd,max_x_gdd),breaks=c(0,2000,4000,6000,8000),labels = function(x) sprintf("%g", x))
+  
+  p2_gdd<-ggplot(train_residual_sig_gdd,aes(x,TWAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_gdd, x =min_x_gdd,label="(f)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= bquote('TWA-PLS  '~ GDD[0]), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_gdd,max_y_gdd),breaks=c(-4000,-3000,-2000,-1000,0,1000,2000,3000,4000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_gdd,max_x_gdd),breaks=c(0,2000,4000,6000,8000),labels = function(x) sprintf("%g", x))
+  
+  p3_gdd<-ggplot(train_residual_sig_gdd,aes(x,WAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_gdd, x =min_x_gdd,label="(g)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= bquote('WA-PLS with fx  '~ GDD[0]), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_gdd,max_y_gdd),breaks=c(-4000,-3000,-2000,-1000,0,1000,2000,3000,4000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_gdd,max_x_gdd),breaks=c(0,2000,4000,6000,8000),labels = function(x) sprintf("%g", x))
+  
+  p4_gdd<-ggplot(train_residual_sig_gdd,aes(x,TWAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_gdd, x =min_x_gdd,label="(h)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= bquote('TWA-PLS with fx  '~ GDD[0]), x = bquote(GDD[0]))+
+    scale_y_continuous(limits=c(min_y_gdd,max_y_gdd),breaks=c(-4000,-3000,-2000,-1000,0,1000,2000,3000,4000),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(limits=c(min_x_gdd,max_x_gdd),breaks=c(0,2000,4000,6000,8000),labels = function(x) sprintf("%g", x))
+  
+  
+  #alpha
+  max_x_alpha<-max(train_residual_sig_alpha[,1]);min_x_alpha<-min(train_residual_sig_alpha[,1])
+  max_y_alpha<-max(train_residual_sig_alpha[,-1]);min_y_alpha<-min(train_residual_sig_alpha[,-1])
+  
+  p1_alpha<-ggplot(train_residual_sig_alpha,aes(x,WAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text",y= max_y_alpha, x =min_x_alpha,label="(i)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression("WA-PLS   "*alpha), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_alpha,max_y_alpha),breaks=c(-0.6,-0.4,-0.2,0,0.2,0.4,0.6),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_x_alpha,max_x_alpha),breaks=c(0,0.2,0.4,0.6,0.8,1.0,1.2),labels = function(x) sprintf("%0.2f", x))
+  
+  p2_alpha<-ggplot(train_residual_sig_alpha,aes(x,TWAPLS))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_alpha, x =min_x_alpha,label="(j)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression("TWA-PLS   "*alpha), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_alpha,max_y_alpha),breaks=c(-0.6,-0.4,-0.2,0,0.2,0.4,0.6),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_x_alpha,max_x_alpha),breaks=c(0,0.2,0.4,0.6,0.8,1.0,1.2),labels = function(x) sprintf("%0.2f", x))
+  
+  p3_alpha<-ggplot(train_residual_sig_alpha,aes(x,WAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_alpha, x =min_x_alpha,label="(k)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression("WA-PLS with fx   "*alpha), x = NULL)+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_y_alpha,max_y_alpha),breaks=c(-0.6,-0.4,-0.2,0,0.2,0.4,0.6),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_x_alpha,max_x_alpha),breaks=c(0,0.2,0.4,0.6,0.8,1.0,1.2),labels = function(x) sprintf("%0.2f", x))
+  
+  p4_alpha<-ggplot(train_residual_sig_alpha,aes(x,TWAPLS.fx))+geom_point(size=0.4)+theme_bw()+
+    annotate("text", y= max_y_alpha, x =min_x_alpha,label="(l)")+geom_abline(slope=0, intercept=0)+
+    geom_smooth(method='loess',color='red', se = FALSE)+
+    labs(y= expression("TWA-PLS with fx   "*alpha), x = expression(alpha))+
+    scale_y_continuous(limits=c(min_y_alpha,max_y_alpha),breaks=c(-0.6,-0.4,-0.2,0,0.2,0.4,0.6),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(limits=c(min_x_alpha,max_x_alpha),breaks=c(0,0.2,0.4,0.6,0.8,1.0,1.2),labels = function(x) sprintf("%0.2f", x))
+  
+  p<-ggarrange(p1_Tmin,p1_gdd,p1_alpha,
+               p2_Tmin,p2_gdd,p2_alpha,
+               p3_Tmin,p3_gdd,p3_alpha,
+               p4_Tmin,p4_gdd,p4_alpha,  ncol = 3)
+  ggsave(file="Training residuals.jpeg",p,width=9.5,height=10)
+  
+}
 
-core_sig_Tmin <- core.sig(fossil_Tmin, 3,
-                          fossil_t_Tmin, 3,
-                          fossil_f_Tmin, 3,
-                          fossil_tf_Tmin, 4)
-core_sig_Tmin <- cbind.data.frame(Holocene[, c("Site", "Age.cal.BP")], 
-                                  core_sig_Tmin)
+#Get and plot the core results -------------------------
+core.sig<-function(fossil,nsig, fossil_t,nsig_t, fossil_f,nsig_f, fossil_tf,nsig_tf){
+  core<-cbind.data.frame(fossil[["fit"]][,nsig],fossil_t[["fit"]][,nsig_t],
+                         fossil_f[["fit"]][,nsig_f],fossil_tf[["fit"]][,nsig_tf])
+  colnames(core)<-c("WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")
+  return(core)
+}
+plot.core.sig.sse<-function(sitename, core_sig_Tmin,core_modern_Tmin, core_sig_gdd,core_modern_gdd, core_sig_alpha,core_modern_alpha,zero_Tmin,zero_gdd,zero_alpha,sse_core_sig_Tmin,sse_core_sig_gdd,sse_core_sig_alpha){
+  if(!require(ggplot2)){ install.packages("ggplot2");library(ggplot2)}
+  if(!require(egg)){ install.packages("egg");library(egg)}
+  if(!require(gridExtra)){install.packages("gridExtra");library(gridExtra)}
+  
+  xbreak<-2000*c(seq(0,6))
+  
+  #MTCO
+  plotsite_Tmin<-cbind.data.frame(core_sig_Tmin[which(core_sig_Tmin$Site==sitename),],sse_core_sig_Tmin[which(core_sig_Tmin$Site==sitename),])
+  max_Tmin<-max(plotsite_Tmin[,c("WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")],na.rm=TRUE);max_Tmin<-max(max_Tmin,core_modern_Tmin,zero_Tmin)
+  min_Tmin<-min(plotsite_Tmin[,c("WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")],na.rm=TRUE);min_Tmin<-min(min_Tmin,core_modern_Tmin,zero_Tmin)
+  
+  p_Tmin<-ggplot(plotsite_Tmin)+
+    geom_point(size=0.4,aes(Age.cal.BP,WAPLS))+geom_line(aes(Age.cal.BP,WAPLS))+
+    geom_ribbon(aes(ymin=WAPLS-1.96*sse_WAPLS, ymax=WAPLS+1.96*sse_WAPLS,x=Age.cal.BP),alpha=0.22,fill="black")+
+    geom_point(col="red",size=0.4,aes(Age.cal.BP,TWAPLS.fx))+geom_line(col="red",aes(Age.cal.BP,TWAPLS.fx))+
+    geom_ribbon(aes(ymin=TWAPLS.fx-sse_TWAPLS.fx, ymax=TWAPLS.fx+sse_TWAPLS.fx,x=Age.cal.BP),alpha=0.36,fill="red")+
+    labs(y= expression(paste("Reconstructed MTCO"," ", (degree~C))), x = NULL)+
+    annotate("text", y= max_Tmin, x = (-1000),label="(a)")+ 
+    geom_segment(x = (-100),xend=(-500), y = core_modern_Tmin,yend = core_modern_Tmin)+
+    theme_bw()+theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_Tmin,max_Tmin),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(breaks = xbreak,limits=c(-1000,12000))+
+    geom_hline(yintercept = zero_Tmin,linetype="dashed")
+  
+  #GDD0
+  plotsite_gdd<-cbind.data.frame(core_sig_gdd[which(core_sig_gdd$Site==sitename),],sse_core_sig_gdd[which(core_sig_gdd$Site==sitename),])
+  max_gdd<-max(plotsite_gdd[,c("WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")],na.rm=TRUE);max_gdd<-max(max_gdd,core_modern_gdd,zero_gdd)
+  min_gdd<-min(plotsite_gdd[,c("WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")],na.rm=TRUE);min_gdd<-min(min_gdd,core_modern_gdd,zero_gdd)
+  
+  p_gdd<-ggplot(plotsite_gdd)+
+    geom_point(size=0.4,aes(Age.cal.BP,WAPLS))+geom_line(aes(Age.cal.BP,WAPLS))+
+    geom_ribbon(aes(ymin=WAPLS-1.96*sse_WAPLS, ymax=WAPLS+1.96*sse_WAPLS,x=Age.cal.BP),alpha=0.22,fill="black")+
+    geom_point(col="red",size=0.4,aes(Age.cal.BP,TWAPLS.fx))+geom_line(col="red",aes(Age.cal.BP,TWAPLS.fx))+
+    geom_ribbon(aes(ymin=TWAPLS.fx-sse_TWAPLS.fx, ymax=TWAPLS.fx+sse_TWAPLS.fx,x=Age.cal.BP),alpha=0.36,fill="red")+
+    labs(y= bquote('Reconstructed '~ GDD[0]), x = NULL)+
+    annotate("text", y= max_gdd, x = (-1000),label="(b)")+ 
+    geom_segment(x = (-100),xend=(-500), y = core_modern_gdd,yend = core_modern_gdd)+
+    theme_bw()+theme(axis.title.x=element_blank(),axis.text.x=element_blank())+
+    scale_y_continuous(limits=c(min_gdd,max_gdd),labels = function(x) sprintf("%g", x))+
+    scale_x_continuous(breaks = xbreak,limits=c(-1000,12000))+
+    geom_hline(yintercept = zero_gdd,linetype="dashed")
+  
+  #alpha
+  plotsite_alpha<-cbind.data.frame(core_sig_alpha[which(core_sig_alpha$Site==sitename),],sse_core_sig_alpha[which(core_sig_alpha$Site==sitename),])
+  max_alpha<-max(plotsite_alpha[,c("WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")],na.rm=TRUE);max_alpha<-max(max_alpha,core_modern_alpha,zero_alpha)
+  min_alpha<-min(plotsite_alpha[,c("WAPLS","TWAPLS","WAPLS.fx","TWAPLS.fx")],na.rm=TRUE);min_alpha<-min(min_alpha,core_modern_alpha,zero_alpha)
+  
+  p_alpha<-ggplot(plotsite_alpha)+
+    geom_point(size=0.4,aes(Age.cal.BP,WAPLS))+geom_line(aes(Age.cal.BP,WAPLS))+
+    geom_ribbon(aes(ymin=WAPLS-1.96*sse_WAPLS, ymax=WAPLS+1.96*sse_WAPLS,x=Age.cal.BP),alpha=0.22,fill="black")+
+    geom_point(col="red",size=0.4,aes(Age.cal.BP,TWAPLS.fx))+geom_line(col="red",aes(Age.cal.BP,TWAPLS.fx))+
+    geom_ribbon(aes(ymin=TWAPLS.fx-sse_TWAPLS.fx, ymax=TWAPLS.fx+sse_TWAPLS.fx,x=Age.cal.BP),alpha=0.36,fill="red")+
+    labs(y= expression("Reconstructed "*alpha), x = "Age (yr BP)")+
+    annotate("text", y= max_alpha, x = (-1000),label="(c)")+ 
+    geom_segment(x = (-100),xend=(-500), y = core_modern_alpha,yend = core_modern_alpha)+
+    theme_bw()+theme(axis.title.x=element_blank())+
+    scale_y_continuous(limits=c(min_alpha,max_alpha),labels = function(x) sprintf("%0.2f", x))+
+    scale_x_continuous(breaks = xbreak,limits=c(-1000,12000))+
+    geom_hline(yintercept = zero_alpha,linetype="dashed")
+  
+  #Range of reconstruction
+  range_WAPLS<-c(max(plotsite_Tmin[,"WAPLS"],na.rm=TRUE)-min(plotsite_Tmin[,"WAPLS"],na.rm=TRUE),
+                 max(plotsite_gdd[,"WAPLS"],na.rm=TRUE)-min(plotsite_gdd[,"WAPLS"],na.rm=TRUE),
+                 max(plotsite_alpha[,"WAPLS"],na.rm=TRUE)-min(plotsite_alpha[,"WAPLS"],na.rm=TRUE))
+  range_TWAPLS.fx<-c(max(plotsite_Tmin[,"TWAPLS.fx"],na.rm=TRUE)-min(plotsite_Tmin[,"TWAPLS.fx"],na.rm=TRUE),
+                     max(plotsite_gdd[,"TWAPLS.fx"],na.rm=TRUE)-min(plotsite_gdd[,"TWAPLS.fx"],na.rm=TRUE),
+                     max(plotsite_alpha[,"TWAPLS.fx"],na.rm=TRUE)-min(plotsite_alpha[,"TWAPLS.fx"],na.rm=TRUE))
+  range<-rbind.data.frame(range_WAPLS,range_TWAPLS.fx)
+  colnames(range)<-c("range_Tmin","range_gdd","range_alpha");  
+  range$method<-c("WA-PLS","TWA-PLS with fx");
+  range$method<-factor(range$method,levels=c("WA-PLS","TWA-PLS with fx"))
+  
+  p_Tmin_range<-ggplot(range)+geom_col(aes(method,range_Tmin),width=0.2)+ylim(0,1.2*max(range$range_Tmin))+
+    geom_text(aes(method,range_Tmin),position = "identity",vjust=(-1),label=sprintf("%0.2f", round(range$range_Tmin,digits = 2)))+
+    ylab(expression(paste("Range of MTCO"," ", (degree~C))))+
+    annotate("text", y= 1.2*max(range$range_Tmin), x = 0.6,label="(d)")+theme_bw()+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())
+  
+  p_gdd_range<-ggplot(range)+geom_col(aes(method,range_gdd),width=0.2)+ylim(0,1.2*max(range$range_gdd))+
+    geom_text(aes(method,range_gdd),position = "identity",vjust=(-1),label=sprintf("%0.2f", round(range$range_gdd,digits = 0)))+
+    ylab(bquote('Range of'~ GDD[0]))+annotate("text", y= 1.2*max(range$range_gdd), x = 0.6,label="(e)")+theme_bw()+
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank())
+  
+  p_alpha_range<-ggplot(range)+geom_col(aes(method,range_alpha),width=0.2)+xlab("Method")+ylim(0,1.2*max(range$range_alpha))+
+    geom_text(aes(method,range_alpha),position = "identity",vjust=(-1),label=sprintf("%0.2f", round(range$range_alpha,digits = 2)))+
+    labs(y=expression("Range of "*alpha),x=NULL)+annotate("text", y= 1.2*max(range$range_alpha), x = 0.6,label="(f)")+theme_bw()
+  
+  p1<-ggarrange(p_Tmin,p_gdd,p_alpha,ncol=1)
+  p2<-ggarrange(p_Tmin_range,p_gdd_range,p_alpha_range,ncol=1)
+  
+  p<-arrangeGrob(p1 ,p2, ncol = 7,nrow=1,layout_matrix = cbind(1,1,1,1,1,2,2))
+  ggsave(file=paste(sitename,"reconstruction results using the last significant number of components.jpeg"),p,width=10,height=9)
+  
+}
+
+
+########################################################################################################
+#######################################    Training  ###################################################
+########################################################################################################
+# install.packages(c("hexSticker", "remotes", "usethis"))
+install.packages("remotes")
+remotes::install_github("special-uor/fxTWAPLS@v0.0.2")
+if(!require(here)){install.packages("here");library(here)}
+if(!require(tictoc)){install.packages("tictoc");library(tictoc)}
+
+setwd(here::here("/"))
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE))
+
+taxaColMin <- which(colnames(modern_pollen) == "Abies")
+taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+taxa <- modern_pollen[, taxaColMin:taxaColMax]
+
+# Training ---------------------------------------------
+
+# Get the frequency of each climate variable fx
+fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+
+# In step 7 of training, climate variable is regressed to the components obtained,
+# MTCO
+fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+fit_f_Tmin <- 
+  fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5, usefx = TRUE, fx = fx_Tmin)
+fit_tf_Tmin <- 
+  fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5, usefx = TRUE, fx = fx_Tmin)
 
 # GDD0
-fossil_gdd <- fxTWAPLS::WAPLS.predict.w(fit_gdd, core)
-fossil_t_gdd <- fxTWAPLS::TWAPLS.predict.w(fit_t_gdd, core)
-fossil_f_gdd <- fxTWAPLS::WAPLS.predict.w(fit_f_gdd, core)
-fossil_tf_gdd <- fxTWAPLS::TWAPLS.predict.w(fit_tf_gdd, core)
-
-core_sig_gdd <- core.sig(fossil_gdd, 2, 
-                         fossil_t_gdd, 2, 
-                         fossil_f_gdd, 2, 
-                         fossil_tf_gdd, 3)
-core_sig_gdd <- cbind.data.frame(Holocene[, c("Site", "Age.cal.BP")],
-                                 core_sig_gdd)
+fit_gdd <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$gdd, nPLS = 5)
+fit_t_gdd <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$gdd, nPLS = 5)
+fit_f_gdd <- 
+  fxTWAPLS::WAPLS.w(taxa, modern_pollen$gdd, nPLS = 4, usefx = TRUE, fx = fx_gdd)
+fit_tf_gdd <- 
+  fxTWAPLS::TWAPLS.w(taxa, modern_pollen$gdd, nPLS = 5, usefx = TRUE, fx = fx_gdd)
 
 # alpha
-fossil_alpha <- fxTWAPLS::WAPLS.predict.w(fit_alpha, core)
-fossil_t_alpha <- fxTWAPLS::TWAPLS.predict.w(fit_t_alpha, core)
-fossil_f_alpha <- fxTWAPLS::WAPLS.predict.w(fit_f_alpha, core)
-fossil_tf_alpha <- fxTWAPLS::TWAPLS.predict.w(fit_tf_alpha, core)
-
-core_sig_alpha <- core.sig(fossil_alpha, 3, 
-                           fossil_t_alpha, 4, 
-                           fossil_f_alpha, 2, 
-                           fossil_tf_alpha, 3)
-core_sig_alpha <- cbind.data.frame(Holocene[, c("Site", "Age.cal.BP")],
-                                   core_sig_alpha)
-
-write.csv(core_sig_Tmin, "C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/core_sig_Tmin.csv")
-write.csv(core_sig_gdd, "C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/core_sig_gdd.csv")
-write.csv(core_sig_alpha, "C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/core_sig_alpha.csv")
+fit_alpha <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$alpha, nPLS = 5)
+fit_t_alpha <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$alpha, nPLS = 5)
+fit_f_alpha <- 
+  fxTWAPLS::WAPLS.w(taxa, modern_pollen$alpha, nPLS = 4, usefx = TRUE, fx = fx_alpha)
+fit_tf_alpha <- 
+  fxTWAPLS::TWAPLS.w(taxa, modern_pollen$alpha, nPLS = 5, usefx = TRUE, fx = fx_alpha)
 
 #######################################################################################################################
-####################### Get the reconstruction sample specific standard error #########################################
-#######################################################################################################################
-
-#Get the sample specific error
-#MTCO
-sse_Tmin_WAPLS <-
-  sse.sample(
-    modern_taxa = taxa,
-    modern_climate = modern_pollen$Tmin,
-    fossil_taxa = core,
-    trainfun = fxTWAPLS::WAPLS.w,
-    predictfun = fxTWAPLS::WAPLS.predict.w,
-    nboot = 100,
-    nPLS = 5,
-    nsig = 3,
-    usefx = FALSE,
-    fx = NA,
-    cpus = 15,
-    seed = 2
-  )
-sse_Tmin_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_Tmin_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
-sse_Tmin_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
-
-sse_core_sig_Tmin<-cbind.data.frame(sse_Tmin_WAPLS,sse_Tmin_TWAPLS,sse_Tmin_WAPLS.fx,sse_Tmin_TWAPLS.fx)
-colnames(sse_core_sig_Tmin)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
-write.csv(sse_core_sig_Tmin,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_Tmin.csv")
-
-#GDD0
-sse_gdd_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
-sse_gdd_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
-
-sse_core_sig_gdd<-cbind.data.frame(sse_gdd_WAPLS,sse_gdd_TWAPLS,sse_gdd_WAPLS.fx,sse_gdd_TWAPLS.fx)
-colnames(sse_core_sig_gdd)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
-write.csv(sse_core_sig_gdd,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_gdd.csv")
-
-#alpha
-sse_alpha_WAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_alpha_TWAPLS<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
-sse_alpha_WAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
-sse_alpha_TWAPLS.fx<-sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
-
-sse_core_sig_alpha<-cbind.data.frame(sse_alpha_WAPLS,sse_alpha_TWAPLS,sse_alpha_WAPLS.fx,sse_alpha_TWAPLS.fx)
-colnames(sse_core_sig_alpha)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
-write.csv(sse_core_sig_alpha,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_alpha.csv")
-
-#######################################################################################################################
-################################# Plot the reconstruction results #####################################################
-#######################################################################################################################
-
-setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core plots")
-#WA-PLS zero compression points
-zero_Tmin<-(-2.1);zero_gdd<-3291;zero_alpha<-0.79
-#Plot Basa de la Mora
-sitename<-"Basa de la Mora"
-core_modern_Tmin<-(-2.4);core_modern_gdd<-1849;core_modern_alpha<-1.04
-#plot.core.sig(sitename, core_sig_Tmin,core_modern_Tmin, core_sig_gdd,core_modern_gdd, core_sig_alpha,core_modern_alpha,zero_Tmin,zero_gdd,zero_alpha)
-plot.core.sig.sse(sitename, core_sig_Tmin,core_modern_Tmin, core_sig_gdd,core_modern_gdd, core_sig_alpha,core_modern_alpha,zero_Tmin,zero_gdd,zero_alpha,sse_core_sig_Tmin,sse_core_sig_gdd,sse_core_sig_alpha)
-
-#Plot Estanya
-sitename<-"Estanya"
-core_modern_Tmin<-4.2;core_modern_gdd<-4352;core_modern_alpha<-0.71
-#plot.core.sig(sitename, core_sig_Tmin,core_modern_Tmin, core_sig_gdd,core_modern_gdd, core_sig_alpha,core_modern_alpha,zero_Tmin,zero_gdd,zero_alpha)
-plot.core.sig.sse(sitename, core_sig_Tmin,core_modern_Tmin, core_sig_gdd,core_modern_gdd, core_sig_alpha,core_modern_alpha,zero_Tmin,zero_gdd,zero_alpha,sse_core_sig_Tmin,sse_core_sig_gdd,sse_core_sig_alpha)
-
-################################################################################
-################################# Plot the training results ###########################################################
+########################## Plot the training results (Figure 2 and 3) #################################################
 #######################################################################################################################
 
 #Get and plot the results using the last significant number of components obtained for cross validation with pseudo sites removed from the training set
@@ -130,8 +425,8 @@ write.csv(train_sig_gdd,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data
 write.csv(train_sig_alpha,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training/train_sig_alpha.csv")
 
 setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Training plots")
-plot.train.sig(train_sig_Tmin,train_sig_gdd,train_sig_alpha)
-plot.train.residual.sig(train_sig_Tmin,train_sig_gdd,train_sig_alpha)
+plot.train.sig(train_sig_Tmin,train_sig_gdd,train_sig_alpha )#Figure2
+plot.train.residual.sig(train_sig_Tmin,train_sig_gdd,train_sig_alpha) #Figure3
 
 ####################Supplementary Materail plots###########################
 
@@ -162,7 +457,102 @@ plot.train.sig(train_same_Tmin,train_same_gdd,train_same_alpha)
 plot.train.residual.sig(train_same_Tmin,train_same_gdd,train_same_alpha)
 
 ########################################################################################################
-########################    Maps to show the training data    #########################################
+####################################  Reconstruction  ##################################################
+########################################################################################################
+setwd(here::here("/"))
+Holocene <- read.csv(system.file("extdata", 
+                                 "Holocene.csv", 
+                                 package = "fxTWAPLS", 
+                                 mustWork = TRUE))
+taxaColMin <- which(colnames(Holocene) == "Abies")
+taxaColMax <- which(colnames(Holocene) == "Zygophyllaceae")
+core<-Holocene[,taxaColMin:taxaColMax]
+
+setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core")
+
+#MTCO
+fossil_Tmin<-fxTWAPLS::WAPLS.predict.w(fit_Tmin,core)
+fossil_t_Tmin<-fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin,core)
+fossil_f_Tmin<-fxTWAPLS::WAPLS.predict.w(fit_f_Tmin,core)
+fossil_tf_Tmin<-fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin,core)
+
+core_sig_Tmin<-core.sig(fossil_Tmin,3, fossil_t_Tmin,3, fossil_f_Tmin,3, fossil_tf_Tmin,4)
+core_sig_Tmin<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_Tmin)
+
+#GDD0
+fossil_gdd<-fxTWAPLS::WAPLS.predict.w(fit_gdd,core)
+fossil_t_gdd<-fxTWAPLS::TWAPLS.predict.w(fit_t_gdd,core)
+fossil_f_gdd<-fxTWAPLS::WAPLS.predict.w(fit_f_gdd,core)
+fossil_tf_gdd<-fxTWAPLS::TWAPLS.predict.w(fit_tf_gdd,core)
+
+core_sig_gdd<-core.sig(fossil_gdd,2, fossil_t_gdd,2, fossil_f_gdd,2, fossil_tf_gdd,3)
+core_sig_gdd<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_gdd)
+
+#alpha
+fossil_alpha<-fxTWAPLS::WAPLS.predict.w(fit_alpha,core)
+fossil_t_alpha<-fxTWAPLS::TWAPLS.predict.w(fit_t_alpha,core)
+fossil_f_alpha<-fxTWAPLS::WAPLS.predict.w(fit_f_alpha,core)
+fossil_tf_alpha<-fxTWAPLS::TWAPLS.predict.w(fit_tf_alpha,core)
+
+core_sig_alpha<-core.sig(fossil_alpha,3, fossil_t_alpha,4, fossil_f_alpha,2, fossil_tf_alpha,3)
+core_sig_alpha<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_alpha)
+
+write.csv(core_sig_Tmin,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/core_sig_Tmin.csv")
+write.csv(core_sig_gdd,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/core_sig_gdd.csv")
+write.csv(core_sig_alpha,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/core_sig_alpha.csv")
+
+#Get the sample specific errors, use nboot=1000
+#MTCO
+sse_Tmin_WAPLS<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_TWAPLS<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_WAPLS.fx<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
+sse_Tmin_TWAPLS.fx<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$Tmin,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
+
+sse_core_sig_Tmin<-cbind.data.frame(sse_Tmin_WAPLS,sse_Tmin_TWAPLS,sse_Tmin_WAPLS.fx,sse_Tmin_TWAPLS.fx)
+colnames(sse_core_sig_Tmin)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
+write.csv(sse_core_sig_Tmin,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_Tmin.csv")
+
+#GDD0
+sse_gdd_WAPLS<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_TWAPLS<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_WAPLS.fx<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
+sse_gdd_TWAPLS.fx<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$gdd,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
+
+sse_core_sig_gdd<-cbind.data.frame(sse_gdd_WAPLS,sse_gdd_TWAPLS,sse_gdd_WAPLS.fx,sse_gdd_TWAPLS.fx)
+colnames(sse_core_sig_gdd)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
+write.csv(sse_core_sig_gdd,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_gdd.csv")
+
+#alpha
+sse_alpha_WAPLS<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_alpha_TWAPLS<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
+sse_alpha_WAPLS.fx<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
+sse_alpha_TWAPLS.fx<-fxTWAPLS::sse.sample(modern_taxa=taxa,modern_climate=modern_pollen$alpha,fossil_taxa=core,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
+
+sse_core_sig_alpha<-cbind.data.frame(sse_alpha_WAPLS,sse_alpha_TWAPLS,sse_alpha_WAPLS.fx,sse_alpha_TWAPLS.fx)
+colnames(sse_core_sig_alpha)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
+write.csv(sse_core_sig_alpha,"C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core/sse_core_sig_alpha.csv")
+
+
+#######################################################################################################################
+########################## Plot the reconstruction results (Figure 5 and 6) ###########################################
+#######################################################################################################################
+
+setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Core plots")
+#WA-PLS zero compression points
+zero_Tmin<-(-2.1);zero_gdd<-3291;zero_alpha<-0.79
+
+#Plot Basa de la Mora (Figure 5)
+sitename<-"Basa de la Mora"
+core_modern_Tmin<-(-2.4);core_modern_gdd<-1849;core_modern_alpha<-1.04
+plot.core.sig.sse(sitename, core_sig_Tmin,core_modern_Tmin, core_sig_gdd,core_modern_gdd, core_sig_alpha,core_modern_alpha,zero_Tmin,zero_gdd,zero_alpha,sse_core_sig_Tmin,sse_core_sig_gdd,sse_core_sig_alpha)
+
+#Plot Estanya (Figure 6)
+sitename<-"Estanya"
+core_modern_Tmin<-4.2;core_modern_gdd<-4352;core_modern_alpha<-0.71
+plot.core.sig.sse(sitename, core_sig_Tmin,core_modern_Tmin, core_sig_gdd,core_modern_gdd, core_sig_alpha,core_modern_alpha,zero_Tmin,zero_gdd,zero_alpha,sse_core_sig_Tmin,sse_core_sig_gdd,sse_core_sig_alpha)
+
+########################################################################################################
+########################    Maps to show the training data  (Figure 1)  ################################
 ########################################################################################################
 # Maps -------------------------------------------------------------------
 #Modern sites
@@ -233,7 +623,7 @@ p<-ggarrange(p1,p2,p3,p4, ncol = 2)
 ggsave(file=paste("Map.jpeg"),p,width=14.5,height=11.5)
 
 ########################################################################################################
-########################    Plot to show the compression principle     #################################
+########################    Plot to show the compression principle (Figure 4)    #######################
 ########################################################################################################
 setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Principle")
 #Plots to show the principle
@@ -368,76 +758,19 @@ p<-arrangeGrob(p_principle,p_optimum_tolerance,h,ncol = 7,nrow=1,layout_matrix =
 
 ggsave(file="The principle of compression in WA-PLS.jpeg",p,width=11,height=7)
 
+########################################################################################################
+############################################    Table 3    #############################################
+########################################################################################################
+sum(taxa>0)/ncol(taxa)
+
+narrow_Tmin<-which(ut_Tmin$t<3);narrow_gdd<-which(ut_gdd$t<500);narrow_alpha<-which(ut_alpha$t<0.1)
+sum(taxa[,narrow_Tmin]>0)/length(narrow_Tmin)
+sum(taxa[,narrow_gdd]>0)/length(narrow_gdd)
+sum(taxa[,narrow_alpha]>0)/length(narrow_alpha)
+
 
 #######################################################################################################################
-###################### Showing approximation in the derivations #######################################################
-#######################################################################################################################
-sump<-function(x,y){
-  p<-rep(NA,nrow(y))
-  t<-matrix(NA,ncol(y),1); #tolerance
-  
-  sumk_yik<-rowSums(y)
-  sumi_yik<-colSums(y)
-  ea<-sqrt(2)*sumk_yik
-  u = t(y)%*%x / sumi_yik;
-  n2<-matrix(NA,ncol(y),1)
-  for(k in 1:ncol(y)){
-    t[k] = sqrt(sum(y[,k]*(x-u[k])^2)/sumi_yik[k])
-    n2[k]<-1/sum((y[,k]/sum(y[,k]))^2)
-    t[k]<-t[k]/sqrt(1-1/n2[k])
-  }
-  
-  for(i in 1:nrow(y)){
-    piko<-0
-    for(k in 1:ncol(y)){
-      piko<-piko+exp(log(ea[k]/sqrt(2))-(x[i]-u[k])^2/(2*t[k]^2))
-    }
-    p[i]<-piko
-  }
-  return(p)
-}# get sum over pik*
-
-p_Tmin<-sump(modern_pollen$Tmin,taxa)
-p_gdd<-sump(modern_pollen$gdd,taxa)
-p_alpha<-sump(modern_pollen$alpha,taxa)
-
-#GLM
-glm<-glm(p_Tmin~modern_pollen$Tmin+I(modern_pollen$Tmin^2),family=poisson());summary(glm)
-plot_Tmin<-cbind.data.frame(modern_pollen$Tmin,p_Tmin,fitted(glm));colnames(plot_Tmin)<-c("x","sump","glm")
-
-glm<-glm(p_gdd~modern_pollen$gdd+I(modern_pollen$gdd^2),family=poisson());summary(glm)
-plot_gdd<-cbind.data.frame(modern_pollen$gdd,p_gdd,fitted(glm));colnames(plot_gdd)<-c("x","sump","glm")
-
-glm<-glm(p_alpha~modern_pollen$alpha+I(modern_pollen$alpha^2),family=poisson());summary(glm)
-plot_alpha<-cbind.data.frame(modern_pollen$alpha,p_alpha,fitted(glm));colnames(plot_alpha)<-c("x","sump","glm")
-
-if(!require(ggplot2)){ install.packages("ggplot2");library(ggplot2)}
-if(!require(egg)){ install.packages("egg");library(egg)}
-setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Principle")
-
-p1<-ggplot(data=plot_Tmin)+geom_point(aes(x,sump))+geom_point(aes(x,glm),col="red")+theme_bw()+
-  annotate("text", y= 150, x =min(plot_Tmin$x),label="(a)")+
-  labs(y= bquote('sum over '~ p[ik]~"*"), x = expression(paste("MTCO"," ", (degree~C))))+
-  scale_y_continuous(limits=c(0,150),breaks=c(0,50,100,150),labels = function(x) sprintf("%g", x))
-
-p2<-ggplot(data=plot_gdd)+geom_point(aes(x,sump))+geom_point(aes(x,glm),col="red")+theme_bw()+
-  annotate("text", y= 150, x =min(plot_gdd$x),label="(b)")+
-  labs(y= NULL, x = bquote(GDD[0]))+
-  scale_y_continuous(limits=c(0,150),breaks=c(0,50,100,150))+
-  theme(axis.title.y=element_blank(),axis.text.y=element_blank())
-
-p3<-ggplot(data=plot_alpha)+geom_point(aes(x,sump))+geom_point(aes(x,glm),col="red")+theme_bw()+
-  annotate("text", y= 150, x =min(plot_alpha$x),label="(c)")+
-  labs(y= NULL, x = expression(alpha))+
-  scale_y_continuous(limits=c(0,150),breaks=c(0,50,100,150))+
-  theme(axis.title.y=element_blank(),axis.text.y=element_blank())
-
-
-p<-ggarrange(p1,p2,p3,  ncol = 3)
-ggsave(file="Approximation of sum.jpeg",p,width=12,height=4)
-
-#######################################################################################################################
-######################################## Residual and elevation #######################################################
+######################################## Residuals and elevations #####################################################
 #######################################################################################################################
 # Residual and elevation --------------------------------------------------
 Elv<-modern_pollen$Elv
@@ -511,12 +844,12 @@ p<-ggarrange(p1_Tmin,p1_gdd,p1_alpha,
 ggsave(file="Residual and elevation.jpeg",p,width=9.5,height=10)
 
 #######################################################################################################################
-############################################### Multimodal taxa #######################################################
+############################################### non_unimodal taxa #######################################################
 #######################################################################################################################
 
-multimodalTaxon<-"Artemisia"
+non_unimodal_taxon<-"Artemisia"
 
-abun<-modern_pollen[,multimodalTaxon]
+abun<-modern_pollen[,non_unimodal_taxon]
 
 plot(abun~modern_pollen$Tmin)
 plot(abun~modern_pollen$gdd)
@@ -525,37 +858,24 @@ plot(abun~modern_pollen$alpha)
 if(!require(ggplot2)){ install.packages("ggplot2");library(ggplot2)}
 if(!require(egg)){ install.packages("egg");library(egg)}
 
+setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Non_unimodality")
+
 p1<-ggplot(modern_pollen)+geom_point(size=0.8,aes(Tmin,Artemisia))+theme_bw()+
   labs(y= "Abundance of Artemisa",  x = expression(paste("MTCO"," ", (degree~C))))  
 ggsave(file="Abundance of Artemisia to MTCO.jpeg",p1,width=6,height=4)
 
-p1<-ggplot(modern_pollen)+geom_point(size=0.8,aes(Tmin,Artemisia))+theme_bw()+
-  labs(y= "Abundance of Artemisa",  x = expression(paste("MTCO"," ", (degree~C))))+    
-  annotate("text", y= 1, x = min(modern_pollen$Tmin),label="(a)")
 
-p2<-ggplot(modern_pollen)+geom_point(size=0.8,aes(gdd,Artemisia))+theme_bw()+
-  labs(y= NULL,  x = bquote(GDD[0]))+
-  theme(axis.title.y=element_blank(),axis.text.y=element_blank())+ 
-  annotate("text", y= 1, x = min(modern_pollen$gdd),label="(b)")
 
-p3<-ggplot(modern_pollen)+geom_point(size=0.8,aes(alpha,Artemisia))+theme_bw()+
-  labs(y= "NULL",  x = expression(alpha))+    
-  theme(axis.title.y=element_blank(),axis.text.y=element_blank())+ 
-  annotate("text", y= 1, x = min(modern_pollen$alpha),label="(c)")
-
-p<-ggarrange(p1,p2,p3,  ncol = 3)
-ggsave(file="Abundance of Artemisia.jpeg",p,width=12,height=4)
-
-# Training with multimodal taxa removed ---------------------------------------------
-setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Multimodality")
+# Training with non_unimodal taxa removed ---------------------------------------------
+setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Non-unimodality")
 
 #Get the frequency of each climate variable fx
-fx_Tmin<-fx(modern_pollen$Tmin,bin=0.02)
-fx_gdd<-fx(modern_pollen$gdd,bin=20)
-fx_alpha<-fx(modern_pollen$alpha,bin=0.002)
+fx_Tmin<-fxTWAPLS::fx(modern_pollen$Tmin,bin=0.02)
+fx_gdd<-fxTWAPLS::fx(modern_pollen$gdd,bin=20)
+fx_alpha<-fxTWAPLS::fx(modern_pollen$alpha,bin=0.002)
 
 #In step 7 of training, climate variable is regressed to the components obtained,
-taxa1<-taxa[,-which(colnames(taxa)==multimodalTaxon)]
+taxa1<-taxa[,-which(colnames(taxa)==non_unimodal_taxon)]
 #MTCO
 fit_Tmin1<-fxTWAPLS::WAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5)
 fit_t_Tmin1<-fxTWAPLS::TWAPLS.w(taxa1,modern_pollen$Tmin,nPLS=5)
@@ -574,9 +894,9 @@ fit_t_alpha1<-fxTWAPLS::TWAPLS.w(taxa1,modern_pollen$alpha,nPLS=5)
 fit_f_alpha1<-fxTWAPLS::WAPLS.w(taxa1,modern_pollen$alpha,nPLS=4,usefx=TRUE,fx=fx_alpha)
 fit_tf_alpha1<-fxTWAPLS::TWAPLS.w(taxa1,modern_pollen$alpha,nPLS=5,usefx=TRUE,fx=fx_alpha)
 
-# Reconstruction with multimodal taxa removed ---------------------------------------------
+# Reconstruction with non_unimodal taxa removed ---------------------------------------------
 
-core1<-core[,-which(colnames(core)==multimodalTaxon)]
+core1<-core[,-which(colnames(core)==non_unimodal_taxon)]
 
 #MTCO
 fossil_Tmin1<-fxTWAPLS::WAPLS.predict.w(fit_Tmin1,core1)
@@ -608,34 +928,34 @@ core_sig_alpha1<-cbind.data.frame(Holocene[,c("Site","Age.cal.BP")],core_sig_alp
 
 #Get the sample specific error
 #MTCO
-sse_Tmin_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_Tmin_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_Tmin_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
-sse_Tmin_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
+sse_Tmin_WAPLS1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_TWAPLS1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_Tmin_WAPLS.fx1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=TRUE,fx=fx_Tmin)
+sse_Tmin_TWAPLS.fx1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$Tmin,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=4,usefx=TRUE,fx=fx_Tmin)
 
 sse_core_sig_Tmin1<-cbind.data.frame(sse_Tmin_WAPLS1,sse_Tmin_TWAPLS1,sse_Tmin_WAPLS.fx1,sse_Tmin_TWAPLS.fx1)
 colnames(sse_core_sig_Tmin1)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
 
 #GDD0
-sse_gdd_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
-sse_gdd_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
-sse_gdd_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
+sse_gdd_WAPLS1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_TWAPLS1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=2,usefx=FALSE,fx=NA)
+sse_gdd_WAPLS.fx1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=4,nsig=2,usefx=TRUE,fx=fx_gdd)
+sse_gdd_TWAPLS.fx1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$gdd,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=TRUE,fx=fx_gdd)
 
 sse_core_sig_gdd1<-cbind.data.frame(sse_gdd_WAPLS1,sse_gdd_TWAPLS1,sse_gdd_WAPLS.fx1,sse_gdd_TWAPLS.fx1)
 colnames(sse_core_sig_gdd1)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
 
 #alpha
-sse_alpha_WAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
-sse_alpha_TWAPLS1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
-sse_alpha_WAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=100,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
-sse_alpha_TWAPLS.fx1<-sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=100,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
+sse_alpha_WAPLS1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=FALSE,fx=NA)
+sse_alpha_TWAPLS1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=4,usefx=FALSE,fx=NA)
+sse_alpha_WAPLS.fx1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::WAPLS.w,predictfun=fxTWAPLS::WAPLS.predict.w,nboot=1000,nPLS=4,nsig=2,usefx=TRUE,fx=fx_alpha)
+sse_alpha_TWAPLS.fx1<-fxTWAPLS::sse.sample(modern_taxa=taxa1,modern_climate=modern_pollen$alpha,fossil_taxa=core1,trainfun=fxTWAPLS::TWAPLS.w,predictfun=fxTWAPLS::TWAPLS.predict.w,nboot=1000,nPLS=5,nsig=3,usefx=TRUE,fx=fx_alpha)
 
 sse_core_sig_alpha1<-cbind.data.frame(sse_alpha_WAPLS1,sse_alpha_TWAPLS1,sse_alpha_WAPLS.fx1,sse_alpha_TWAPLS.fx1)
 colnames(sse_core_sig_alpha1)<-c("sse_WAPLS","sse_TWAPLS","sse_WAPLS.fx","sse_TWAPLS.fx")
 
 #plot them
-setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Multimodality")
+setwd("C:/Users/ml4418.SPHB-LT-069/Desktop/Master Project/Data/Output data/Non-unimodality")
 #WA-PLS zero compression points
 if(!require(ggplot2)){ install.packages("ggplot2");library(ggplot2)}
 xbreak<-2000*c(seq(0,6))
@@ -666,10 +986,10 @@ p_Tmin<-ggplot()+
   theme_bw()+
   scale_y_continuous(limits=c(min_Tmin,max_Tmin),labels = function(x) sprintf("%g", x))+
   scale_x_continuous(breaks = xbreak,limits=c(-1000,12000))
-ggsave(file=paste(sitename,"Comparision of reconstructions with and without multimodal taxa.jpeg"),p_Tmin,width=10,height=6)
+ggsave(file=paste(sitename,"Comparision of reconstructions with and without non_unimodal taxa.jpeg"),p_Tmin,width=10,height=6)
 
 
-# Principle of observed multimodality -------------------------------------
+# Principle of observed non-unimodality -------------------------------------
 x<-seq(-80,80)
 a1<-0.3;u1<-(-40);t1<-5
 f1<-function(x){exp(a1-(x-u1)^2/(2*t1^2))}
@@ -696,8 +1016,5 @@ curve(f3,from=-80,to=80,add=TRUE);text(x=x[which.max(f3(x))],y=max(f3(x)),"3")
 curve(f4,from=-80,to=80,add=TRUE);text(x=x[which.max(f4(x))],y=max(f4(x)),"4")
 curve(f3s,from=-80,to=80,add=TRUE,col="red");text(x=x[which.max(f3s(x))],y=max(f3s(x)),"3",col="red")
 
-curve(f1s,from=-80,to=80,add=TRUE,col="red");text(x=x[which.max(f1s(x))],y=max(f1s(x)),"1",col="red")
-curve(f2s,from=-80,to=80,add=TRUE,col="red");text(x=x[which.max(f2s(x))],y=max(f2s(x)),"2",col="red")
-curve(f3s,from=-80,to=80,add=TRUE,col="red");text(x=x[which.max(f3s(x))],y=max(f3s(x)),"3",col="red")
-curve(f4s,from=-80,to=80,add=TRUE,col="red");text(x=x[which.max(f4s(x))],y=max(f4s(x)),"4",col="red")
+
 
