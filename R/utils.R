@@ -80,6 +80,8 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   return(times_df)
 }
 
+#' Combine results with progress bar
+#' 
 #' Combine results with progress bar, to be used in combination with 
 #'     \code{foreach::foreach}
 #'     

@@ -1289,10 +1289,12 @@ cv.pr.w <- function(modern_taxa,
 #'                             usefx = TRUE,
 #'                             fx = fx_Tmin,
 #'                             cpus = 2, # Remove the following line
-#'                             test_mode = test_mode)  
+#'                             test_mode = test_mode)
+#' \donttest{
 #' ## Random t-test
 #' rand_Tmin <- fxTWAPLS::rand.t.test.w(cv_Tmin, n.perm = 999)
 #' rand_f_Tmin <- fxTWAPLS::rand.t.test.w(cv_f_Tmin, n.perm = 999)
+#' }
 #' 
 #' @seealso \code{\link{cv.w}} and \code{\link{cv.pr.w}}
 rand.t.test.w <- function(cvoutput, n.perm = 999) {

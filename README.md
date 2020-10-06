@@ -8,7 +8,7 @@
 <!-- badges: start -->
 
 [![](https://img.shields.io/github/languages/code-size/special-uor/fxTWAPLS.svg)](https://github.com/special-uor/fxTWAPLS)
-[![](https://img.shields.io/badge/devel%20version-0.0.1-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
+[![](https://img.shields.io/badge/devel%20version-0.0.2-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
 [![](https://codecov.io/gh/special-uor/fxTWAPLS/branch/master/graph/badge.svg?token=Q6SYL7AOGR)](https://codecov.io/gh/special-uor/fxTWAPLS)
 [![R build
 status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions)
@@ -100,8 +100,8 @@ remotes::install_github("special-uor/fxTWAPLS")
   - Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison
     Sandy P.. An improved statistical approach for reconstructing past
     climates from biotic assemblages. *Proc. R. Soc. A.* 2020
-    (submitted) \[[`fxTWAPLS
-    v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2)\]
+    (submitted) - [`fxTWAPLS
+    v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2)
 
 <!-- end list -->
 
