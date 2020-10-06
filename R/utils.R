@@ -95,10 +95,8 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' @param FUN function to combine the results (default: \code{rbind})
 #' @param ... optional parameters
 #'
-#' @export
-#'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'     # Load binary operator for backend
 #'     `%do%` <- foreach::`%do%`
 #'     N <- 5
@@ -112,7 +110,7 @@ comb_pb <- function(iterator, FUN = rbind, ...) {
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
   count <- 0
   function(...) {
-    count <<- count + length(list(...)) - 1
+    count <- count + length(list(...)) - 1
     setTxtProgressBar(pb, count)
     flush.console()
     FUN(...) # this can feed into .combine option of foreach
