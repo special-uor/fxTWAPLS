@@ -2,8 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{get_distance}
 \alias{get_distance}
-\title{Get the distance between points, the output will be used in
-\code{\link{get_pseudo}}}
+\title{Get the distance between points}
 \usage{
 get_distance(point, cpus = 4, test_mode = FALSE, test_it = 5)
 }
@@ -28,14 +27,17 @@ Get the distance between points, the output will be used in
 \code{\link{get_pseudo}}
 }
 \examples{
-\dontrun{
-    # Load modern pollen data
-    modern_pollen <- read.csv(system.file("extdata", 
-                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
-                                          package = "fxTWAPLS", 
-                                          mustWork = TRUE))
-    point <- modern_pollen[, c("Long", "Lat")]
-    dist <- fxTWAPLS::get_distance(point, cpus = 1)
+# Load modern pollen data
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE))
+point <- modern_pollen[, c("Long", "Lat")]
+\donttest{
+test_mode <- TRUE # It should be set to FALSE before running
+dist <- fxTWAPLS::get_distance(point, 
+                               cpus = 2, # Remove the following line
+                               test_mode = test_mode)
 }
 
 }

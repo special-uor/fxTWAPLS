@@ -19,14 +19,14 @@ Combine results with progress bar, to be used in combination with
 \code{foreach::foreach}
 }
 \examples{
-\dontrun{
-    # Load binary operator for backend
-    `\%do\%` <- foreach::`\%do\%`
-    N <- 5
-    out <- foreach::foreach(i = 1:N, 
-                            .combine = comb_pb(N)) \%do\% {
-                            Sys.sleep(1)
-                            i
-                          }
+\donttest{
+# Load binary operator for backend
+`\%do\%` <- foreach::`\%do\%`
+N <- 5
+out <- foreach::foreach(i = 1:N, 
+                        .combine = comb_pb(N)) \%do\% {
+                        Sys.sleep(1)
+                        i
+                       }
 }
 }

@@ -58,37 +58,44 @@ leave-one-out cross validation results
 Pseudo-removed leave-out cross-validation
 }
 \examples{
-\dontrun{
-    # Load modern pollen data
-    modern_pollen <- read.csv(system.file("extdata", 
-                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
-                                          package = "fxTWAPLS", 
-                                          mustWork = TRUE))
-    point <- modern_pollen[, c("Long", "Lat")]
-    dist <- fxTWAPLS::get_distance(point, cpus = 1)
-    pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
-                                        modern_pollen$Tmin, 
-                                        cpus = 1)
-    # Test WAPLS
-    cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-                                    modern_pollen$Tmin,
-                                    nPLS = 5,
-                                    fxTWAPLS::TWAPLS.w,
-                                    fxTWAPLS::TWAPLS.predict.w,
-                                    pseudo_Tmin,
-                                    cpus = 1,
-                                    test_mode = TRUE,
-                                    test_it = test_it)
-    # Test TWAPLS
-    cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-                                      modern_pollen$Tmin,
-                                      nPLS = 5,
-                                      fxTWAPLS::TWAPLS.w,
-                                      fxTWAPLS::TWAPLS.predict.w,
-                                      pseudo_Tmin,
-                                      cpus = 1, 
-                                      test_mode = TRUE,
-                                      test_it = test_it)
+# Load modern pollen data
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE))
+#' # Extract taxa
+taxaColMin <- which(colnames(modern_pollen) == "Abies")
+taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+taxa <- modern_pollen[, taxaColMin:taxaColMax]
+
+point <- modern_pollen[, c("Long", "Lat")]
+\donttest{
+test_mode <- TRUE # It should be set to FALSE before running
+dist <- fxTWAPLS::get_distance(point, 
+                               cpus = 2, # Remove the following line
+                               test_mode = test_mode)
+pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
+                                    modern_pollen$Tmin, 
+                                    cpus = 2, # Remove the following line
+                                    test_mode = test_mode)
+# Test WAPLS
+cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
+                                modern_pollen$Tmin,
+                                nPLS = 5,
+                                fxTWAPLS::TWAPLS.w,
+                                fxTWAPLS::TWAPLS.predict.w,
+                                pseudo_Tmin,
+                                cpus = 2, # Remove the following line
+                                test_mode = test_mode)
+# Test TWAPLS
+cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
+                                  modern_pollen$Tmin,
+                                  nPLS = 5,
+                                  fxTWAPLS::TWAPLS.w,
+                                  fxTWAPLS::TWAPLS.predict.w,
+                                  pseudo_Tmin,
+                                  cpus = 2, # Remove the following line
+                                  test_mode = test_mode)
 }
 
 }

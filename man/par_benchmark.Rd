@@ -22,10 +22,10 @@ par_benchmark(CPUS, FUN, plot = FALSE, quiet = FALSE, ...)
 Perform parallel benchmarks on a function
 }
 \examples{
-\dontrun{
-    # Define toy function that sleeps for (60/cpus) seconds
-    a <- function(cpus) {Sys.sleep(60/cpus)}
-    par_benchmark(c(1, 2, 4), a)
-    par_benchmark(c(1, 2, 4), a, plot = TRUE)
+# Define toy function that sleeps for (2/cpus) seconds
+a <- function(cpus) {Sys.sleep(2/cpus)}
+par_benchmark(c(1, 2), a)
+\donttest{
+par_benchmark(c(1, 2), a, plot = TRUE)
 }
 }

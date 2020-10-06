@@ -2,9 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{plot_residuals}
 \alias{plot_residuals}
-\title{Plot the residuals, the black line is 0 line, the red line is the locally
-estimated scatterplot smoothing, which shows the degree of local
-compression}
+\title{Plot the residuals}
 \usage{
 plot_residuals(train_output, col)
 }
@@ -24,43 +22,42 @@ estimated scatterplot smoothing, which shows the degree of local
 compression
 }
 \examples{
-\dontrun{
-    # Load modern pollen data
-    modern_pollen <- read.csv(system.file("extdata", 
-                                         "Modern_Pollen_gdd_alpha_Tmin.csv", 
-                                         package = "fxTWAPLS", 
-                                         mustWork = TRUE))
-    
-    # Extract taxa
-    taxaColMin <- which(colnames(modern_pollen) == "Abies")
-    taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
-    taxa <- modern_pollen[, taxaColMin:taxaColMax]
-    
-    # Get the frequency of each climate variable fx
-    fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-    fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-    fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+# Load modern pollen data
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE))
 
-    # MTCO
-    ## WAPLS
-    fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-    fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
-                                    modern_pollen$Tmin, 
-                                    nPLS = 5, 
-                                    usefx = TRUE, 
-                                    fx = fx_Tmin)
-    ## TWAPLS
-    fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-    fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
-                                      modern_pollen$Tmin, 
-                                      nPLS = 5, 
-                                      usefx = TRUE, 
-                                      fx = fx_Tmin)
-    fxTWAPLS::plot_residuals(fit_Tmin, 3)
-    fxTWAPLS::plot_residuals(fit_f_Tmin, 3)
-    fxTWAPLS::plot_residuals(fit_t_Tmin, 3)
-    fxTWAPLS::plot_residuals(fit_tf_Tmin, 3)
-}
+# Extract taxa
+taxaColMin <- which(colnames(modern_pollen) == "Abies")
+taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+taxa <- modern_pollen[, taxaColMin:taxaColMax]
+
+# Get the frequency of each climate variable fx
+fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+
+# MTCO
+## WAPLS
+fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
+                                modern_pollen$Tmin, 
+                                nPLS = 5, 
+                                usefx = TRUE, 
+                                fx = fx_Tmin)
+## TWAPLS
+fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
+fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
+                                  modern_pollen$Tmin, 
+                                  nPLS = 5, 
+                                  usefx = TRUE, 
+                                  fx = fx_Tmin)
+fxTWAPLS::plot_residuals(fit_Tmin, 3)
+fxTWAPLS::plot_residuals(fit_f_Tmin, 3)
+fxTWAPLS::plot_residuals(fit_t_Tmin, 3)
+fxTWAPLS::plot_residuals(fit_tf_Tmin, 3)
+    
 }
 \seealso{
 \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}

@@ -2,8 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{fx}
 \alias{fx}
-\title{Function to get the frequency of the climate value, which will be used to
-provide \code{fx} correction for WA-PLS and TWA-PLS}
+\title{Get frequency of the climate value}
 \usage{
 fx(x, bin)
 }
@@ -20,23 +19,21 @@ Function to get the frequency of the climate value, which will be used to
 provide \code{fx} correction for WA-PLS and TWA-PLS
 }
 \examples{
-\dontrun{
-    # Load modern pollen data
-    modern_pollen <- read.csv(system.file("extdata", 
-                                         "Modern_Pollen_gdd_alpha_Tmin.csv", 
-                                         package = "fxTWAPLS", 
-                                         mustWork = TRUE))
+# Load modern pollen data
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE))
+                                      
+# Extract taxa
+taxaColMin <- which(colnames(modern_pollen) == "Abies")
+taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
+taxa <- modern_pollen[, taxaColMin:taxaColMax]
     
-    # Extract taxa
-    taxaColMin <- which(colnames(modern_pollen) == "Abies")
-    taxaColMax <- which(colnames(modern_pollen) == "Zygophyllaceae")
-    taxa <- modern_pollen[, taxaColMin:taxaColMax]
-    
-    # Get the frequency of each climate variable fx
-    fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-    fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-    fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
-}
+# Get the frequency of each climate variable fx
+fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 
 }
 \seealso{

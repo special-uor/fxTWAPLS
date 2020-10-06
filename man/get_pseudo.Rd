@@ -2,10 +2,7 @@
 % Please edit documentation in R/fxTWAPLS.R
 \name{get_pseudo}
 \alias{get_pseudo}
-\title{Get the sites which are both geographically and climatically close to the
-test site, which could result in pseudo-replication and inflate the
-cross-validation statistics. The output will be used in
-\code{\link{cv.pr.w}}}
+\title{Get geographically and climatically close sites}
 \usage{
 get_pseudo(dist, x, cpus = 4, test_mode = FALSE, test_it = 5)
 }
@@ -32,17 +29,21 @@ cross-validation statistics. The output will be used in
 \code{\link{cv.pr.w}}
 }
 \examples{
-\dontrun{
-    # Load modern pollen data
-    modern_pollen <- read.csv(system.file("extdata", 
-                                          "Modern_Pollen_gdd_alpha_Tmin.csv", 
-                                          package = "fxTWAPLS", 
-                                          mustWork = TRUE))
-    point <- modern_pollen[, c("Long", "Lat")]
-    dist <- fxTWAPLS::get_distance(point, cpus = 1)
-    pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
-                                        modern_pollen$Tmin, 
-                                        cpus = 1)
+# Load modern pollen data
+modern_pollen <- read.csv(system.file("extdata", 
+                                      "Modern_Pollen_gdd_alpha_Tmin.csv", 
+                                      package = "fxTWAPLS", 
+                                      mustWork = TRUE))
+point <- modern_pollen[, c("Long", "Lat")]
+\donttest{
+test_mode <- TRUE # It should be set to FALSE before running
+dist <- fxTWAPLS::get_distance(point, 
+                               cpus = 2, # Remove the following line
+                               test_mode = test_mode)
+pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
+                                    modern_pollen$Tmin, 
+                                    cpus = 2, # Remove the following line
+                                    test_mode = test_mode)
 }
 }
 \seealso{
