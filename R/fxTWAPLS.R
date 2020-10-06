@@ -34,7 +34,7 @@
 fx <- function(x, bin, show_plot = FALSE) {
   pbin <- round((max(x) - min(x)) / bin, digits = 0)
   bin <- (max(x) - min(x)) / pbin
-  hist <- hist(x, breaks = seq(min(x), max(x), by = bin))
+  hist <- hist(x, breaks = seq(min(x), max(x), by = bin), plot = show_plot)
   xbin <- seq(min(x) + bin / 2, max(x) - bin / 2, by = bin)
   counts <- hist[["counts"]]
   fx <- rep(NA, length(x))
