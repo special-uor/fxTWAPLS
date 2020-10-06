@@ -15,14 +15,17 @@ Authors@R: c(
     person("SPECIAL Research Group @ University of Reading", role = c("cph")))
 Description: The goal of this package is to provide an improved version of 
     WA-PLS (Weighted Averaging Partial Least Squares) by including the 
-    tolerances of taxa and the frequency of the sampled climate variable. This 
-    package also provides a way of leave-out cross-validation that removes both 
-    the test site and sites that are both geographically close and climatically 
-    close for each cycle, to avoid the risk of pseudo-replication.
+    tolerances of taxa and the frequency of the sampled climate variable. 
+    This package also provides a way of leave-out cross-validation that 
+    removes both the test site and sites that are both geographically 
+    close and climatically close for each cycle, to avoid the risk of 
+    pseudo-replication.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/special-uor/fxTWAPLS, https://special-uor.github.io/fxTWAPLS/
+URL: https://github.com/special-uor/fxTWAPLS, 
+     https://special-uor.github.io/fxTWAPLS/,
+     https://research.reading.ac.uk/palaeoclimate/
 BugReports: https://github.com/special-uor/fxTWAPLS/issues
 Imports:
     doParallel,
