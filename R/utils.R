@@ -14,11 +14,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'     hex_logo()
-#'     hex_logo("inst/images/cave-painting.png", 
-#'              output = "inst/images/logo.png")
-#' }
+#' hex_logo()
 hex_logo <- function(subplot = system.file("images/cave-painting.png", 
                                            package = "fxTWAPLS"),
                      dpi = 600,
@@ -52,9 +48,9 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'     # Define toy function that sleeps for (60/cpus) seconds
-#'     a <- function(cpus) {Sys.sleep(60/cpus)}
+#' \donttest{
+#'     # Define toy function that sleeps for (2/cpus) seconds
+#'     a <- function(cpus) {Sys.sleep(2/cpus)}
 #'     par_benchmark(c(1, 2, 4), a)
 #'     par_benchmark(c(1, 2, 4), a, plot = TRUE)
 #' }
@@ -94,7 +90,9 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' @param iterator number of iterations
 #' @param FUN function to combine the results (default: \code{rbind})
 #' @param ... optional parameters
-#'
+#' 
+#' @export
+#' 
 #' @examples
 #' \donttest{
 #'     # Load binary operator for backend
