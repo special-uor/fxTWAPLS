@@ -51,8 +51,8 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' \donttest{
 #'     # Define toy function that sleeps for (2/cpus) seconds
 #'     a <- function(cpus) {Sys.sleep(2/cpus)}
-#'     par_benchmark(c(1, 2, 4), a)
-#'     par_benchmark(c(1, 2, 4), a, plot = TRUE)
+#'     par_benchmark(c(1, 2), a)
+#'     par_benchmark(c(1, 2), a, plot = TRUE)
 #' }
 par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   cpus <- NULL # Local binding
