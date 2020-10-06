@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{comb_pb}
 \alias{comb_pb}
-\title{Combine results with progress bar, to be used in combination with
-\code{foreach::foreach}}
+\title{Combine results with progress bar}
 \usage{
 comb_pb(iterator, FUN = rbind, ...)
 }

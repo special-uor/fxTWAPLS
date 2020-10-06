@@ -59,10 +59,12 @@ cv_f_Tmin <- fxTWAPLS::cv.w(taxa,
                             usefx = TRUE,
                             fx = fx_Tmin,
                             cpus = 2, # Remove the following line
-                            test_mode = test_mode)  
+                            test_mode = test_mode)
+\donttest{
 ## Random t-test
 rand_Tmin <- fxTWAPLS::rand.t.test.w(cv_Tmin, n.perm = 999)
 rand_f_Tmin <- fxTWAPLS::rand.t.test.w(cv_f_Tmin, n.perm = 999)
+}
 
 }
 \seealso{
