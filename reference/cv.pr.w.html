@@ -203,38 +203,45 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
 <code><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='co'># Load modern pollen data</span>
-    <span class='va'>modern_pollen</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, 
-                                          <span class='st'>"Modern_Pollen_gdd_alpha_Tmin.csv"</span>, 
-                                          package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span>, 
-                                          mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-    <span class='va'>point</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Long"</span>, <span class='st'>"Lat"</span><span class='op'>)</span><span class='op'>]</span>
-    <span class='va'>dist</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='get_distance.html'>get_distance</a></span><span class='op'>(</span><span class='va'>point</span>, cpus <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-    <span class='va'>pseudo_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='get_pseudo.html'>get_pseudo</a></span><span class='op'>(</span><span class='va'>dist</span>, 
-                                        <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
-                                        cpus <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-    <span class='co'># Test WAPLS</span>
-    <span class='va'>cv_pr_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.pr.w</span><span class='op'>(</span><span class='va'>taxa</span>,
-                                    <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
-                                    nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                                    <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
-                                    <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
-                                    <span class='va'>pseudo_Tmin</span>,
-                                    cpus <span class='op'>=</span> <span class='fl'>1</span>,
-                                    test_mode <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                                    test_it <span class='op'>=</span> <span class='va'>test_it</span><span class='op'>)</span>
-    <span class='co'># Test TWAPLS</span>
-    <span class='va'>cv_pr_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.pr.w</span><span class='op'>(</span><span class='va'>taxa</span>,
-                                      <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
-                                      nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                                      <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
-                                      <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
-                                      <span class='va'>pseudo_Tmin</span>,
-                                      cpus <span class='op'>=</span> <span class='fl'>1</span>, 
-                                      test_mode <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                                      test_it <span class='op'>=</span> <span class='va'>test_it</span><span class='op'>)</span>
-<span class='op'>}</span>
+    <pre class="examples"><div class='input'><span class='co'># Load modern pollen data</span>
+<span class='va'>modern_pollen</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, 
+                                      <span class='st'>"Modern_Pollen_gdd_alpha_Tmin.csv"</span>, 
+                                      package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span>, 
+                                      mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'>#' # Extract taxa</span>
+<span class='va'>taxaColMin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Abies"</span><span class='op'>)</span>
+<span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Zygophyllaceae"</span><span class='op'>)</span>
+<span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
+
+<span class='va'>point</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Long"</span>, <span class='st'>"Lat"</span><span class='op'>)</span><span class='op'>]</span>
+<span class='co'># \donttest{</span>
+<span class='va'>test_mode</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span> <span class='co'># It should be set to FALSE before running</span>
+<span class='va'>dist</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='get_distance.html'>get_distance</a></span><span class='op'>(</span><span class='va'>point</span>, 
+                               cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                               test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Distance between points: 7.682 sec elapsed</div><div class='input'><span class='va'>pseudo_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='get_pseudo.html'>get_pseudo</a></span><span class='op'>(</span><span class='va'>dist</span>, 
+                                    <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
+                                    cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                                    test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+<span class='co'># Test WAPLS</span>
+<span class='va'>cv_pr_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.pr.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+                                <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
+                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
+                                <span class='va'>pseudo_Tmin</span>,
+                                cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                                test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+<span class='co'># Test TWAPLS</span>
+<span class='va'>cv_pr_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.pr.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+                                  <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                  nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                  <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
+                                  <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
+                                  <span class='va'>pseudo_Tmin</span>,
+                                  cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                                  test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+<span class='co'># }</span>
 
 </div></pre>
   </div>
