@@ -184,7 +184,8 @@ different from using one less.</p></td>
                             usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
                             fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
                             cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
-                            test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>  
+                            test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+<span class='co'># \donttest{</span>
 <span class='co'>## Random t-test</span>
 <span class='va'>rand_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>rand.t.test.w</span><span class='op'>(</span><span class='va'>cv_Tmin</span>, n.perm <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;              R2  Avg.Bias Max.Bias   Min.Bias    RMSEP delta.RMSEP     p
@@ -210,7 +211,8 @@ different from using one less.</p></td>
 #&gt; [2,] -4.496675 -0.9241941     4.815914     1.544396
 #&gt; [3,] -4.856533 -1.1127393     5.264704     1.688316
 #&gt; [4,] -5.766922 -1.3397821     5.768599     1.849909
-#&gt; [5,] -6.128197 -1.4284879     6.146359     1.971051</div><div class='input'>
+#&gt; [5,] -6.128197 -1.4284879     6.146359     1.971051</div><div class='input'><span class='co'># }</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
