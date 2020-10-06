@@ -7,8 +7,7 @@
 #' 
 #' @param x the modern climate values 
 #' @param bin bin-width to get the frequency of the modern climate values
-#' @param show_plot boolean flag to show a plot of \code{fx ~ x} 
-#'     [default: \code{FALSE}]
+#' @param show_plot boolean flag to show a plot of \code{fx ~ x}
 #'
 #' @return the frequency of the modern climate values
 #' @export

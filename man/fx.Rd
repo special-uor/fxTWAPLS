@@ -11,8 +11,7 @@ fx(x, bin, show_plot = FALSE)
 
 \item{bin}{bin-width to get the frequency of the modern climate values}
 
-\item{show_plot}{boolean flag to show a plot of \code{fx ~ x}
-\link{default: \code{FALSE}}}
+\item{show_plot}{boolean flag to show a plot of \code{fx ~ x}}
 }
 \value{
 the frequency of the modern climate values
