@@ -48,11 +48,11 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' @export
 #'
 #' @examples
+#' # Define toy function that sleeps for (2/cpus) seconds
+#' a <- function(cpus) {Sys.sleep(2/cpus)}
+#' par_benchmark(c(1, 2), a)
 #' \donttest{
-#'     # Define toy function that sleeps for (2/cpus) seconds
-#'     a <- function(cpus) {Sys.sleep(2/cpus)}
-#'     par_benchmark(c(1, 2), a)
-#'     par_benchmark(c(1, 2), a, plot = TRUE)
+#' par_benchmark(c(1, 2), a, plot = TRUE)
 #' }
 par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   cpus <- NULL # Local binding
@@ -95,14 +95,14 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' 
 #' @examples
 #' \donttest{
-#'     # Load binary operator for backend
-#'     `%do%` <- foreach::`%do%`
-#'     N <- 5
-#'     out <- foreach::foreach(i = 1:N, 
-#'                             .combine = comb_pb(N)) %do% {
-#'                             Sys.sleep(1)
-#'                             i
-#'                           }
+#' # Load binary operator for backend
+#' `%do%` <- foreach::`%do%`
+#' N <- 5
+#' out <- foreach::foreach(i = 1:N, 
+#'                         .combine = comb_pb(N)) %do% {
+#'                         Sys.sleep(1)
+#'                         i
+#'                        }
 #' }
 comb_pb <- function(iterator, FUN = rbind, ...) {
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
