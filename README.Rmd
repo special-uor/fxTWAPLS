@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 <!-- <img src="inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 
 <!-- badges: start -->
-`r badger::badge_code_size("special-uor/fxTWAPLS")`
+<!-- `r badger::badge_code_size("special-uor/fxTWAPLS")` -->
+`r badger::badge_cran_release("fxTWAPLS", "blue")`
 `r badger::badge_devel("special-uor/fxTWAPLS", "yellow")`
 `r badger::badge_codecov("special-uor/fxTWAPLS", "Q6SYL7AOGR")`
 `r badger::badge_github_actions("special-uor/fxTWAPLS")`
-`r badger::badge_cran_release("fxTWAPLS", "black")`
 <!-- [![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions) -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/fxTWAPLS)](https://CRAN.R-project.org/package=fxTWAPLS) -->
 <!-- badges: end -->
@@ -63,14 +63,14 @@ climatically close for each cycle, to avoid the risk of pseudo-replication.
 <!-- usethis::git_sitrep() -->
 <!-- ``` -->
 
-<!-- You can install the released version of fxTWAPLS from [CRAN](https://CRAN.R-project.org) with: -->
+You can install the released version of fxTWAPLS from [CRAN](https://cran.r-project.org/package=fxTWAPLS) with:
 
-<!-- ``` r -->
-<!-- install.packages("fxTWAPLS") -->
-<!-- ``` -->
+``` r
+install.packages("fxTWAPLS")
+```
 
-<!-- And the development version from [GitHub](https://github.com/) with: -->
-You can install the development version from [GitHub](https://github.com/) with:
+And the development version from [GitHub](https://github.com/special-uor/fxTWAPLS) with:
+<!-- You can install the development version from [GitHub](https://github.com/) with: -->
 ``` r
 install.packages("remotes")
 remotes::install_github("special-uor/fxTWAPLS")
