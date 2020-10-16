@@ -38,3 +38,10 @@ test_that("combine with progress bar works", {
                           }
   expect_equal(c(unname(out)), 1:N)
 })
+
+test_that("clean string works", {
+  expect_equal(cln_str("ÀÊ?"), "AE")
+  expect_equal(cln_str("ÀÊ?_AE?"), "AE_AE")
+  expect_equal(cln_str("ÀÊ? AE?"), "AE AE")
+  expect_equal(cln_str("ÀÊ? AE?", rm_wht = TRUE), "AE-AE")
+})
