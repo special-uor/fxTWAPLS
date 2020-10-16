@@ -11,10 +11,12 @@
 #' @param u_size text size for URL
 #'
 #' @return hexagonal logo
-#' @export
 #'
 #' @examples
-#' hex_logo()
+#' fxTWAPLS:::hex_logo(output = "logo.png")
+#' 
+#' @keywords internal
+#' @noRd
 hex_logo <- function(subplot = system.file("images/cave-painting.png", 
                                            package = "fxTWAPLS"),
                      dpi = 600,
@@ -45,15 +47,16 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
 #' @param ... optional arguments for the function, must be named; e.g. 
 #'     \code{x = test_df}
 #'
-#' @export
-#'
 #' @examples
 #' # Define toy function that sleeps for (2/cpus) seconds
 #' a <- function(cpus) {Sys.sleep(2/cpus)}
-#' par_benchmark(c(1, 2), a)
+#' fxTWAPLS:::par_benchmark(c(1, 2), a)
 #' \donttest{
-#' par_benchmark(c(1, 2), a, plot = TRUE)
+#' fxTWAPLS:::par_benchmark(c(1, 2), a, plot = TRUE)
 #' }
+#' 
+#' @keywords internal
+#' @noRd
 par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   cpus <- NULL # Local binding
   tictoc::tic.clearlog()
@@ -93,19 +96,20 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' @param FUN function to combine the results (default: \code{rbind})
 #' @param ... optional parameters
 #' 
-#' @export
-#' 
 #' @examples
 #' \donttest{
 #' # Load binary operator for backend
 #' `%do%` <- foreach::`%do%`
 #' N <- 5
 #' out <- foreach::foreach(i = 1:N, 
-#'                         .combine = comb_pb(N)) %do% {
+#'                         .combine = fxTWAPLS:::comb_pb(N)) %do% {
 #'                         Sys.sleep(1)
 #'                         i
 #'                        }
 #' }
+#' 
+#' @noRd
+#' @keywords internal
 comb_pb <- function(iterator, FUN = rbind, ...) {
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
   count <- 0
