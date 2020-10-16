@@ -2,7 +2,7 @@
 modern_pollen <- read.csv(system.file("extdata", 
                                       "Modern_Pollen_gdd_alpha_Tmin.csv", 
                                       package = "fxTWAPLS", 
-                                      mustWork = TRUE))
+                                      mustWork = TRUE))[, -1]
 # Removed accented characters and special symbols 
 ## From variable names
 cln_names <- sapply(names(modern_pollen), fxTWAPLS:::cln_str, keep = "\\._-")
