@@ -1,20 +1,24 @@
-#' Create hexagonal logo for the package
+#' Create hexagonal logo 
+#' 
+#' Create hexagonal logo for the package.
 #'
-#' @param subplot image to use as the main logo
-#' @param dpi plot resolution (dots-per-inch)
-#' @param h_color colour for hexagon border
-#' @param h_fill colour to fill hexagon
-#' @param output output file (hexagonal logo)
-#' @param package title for logo (package name)
-#' @param p_color colour for package name
-#' @param url URL for package repository or website
-#' @param u_size text size for URL
+#' @param subplot Image to use as the main logo.
+#' @param dpi Plot resolution (dots-per-inch).
+#' @param h_color Colour for hexagon border.
+#' @param h_fill Colour to fill hexagon.
+#' @param output Output file (hexagonal logo).
+#' @param package Title for logo (package name).
+#' @param p_color Colour for package name.
+#' @param url URL for package repository or website.
+#' @param u_size Text size for URL.
 #'
-#' @return hexagonal logo
-#' @export
+#' @return Hexagonal logo.
 #'
 #' @examples
-#' hex_logo()
+#' fxTWAPLS:::hex_logo(output = "logo.png")
+#' 
+#' @keywords internal
+#' @noRd
 hex_logo <- function(subplot = system.file("images/cave-painting.png", 
                                            package = "fxTWAPLS"),
                      dpi = 600,
@@ -36,24 +40,28 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
                       filename = output)
 }
 
-#' Perform parallel benchmarks on a function
+#' Perform parallel benchmarks 
+#' 
+#' Perform parallel benchmarks on a function and generate a plot with execution 
+#' times vs CPU count.
 #'
-#' @param CPUS vector with the number of CPUs
-#' @param FUN parallel function, MUST have a parameter called \code{cpus}
-#' @param plot boolean flag to request a plot for the results
-#' @param quiet boolean flag to print results of each execution
-#' @param ... optional arguments for the function, must be named; e.g. 
-#'     \code{x = test_df}
-#'
-#' @export
+#' @param CPUS Vector with the number of CPUs.
+#' @param FUN Parallel function, MUST have a parameter called \code{cpus}.
+#' @param plot Boolean flag to request a plot for the results.
+#' @param quiet Boolean flag to print results of each execution.
+#' @param ... Optional arguments for \code{FUN}, must be named; e.g. 
+#'     \code{x = test_df}.
 #'
 #' @examples
 #' # Define toy function that sleeps for (2/cpus) seconds
 #' a <- function(cpus) {Sys.sleep(2/cpus)}
-#' par_benchmark(c(1, 2), a)
+#' fxTWAPLS:::par_benchmark(c(1, 2), a)
 #' \donttest{
-#' par_benchmark(c(1, 2), a, plot = TRUE)
+#' fxTWAPLS:::par_benchmark(c(1, 2), a, plot = TRUE)
 #' }
+#' 
+#' @keywords internal
+#' @noRd
 par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
   cpus <- NULL # Local binding
   tictoc::tic.clearlog()
@@ -83,17 +91,15 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' Combine results with progress bar
 #' 
 #' Combine results with progress bar, to be used in combination with 
-#'     \code{foreach::foreach}
+#'     \code{\link[foreach::foreach]{foreach::foreach}}.
 #'     
 #' @importFrom utils flush.console
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' 
-#' @param iterator number of iterations
-#' @param FUN function to combine the results (default: \code{rbind})
-#' @param ... optional parameters
-#' 
-#' @export
+#' @param iterator Number of iterations.
+#' @param FUN Function to combine the results (default: \code{rbind}).
+#' @param ... Optional parameters.
 #' 
 #' @examples
 #' \donttest{
@@ -101,11 +107,14 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' `%do%` <- foreach::`%do%`
 #' N <- 5
 #' out <- foreach::foreach(i = 1:N, 
-#'                         .combine = comb_pb(N)) %do% {
+#'                         .combine = fxTWAPLS:::comb_pb(N)) %do% {
 #'                         Sys.sleep(1)
 #'                         i
 #'                        }
 #' }
+#' 
+#' @noRd
+#' @keywords internal
 comb_pb <- function(iterator, FUN = rbind, ...) {
   pb <- txtProgressBar(min = 1, max = iterator - 1, style = 3)
   count <- 0
@@ -115,4 +124,39 @@ comb_pb <- function(iterator, FUN = rbind, ...) {
     flush.console()
     FUN(...) # this can feed into .combine option of foreach
   }
+}
+
+#' Clean string
+#'
+#' Clean string by removing accented characters and any other punctuation. To
+#' white list (keep) special characters, list them using \code{keep}.
+#'
+#' @param str Original string.
+#' @param rm_wht Boolean, if \code{TRUE} remove white spaces, otherwise
+#'     keep them.
+#' @param keep String with special characters to keep.
+#'
+#' @return New string without special characters.
+#'
+#' @examples
+#' fxTWAPLS:::cln_str("ÀÊ?")
+#' fxTWAPLS:::cln_str("ÀÊ?_AE?")
+#' fxTWAPLS:::cln_str("ÀÊ? AE?")
+#' fxTWAPLS:::cln_str("ÀÊ? AE?", rm_wht = TRUE)
+#'
+#' @noRd
+#' @keywords internal
+cln_str <- function(str, rm_wht = FALSE, keep = c("_-")) {
+  if (is.na(str) || is.null(str))
+    return(str)
+  new_str <- iconv(str, to = 'ASCII//TRANSLIT') # Remove accented characters
+  # Remove punctuation, but keep the characters in the keep parameter
+  new_str <- gsub(paste0("(?![", keep, "])[[:punct:]]"),
+                  "",
+                  new_str,
+                  perl = TRUE)
+  # Remove white spaces and replace by -
+  if (rm_wht)
+    new_str <- gsub(" ", "-", new_str)
+  return(new_str)
 }

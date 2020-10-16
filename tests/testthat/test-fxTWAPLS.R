@@ -19,7 +19,7 @@ core <- Holocene[, -c(1:3)]
 # Get the frequency of each climate variable fx
 fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
 fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002, show_plot = TRUE)
 
 # MTCO
 fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)

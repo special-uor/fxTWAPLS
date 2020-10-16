@@ -7,6 +7,7 @@
 #' 
 #' @param x the modern climate values 
 #' @param bin bin-width to get the frequency of the modern climate values
+#' @param show_plot boolean flag to show a plot of \code{fx ~ x}
 #'
 #' @return the frequency of the modern climate values
 #' @export
@@ -30,10 +31,10 @@
 #' 
 #' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and 
 #'     \code{\link{sse.sample}}
-fx <- function(x, bin) {
+fx <- function(x, bin, show_plot = FALSE) {
   pbin <- round((max(x) - min(x)) / bin, digits = 0)
   bin <- (max(x) - min(x)) / pbin
-  hist <- hist(x, breaks = seq(min(x), max(x), by = bin))
+  hist <- hist(x, breaks = seq(min(x), max(x), by = bin), plot = show_plot)
   xbin <- seq(min(x) + bin / 2, max(x) - bin / 2, by = bin)
   counts <- hist[["counts"]]
   fx <- rep(NA, length(x))
@@ -43,7 +44,8 @@ fx <- function(x, bin) {
   if (any(fx == 0)) {
     print("Some x have a count of 0!")
   }
-  plot(fx ~ x)
+  if (show_plot)
+    plot(fx ~ x)
   return(fx)
 }
 

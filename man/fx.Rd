@@ -4,12 +4,14 @@
 \alias{fx}
 \title{Get frequency of the climate value}
 \usage{
-fx(x, bin)
+fx(x, bin, show_plot = FALSE)
 }
 \arguments{
 \item{x}{the modern climate values}
 
 \item{bin}{bin-width to get the frequency of the modern climate values}
+
+\item{show_plot}{boolean flag to show a plot of \code{fx ~ x}}
 }
 \value{
 the frequency of the modern climate values

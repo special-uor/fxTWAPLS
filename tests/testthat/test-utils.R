@@ -9,11 +9,11 @@ test_that("hexagonal logo works", {
 
 test_that("parallel benchmark works", {
   # Define toy function that sleeps for (60/cpus) seconds
-  a <- function(cpus) {Sys.sleep(4/cpus)}
-  times_df <- par_benchmark(c(1, 2, 4), a, quiet = TRUE)
-  expect_equal(length(times_df$times), 3)
-  expect_output(par_benchmark(c(4), a, quiet = FALSE))
-  expect_output(par_benchmark(c(4), a, quiet = FALSE, plot = TRUE))
+  a <- function(cpus) {Sys.sleep(2/cpus)}
+  times_df <- par_benchmark(c(1, 2), a, quiet = TRUE)
+  expect_equal(length(times_df$times), 2)
+  expect_output(par_benchmark(c(2), a, quiet = FALSE))
+  expect_output(par_benchmark(c(2), a, quiet = FALSE, plot = TRUE))
   # print(list.files("."))
   # is.windows <- Sys.info()['sysname'] == "Windows"
   # # print(paste0("Is windows ", is.windows))
@@ -37,4 +37,11 @@ test_that("combine with progress bar works", {
                             i
                           }
   expect_equal(c(unname(out)), 1:N)
+})
+
+test_that("clean string works", {
+  expect_equal(cln_str("ÀÊ?"), "AE")
+  expect_equal(cln_str("ÀÊ?_AE?"), "AE_AE")
+  expect_equal(cln_str("ÀÊ? AE?"), "AE AE")
+  expect_equal(cln_str("ÀÊ? AE?", rm_wht = TRUE), "AE-AE")
 })
