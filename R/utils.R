@@ -1,16 +1,18 @@
-#' Create hexagonal logo for the package
+#' Create hexagonal logo 
+#' 
+#' Create hexagonal logo for the package.
 #'
-#' @param subplot image to use as the main logo
-#' @param dpi plot resolution (dots-per-inch)
-#' @param h_color colour for hexagon border
-#' @param h_fill colour to fill hexagon
-#' @param output output file (hexagonal logo)
-#' @param package title for logo (package name)
-#' @param p_color colour for package name
-#' @param url URL for package repository or website
-#' @param u_size text size for URL
+#' @param subplot Image to use as the main logo.
+#' @param dpi Plot resolution (dots-per-inch).
+#' @param h_color Colour for hexagon border.
+#' @param h_fill Colour to fill hexagon.
+#' @param output Output file (hexagonal logo).
+#' @param package Title for logo (package name).
+#' @param p_color Colour for package name.
+#' @param url URL for package repository or website.
+#' @param u_size Text size for URL.
 #'
-#' @return hexagonal logo
+#' @return Hexagonal logo.
 #'
 #' @examples
 #' fxTWAPLS:::hex_logo(output = "logo.png")
@@ -38,14 +40,17 @@ hex_logo <- function(subplot = system.file("images/cave-painting.png",
                       filename = output)
 }
 
-#' Perform parallel benchmarks on a function
+#' Perform parallel benchmarks 
+#' 
+#' Perform parallel benchmarks on a function and generate a plot with execution 
+#' times vs CPU count.
 #'
-#' @param CPUS vector with the number of CPUs
-#' @param FUN parallel function, MUST have a parameter called \code{cpus}
-#' @param plot boolean flag to request a plot for the results
-#' @param quiet boolean flag to print results of each execution
-#' @param ... optional arguments for the function, must be named; e.g. 
-#'     \code{x = test_df}
+#' @param CPUS Vector with the number of CPUs.
+#' @param FUN Parallel function, MUST have a parameter called \code{cpus}.
+#' @param plot Boolean flag to request a plot for the results.
+#' @param quiet Boolean flag to print results of each execution.
+#' @param ... Optional arguments for \code{FUN}, must be named; e.g. 
+#'     \code{x = test_df}.
 #'
 #' @examples
 #' # Define toy function that sleeps for (2/cpus) seconds
@@ -86,15 +91,15 @@ par_benchmark <- function(CPUS, FUN, plot = FALSE, quiet = FALSE, ...) {
 #' Combine results with progress bar
 #' 
 #' Combine results with progress bar, to be used in combination with 
-#'     \code{foreach::foreach}
+#'     \code{\link[foreach::foreach]{foreach::foreach}}.
 #'     
 #' @importFrom utils flush.console
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' 
-#' @param iterator number of iterations
-#' @param FUN function to combine the results (default: \code{rbind})
-#' @param ... optional parameters
+#' @param iterator Number of iterations.
+#' @param FUN Function to combine the results (default: \code{rbind}).
+#' @param ... Optional parameters.
 #' 
 #' @examples
 #' \donttest{
