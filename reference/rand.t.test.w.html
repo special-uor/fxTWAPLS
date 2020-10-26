@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -146,15 +146,13 @@ different from using one less.</p></td>
     <div class='dont-index'><p><code><a href='cv.w.html'>cv.w</a></code> and <code><a href='cv.pr.w.html'>cv.pr.w</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load modern pollen data</span>
-<span class='va'>modern_pollen</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, 
-                                      <span class='st'>"Modern_Pollen_gdd_alpha_Tmin.csv"</span>, 
-                                      package <span class='op'>=</span> <span class='st'>"fxTWAPLS"</span>, 
-                                      mustWork <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Load modern pollen data</span>
+<span class='va'>modern_pollen</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"/path/to/modern_pollen.csv"</span><span class='op'>)</span>
+                                      
 <span class='co'># Extract taxa</span>
-<span class='va'>taxaColMin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Abies"</span><span class='op'>)</span>
-<span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Zygophyllaceae"</span><span class='op'>)</span>
+<span class='va'>taxaColMin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"taxa0"</span><span class='op'>)</span>
+<span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"taxaN"</span><span class='op'>)</span>
 <span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
 
 <span class='co'># Get the frequency of each climate variable fx</span>
@@ -185,33 +183,11 @@ different from using one less.</p></td>
                             fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
                             cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
                             test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
-<span class='co'># \donttest{</span>
+                            
 <span class='co'>## Random t-test</span>
 <span class='va'>rand_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>rand.t.test.w</span><span class='op'>(</span><span class='va'>cv_Tmin</span>, n.perm <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              R2  Avg.Bias Max.Bias   Min.Bias    RMSEP delta.RMSEP     p
-#&gt; [1,] 0.02270058 0.5876271 3.600532 0.18947044 1.821084  184.534763 0.899
-#&gt; [2,] 0.10682957 2.0861546 5.426599 0.09891245 2.801596   53.842208 0.909
-#&gt; [3,] 0.13567130 2.2539910 6.152408 0.11691500 3.109415   10.987268 0.783
-#&gt; [4,] 0.15254826 2.1434898 6.439916 0.45996367 3.182276    2.343242 0.620
-#&gt; [5,] 0.14940046 2.0516054 6.670425 0.53014195 3.255956    2.315303 0.680
-#&gt;      Compre.b0  Compre.b1 Compre.b0.se Compre.b1.se
-#&gt; [1,] -3.546948 -0.3547418     4.190512     1.343838
-#&gt; [2,] -3.397578 -0.7968092     4.147967     1.330195
-#&gt; [3,] -3.997941 -1.0485186     4.764651     1.527956
-#&gt; [4,] -4.683848 -1.2370570     5.249320     1.683383
-#&gt; [5,] -5.075511 -1.3352831     5.736136     1.839498</div><div class='input'><span class='va'>rand_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>rand.t.test.w</span><span class='op'>(</span><span class='va'>cv_f_Tmin</span>, n.perm <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              R2   Avg.Bias Max.Bias   Min.Bias    RMSEP delta.RMSEP     p
-#&gt; [1,] 0.02268676 -0.7281176 2.926985 0.17800567 2.188575  241.953180 0.914
-#&gt; [2,] 0.10663875  1.3758271 5.177210 0.20932131 2.518062   15.054898 0.628
-#&gt; [3,] 0.12648227  1.5913962 5.816623 0.37612642 2.804248   11.365323 0.918
-#&gt; [4,] 0.14882193  1.3739246 6.041572 0.08024372 2.887152    2.956364 0.673
-#&gt; [5,] 0.14899405  1.2833742 6.213522 0.22031227 2.972728    2.964036 0.847
-#&gt;      Compre.b0  Compre.b1 Compre.b0.se Compre.b1.se
-#&gt; [1,] -5.121798 -0.4396407     5.195029     1.665973
-#&gt; [2,] -4.496675 -0.9241941     4.815914     1.544396
-#&gt; [3,] -4.856533 -1.1127393     5.264704     1.688316
-#&gt; [4,] -5.766922 -1.3397821     5.768599     1.849909
-#&gt; [5,] -6.128197 -1.4284879     6.146359     1.971051</div><div class='input'><span class='co'># }</span>
+<span class='va'>rand_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>rand.t.test.w</span><span class='op'>(</span><span class='va'>cv_f_Tmin</span>, n.perm <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 </div></pre>
   </div>
