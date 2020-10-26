@@ -10,10 +10,10 @@
 <!-- [![](https://img.shields.io/github/languages/code-size/special-uor/fxTWAPLS.svg)](https://github.com/special-uor/fxTWAPLS) -->
 
 [![](https://www.r-pkg.org/badges/version/fxTWAPLS?color=blue)](https://cran.r-project.org/package=fxTWAPLS)
-[![](https://img.shields.io/badge/devel%20version-0.0.2.9000-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
-[![](https://codecov.io/gh/special-uor/fxTWAPLS/branch/master/graph/badge.svg?token=Q6SYL7AOGR)](https://codecov.io/gh/special-uor/fxTWAPLS)
+[![](https://img.shields.io/badge/devel%20version-0.0.3-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
 [![R build
 status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions)
+<!-- [![](https://codecov.io/gh/special-uor/fxTWAPLS/branch/master/graph/badge.svg?token=Q6SYL7AOGR)](https://codecov.io/gh/special-uor/fxTWAPLS) -->
 <!-- [![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions) -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/fxTWAPLS)](https://CRAN.R-project.org/package=fxTWAPLS) -->
 <!-- badges: end -->
@@ -25,8 +25,7 @@ including the tolerances of taxa and the frequency of the sampled
 climate variable. This package also provides a way of leave-out
 cross-validation that removes both the test site and sites that are both
 geographically close and climatically close for each cycle, to avoid the
-risk of
-pseudo-replication.
+risk of pseudo-replication.
 
 ## Installation
 

@@ -14,17 +14,6 @@ test_that("parallel benchmark works", {
   expect_equal(length(times_df$times), 2)
   expect_output(par_benchmark(c(2), a, quiet = FALSE))
   expect_output(par_benchmark(c(2), a, quiet = FALSE, plot = TRUE))
-  # print(list.files("."))
-  # is.windows <- Sys.info()['sysname'] == "Windows"
-  # # print(paste0("Is windows ", is.windows))
-  # print(paste0("OS: ", Sys.info()['sysname']))
-  # if (!is.windows) {
-  #   expect_true(file.exists("./Rplots.pdf"))
-  #   expect_false(dir.exists("./Rplots.pdf"))
-  #   expect_gt(file.size("Rplots.pdf"), 0)
-  # }
-  # file.remove("./Rplots.pdf")
-  # expect_false(file.exists("./Rplots.pdf"))
 })
 
 test_that("combine with progress bar works", {
@@ -37,11 +26,4 @@ test_that("combine with progress bar works", {
                             i
                           }
   expect_equal(c(unname(out)), 1:N)
-})
-
-test_that("clean string works", {
-  expect_equal(cln_str("ÀÊ?"), "AE")
-  expect_equal(cln_str("ÀÊ?_AE?"), "AE_AE")
-  expect_equal(cln_str("ÀÊ? AE?"), "AE AE")
-  expect_equal(cln_str("ÀÊ? AE?", rm_wht = TRUE), "AE-AE")
 })
