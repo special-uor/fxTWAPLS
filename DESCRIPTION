@@ -33,7 +33,6 @@ Imports:
     geosphere,
     ggplot2,
     MASS,
-    matrixStats,
     parallel,
     tictoc
 Suggests:
