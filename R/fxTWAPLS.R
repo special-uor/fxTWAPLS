@@ -63,20 +63,26 @@ fx <- function(x, bin, show_plot = FALSE) {
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #'
-#' @return a list of the training results, which will be used by the predict 
-#'     function. 
-#'     fit: the fitted values using each number of components 
-#'     x: the observed modern climate values
-#'     taxon_name: the name of each taxon
-#'     optimum: the updated taxon optimum (u* in the WA-PLS paper)
-#'     comp: each component extracted (will be used in step 7 regression)
-#'     u: taxon optimum for each component (step 2)
-#'     z: a parameter used in standardization for each component (step 5)
-#'     s: a parameter used in standardization for each component (step 5)
-#'     orth: a list that stores orthogonalization parameters (step 4)
-#'     alpha: a list that stores regression coefficients (step 7)
-#'     meanx: mean value of the observed modern climate values
-#'     nPLS: the total number of components extracted
+#' @return A list of the training results, which will be used by the predict 
+#'     function. Each element in the list is described below:
+#'     \itemize{
+#'     \item \code{fit}: the fitted values using each number of components.
+#'     \item \code{x}: the observed modern climate values.
+#'     \item \code{taxon_name}: the name of each taxon.
+#'     \item \code{optimum}: the updated taxon optimum (u* in the WA-PLS paper).
+#'     \item \code{comp}: each component extracted (will be used in step 7 
+#'     regression).
+#'     \item \code{u}: taxon optimum for each component (step 2).
+#'     \item \code{z}: a parameter used in standardization for each component 
+#'     (step 5).
+#'     \item \code{s}: a parameter used in standardization for each component 
+#'     (step 5).
+#'     \item \code{orth}: a list that stores orthogonalization parameters 
+#'     (step 4).
+#'     \item \code{alpha}: a list that stores regression coefficients (step 7).
+#'     \item \code{meanx}: mean value of the observed modern climate values.
+#'     \item \code{nPLS}: the total number of components extracted.
+#'     }
 #'     
 #' @export
 #'
@@ -265,21 +271,27 @@ WAPLS.w <- function(modern_taxa,
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #'
-#' @return a list of the training results, which will be used by the predict 
-#'     function. 
-#'     fit: the fitted values using each number of components 
-#'     x: the observed modern climate values
-#'     taxon_name: the name of each taxon
-#'     optimum: the updated taxon optimum
-#'     comp: each component extracted (will be used in step 7 regression)
-#'     u: taxon optimum for each component (step 2)
-#'     t: taxon tolerance for each component (step 2)
-#'     z: a parameter used in standardization for each component (step 5)
-#'     s: a parameter used in standardization for each component (step 5)
-#'     orth: a list that stores orthogonalization parameters (step 4)
-#'     alpha: a list that stores regression coefficients (step 7)
-#'     meanx: mean value of the observed modern climate values
-#'     nPLS: the total number of components extracted
+#' @return A list of the training results, which will be used by the predict 
+#'     function. Each element in the list is described below:
+#'     \itemize{
+#'     \item \code{fit}: the fitted values using each number of components.
+#'     \item \code{x}: the observed modern climate values.
+#'     \item \code{taxon_name}: the name of each taxon.
+#'     \item \code{optimum}: the updated taxon optimum
+#'     \item \code{comp}: each component extracted (will be used in step 7 
+#'     regression).
+#'     \item \code{u}: taxon optimum for each component (step 2).
+#'     \item \code{t}: taxon tolerance for each component (step 2).
+#'     \item \code{z}: a parameter used in standardization for each component 
+#'     (step 5).
+#'     \item \code{s}: a parameter used in standardization for each component 
+#'     (step 5).
+#'     \item \code{orth}: a list that stores orthogonalization parameters 
+#'     (step 4).
+#'     \item \code{alpha}: a list that stores regression coefficients (step 7).
+#'     \item \code{meanx}: mean value of the observed modern climate values.
+#'     \item \code{nPLS}: the total number of components extracted.
+#'     }
 #'     
 #' @export
 #'
@@ -475,9 +487,13 @@ TWAPLS.w <- function(modern_taxa,
 #'     each row represents a site to be reconstructed, each column represents a 
 #'     taxon.
 #'
-#' @return a list of the reconstruction results.
-#'       \code{fit}: the fitted values using each number of components
-#'        nPLS: the total number of components extracted
+#' @return A list of the reconstruction results. Each element in the list is 
+#'     described below:
+#'     \itemize{
+#'     \item \code{fit}: the fitted values using each number of components.
+#'     \item \code{nPLS}: the total number of components extracted.
+#'     }
+#'     
 #' @export
 #'
 #' @examples
@@ -587,9 +603,13 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #'     each row represents a site to be reconstructed, each column represents 
 #'     a taxon.
 #'
-#' @return a list of the reconstruction results.
-#'       \code{fit}: the fitted values using each number of components
-#'        nPLS: the total number of components extracted
+#' @return A list of the reconstruction results. Each element in the list is 
+#'     described below:
+#'     \itemize{
+#'     \item \code{fit}: the fitted values using each number of components.
+#'     \item \code{nPLS}: the total number of components extracted.
+#'     }
+#'     
 #' @export
 #'
 #' @examples
@@ -1253,24 +1273,33 @@ cv.pr.w <- function(modern_taxa,
 #'     assesses whether using the current number of components is significantly 
 #'     different from using one less.
 #'
-#' @return a matrix of the statistics of the cross-validation results.
-#'         R2: the coefficient of determination (the larger, the better the fit)
-#'         Avg.Bias: average bias
-#'         Max.Bias: maximum bias
-#'         Min.Bias: minimum bias
-#'         RMSEP: root-mean-square error of prediction (the smaller, the better the fit) 
-#'         delta.RMSEP: the percent change of RMSEP using the current number of 
-#'           components than using one component less. 
-#'         p: assesses whether using the current number of components is 
-#'           significantly different from using one component less, 
-#'           which is used to choose the last significant number of components
-#'           to avoid over-fitting. 
-#'         The degree of overall compression is assessed by doing linear regression 
-#'         to the cross-validation result and the observed climate values.
-#'         Compre.b0: the intercept 
-#'         Compre.b1: the slope (the closer to 1, the less the overall compression)
-#'         Compre.b0.se: the standard error of the intercept
-#'         Compre.b1.se: the standard error of the slope
+#' @return A matrix of the statistics of the cross-validation results. Each 
+#'     component is described below:
+#'     \itemize{
+#'     \item \code{R2}: the coefficient of determination (the larger, the 
+#'     better the fit).
+#'     \item \code{Avg.Bias}: average bias.
+#'     \item \code{Max.Bias}: maximum bias.
+#'     \item \code{Min.Bias}: minimum bias.
+#'     \item \code{RMSEP}: root-mean-square error of prediction (the smaller, 
+#'     the better the fit). 
+#'     \item \code{delta.RMSEP}: the percent change of RMSEP using the current 
+#'     number of components than using one component less. 
+#'     \item \code{p}: assesses whether using the current number of components 
+#'     is significantly different from using one component less, which is used 
+#'     to choose the last significant number of components to avoid 
+#'     over-fitting. 
+#'     \item The degree of overall compression is assessed by doing linear 
+#'     regression to the cross-validation result and the observed climate 
+#'     values.
+#'         \itemize{
+#'         \item \code{Compre.b0}: the intercept.
+#'         \item \code{Compre.b1}: the slope (the closer to 1, the less the 
+#'         overall compression).
+#'         \item \code{Compre.b0.se}: the standard error of the intercept.
+#'         \item \code{Compre.b1.se}: the standard error of the slope.
+#'         }
+#'     }
 #'         
 #' @export
 #'
