@@ -15,7 +15,12 @@ each row represents a site to be reconstructed, each column represents
 a taxon.}
 }
 \value{
-a list of the reconstruction results. \code{fit} is the fitted value.
+A list of the reconstruction results. Each element in the list is
+described below:
+\itemize{
+\item \code{fit}: the fitted values using each number of components.
+\item \code{nPLS}: the total number of components extracted.
+}
 }
 \description{
 TWA-PLS predict function

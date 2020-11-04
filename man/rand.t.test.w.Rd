@@ -15,7 +15,33 @@ assesses whether using the current number of components is significantly
 different from using one less.}
 }
 \value{
-a matrix of the statistics of the cross-validation results
+A matrix of the statistics of the cross-validation results. Each
+component is described below:
+\itemize{
+\item \code{R2}: the coefficient of determination (the larger, the
+better the fit).
+\item \code{Avg.Bias}: average bias.
+\item \code{Max.Bias}: maximum bias.
+\item \code{Min.Bias}: minimum bias.
+\item \code{RMSEP}: root-mean-square error of prediction (the smaller,
+the better the fit).
+\item \code{delta.RMSEP}: the percent change of RMSEP using the current
+number of components than using one component less.
+\item \code{p}: assesses whether using the current number of components
+is significantly different from using one component less, which is used
+to choose the last significant number of components to avoid
+over-fitting.
+\item The degree of overall compression is assessed by doing linear
+regression to the cross-validation result and the observed climate
+values.
+\itemize{
+\item \code{Compre.b0}: the intercept.
+\item \code{Compre.b1}: the slope (the closer to 1, the less the
+overall compression).
+\item \code{Compre.b0.se}: the standard error of the intercept.
+\item \code{Compre.b1.se}: the standard error of the slope.
+}
+}
 }
 \description{
 Do a random t-test to the cross-validation results

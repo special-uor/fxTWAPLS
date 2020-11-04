@@ -21,8 +21,27 @@ sampling site, each column represents a taxon.}
 be obtained from the \code{\link{fx}} function.}
 }
 \value{
-a list of the training results, which will be used by the predict
-function. fit is the fitted value of modern training result.
+A list of the training results, which will be used by the predict
+function. Each element in the list is described below:
+\itemize{
+\item \code{fit}: the fitted values using each number of components.
+\item \code{x}: the observed modern climate values.
+\item \code{taxon_name}: the name of each taxon.
+\item \code{optimum}: the updated taxon optimum
+\item \code{comp}: each component extracted (will be used in step 7
+regression).
+\item \code{u}: taxon optimum for each component (step 2).
+\item \code{t}: taxon tolerance for each component (step 2).
+\item \code{z}: a parameter used in standardization for each component
+(step 5).
+\item \code{s}: a parameter used in standardization for each component
+(step 5).
+\item \code{orth}: a list that stores orthogonalization parameters
+(step 4).
+\item \code{alpha}: a list that stores regression coefficients (step 7).
+\item \code{meanx}: mean value of the observed modern climate values.
+\item \code{nPLS}: the total number of components extracted.
+}
 }
 \description{
 TWA-PLS training function, which can perform \code{fx} correction
