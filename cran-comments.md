@@ -9,23 +9,9 @@
 
 * This is a new release.
 
-## Resubmission
-This is a resubmission. In this version I have:
+In this version, I have:
 
-* Add local binding for local variables
-
-* Excluded the README.Rmd from build
-
-* Removed package name from the DESCRIPTION file
-
-## Resubmission (2020-10-06)
-* Removing `\dontrun` blocks for examples and replacing for `\donttest` (for long 
-examples)
-
-* Limitting the number of cores to 2 for examples
-
-* Describing acronyms in DESCRIPTION file
-
-* Removing `<<-` operator to `<-`
-
-* Updating to version `0.0.2`
+* Removed example for `hex_logo` that was attempting "to write to the user library".
+* Made utilitarian functions for internal use only, declutering the documentation.
+* Remove the external datasets, as requested for our data provider.
+* Due to the previous point, examples can't be run, thus I have added the `\dontrun` flag.
