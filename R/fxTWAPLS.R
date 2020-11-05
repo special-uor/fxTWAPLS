@@ -1,3 +1,6 @@
+#' @keywords internal
+"_PACKAGE"
+
 #' Get frequency of the climate value
 #' 
 #' Function to get the frequency of the climate value, which will be used to 
