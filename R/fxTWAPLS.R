@@ -1079,17 +1079,17 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' Get the sites which are both geographically and climatically close to the 
 #'     test site, which could result in pseudo-replication and inflate the 
 #'     cross-validation statistics. The output will be used in 
-#'     \code{\link{cv.pr.w}}
+#'     \code{\link{cv.pr.w}}.
 #'
-#' @param dist distance matrix which contains the distance from other sites.
-#' @param x the modern climate values
-#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#' @param dist Distance matrix which contains the distance from other sites.
+#' @param x The modern climate values.
+#' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
-#' @param test_mode boolean flag to execute the function with a limited number
+#' @param test_mode Boolean flag to execute the function with a limited number
 #'     of iterations, \code{test_it}, for testing purposes only.
-#' @param test_it number of iterations to use in the test mode
+#' @param test_it Number of iterations to use in the test mode.
 #' 
-#' @return the geographically and climatically close sites to each test site.
+#' @return The geographically and climatically close sites to each test site.
 #' @export
 #'
 #' @examples
