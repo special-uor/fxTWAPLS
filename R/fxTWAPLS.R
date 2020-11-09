@@ -4,15 +4,15 @@
 #' Get frequency of the climate value
 #' 
 #' Function to get the frequency of the climate value, which will be used to 
-#'     provide \code{fx} correction for WA-PLS and TWA-PLS
+#'     provide \code{fx} correction for WA-PLS and TWA-PLS.
 #'
 #' @importFrom graphics plot
 #' 
-#' @param x the modern climate values 
-#' @param bin bin-width to get the frequency of the modern climate values
-#' @param show_plot boolean flag to show a plot of \code{fx ~ x}
+#' @param x Numeric vector with the modern climate values.
+#' @param bin Binwidth to get the frequency of the modern climate values.
+#' @param show_plot Boolean flag to show a plot of \code{fx ~ x}.
 #'
-#' @return the frequency of the modern climate values
+#' @return Numeric vector with the frequency of the modern climate values.
 #' @export
 #'
 #' @examples
