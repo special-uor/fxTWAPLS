@@ -73,7 +73,7 @@ And the development version from [GitHub](https://github.com/special-uor/fxTWAPL
 <!-- You can install the development version from [GitHub](https://github.com/) with: -->
 ``` r
 install.packages("remotes")
-remotes::install_github("special-uor/fxTWAPLS")
+remotes::install_github("special-uor/fxTWAPLS", "dev")
 ```
 
 ## Publications

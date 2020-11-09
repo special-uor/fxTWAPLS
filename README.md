@@ -10,7 +10,7 @@
 <!-- [![](https://img.shields.io/github/languages/code-size/special-uor/fxTWAPLS.svg)](https://github.com/special-uor/fxTWAPLS) -->
 
 [![](https://www.r-pkg.org/badges/version/fxTWAPLS?color=blue)](https://cran.r-project.org/package=fxTWAPLS)
-[![](https://img.shields.io/badge/devel%20version-0.0.3-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
+[![](https://img.shields.io/badge/devel%20version-0.0.3.9000-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
 [![R build
 status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions)
 <!-- [![](https://codecov.io/gh/special-uor/fxTWAPLS/branch/master/graph/badge.svg?token=Q6SYL7AOGR)](https://codecov.io/gh/special-uor/fxTWAPLS) -->
@@ -90,7 +90,7 @@ And the development version from
 
 ``` r
 install.packages("remotes")
-remotes::install_github("special-uor/fxTWAPLS")
+remotes::install_github("special-uor/fxTWAPLS", "dev")
 ```
 
 ## Publications
