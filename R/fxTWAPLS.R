@@ -1136,29 +1136,29 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 
 #' Pseudo-removed leave-out cross-validation
 #'
-#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#' @param modern_taxa The modern taxa abundance data, each row represents a 
 #'     sampling site, each column represents a taxon.
-#' @param modern_climate the modern climate value at each sampling site
-#' @param nPLS the number of components to be extracted
-#' @param trainfun training function you want to use, either 
-#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}
-#' @param predictfun predict function you want to use: if \code{trainfun} is 
+#' @param modern_climate The modern climate value at each sampling site.
+#' @param nPLS The number of components to be extracted.
+#' @param trainfun Training function you want to use, either 
+#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}.
+#' @param predictfun Predict function you want to use: if \code{trainfun} is 
 #'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
 #'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
-#'     \code{\link{TWAPLS.predict.w}}
-#' @param pseudo the geographically and climatically close sites to each test 
-#'     site, obtained from \code{\link{get_pseudo}} function
-#' @param usefx boolean flag on whether or not use \code{fx} correction.
-#' @param fx the frequency of the climate value for \code{fx} correction: if 
+#'     \code{\link{TWAPLS.predict.w}}.
+#' @param pseudo The geographically and climatically close sites to each test 
+#'     site, obtained from \code{\link{get_pseudo}} function.
+#' @param usefx Boolean flag on whether or not use \code{fx} correction.
+#' @param fx The frequency of the climate value for \code{fx} correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
-#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
-#' @param test_mode boolean flag to execute the function with a limited number
+#' @param test_mode Boolean flag to execute the function with a limited number
 #'     of iterations, \code{test_it}, for testing purposes only.
-#' @param test_it number of iterations to use in the test mode
+#' @param test_it Number of iterations to use in the test mode.
 #'
-#' @return leave-one-out cross validation results
+#' @return Leave-one-out cross validation results.
 #' @export
 #'
 #' @examples
@@ -1184,20 +1184,20 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
 #'                                 modern_pollen$Tmin,
 #'                                 nPLS = 5,
-#'                                 fxTWAPLS::TWAPLS.w,
-#'                                 fxTWAPLS::TWAPLS.predict.w,
+#'                                 fxTWAPLS::WAPLS.w,
+#'                                 fxTWAPLS::WAPLS.predict.w,
 #'                                 pseudo_Tmin,
 #'                                 cpus = 2, # Remove the following line
 #'                                 test_mode = test_mode)
 #' # Test TWAPLS
-#' cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-#'                                   modern_pollen$Tmin,
-#'                                   nPLS = 5,
-#'                                   fxTWAPLS::TWAPLS.w,
-#'                                   fxTWAPLS::TWAPLS.predict.w,
-#'                                   pseudo_Tmin,
-#'                                   cpus = 2, # Remove the following line
-#'                                   test_mode = test_mode)
+#' cv_pr_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
+#'                                  modern_pollen$Tmin,
+#'                                  nPLS = 5,
+#'                                  fxTWAPLS::TWAPLS.w,
+#'                                  fxTWAPLS::TWAPLS.predict.w,
+#'                                  pseudo_Tmin,
+#'                                  cpus = 2, # Remove the following line
+#'                                  test_mode = test_mode)
 #' }
 #' 
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, 
