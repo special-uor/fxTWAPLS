@@ -727,7 +727,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'     climates, this can be obtained from the cross-validation results.
 #' @param usefx Boolean flag on whether or not use \code{fx} correction.
 #' @param fx The frequency of the climate value for \code{fx} correction: if 
-#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
@@ -884,29 +884,29 @@ sse.sample <- function(modern_taxa,
 #' Leave-one-out cross-validation
 #' 
 #' Leave-one-out cross-validation as 
-#'     \code{rioja} (\url{https://cran.r-project.org/package=rioja})
+#'     \code{rioja} (\url{https://cran.r-project.org/package=rioja}).
 #' 
 #' @importFrom foreach `%dopar%`
 #' 
-#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#' @param modern_taxa The modern taxa abundance data, each row represents a 
 #'     sampling site, each column represents a taxon.
-#' @param modern_climate the modern climate value at each sampling site
-#' @param nPLS the number of components to be extracted
-#' @param trainfun training function you want to use, either 
-#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}
-#' @param predictfun predict function you want to use: if \code{trainfun} is 
+#' @param modern_climate The modern climate value at each sampling site.
+#' @param nPLS The number of components to be extracted.
+#' @param trainfun Training function you want to use, either 
+#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}.
+#' @param predictfun Predict function you want to use: if \code{trainfun} is 
 #'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
 #'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
-#'     \code{\link{TWAPLS.predict.w}}
-#' @param usefx boolean flag on whether or not use \code{fx} correction.
-#' @param fx the frequency of the climate value for \code{fx} correction: if 
-#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#'     \code{\link{TWAPLS.predict.w}}.
+#' @param usefx Boolean flag on whether or not use \code{fx} correction.
+#' @param fx The frequency of the climate value for \code{fx} correction: if 
+#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
-#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param test_mode boolean flag to execute the function with a limited number
 #'     of iterations, \code{test_it}, for testing purposes only.
-#' @param test_it number of iterations to use in the test mode
+#' @param test_it number of iterations to use in the test mode.
 #'
 #' @return leave-one-out cross validation results
 #' @export
