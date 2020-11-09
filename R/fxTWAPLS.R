@@ -53,38 +53,39 @@ fx <- function(x, bin, show_plot = FALSE) {
 
 #' WA-PLS training function
 #' 
-#' WA-PLS training function, which can perform \code{fx} correction
+#' WA-PLS training function, which can perform \code{fx} correction.
 #' 
 #' @importFrom stats lm
 #' 
-#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#' @param modern_taxa The modern taxa abundance data, each row represents a 
 #'     sampling site, each column represents a taxon.
-#' @param modern_climate the modern climate value at each sampling site
-#' @param nPLS the number of components to be extracted
-#' @param usefx boolean flag on whether or not use \code{fx} correction.
-#' @param fx the frequency of the climate value for \code{fx} correction: if 
-#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
+#' @param modern_climate The modern climate value at each sampling site.
+#' @param nPLS The number of components to be extracted.
+#' @param usefx Boolean flag on whether or not use \code{fx} correction.
+#' @param fx The frequency of the climate value for \code{fx} correction: if 
+#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
 #'
 #' @return A list of the training results, which will be used by the predict 
 #'     function. Each element in the list is described below:
-#'     \itemize{
-#'     \item \code{fit}: the fitted values using each number of components.
-#'     \item \code{x}: the observed modern climate values.
-#'     \item \code{taxon_name}: the name of each taxon.
-#'     \item \code{optimum}: the updated taxon optimum (u* in the WA-PLS paper).
-#'     \item \code{comp}: each component extracted (will be used in step 7 
-#'     regression).
-#'     \item \code{u}: taxon optimum for each component (step 2).
-#'     \item \code{z}: a parameter used in standardization for each component 
-#'     (step 5).
-#'     \item \code{s}: a parameter used in standardization for each component 
-#'     (step 5).
-#'     \item \code{orth}: a list that stores orthogonalization parameters 
-#'     (step 4).
-#'     \item \code{alpha}: a list that stores regression coefficients (step 7).
-#'     \item \code{meanx}: mean value of the observed modern climate values.
-#'     \item \code{nPLS}: the total number of components extracted.
+#'     \describe{
+#'     \item{\code{fit}}{the fitted values using each number of components.}
+#'     \item{\code{x}}{the observed modern climate values.}
+#'     \item{\code{taxon_name}}{the name of each taxon.}
+#'     \item{\code{optimum}}{the updated taxon optimum (u* in the WA-PLS 
+#'     paper).}
+#'     \item{\code{comp}}{each component extracted (will be used in step 7 
+#'     regression).}
+#'     \item{\code{u}}{taxon optimum for each component (step 2).}
+#'     \item{\code{z}}{a parameter used in standardization for each component 
+#'     (step 5).}
+#'     \item{\code{s}}{a parameter used in standardization for each component 
+#'     (step 5).}
+#'     \item{\code{orth}}{a list that stores orthogonalization parameters 
+#'     (step 4).}
+#'     \item{\code{alpha}}{a list that stores regression coefficients (step 7).}
+#'     \item{\code{meanx}}{mean value of the observed modern climate values.}
+#'     \item{\code{nPLS}}{the total number of components extracted.}
 #'     }
 #'     
 #' @export
