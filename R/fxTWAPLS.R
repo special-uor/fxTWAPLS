@@ -1481,16 +1481,16 @@ plot_train <- function(train_output, col) {
 #' 
 #' Plot the residuals, the black line is 0 line, the red line is the locally 
 #'     estimated scatterplot smoothing, which shows the degree of local 
-#'     compression
+#'     compression.
 #' 
 #' @param train_output Training output, can be the output of WA-PLS, WA-PLS with 
 #'     \code{fx} correction, TWA-PLS, or TWA-PLS with \code{fx} correction
-#' @param col choose which column of the fitted value to plot, in other words, 
-#'     how many number of components you want to use
+#' @param col Choose which column of the fitted value to plot, in other words, 
+#'     how many number of components you want to use.
 #' 
 #' @export
 #' 
-#' @return plotting status
+#' @return Plotting status.
 #' 
 #' @examples
 #' \dontrun{
