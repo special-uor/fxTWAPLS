@@ -19,12 +19,7 @@
 #' \dontrun{
 #' # Load modern pollen data
 #' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
-#'                                       
-#' # Extract taxa
-#' taxaColMin <- which(colnames(modern_pollen) == "taxa0")
-#' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
-#' taxa <- modern_pollen[, taxaColMin:taxaColMax]
-#'     
+#' 
 #' # Get the frequency of each climate variable fx
 #' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
 #' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
