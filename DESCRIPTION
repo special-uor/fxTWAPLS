@@ -1,6 +1,6 @@
 Package: fxTWAPLS
 Title: An Improved Version of WA-PLS
-Version: 0.0.3.9000
+Version: 0.0.4
 Authors@R: c(
     person(given = "Mengmeng",
            family = "Liu",
