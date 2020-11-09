@@ -1003,20 +1003,20 @@ cv.w <- function(modern_taxa,
 #' Get the distance between points
 #' 
 #' Get the distance between points, the output will be used in 
-#'     \code{\link{get_pseudo}}
+#'     \code{\link{get_pseudo}}.
 #' 
 #' @importFrom foreach `%dopar%` 
 #' 
-#' @param point each row represents a sampling site, the first column is 
-#'     longitude and the second column is latitude, both in decimal format
-#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#' @param point Each row represents a sampling site, the first column is 
+#'     longitude and the second column is latitude, both in decimal format.
+#' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
-#' @param test_mode boolean flag to execute the function with a limited number
+#' @param test_mode Boolean flag to execute the function with a limited number
 #'     of iterations, \code{test_it}, for testing purposes only.
-#' @param test_it number of iterations to use in the test mode
+#' @param test_it Number of iterations to use in the test mode.
 #'    
-#' @return distance matrix, the value at the \code{i-th} row, means the distance 
-#'     between the \code{i-th} sampling site and the whole sampling sites
+#' @return Distance matrix, the value at the \code{i-th} row, means the distance 
+#'     between the \code{i-th} sampling site and the whole sampling sites.
 #' @export
 #' 
 #' @examples
