@@ -473,17 +473,17 @@ TWAPLS.w <- function(modern_taxa,
 
 #' WA-PLS predict function
 #'
-#' @param WAPLSoutput the output of the \code{\link{WAPLS.w}} training function, 
-#'     either with or without \code{fx} correction
-#' @param fossil_taxa fossil taxa abundance data to reconstruct past climates, 
+#' @param WAPLSoutput The output of the \code{\link{WAPLS.w}} training function, 
+#'     either with or without \code{fx} correction.
+#' @param fossil_taxa Fossil taxa abundance data to reconstruct past climates, 
 #'     each row represents a site to be reconstructed, each column represents a 
 #'     taxon.
 #'
 #' @return A list of the reconstruction results. Each element in the list is 
 #'     described below:
 #'     \itemize{
-#'     \item \code{fit}: the fitted values using each number of components.
-#'     \item \code{nPLS}: the total number of components extracted.
+#'     \item{\code{fit}}{The fitted values using each number of components.}
+#'     \item{\code{nPLS}}{The total number of components extracted.}
 #'     }
 #'     
 #' @export
