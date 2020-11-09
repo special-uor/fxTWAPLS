@@ -261,14 +261,7 @@ WAPLS.w <- function(modern_taxa,
 #' 
 #' @importFrom stats lm
 #' 
-#' @param modern_taxa The modern taxa abundance data, each row represents a 
-#'     sampling site, each column represents a taxon.
-#' @param modern_climate The modern climate value at each sampling site
-#' @param nPLS The number of components to be extracted
-#' @param usefx Boolean flag on whether or not use \code{fx} correction.
-#' @param fx The frequency of the climate value for \code{fx} correction: if 
-#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, this should 
-#'     be obtained from the \code{\link{fx}} function.
+#' @inheritParams WAPLS.w
 #'
 #' @return A list of the training results, which will be used by the predict 
 #'     function. Each element in the list is described below:
