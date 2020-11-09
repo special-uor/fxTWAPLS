@@ -1409,16 +1409,16 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #' 
 #' Plot the training results, the black line is the 1:1 line, the red line is 
 #'     the linear regression line to fitted and \code{x}, which shows the degree 
-#'     of overall compression
+#'     of overall compression.
 #' 
 #' @param train_output Training output, can be the output of WA-PLS, WA-PLS with 
-#'     \code{fx} correction, TWA-PLS, or TWA-PLS with \code{fx} correction
-#' @param col choose which column of the fitted value to plot, in other words, 
-#'     how many number of components you want to use
+#'     \code{fx} correction, TWA-PLS, or TWA-PLS with \code{fx} correction.
+#' @param col Choose which column of the fitted value to plot, in other words, 
+#'     how many number of components you want to use.
 #'     
 #' @export
 #' 
-#' @return plotting status
+#' @return Plotting status.
 #' 
 #' @examples
 #' \dontrun{
