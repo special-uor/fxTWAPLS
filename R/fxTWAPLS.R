@@ -707,36 +707,36 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   return(list)
 }
 
-#' Function to calculate Sample Specific Errors
+#' Calculate Sample Specific Errors
 #'
-#' @param modern_taxa the modern taxa abundance data, each row represents a 
+#' @param modern_taxa The modern taxa abundance data, each row represents a 
 #'     sampling site, each column represents a taxon.
-#' @param modern_climate the modern climate value at each sampling site
-#' @param fossil_taxa fossil taxa abundance data to reconstruct past climates, 
+#' @param modern_climate The modern climate value at each sampling site
+#' @param fossil_taxa Fossil taxa abundance data to reconstruct past climates, 
 #'     each row represents a site to be reconstructed, each column represents a 
 #'     taxon.
-#' @param trainfun training function you want to use, either 
-#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}
-#' @param predictfun predict function you want to use: if \code{trainfun} is 
+#' @param trainfun Training function you want to use, either 
+#'     \code{\link{WAPLS.w}} or \code{\link{TWAPLS.w}}.
+#' @param predictfun Predict function you want to use: if \code{trainfun} is 
 #'     \code{\link{WAPLS.w}}, then this should be \code{\link{WAPLS.predict.w}}; 
 #'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
-#'     \code{\link{TWAPLS.predict.w}}
-#' @param nboot the number of bootstrap cycles you want to use
-#' @param nPLS the number of components to be extracted
-#' @param nsig the significant number of components to use to reconstruct past 
+#'     \code{\link{TWAPLS.predict.w}}.
+#' @param nboot The number of bootstrap cycles you want to use.
+#' @param nPLS The number of components to be extracted.
+#' @param nsig The significant number of components to use to reconstruct past 
 #'     climates, this can be obtained from the cross-validation results.
-#' @param usefx boolean flag on whether or not use \code{fx} correction.
-#' @param fx the frequency of the climate value for \code{fx} correction: if 
+#' @param usefx Boolean flag on whether or not use \code{fx} correction.
+#' @param fx The frequency of the climate value for \code{fx} correction: if 
 #'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
 #'     be obtained from the \code{\link{fx}} function.
-#' @param cpus number of CPUs for simultaneous iterations to execute, check
+#' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
-#' @param seed seed for reproducibility
-#' @param test_mode boolean flag to execute the function with a limited number
+#' @param seed Seed for reproducibility.
+#' @param test_mode Boolean flag to execute the function with a limited number
 #'     of iterations, \code{test_it}, for testing purposes only.
-#' @param test_it number of iterations to use in the test mode
+#' @param test_it Number of iterations to use in the test mode.
 #'
-#' @return the bootstrapped standard error for each site
+#' @return The bootstrapped standard error for each site.
 #' @export
 #'
 #' @examples
@@ -770,7 +770,8 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'                                        modern_climate = modern_pollen$Tmin,
 #'                                        fossil_taxa = core,
 #'                                        trainfun = fxTWAPLS::WAPLS.w,
-#'                                        predictfun = fxTWAPLS::WAPLS.predict.w,
+#'                                        predictfun = 
+#'                                          fxTWAPLS::WAPLS.predict.w,
 #'                                        nboot = nboot,
 #'                                        nPLS = 5,
 #'                                        nsig = 3,
@@ -780,10 +781,12 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'                                        seed = 1)
 #' ### with fx
 #' sse_f_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-#'                                          modern_climate = modern_pollen$Tmin,
+#'                                          modern_climate = 
+#'                                            modern_pollen$Tmin,
 #'                                          fossil_taxa = core,
 #'                                          trainfun = fxTWAPLS::WAPLS.w,
-#'                                          predictfun = fxTWAPLS::WAPLS.predict.w,
+#'                                          predictfun = 
+#'                                            fxTWAPLS::WAPLS.predict.w,
 #'                                          nboot = nboot,
 #'                                          nPLS = 5,
 #'                                          nsig = 3,
