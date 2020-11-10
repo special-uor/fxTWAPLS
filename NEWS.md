@@ -1,6 +1,6 @@
-# fxTWAPLS (development version)
+# fxTWAPLS 0.0.4
 
-* Add detailed description for return components for the following functions:
+* Added detailed description for return components for the following functions:
 `TWAPLS.predict`, `TWAPLS.w`, `WAPLS.predict`, `WAPLS`, and `rand.t.test`.
 
 # fxTWAPLS 0.0.3
