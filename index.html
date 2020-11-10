@@ -96,27 +96,6 @@
 <!-- ### Create a Personal Access Token (PAT) for Github -->
 <!-- This is needed to install packages from private repositories. Once configured, -->
 <!-- there is no need to configure it again. -->
-<!-- ```{r, eval = FALSE} -->
-<!-- # install.packages("usethis") -->
-<!-- usethis::browse_github_pat(scopes = "repo",  -->
-<!--                            description = "R:GITHUB_PAT",  -->
-<!--                            host = "https://github.com/special-uor") -->
-<!-- ``` -->
-<!-- Copy the generated token. Then, run the following command: -->
-<!-- ```{r, eval = FALSE} -->
-<!-- usethis::edit_r_environ() -->
-<!-- ``` -->
-<!-- Add a new line to the `.Renviron` file: -->
-<!-- ```bash -->
-<!-- GITHUB_PAT=xxxyyyzzz -->
-<!-- ``` -->
-<!-- Make sure to leave a new empty line after `GITHUB_PAT`. Restart R (Session >  -->
-<!-- Restart R in the RStudio menu bar), as environment variables are loaded from  -->
-<!-- `.Renviron` only at the start of an R session.  -->
-<!-- Check that the PAT is now available like so: -->
-<!-- ```{r, eval = FALSE} -->
-<!-- usethis::git_sitrep() -->
-<!-- ``` -->
 <p>You can install the released version of fxTWAPLS from <a href="https://cran.r-project.org/package=fxTWAPLS">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"fxTWAPLS"</span><span class="op">)</span></code></pre></div>
@@ -179,7 +158,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=fxTWAPLS"><img src="https://www.r-pkg.org/badges/version/fxTWAPLS?color=blue"></a></li>
-<li><a href="https://github.com/special-uor/fxTWAPLS"><img src="https://img.shields.io/badge/devel%20version-0.0.3.9000-yellow.svg"></a></li>
+<li><a href="https://github.com/special-uor/fxTWAPLS"><img src="https://img.shields.io/badge/devel%20version-0.0.4-yellow.svg"></a></li>
 <li><a href="https://github.com/special-uor/fxTWAPLS/actions"><img src="https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 </ul>
 </div>
