@@ -9,9 +9,5 @@
 
 * This is a new release.
 
-In this version, I have:
-
-* Removed example for `hex_logo` that was attempting "to write to the user library".
-* Made utilitarian functions for internal use only, declutering the documentation.
-* Remove the external datasets, as requested for our data provider.
-* Due to the previous point, examples can't be run, thus I have added the `\dontrun` flag.
+* Added detailed description for return components for the following functions:
+`TWAPLS.predict`, `TWAPLS.w`, `WAPLS.predict`, `WAPLS`, and `rand.t.test`.
