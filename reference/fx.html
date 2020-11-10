@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Get frequency of the climate value — fx" />
 <meta property="og:description" content="Function to get the frequency of the climate value, which will be used to
-provide fx correction for WA-PLS and TWA-PLS" />
+provide fx correction for WA-PLS and TWA-PLS." />
 
 
 
@@ -73,7 +73,7 @@ provide fx correction for WA-PLS and TWA-PLS" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@ provide fx correction for WA-PLS and TWA-PLS" />
 
     <div class="ref-description">
     <p>Function to get the frequency of the climate value, which will be used to
-provide <code>fx</code> correction for WA-PLS and TWA-PLS</p>
+provide <code>fx</code> correction for WA-PLS and TWA-PLS.</p>
     </div>
 
     <pre class="usage"><span class='fu'>fx</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>bin</span>, show_plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
@@ -129,21 +129,21 @@ provide <code>fx</code> correction for WA-PLS and TWA-PLS</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the modern climate values</p></td>
+      <td><p>Numeric vector with the modern climate values.</p></td>
     </tr>
     <tr>
       <th>bin</th>
-      <td><p>bin-width to get the frequency of the modern climate values</p></td>
+      <td><p>Binwidth to get the frequency of the modern climate values.</p></td>
     </tr>
     <tr>
       <th>show_plot</th>
-      <td><p>boolean flag to show a plot of <code>fx ~ x</code></p></td>
+      <td><p>Boolean flag to show a plot of <code>fx ~ x</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the frequency of the modern climate values</p>
+    <p>Numeric vector with the frequency of the modern climate values.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='cv.w.html'>cv.w</a></code>, <code><a href='cv.pr.w.html'>cv.pr.w</a></code>, and
@@ -153,12 +153,7 @@ provide <code>fx</code> correction for WA-PLS and TWA-PLS</p>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># Load modern pollen data</span>
 <span class='va'>modern_pollen</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"/path/to/modern_pollen.csv"</span><span class='op'>)</span>
-                                      
-<span class='co'># Extract taxa</span>
-<span class='va'>taxaColMin</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"taxa0"</span><span class='op'>)</span>
-<span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"taxaN"</span><span class='op'>)</span>
-<span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
-    
+
 <span class='co'># Get the frequency of each climate variable fx</span>
 <span class='va'>fx_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>fx</span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, bin <span class='op'>=</span> <span class='fl'>0.02</span><span class='op'>)</span>
 <span class='va'>fx_gdd</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>fx</span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>gdd</span>, bin <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>

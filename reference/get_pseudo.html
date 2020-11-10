@@ -43,7 +43,7 @@
 <meta property="og:description" content="Get the sites which are both geographically and climatically close to the
 test site, which could result in pseudo-replication and inflate the
 cross-validation statistics. The output will be used in
-cv.pr.w" />
+cv.pr.w." />
 
 
 
@@ -75,7 +75,7 @@ cv.pr.w" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -123,7 +123,7 @@ cv.pr.w" />
     <p>Get the sites which are both geographically and climatically close to the
 test site, which could result in pseudo-replication and inflate the
 cross-validation statistics. The output will be used in
-<code><a href='cv.pr.w.html'>cv.pr.w</a></code></p>
+<code><a href='cv.pr.w.html'>cv.pr.w</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_pseudo</span><span class='op'>(</span><span class='va'>dist</span>, <span class='va'>x</span>, cpus <span class='op'>=</span> <span class='fl'>4</span>, test_mode <span class='op'>=</span> <span class='cn'>FALSE</span>, test_it <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
@@ -133,31 +133,31 @@ cross-validation statistics. The output will be used in
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dist</th>
-      <td><p>distance matrix which contains the distance from other sites.</p></td>
+      <td><p>Distance matrix which contains the distance from other sites.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>the modern climate values</p></td>
+      <td><p>The modern climate values.</p></td>
     </tr>
     <tr>
       <th>cpus</th>
-      <td><p>number of CPUs for simultaneous iterations to execute, check
+      <td><p>Number of CPUs for simultaneous iterations to execute, check
 <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> for available CPUs on your machine.</p></td>
     </tr>
     <tr>
       <th>test_mode</th>
-      <td><p>boolean flag to execute the function with a limited number
+      <td><p>Boolean flag to execute the function with a limited number
 of iterations, <code>test_it</code>, for testing purposes only.</p></td>
     </tr>
     <tr>
       <th>test_it</th>
-      <td><p>number of iterations to use in the test mode</p></td>
+      <td><p>Number of iterations to use in the test mode.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the geographically and climatically close sites to each test site.</p>
+    <p>The geographically and climatically close sites to each test site.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='get_distance.html'>get_distance</a></code></p></div>

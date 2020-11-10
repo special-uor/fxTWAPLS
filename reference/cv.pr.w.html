@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -139,63 +139,63 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>modern_taxa</th>
-      <td><p>the modern taxa abundance data, each row represents a
+      <td><p>The modern taxa abundance data, each row represents a
 sampling site, each column represents a taxon.</p></td>
     </tr>
     <tr>
       <th>modern_climate</th>
-      <td><p>the modern climate value at each sampling site</p></td>
+      <td><p>The modern climate value at each sampling site.</p></td>
     </tr>
     <tr>
       <th>nPLS</th>
-      <td><p>the number of components to be extracted</p></td>
+      <td><p>The number of components to be extracted.</p></td>
     </tr>
     <tr>
       <th>trainfun</th>
-      <td><p>training function you want to use, either
-<code><a href='WAPLS.w.html'>WAPLS.w</a></code> or <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code></p></td>
+      <td><p>Training function you want to use, either
+<code><a href='WAPLS.w.html'>WAPLS.w</a></code> or <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>.</p></td>
     </tr>
     <tr>
       <th>predictfun</th>
-      <td><p>predict function you want to use: if <code>trainfun</code> is
+      <td><p>Predict function you want to use: if <code>trainfun</code> is
 <code><a href='WAPLS.w.html'>WAPLS.w</a></code>, then this should be <code><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></code>;
 if <code>trainfun</code> is <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>, then this should be
-<code><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></code></p></td>
+<code><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></code>.</p></td>
     </tr>
     <tr>
       <th>pseudo</th>
-      <td><p>the geographically and climatically close sites to each test
-site, obtained from <code><a href='get_pseudo.html'>get_pseudo</a></code> function</p></td>
+      <td><p>The geographically and climatically close sites to each test
+site, obtained from <code><a href='get_pseudo.html'>get_pseudo</a></code> function.</p></td>
     </tr>
     <tr>
       <th>usefx</th>
-      <td><p>boolean flag on whether or not use <code>fx</code> correction.</p></td>
+      <td><p>Boolean flag on whether or not use <code>fx</code> correction.</p></td>
     </tr>
     <tr>
       <th>fx</th>
-      <td><p>the frequency of the climate value for <code>fx</code> correction: if
+      <td><p>The frequency of the climate value for <code>fx</code> correction: if
 <code>usefx</code> is FALSE, this should be <code>NA</code>; otherwise, this should
 be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
     </tr>
     <tr>
       <th>cpus</th>
-      <td><p>number of CPUs for simultaneous iterations to execute, check
+      <td><p>Number of CPUs for simultaneous iterations to execute, check
 <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> for available CPUs on your machine.</p></td>
     </tr>
     <tr>
       <th>test_mode</th>
-      <td><p>boolean flag to execute the function with a limited number
+      <td><p>Boolean flag to execute the function with a limited number
 of iterations, <code>test_it</code>, for testing purposes only.</p></td>
     </tr>
     <tr>
       <th>test_it</th>
-      <td><p>number of iterations to use in the test mode</p></td>
+      <td><p>Number of iterations to use in the test mode.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>leave-one-out cross validation results</p>
+    <p>Leave-one-out cross validation results.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='fx.html'>fx</a></code>, <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>,
@@ -225,20 +225,20 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
 <span class='va'>cv_pr_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.pr.w</span><span class='op'>(</span><span class='va'>taxa</span>,
                                 <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
                                 nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
-                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
+                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                                <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
                                 <span class='va'>pseudo_Tmin</span>,
                                 cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
                                 test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
 <span class='co'># Test TWAPLS</span>
-<span class='va'>cv_pr_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.pr.w</span><span class='op'>(</span><span class='va'>taxa</span>,
-                                  <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
-                                  nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                                  <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
-                                  <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
-                                  <span class='va'>pseudo_Tmin</span>,
-                                  cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
-                                  test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+<span class='va'>cv_pr_Tmin2</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.pr.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+                                 <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                 nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                 <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
+                                 <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
+                                 <span class='va'>pseudo_Tmin</span>,
+                                 cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                                 test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>

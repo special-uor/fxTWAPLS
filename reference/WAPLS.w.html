@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="WA-PLS training function — WAPLS.w" />
-<meta property="og:description" content="WA-PLS training function, which can perform fx correction" />
+<meta property="og:description" content="WA-PLS training function, which can perform fx correction." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@
     </div>
 
     <div class="ref-description">
-    <p>WA-PLS training function, which can perform <code>fx</code> correction</p>
+    <p>WA-PLS training function, which can perform <code>fx</code> correction.</p>
     </div>
 
     <pre class="usage"><span class='fu'>WAPLS.w</span><span class='op'>(</span><span class='va'>modern_taxa</span>, <span class='va'>modern_climate</span>, nPLS <span class='op'>=</span> <span class='fl'>5</span>, usefx <span class='op'>=</span> <span class='cn'>FALSE</span>, fx <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></pre>
@@ -127,33 +127,53 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>modern_taxa</th>
-      <td><p>the modern taxa abundance data, each row represents a
+      <td><p>The modern taxa abundance data, each row represents a
 sampling site, each column represents a taxon.</p></td>
     </tr>
     <tr>
       <th>modern_climate</th>
-      <td><p>the modern climate value at each sampling site</p></td>
+      <td><p>The modern climate value at each sampling site.</p></td>
     </tr>
     <tr>
       <th>nPLS</th>
-      <td><p>the number of components to be extracted</p></td>
+      <td><p>The number of components to be extracted.</p></td>
     </tr>
     <tr>
       <th>usefx</th>
-      <td><p>boolean flag on whether or not use <code>fx</code> correction.</p></td>
+      <td><p>Boolean flag on whether or not use <code>fx</code> correction.</p></td>
     </tr>
     <tr>
       <th>fx</th>
-      <td><p>the frequency of the climate value for <code>fx</code> correction: if
-<code>usefx</code> is FALSE, this should be <code>NA</code>; otherwise, this should
+      <td><p>The frequency of the climate value for <code>fx</code> correction: if
+<code>usefx = FALSE</code>, this should be <code>NA</code>; otherwise, this should
 be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of the training results, which will be used by the predict
-function. fit is the fitted value of modern training result.</p>
+    <p>A list of the training results, which will be used by the predict
+function. Each element in the list is described below:</p><dl>
+<dt><code>fit</code></dt><dd><p>the fitted values using each number of components.</p></dd>
+<dt><code>x</code></dt><dd><p>the observed modern climate values.</p></dd>
+<dt><code>taxon_name</code></dt><dd><p>the name of each taxon.</p></dd>
+<dt><code>optimum</code></dt><dd><p>the updated taxon optimum (u* in the WA-PLS
+paper).</p></dd>
+<dt><code>comp</code></dt><dd><p>each component extracted (will be used in step 7
+regression).</p></dd>
+<dt><code>u</code></dt><dd><p>taxon optimum for each component (step 2).</p></dd>
+<dt><code>z</code></dt><dd><p>a parameter used in standardization for each component
+(step 5).</p></dd>
+<dt><code>s</code></dt><dd><p>a parameter used in standardization for each component
+(step 5).</p></dd>
+<dt><code>orth</code></dt><dd><p>a list that stores orthogonalization parameters
+(step 4).</p></dd>
+<dt><code>alpha</code></dt><dd><p>a list that stores regression coefficients (step 7).</p></dd>
+<dt><code>meanx</code></dt><dd><p>mean value of the observed modern climate values.</p></dd>
+<dt><code>nPLS</code></dt><dd><p>the total number of components extracted.</p></dd>
+
+</dl>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='fx.html'>fx</a></code>, <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>, and

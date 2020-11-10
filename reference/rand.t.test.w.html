@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Random t-test — rand.t.test.w" />
-<meta property="og:description" content="Do a random t-test to the cross-validation results" />
+<meta property="og:description" content="Do a random t-test to the cross-validation results." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Do a random t-test to the cross-validation results</p>
+    <p>Do a random t-test to the cross-validation results.</p>
     </div>
 
     <pre class="usage"><span class='fu'>rand.t.test.w</span><span class='op'>(</span><span class='va'>cvoutput</span>, n.perm <span class='op'>=</span> <span class='fl'>999</span><span class='op'>)</span></pre>
@@ -127,12 +127,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>cvoutput</th>
-      <td><p>cross-validation output either from <code><a href='cv.w.html'>cv.w</a></code> or
-<code><a href='cv.pr.w.html'>cv.pr.w</a></code></p></td>
+      <td><p>Cross-validation output either from <code><a href='cv.w.html'>cv.w</a></code> or
+<code><a href='cv.pr.w.html'>cv.pr.w</a></code>.</p></td>
     </tr>
     <tr>
       <th>n.perm</th>
-      <td><p>the number of permutation times to get the p value, which
+      <td><p>The number of permutation times to get the p value, which
 assesses whether using the current number of components is significantly
 different from using one less.</p></td>
     </tr>
@@ -140,7 +140,34 @@ different from using one less.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a matrix of the statistics of the cross-validation results</p>
+    <p>A matrix of the statistics of the cross-validation results. Each
+component is described below:</p><dl>
+<dt><code>R2</code></dt><dd><p>the coefficient of determination (the larger, the
+better the fit).</p></dd>
+<dt><code>Avg.Bias</code></dt><dd><p>average bias.</p></dd>
+<dt><code>Max.Bias</code></dt><dd><p>maximum bias.</p></dd>
+<dt><code>Min.Bias</code></dt><dd><p>minimum bias.</p></dd>
+<dt><code>RMSEP</code></dt><dd><p>root-mean-square error of prediction (the smaller,
+the better the fit).</p></dd>
+<dt><code>delta.RMSEP</code></dt><dd><p>the percent change of RMSEP using the current
+number of components than using one component less.</p></dd>
+<dt><code>p</code></dt><dd><p>assesses whether using the current number of components
+is significantly different from using one component less, which is used
+to choose the last significant number of components to avoid
+over-fitting.</p></dd>
+<dt><code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code></dt><dd><p>The degree of overall compression is assessed by doing
+linear regression to the cross-validation result and the observed
+climate values.
+<ul>
+<li><p><code>Compre.b0</code>: the intercept.</p></li>
+<li><p><code>Compre.b1</code>: the slope (the closer to 1, the less the
+overall compression).</p></li>
+<li><p><code>Compre.b0.se</code>: the standard error of the intercept.</p></li>
+<li><p><code>Compre.b1.se</code>: the standard error of the slope.</p></li>
+</ul></p></dd>
+
+</dl>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='cv.w.html'>cv.w</a></code> and <code><a href='cv.pr.w.html'>cv.pr.w</a></code></p></div>

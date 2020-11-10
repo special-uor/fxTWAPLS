@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function to calculate Sample Specific Errors — sse.sample • fxTWAPLS</title>
+<title>Calculate Sample Specific Errors — sse.sample • fxTWAPLS</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Function to calculate Sample Specific Errors — sse.sample" />
-<meta property="og:description" content="Function to calculate Sample Specific Errors" />
+<meta property="og:title" content="Calculate Sample Specific Errors — sse.sample" />
+<meta property="og:description" content="Calculate Sample Specific Errors" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -111,13 +111,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Function to calculate Sample Specific Errors</h1>
+    <h1>Calculate Sample Specific Errors</h1>
     <small class="dont-index">Source: <a href='https://github.com/special-uor/fxTWAPLS/blob/master/R/fxTWAPLS.R'><code>R/fxTWAPLS.R</code></a></small>
     <div class="hidden name"><code>sse.sample.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function to calculate Sample Specific Errors</p>
+    <p>Calculate Sample Specific Errors</p>
     </div>
 
     <pre class="usage"><span class='fu'>sse.sample</span><span class='op'>(</span>
@@ -142,77 +142,77 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>modern_taxa</th>
-      <td><p>the modern taxa abundance data, each row represents a
+      <td><p>The modern taxa abundance data, each row represents a
 sampling site, each column represents a taxon.</p></td>
     </tr>
     <tr>
       <th>modern_climate</th>
-      <td><p>the modern climate value at each sampling site</p></td>
+      <td><p>The modern climate value at each sampling site</p></td>
     </tr>
     <tr>
       <th>fossil_taxa</th>
-      <td><p>fossil taxa abundance data to reconstruct past climates,
+      <td><p>Fossil taxa abundance data to reconstruct past climates,
 each row represents a site to be reconstructed, each column represents a
 taxon.</p></td>
     </tr>
     <tr>
       <th>trainfun</th>
-      <td><p>training function you want to use, either
-<code><a href='WAPLS.w.html'>WAPLS.w</a></code> or <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code></p></td>
+      <td><p>Training function you want to use, either
+<code><a href='WAPLS.w.html'>WAPLS.w</a></code> or <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>.</p></td>
     </tr>
     <tr>
       <th>predictfun</th>
-      <td><p>predict function you want to use: if <code>trainfun</code> is
+      <td><p>Predict function you want to use: if <code>trainfun</code> is
 <code><a href='WAPLS.w.html'>WAPLS.w</a></code>, then this should be <code><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></code>;
 if <code>trainfun</code> is <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>, then this should be
-<code><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></code></p></td>
+<code><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></code>.</p></td>
     </tr>
     <tr>
       <th>nboot</th>
-      <td><p>the number of bootstrap cycles you want to use</p></td>
+      <td><p>The number of bootstrap cycles you want to use.</p></td>
     </tr>
     <tr>
       <th>nPLS</th>
-      <td><p>the number of components to be extracted</p></td>
+      <td><p>The number of components to be extracted.</p></td>
     </tr>
     <tr>
       <th>nsig</th>
-      <td><p>the significant number of components to use to reconstruct past
+      <td><p>The significant number of components to use to reconstruct past
 climates, this can be obtained from the cross-validation results.</p></td>
     </tr>
     <tr>
       <th>usefx</th>
-      <td><p>boolean flag on whether or not use <code>fx</code> correction.</p></td>
+      <td><p>Boolean flag on whether or not use <code>fx</code> correction.</p></td>
     </tr>
     <tr>
       <th>fx</th>
-      <td><p>the frequency of the climate value for <code>fx</code> correction: if
-<code>usefx</code> is FALSE, this should be <code>NA</code>; otherwise, this should
+      <td><p>The frequency of the climate value for <code>fx</code> correction: if
+<code>usefx = FALSE</code>, this should be <code>NA</code>; otherwise, this should
 be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
     </tr>
     <tr>
       <th>cpus</th>
-      <td><p>number of CPUs for simultaneous iterations to execute, check
+      <td><p>Number of CPUs for simultaneous iterations to execute, check
 <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> for available CPUs on your machine.</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>seed for reproducibility</p></td>
+      <td><p>Seed for reproducibility.</p></td>
     </tr>
     <tr>
       <th>test_mode</th>
-      <td><p>boolean flag to execute the function with a limited number
+      <td><p>Boolean flag to execute the function with a limited number
 of iterations, <code>test_it</code>, for testing purposes only.</p></td>
     </tr>
     <tr>
       <th>test_it</th>
-      <td><p>number of iterations to use in the test mode</p></td>
+      <td><p>Number of iterations to use in the test mode.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the bootstrapped standard error for each site</p>
+    <p>The bootstrapped standard error for each site.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='fx.html'>fx</a></code>, <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>,
@@ -250,7 +250,8 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
                                        modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
                                        fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
                                        trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                                       predictfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                                       predictfun <span class='op'>=</span> 
+                                         <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
                                        nboot <span class='op'>=</span> <span class='va'>nboot</span>,
                                        nPLS <span class='op'>=</span> <span class='fl'>5</span>,
                                        nsig <span class='op'>=</span> <span class='fl'>3</span>,
@@ -260,10 +261,12 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
                                        seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 <span class='co'>### with fx</span>
 <span class='va'>sse_f_Tmin_WAPLS</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>sse.sample</span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>,
-                                         modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                         modern_climate <span class='op'>=</span> 
+                                           <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
                                          fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
                                          trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                                         predictfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                                         predictfun <span class='op'>=</span> 
+                                           <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
                                          nboot <span class='op'>=</span> <span class='va'>nboot</span>,
                                          nPLS <span class='op'>=</span> <span class='fl'>5</span>,
                                          nsig <span class='op'>=</span> <span class='fl'>3</span>,

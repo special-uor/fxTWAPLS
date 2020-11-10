@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Leave-one-out cross-validation — cv.w" />
 <meta property="og:description" content="Leave-one-out cross-validation as
-rioja (https://cran.r-project.org/package=rioja)" />
+rioja (https://cran.r-project.org/package=rioja)." />
 
 
 
@@ -73,7 +73,7 @@ rioja (https://cran.r-project.org/package=rioja)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@ rioja (https://cran.r-project.org/package=rioja)" />
 
     <div class="ref-description">
     <p>Leave-one-out cross-validation as
-<code>rioja</code> (<a href='https://cran.r-project.org/package=rioja'>https://cran.r-project.org/package=rioja</a>)</p>
+<code>rioja</code> (<a href='https://cran.r-project.org/package=rioja'>https://cran.r-project.org/package=rioja</a>).</p>
     </div>
 
     <pre class="usage"><span class='fu'>cv.w</span><span class='op'>(</span>
@@ -140,42 +140,42 @@ rioja (https://cran.r-project.org/package=rioja)" />
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>modern_taxa</th>
-      <td><p>the modern taxa abundance data, each row represents a
+      <td><p>The modern taxa abundance data, each row represents a
 sampling site, each column represents a taxon.</p></td>
     </tr>
     <tr>
       <th>modern_climate</th>
-      <td><p>the modern climate value at each sampling site</p></td>
+      <td><p>The modern climate value at each sampling site.</p></td>
     </tr>
     <tr>
       <th>nPLS</th>
-      <td><p>the number of components to be extracted</p></td>
+      <td><p>The number of components to be extracted.</p></td>
     </tr>
     <tr>
       <th>trainfun</th>
-      <td><p>training function you want to use, either
-<code><a href='WAPLS.w.html'>WAPLS.w</a></code> or <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code></p></td>
+      <td><p>Training function you want to use, either
+<code><a href='WAPLS.w.html'>WAPLS.w</a></code> or <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>.</p></td>
     </tr>
     <tr>
       <th>predictfun</th>
-      <td><p>predict function you want to use: if <code>trainfun</code> is
+      <td><p>Predict function you want to use: if <code>trainfun</code> is
 <code><a href='WAPLS.w.html'>WAPLS.w</a></code>, then this should be <code><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></code>;
 if <code>trainfun</code> is <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>, then this should be
-<code><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></code></p></td>
+<code><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></code>.</p></td>
     </tr>
     <tr>
       <th>usefx</th>
-      <td><p>boolean flag on whether or not use <code>fx</code> correction.</p></td>
+      <td><p>Boolean flag on whether or not use <code>fx</code> correction.</p></td>
     </tr>
     <tr>
       <th>fx</th>
-      <td><p>the frequency of the climate value for <code>fx</code> correction: if
-<code>usefx</code> is FALSE, this should be <code>NA</code>; otherwise, this should
+      <td><p>The frequency of the climate value for <code>fx</code> correction: if
+<code>usefx = FALSE</code>, this should be <code>NA</code>; otherwise, this should
 be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
     </tr>
     <tr>
       <th>cpus</th>
-      <td><p>number of CPUs for simultaneous iterations to execute, check
+      <td><p>Number of CPUs for simultaneous iterations to execute, check
 <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> for available CPUs on your machine.</p></td>
     </tr>
     <tr>
@@ -185,7 +185,7 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
     </tr>
     <tr>
       <th>test_it</th>
-      <td><p>number of iterations to use in the test mode</p></td>
+      <td><p>number of iterations to use in the test mode.</p></td>
     </tr>
     </table>
 
