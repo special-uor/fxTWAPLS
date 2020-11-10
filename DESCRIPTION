@@ -1,6 +1,6 @@
 Package: fxTWAPLS
 Title: An Improved Version of WA-PLS
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: c(
     person(given = "Mengmeng",
            family = "Liu",
@@ -36,12 +36,6 @@ Imports:
     parallel,
     tictoc
 Suggests:
-    badger,
-    hexSticker,
-    knitr,
-    kableExtra,
-    pkgdown,
-    rmarkdown,
     scales,
     testthat
 Depends: 

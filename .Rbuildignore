@@ -10,3 +10,5 @@
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^README\.Rmd$
+^inst/extdata$
+^inst/images$
