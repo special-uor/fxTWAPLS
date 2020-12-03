@@ -1474,7 +1474,6 @@ plot_train <- function(train_output, col) {
     ggplot2::geom_smooth(method = 'lm',
                          formula = y ~ x,
                          color = 'red')
-  return(TRUE)
 }
 
 #' Plot the residuals
@@ -1545,5 +1544,4 @@ plot_residuals <- function(train_output, col) {
     ggplot2::geom_smooth(method = 'loess',
                          color = 'red',
                          se = FALSE)
-  return(TRUE)
 }
