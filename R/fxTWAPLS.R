@@ -1005,7 +1005,8 @@ cv.w <- function(modern_taxa,
 #' Get the distance between points, the output will be used in 
 #'     \code{\link{get_pseudo}}.
 #' 
-#' @importFrom foreach `%dopar%` 
+#' @importFrom foreach `%dopar%`
+#' @importFrom utils txtProgressBar
 #' 
 #' @param point Each row represents a sampling site, the first column is 
 #'     longitude and the second column is latitude, both in decimal format.
@@ -1043,10 +1044,11 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   
   # Start parallel backend
   cl <- parallel::makeCluster(cpus, setup_strategy = "sequential")
-  doParallel::registerDoParallel(cl)
+  # doParallel::registerDoParallel(cl)
+  doSNOW::registerDoSNOW(cl)
   
   # Load binary operator for backend
-  `%dopar%` <- foreach::`%dopar%`
+  # `%dopar%` <- foreach::`%dopar%`
   
   # Create list of indices to loop through
   idx <- seq_len(nrow(point))
@@ -1054,8 +1056,15 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   if (test_mode) {
     idx <- 1:test_it
   }
+  
+  # Set up progress bar
+  pb <- txtProgressBar(max = length(idx), style = 3)
+  progress <- function(n) setTxtProgressBar(pb, n)
+  opts <- list(progress = progress)
+  
   dist <- foreach::foreach(i = idx,
-                           .combine = rbind) %dopar% {
+                           .combine = rbind,
+                           .options.snow = opts) %dopar% {
                              tmp <- rep(0, nrow(point))
                              lon1 <- point[i, "Long"]
                              lat1 <- point[i, "Lat"]
@@ -1070,6 +1079,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
                            }
   
   parallel::stopCluster(cl) # Stop cluster
+  cat("\n")
   tictoc::toc()
   return(dist)
 }
