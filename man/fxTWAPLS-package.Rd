@@ -17,10 +17,10 @@ The goal of this package is to provide an improved version of
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/special-uor/fxTWAPLS}
+  \item \url{https://github.com/special-uor/fxTWAPLS/}
   \item \url{https://special-uor.github.io/fxTWAPLS/}
   \item \url{https://research.reading.ac.uk/palaeoclimate/}
-  \item Report bugs at \url{https://github.com/special-uor/fxTWAPLS/issues}
+  \item Report bugs at \url{https://github.com/special-uor/fxTWAPLS/issues/}
 }
 
 }
