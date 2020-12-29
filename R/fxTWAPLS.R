@@ -1006,7 +1006,6 @@ cv.w <- function(modern_taxa,
 #'     \code{\link{get_pseudo}}.
 #' 
 #' @importFrom foreach `%dopar%`
-#' @importFrom utils txtProgressBar
 #' 
 #' @param point Each row represents a sampling site, the first column is 
 #'     longitude and the second column is latitude, both in decimal format.
@@ -1030,6 +1029,11 @@ cv.w <- function(modern_taxa,
 #' dist <- fxTWAPLS::get_distance(point, 
 #'                                cpus = 2, # Remove the following line
 #'                                test_mode = test_mode)
+#' # Run with progress bar
+#' `%>%` <- dplyr::`%>%`
+#' dist <- fxTWAPLS::get_distance(point, 
+#'                                cpus = 2, # Remove the following line
+#'                                test_mode = test_mode) %>% fxTWAPLS::pb()
 #' }
 #' 
 #' @seealso \code{\link{get_pseudo}}
@@ -1043,28 +1047,29 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
   # Start parallel backend
-  cl <- parallel::makeCluster(cpus, setup_strategy = "sequential")
-  # doParallel::registerDoParallel(cl)
-  doSNOW::registerDoSNOW(cl)
-  
-  # Load binary operator for backend
-  # `%dopar%` <- foreach::`%dopar%`
+  cl <- parallel::makeCluster(cpus)
+  on.exit(parallel::stopCluster(cl)) # Stop cluster
+  doFuture::registerDoFuture()
+  future::plan(future::cluster, workers = cl)
   
   # Create list of indices to loop through
   idx <- seq_len(nrow(point))
+  
   # Reduce the list of indices, if test_mode = TRUE
   if (test_mode) {
     idx <- 1:test_it
   }
   
-  # Set up progress bar
-  pb <- txtProgressBar(max = length(idx), style = 3)
-  progress <- function(n) setTxtProgressBar(pb, n)
-  opts <- list(progress = progress)
+  # Set up progress API
+  p <- progressr::progressor(along = idx)
+  
+  # # Set up progress bar
+  # pb <- txtProgressBar(max = length(idx), style = 3)
+  # progress <- function(n) setTxtProgressBar(pb, n)
+  # opts <- list(progress = progress)
   
   dist <- foreach::foreach(i = idx,
-                           .combine = rbind,
-                           .options.snow = opts) %dopar% {
+                           .combine = rbind) %dopar% {
                              tmp <- rep(0, nrow(point))
                              lon1 <- point[i, "Long"]
                              lat1 <- point[i, "Lat"]
@@ -1075,10 +1080,9 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
                                                           c(lon2, lat2),
                                                           fun = geosphere::distHaversine)
                              }
+                             p()
                              tmp
                            }
-  
-  parallel::stopCluster(cl) # Stop cluster
   cat("\n")
   tictoc::toc()
   return(dist)
