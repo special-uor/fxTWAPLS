@@ -43,7 +43,7 @@ install.packages("fxTWAPLS")
 ```
 
 And the development version from
-[GitHub](https://github.com/special-uor/fxTWAPLS) with:
+[GitHub](https://github.com/special-uor/fxTWAPLS/) with:
 <!-- You can install the development version from [GitHub](https://github.com/) with: -->
 
 ``` r
@@ -56,8 +56,8 @@ remotes::install_github("special-uor/fxTWAPLS", "dev")
   - Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison
     Sandy P.. An improved statistical approach for reconstructing past
     climates from biotic assemblages. *Proc. R. Soc. A.* 2020
-    (submitted) - [`fxTWAPLS
-    v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2)
+    (published) - [`fxTWAPLS
+    v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/)
 
 <!-- end list -->
 
@@ -69,3 +69,40 @@ remotes::install_github("special-uor/fxTWAPLS@v0.0.2")
 <!-- ## Example -->
 
 <!-- This is a basic example which shows you how to solve a common problem: -->
+
+## Notes
+
+The following functions can be executed in parallel:
+
+  - [`cv.pr.w`](https://special-uor.github.io/fxTWAPLS/reference/cv.pr.w.html)
+  - [`cv.w`](https://special-uor.github.io/fxTWAPLS/reference/cv.w.html)
+  - [`get_distance`](https://special-uor.github.io/fxTWAPLS/reference/get_distance.html)
+  - [`get_pseudo`](https://special-uor.github.io/fxTWAPLS/reference/get_pseudo.html)
+  - [`sse.sample`](https://special-uor.github.io/fxTWAPLS/reference/sse.sample.html)
+
+To do so, include the `cpus` parameter. For example:
+
+``` r
+# without fx
+cv_Tmin <- fxTWAPLS::cv.w(taxa,
+                          modern_pollen$Tmin,
+                          nPLS = 5,
+                          fxTWAPLS::WAPLS.w,
+                          fxTWAPLS::WAPLS.predict.w,
+                          cpus = 2)
+```
+
+Optionally, a progress bar can be displayed for long computations. Just
+“pipe” the function call to `fxTWAPLS::pb()`.
+
+``` r
+# without fx
+`%>%` <- dplyr::`%>%`
+cv_Tmin <- fxTWAPLS::cv.w(taxa,
+                          modern_pollen$Tmin,
+                          nPLS = 5,
+                          fxTWAPLS::WAPLS.w,
+                          fxTWAPLS::WAPLS.predict.w,
+                          cpus = 2) %>%
+  fxTWAPLS::pb()
+```
