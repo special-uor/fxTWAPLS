@@ -28,13 +28,13 @@ URL: https://github.com/special-uor/fxTWAPLS,
      https://research.reading.ac.uk/palaeoclimate/
 BugReports: https://github.com/special-uor/fxTWAPLS/issues
 Imports:
-    doParallel,
-    doSNOW,
+    doFuture,
     foreach,
     geosphere,
     ggplot2,
     MASS,
     parallel,
+    progressr,
     tictoc
 Suggests:
     scales,
