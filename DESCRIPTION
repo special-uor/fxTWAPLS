@@ -30,6 +30,7 @@ BugReports: https://github.com/special-uor/fxTWAPLS/issues/
 Imports:
     doFuture,
     foreach,
+    future,
     geosphere,
     ggplot2,
     MASS,
