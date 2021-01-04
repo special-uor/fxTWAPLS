@@ -10,9 +10,10 @@
 <!-- [![](https://img.shields.io/github/languages/code-size/special-uor/fxTWAPLS.svg)](https://github.com/special-uor/fxTWAPLS) -->
 
 [![](https://www.r-pkg.org/badges/version/fxTWAPLS?color=blue)](https://cran.r-project.org/package=fxTWAPLS)
-[![](https://img.shields.io/badge/devel%20version-0.0.4-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
+[![](https://img.shields.io/badge/devel%20version-0.0.5-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
 [![R build
 status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions)
+[![](https://img.shields.io/badge/doi-10.1098/rspa.2020.0346-black.svg)](https://doi.org/10.1098/rspa.2020.0346)
 <!-- [![](https://codecov.io/gh/special-uor/fxTWAPLS/branch/master/graph/badge.svg?token=Q6SYL7AOGR)](https://codecov.io/gh/special-uor/fxTWAPLS) -->
 <!-- [![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions) -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/fxTWAPLS)](https://CRAN.R-project.org/package=fxTWAPLS) -->
@@ -55,8 +56,8 @@ remotes::install_github("special-uor/fxTWAPLS", "dev")
 
   - Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison
     Sandy P.. An improved statistical approach for reconstructing past
-    climates from biotic assemblages. *Proc. R. Soc. A.* 2020
-    (published) - [`fxTWAPLS
+    climates from biotic assemblages. *Proc. R. Soc. A.* **476**:
+    20200346. <https://doi.org/10.1098/rspa.2020.0346> - [`fxTWAPLS
     v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/)
 
 <!-- end list -->
@@ -97,7 +98,7 @@ Optionally, a progress bar can be displayed for long computations. Just
 
 ``` r
 # without fx
-`%>%` <- dplyr::`%>%`
+`%>%` <- magrittr::`%>%`
 cv_Tmin <- fxTWAPLS::cv.w(taxa,
                           modern_pollen$Tmin,
                           nPLS = 5,
@@ -105,4 +106,18 @@ cv_Tmin <- fxTWAPLS::cv.w(taxa,
                           fxTWAPLS::WAPLS.predict.w,
                           cpus = 2) %>%
   fxTWAPLS::pb()
+```
+
+Alternatively, if you are not familiar with the “pipe” operator, you can
+run the following code:
+
+``` r
+# without fx
+cv_Tmin <- fxTWAPLS::pb(fxTWAPLS::cv.w(taxa,
+                                       modern_pollen$Tmin,
+                                       nPLS = 5,
+                                       fxTWAPLS::WAPLS.w,
+                                       fxTWAPLS::WAPLS.predict.w,
+                                       cpus = 2))
+  
 ```
