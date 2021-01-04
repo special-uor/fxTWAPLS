@@ -38,7 +38,8 @@ Imports:
     progressr,
     tictoc
 Suggests:
-    scales
+    scales,
+    testthat
 Depends: 
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
