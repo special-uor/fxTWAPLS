@@ -798,7 +798,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'                                          seed = 1)
 #'                                          
 #' # Run with progress bar
-#' `%>%` <- dplyr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #' ### without fx
 #' sse_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
 #'                                        modern_climate = modern_pollen$Tmin,
@@ -987,7 +987,7 @@ sse.sample <- function(modern_taxa,
 #'                             test_mode = test_mode)  
 #' 
 #' # Run with progress bar
-#' `%>%` <- dplyr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #' ### without fx
 #' cv_Tmin <- fxTWAPLS::cv.w(taxa,
 #'                           modern_pollen$Tmin,
@@ -1088,7 +1088,7 @@ cv.w <- function(modern_taxa,
 #'                                cpus = 2, # Remove the following line
 #'                                test_mode = test_mode)
 #' # Run with progress bar
-#' `%>%` <- dplyr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #' dist <- fxTWAPLS::get_distance(point, 
 #'                                cpus = 2, # Remove the following line
 #'                                test_mode = test_mode) %>% fxTWAPLS::pb()
@@ -1176,7 +1176,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'                                     cpus = 2, # Remove the following line
 #'                                     test_mode = test_mode)
 #' # Run with progress bar
-#' `%>%` <- dplyr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #' pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
 #'                                     modern_pollen$Tmin, 
 #'                                     cpus = 2, # Remove the following line
@@ -1280,7 +1280,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'                                  test_mode = test_mode)
 #' 
 #' # Run with progress bar
-#' `%>%` <- dplyr::`%>%`
+#' `%>%` <- magrittr::`%>%`
 #' ## Test WAPLS
 #' cv_pr_Tmin <- fxTWAPLS::cv.pr.w(taxa,
 #'                                 modern_pollen$Tmin,
