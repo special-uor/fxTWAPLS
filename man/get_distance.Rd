@@ -37,7 +37,7 @@ dist <- fxTWAPLS::get_distance(point,
                                cpus = 2, # Remove the following line
                                test_mode = test_mode)
 # Run with progress bar
-`\%>\%` <- dplyr::`\%>\%`
+`\%>\%` <- magrittr::`\%>\%`
 dist <- fxTWAPLS::get_distance(point, 
                                cpus = 2, # Remove the following line
                                test_mode = test_mode) \%>\% fxTWAPLS::pb()

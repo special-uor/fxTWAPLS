@@ -94,7 +94,7 @@ cv_f_Tmin <- fxTWAPLS::cv.w(taxa,
                             test_mode = test_mode)  
 
 # Run with progress bar
-`\%>\%` <- dplyr::`\%>\%`
+`\%>\%` <- magrittr::`\%>\%`
 ### without fx
 cv_Tmin <- fxTWAPLS::cv.w(taxa,
                           modern_pollen$Tmin,

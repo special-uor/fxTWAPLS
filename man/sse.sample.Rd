@@ -125,7 +125,7 @@ sse_f_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
                                          seed = 1)
                                          
 # Run with progress bar
-`\%>\%` <- dplyr::`\%>\%`
+`\%>\%` <- magrittr::`\%>\%`
 ### without fx
 sse_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
                                        modern_climate = modern_pollen$Tmin,

@@ -12,7 +12,7 @@ The goal of this package is to provide an improved version of
     This package also provides a way of leave-out cross-validation that 
     removes both the test site and sites that are both geographically 
     close and climatically close for each cycle, to avoid the risk of 
-    pseudo-replication.
+    pseudo-replication. <doi: 10.1098/rspa.2020.0346>
 }
 \seealso{
 Useful links:

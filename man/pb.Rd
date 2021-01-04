@@ -4,13 +4,14 @@
 \alias{pb}
 \title{Show progress bar}
 \usage{
-pb(...)
+pb(expr, ...)
 }
 \arguments{
+\item{expr}{R expression.}
+
 \item{...}{
   Arguments passed on to \code{\link[progressr:with_progress]{progressr::with_progress}}
   \describe{
-    \item{\code{expr}}{An \R expression to evaluate.}
     \item{\code{cleanup}}{If TRUE, all progression handlers will be shutdown
 at the end regardless of the progression is complete or not.}
     \item{\code{delay_terminal}}{If TRUE, output and conditions that may end up in
