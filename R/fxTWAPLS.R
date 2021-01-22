@@ -853,10 +853,12 @@ sse.sample <- function(modern_taxa,
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
   # Start parallel backend
-  cl <- parallel::makeCluster(cpus)
-  on.exit(parallel::stopCluster(cl)) # Stop cluster
+  # cl <- parallel::makeCluster(cpus)
+  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  future::plan(future::cluster, workers = cl)
+  # oplan <- future::plan(future::cluster, workers = cl)
+  oplan <- future::plan(future::multisession, workers = cpus)
+  on.exit(future::plan(oplan), add = TRUE)
   
   # Set seed for reproducibility
   set.seed(seed)
@@ -1029,10 +1031,12 @@ cv.w <- function(modern_taxa,
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
   # Start parallel backend
-  cl <- parallel::makeCluster(cpus)
-  on.exit(parallel::stopCluster(cl)) # Stop cluster
+  # cl <- parallel::makeCluster(cpus)
+  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  future::plan(future::cluster, workers = cl)
+  # oplan <- future::plan(future::cluster, workers = cl)
+  oplan <- future::plan(future::multisession, workers = cpus)
+  on.exit(future::plan(oplan), add = TRUE)
   
   # Create list of indices to loop through
   idx <- seq_len(length(x))
@@ -1105,10 +1109,12 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
   # Start parallel backend
-  cl <- parallel::makeCluster(cpus)
-  on.exit(parallel::stopCluster(cl)) # Stop cluster
+  # cl <- parallel::makeCluster(cpus)
+  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  future::plan(future::cluster, workers = cl)
+  # oplan <- future::plan(future::cluster, workers = cl)
+  oplan <- future::plan(future::multisession, workers = cpus)
+  on.exit(future::plan(oplan), add = TRUE)
   
   # Create list of indices to loop through
   idx <- seq_len(nrow(point))
@@ -1190,10 +1196,12 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
   # Start parallel backend
-  cl <- parallel::makeCluster(cpus)
-  on.exit(parallel::stopCluster(cl)) # Stop cluster
+  # cl <- parallel::makeCluster(cpus)
+  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  future::plan(future::cluster, workers = cl)
+  # oplan <- future::plan(future::cluster, workers = cl)
+  oplan <- future::plan(future::multisession, workers = cpus)
+  on.exit(future::plan(oplan), add = TRUE)
   
   # Create list of indices to loop through
   idx <- seq_len(length(x))
@@ -1324,10 +1332,12 @@ cv.pr.w <- function(modern_taxa,
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
   
   # Start parallel backend
-  cl <- parallel::makeCluster(cpus)
-  on.exit(parallel::stopCluster(cl)) # Stop cluster
+  # cl <- parallel::makeCluster(cpus)
+  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  future::plan(future::cluster, workers = cl)
+  # oplan <- future::plan(future::cluster, workers = cl)
+  oplan <- future::plan(future::multisession, workers = cpus)
+  on.exit(future::plan(oplan), add = TRUE)
   
   # Create list of indices to loop through
   idx <- seq_len(length(x))
