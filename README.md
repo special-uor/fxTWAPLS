@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## fxTWAPLS: An Improved Version of WA-PLS <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/>
+## fxTWAPLS: An Improved Version of WA-PLS
 
-<!-- <img src="inst/images/logo.png" alt="logo" align="right" height=200px/> -->
+<!-- <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 
 <!-- badges: start -->
 
@@ -55,8 +55,8 @@ remotes::install_github("special-uor/fxTWAPLS", "dev")
 ## Publications
 
   - Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison
-    Sandy P.. An improved statistical approach for reconstructing past
-    climates from biotic assemblages. *Proc. R. Soc. A.* **476**:
+    Sandy P.. 2020 An improved statistical approach for reconstructing
+    past climates from biotic assemblages. *Proc. R. Soc. A.* **476**:
     20200346. <https://doi.org/10.1098/rspa.2020.0346> - [`fxTWAPLS
     v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/)
 

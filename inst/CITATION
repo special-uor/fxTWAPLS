@@ -13,6 +13,6 @@ citEntry(
   number   = "",
   pages    = "",
   url      = "https://doi.org/10.1098/rspa.2020.0346",
-  textVersion = paste("Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison Sandy P.. An improved statistical approach for reconstructing past climates from biotic assemblages. Proc. R. Soc. A. 476: 20200346. 
+  textVersion = paste("Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison Sandy P.. 2020 An improved statistical approach for reconstructing past climates from biotic assemblages. Proc. R. Soc. A. 476: 20200346. 
 https://doi.org/10.1098/rspa.2020.0346")
 )
