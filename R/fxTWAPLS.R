@@ -1654,6 +1654,7 @@ plot_residuals <- function(train_output, col) {
     ggplot2::geom_abline(slope = 0, intercept = 0) + 
     ggplot2::xlim(min(x), max(x)) + ggplot2::ylim(-maxr, maxr) +
     ggplot2::geom_smooth(method = 'loess',
-                         color = 'red',
+                         color = 'red', 
+                         formula = "y ~ x",
                          se = FALSE)
 }
