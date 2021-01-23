@@ -30,6 +30,9 @@ Useful links:
 Authors:
 \itemize{
   \item Mengmeng Liu \email{m.liu18@imperial.ac.uk} (\href{https://orcid.org/0000-0001-6250-0148}{ORCID})
+  \item Iain Colin Prentice \email{c.prentice@imperial.ac.uk} (\href{https://orcid.org/0000-0002-1296-6764}{ORCID})
+  \item Cajo J. F. ter Braak \email{cajo.terbraak@wur.nl} (\href{https://orcid.org/0000-0002-0414-8745}{ORCID})
+  \item Sandy P. Harrison \email{s.p.harrison@reading.ac.uk} (\href{https://orcid.org/0000-0001-5687-1903}{ORCID})
 }
 
 Other contributors:
