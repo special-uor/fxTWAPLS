@@ -53,6 +53,7 @@ Imports:
     progressr,
     tictoc
 Suggests:
+    progress,
     scales,
     testthat
 Depends: 
