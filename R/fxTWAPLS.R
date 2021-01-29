@@ -1102,7 +1102,6 @@ cv.w <- function(modern_taxa,
 get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   i <- NULL # Local binding
   colnames(point) <- c("Long", "Lat")
-  tictoc::tic("Distance between points")
   
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
@@ -1142,8 +1141,6 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
                              p()
                              tmp
                            }
-  cat("\n")
-  tictoc::toc()
   return(dist)
 }
 
