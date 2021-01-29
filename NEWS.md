@@ -1,7 +1,7 @@
 # fxTWAPLS 0.0.5
 
 * Added support for the `progressr` API (display a progress bar).
-* Added the utilitary function `pb` to simplify the interaction with the 
+* Added the helper function `pb` to simplify the interaction with the 
 `progressr` API.
 
 # fxTWAPLS 0.0.4
