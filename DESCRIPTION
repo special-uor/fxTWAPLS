@@ -50,10 +50,10 @@ Imports:
     ggplot2,
     MASS,
     parallel,
+    progress,
     progressr,
     tictoc
 Suggests:
-    progress,
     scales,
     testthat
 Depends: 
