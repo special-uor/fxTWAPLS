@@ -51,11 +51,12 @@ Imports:
     MASS,
     parallel,
     progress,
-    progressr,
-    tictoc
+    progressr
 Suggests:
+    magrittr,
     scales,
-    testthat
+    testthat,
+    tictoc
 Depends: 
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
