@@ -73,7 +73,7 @@ rioja (https://cran.r-project.org/package=rioja)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ rioja (https://cran.r-project.org/package=rioja)." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,7 +95,7 @@ rioja (https://cran.r-project.org/package=rioja)." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/special-uor/fxTWAPLS/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -236,6 +236,27 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
                             fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
                             cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
                             test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>  
+
+<span class='co'># Run with progress bar</span>
+<span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='co'>### without fx</span>
+<span class='va'>cv_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+                          <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                          nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                          <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                          <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                          cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                          test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'>### with fx</span>
+<span class='va'>cv_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+                            <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                            nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                            usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                            fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
+                            cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                            test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
@@ -249,7 +270,7 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Mengmeng Liu, Roberto Villegas-Diaz.</p>
+  <p>Developed by Mengmeng Liu, Iain Colin Prentice, Cajo J. F. ter Braak, Sandy P. Harrison, Roberto Villegas-Diaz.</p>
 </div>
 
 <div class="pkgdown">

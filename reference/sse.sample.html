@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -94,7 +94,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/special-uor/fxTWAPLS/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -274,6 +274,38 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
                                          fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
                                          cpus <span class='op'>=</span> <span class='fl'>2</span>,
                                          seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+                                         
+<span class='co'># Run with progress bar</span>
+<span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='co'>### without fx</span>
+<span class='va'>sse_Tmin_WAPLS</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>sse.sample</span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>,
+                                       modern_climate <span class='op'>=</span> <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                       fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
+                                       trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                                       predictfun <span class='op'>=</span> 
+                                         <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                                       nboot <span class='op'>=</span> <span class='va'>nboot</span>,
+                                       nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                       nsig <span class='op'>=</span> <span class='fl'>3</span>,
+                                       usefx <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                                       fx <span class='op'>=</span> <span class='cn'>NA</span>,
+                                       cpus <span class='op'>=</span> <span class='fl'>2</span>,
+                                       seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'>### with fx</span>
+<span class='va'>sse_f_Tmin_WAPLS</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>sse.sample</span><span class='op'>(</span>modern_taxa <span class='op'>=</span> <span class='va'>taxa</span>,
+                                         modern_climate <span class='op'>=</span> 
+                                           <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                                         fossil_taxa <span class='op'>=</span> <span class='va'>core</span>,
+                                         trainfun <span class='op'>=</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
+                                         predictfun <span class='op'>=</span> 
+                                           <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
+                                         nboot <span class='op'>=</span> <span class='va'>nboot</span>,
+                                         nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                                         nsig <span class='op'>=</span> <span class='fl'>3</span>,
+                                         usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                                         fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
+                                         cpus <span class='op'>=</span> <span class='fl'>2</span>,
+                                         seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>
@@ -288,7 +320,7 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Mengmeng Liu, Roberto Villegas-Diaz.</p>
+  <p>Developed by Mengmeng Liu, Iain Colin Prentice, Cajo J. F. ter Braak, Sandy P. Harrison, Roberto Villegas-Diaz.</p>
 </div>
 
 <div class="pkgdown">

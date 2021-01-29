@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -45,7 +45,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -59,7 +59,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/special-uor/fxTWAPLS/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -76,11 +76,10 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="fxtwapls-an-improved-version-of-wa-pls-" class="section level2">
+<div id="fxtwapls-an-improved-version-of-wa-pls" class="section level2">
 <h2 class="hasAnchor">
-<a href="#fxtwapls-an-improved-version-of-wa-pls-" class="anchor"></a>fxTWAPLS: An Improved Version of WA-PLS <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height="200px/">
-</h2>
-<!-- <img src="inst/images/logo.png" alt="logo" align="right" height=200px/> -->
+<a href="#fxtwapls-an-improved-version-of-wa-pls" class="anchor"></a>fxTWAPLS: An Improved Version of WA-PLS</h2>
+<!-- <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 <!-- badges: start -->
 <!-- [![](https://img.shields.io/github/languages/code-size/special-uor/fxTWAPLS.svg)](https://github.com/special-uor/fxTWAPLS) -->
 
@@ -99,7 +98,7 @@
 <p>You can install the released version of fxTWAPLS from <a href="https://cran.r-project.org/package=fxTWAPLS">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"fxTWAPLS"</span><span class="op">)</span></code></pre></div>
-<p>And the development version from <a href="https://github.com/special-uor/fxTWAPLS">GitHub</a> with: <!-- You can install the development version from [GitHub](https://github.com/) with: --></p>
+<p>And the development version from <a href="https://github.com/special-uor/fxTWAPLS/">GitHub</a> with: <!-- You can install the development version from [GitHub](https://github.com/) with: --></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"special-uor/fxTWAPLS"</span>, <span class="st">"dev"</span><span class="op">)</span></code></pre></div>
@@ -108,7 +107,12 @@
 <h2 class="hasAnchor">
 <a href="#publications" class="anchor"></a>Publications</h2>
 <ul>
-<li>Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison Sandy P.. An improved statistical approach for reconstructing past climates from biotic assemblages. <em>Proc. R. Soc. A.</em> 2020 (submitted) - <a href="https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2"><code>fxTWAPLS v0.0.2</code></a>
+<li>Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison Sandy P.. 2020 An improved statistical approach for reconstructing past climates from biotic assemblages. <em>Proc. R. Soc. A.</em> <strong>476</strong>:
+<ol>
+<li>
+<a href="https://doi.org/10.1098/rspa.2020.0346" class="uri">https://doi.org/10.1098/rspa.2020.0346</a> - <a href="https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/"><code>fxTWAPLS v0.0.2</code></a>
+</li>
+</ol>
 </li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -116,6 +120,48 @@
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"special-uor/fxTWAPLS@v0.0.2"</span><span class="op">)</span></code></pre></div>
 <!-- ## Example -->
 <!-- This is a basic example which shows you how to solve a common problem: -->
+</div>
+<div id="notes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#notes" class="anchor"></a>Notes</h2>
+<p>The following functions can be executed in parallel:</p>
+<ul>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/cv.pr.w.html"><code>cv.pr.w</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/cv.w.html"><code>cv.w</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/get_distance.html"><code>get_distance</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/get_pseudo.html"><code>get_pseudo</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/sse.sample.html"><code>sse.sample</code></a></li>
+</ul>
+<p>To do so, include the <code>cpus</code> parameter. For example:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># without fx</span>
+<span class="va">cv_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="reference/cv.w.html">cv.w</a></span><span class="op">(</span><span class="va">taxa</span>,
+                          <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,
+                          nPLS <span class="op">=</span> <span class="fl">5</span>,
+                          <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="reference/WAPLS.w.html">WAPLS.w</a></span>,
+                          <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="reference/WAPLS.predict.w.html">WAPLS.predict.w</a></span>,
+                          cpus <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<p>Optionally, a progress bar can be displayed for long computations. Just “pipe” the function call to <code><a href="reference/pb.html">fxTWAPLS::pb()</a></code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># without fx</span>
+<span class="va">`%&gt;%`</span> <span class="op">&lt;-</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span>
+<span class="va">cv_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="reference/cv.w.html">cv.w</a></span><span class="op">(</span><span class="va">taxa</span>,
+                          <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,
+                          nPLS <span class="op">=</span> <span class="fl">5</span>,
+                          <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="reference/WAPLS.w.html">WAPLS.w</a></span>,
+                          <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="reference/WAPLS.predict.w.html">WAPLS.predict.w</a></span>,
+                          cpus <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="reference/pb.html">pb</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Alternatively, if you are not familiar with the “pipe” operator, you can run the following code:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># without fx</span>
+<span class="va">cv_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="reference/pb.html">pb</a></span><span class="op">(</span><span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="reference/cv.w.html">cv.w</a></span><span class="op">(</span><span class="va">taxa</span>,
+                                       <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,
+                                       nPLS <span class="op">=</span> <span class="fl">5</span>,
+                                       <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="reference/WAPLS.w.html">WAPLS.w</a></span>,
+                                       <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="reference/WAPLS.predict.w.html">WAPLS.predict.w</a></span>,
+                                       cpus <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+  </code></pre></div>
 </div>
 
   </div>
@@ -128,7 +174,7 @@
 </li>
 <li>Browse source code at <br><a href="https://github.com/special-uor/fxTWAPLS/">https://​github.com/​special-uor/​fxTWAPLS/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/special-uor/fxTWAPLS/issues">https://​github.com/​special-uor/​fxTWAPLS/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/special-uor/fxTWAPLS/issues/">https://​github.com/​special-uor/​fxTWAPLS/​issues/​</a>
 </li>
 </ul>
 </div>
@@ -149,6 +195,9 @@
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Mengmeng Liu <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6250-0148" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Iain Colin Prentice <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1296-6764" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Cajo J. F. ter Braak <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0414-8745" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Sandy P. Harrison <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5687-1903" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Roberto Villegas-Diaz <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5036-8661" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
@@ -158,8 +207,9 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=fxTWAPLS"><img src="https://www.r-pkg.org/badges/version/fxTWAPLS?color=blue"></a></li>
-<li><a href="https://github.com/special-uor/fxTWAPLS"><img src="https://img.shields.io/badge/devel%20version-0.0.4-yellow.svg"></a></li>
+<li><a href="https://github.com/special-uor/fxTWAPLS"><img src="https://img.shields.io/badge/devel%20version-0.0.5-yellow.svg"></a></li>
 <li><a href="https://github.com/special-uor/fxTWAPLS/actions"><img src="https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://doi.org/10.1098/rspa.2020.0346"><img src="https://img.shields.io/badge/doi-10.1098/rspa.2020.0346-black.svg"></a></li>
 </ul>
 </div>
 </div>
@@ -167,7 +217,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Mengmeng Liu, Roberto Villegas-Diaz.</p>
+  <p>Developed by Mengmeng Liu, Iain Colin Prentice, Cajo J. F. ter Braak, Sandy P. Harrison, Roberto Villegas-Diaz.</p>
 </div>
 
 <div class="pkgdown">

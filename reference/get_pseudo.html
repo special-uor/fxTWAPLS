@@ -75,7 +75,7 @@ cv.pr.w." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@ cv.pr.w." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +97,7 @@ cv.pr.w." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/special-uor/fxTWAPLS/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -176,6 +176,12 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
                                     <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
                                     cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
                                     test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+<span class='co'># Run with progress bar</span>
+<span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
+<span class='va'>pseudo_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>get_pseudo</span><span class='op'>(</span><span class='va'>dist</span>, 
+                                    <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
+                                    cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                                    test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
@@ -189,7 +195,7 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Mengmeng Liu, Roberto Villegas-Diaz.</p>
+  <p>Developed by Mengmeng Liu, Iain Colin Prentice, Cajo J. F. ter Braak, Sandy P. Harrison, Roberto Villegas-Diaz.</p>
 </div>
 
 <div class="pkgdown">
