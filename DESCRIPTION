@@ -1,12 +1,27 @@
 Package: fxTWAPLS
 Title: An Improved Version of WA-PLS
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: c(
     person(given = "Mengmeng",
            family = "Liu",
            role = c("aut"),
            email = "m.liu18@imperial.ac.uk",
            comment = c(ORCID = "0000-0001-6250-0148")),
+    person(given = "Iain Colin",
+           family = "Prentice",
+           role = "aut",
+           email = "c.prentice@imperial.ac.uk",
+           comment = c(ORCID = "0000-0002-1296-6764")),
+    person(given = "Cajo J. F.",
+           family = "ter Braak",
+           role = "aut",
+           email = "cajo.terbraak@wur.nl",
+           comment = c(ORCID = "0000-0002-0414-8745")),
+    person(given = "Sandy P.",
+           family = "Harrison",
+           role = "aut",
+           email = "s.p.harrison@reading.ac.uk",
+           comment = c(ORCID = "0000-0001-5687-1903")),
     person(given = "Roberto",
            family = "Villegas-Diaz",
            role = c("aut", "cre"),
@@ -23,21 +38,25 @@ Description: The goal of this package is to provide an improved version of
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/special-uor/fxTWAPLS, 
+URL: https://github.com/special-uor/fxTWAPLS/, 
      https://special-uor.github.io/fxTWAPLS/,
      https://research.reading.ac.uk/palaeoclimate/
-BugReports: https://github.com/special-uor/fxTWAPLS/issues
+BugReports: https://github.com/special-uor/fxTWAPLS/issues/
 Imports:
-    doParallel,
+    doFuture,
     foreach,
+    future,
     geosphere,
     ggplot2,
     MASS,
     parallel,
-    tictoc
+    progress,
+    progressr
 Suggests:
+    magrittr,
     scales,
-    testthat
+    testthat,
+    tictoc
 Depends: 
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
