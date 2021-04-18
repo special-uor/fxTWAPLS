@@ -1,3 +1,5 @@
+# fxTWAPLS 0.0.6
+
 # fxTWAPLS 0.0.5
 
 * Added support for the `progressr` API (display a progress bar).
