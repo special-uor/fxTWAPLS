@@ -37,7 +37,6 @@ Description: The goal of this package is to provide an improved version of
     pseudo-replication.
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 URL: https://github.com/special-uor/fxTWAPLS/, 
      https://special-uor.github.io/fxTWAPLS/,
      https://research.reading.ac.uk/palaeoclimate/
