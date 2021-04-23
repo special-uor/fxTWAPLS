@@ -49,13 +49,12 @@ Imports:
     ggplot2,
     MASS,
     parallel,
-    progress,
-    progressr,
-    scales,
-    tictoc
+    progressr
 Suggests:
     magrittr,
-    testthat
+    progress,
+    scales,
+    tictoc
 Depends: 
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
