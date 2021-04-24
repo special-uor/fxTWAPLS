@@ -1,6 +1,6 @@
 Package: fxTWAPLS
 Title: An Improved Version of WA-PLS
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: c(
     person(given = "Mengmeng",
            family = "Liu",
@@ -37,7 +37,6 @@ Description: The goal of this package is to provide an improved version of
     pseudo-replication.
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 URL: https://github.com/special-uor/fxTWAPLS/, 
      https://special-uor.github.io/fxTWAPLS/,
      https://research.reading.ac.uk/palaeoclimate/
@@ -50,12 +49,11 @@ Imports:
     ggplot2,
     MASS,
     parallel,
-    progress,
     progressr
 Suggests:
     magrittr,
+    progress,
     scales,
-    testthat,
     tictoc
 Depends: 
     R (>= 3.6)
