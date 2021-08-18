@@ -1338,9 +1338,12 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' @param pseudo The geographically and climatically close sites to each test 
 #'     site, obtained from \code{\link{get_pseudo}} function.
 #' @param usefx Boolean flag on whether or not use \code{fx} correction.
-#' @param fx The frequency of the climate value for \code{fx} correction: if 
-#'     \code{usefx} is FALSE, this should be \code{NA}; otherwise, this should 
-#'     be obtained from the \code{\link{fx}} function.
+#' @param fx_method Binned or p-spline smoothed \code{fx} correction: if 
+#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, 
+#'     \code{\link{fx}} function will be used when choosing "bin";
+#'     \code{\link{fx_pspline}} function will be used when choosing "pspline".
+#' @param bin Binwidth to get fx, needed for both binned and p-splined method.
+#'     if \code{usefx = FALSE}, this should be \code{NA};
 #' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param test_mode Boolean flag to execute the function with a limited number
@@ -1379,7 +1382,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'                                 cpus = 2, # Remove the following line
 #'                                 test_mode = test_mode)
 #' # Test TWAPLS
-#' cv_pr_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
+#' cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
 #'                                  modern_pollen$Tmin,
 #'                                  nPLS = 5,
 #'                                  fxTWAPLS::TWAPLS.w,
@@ -1400,7 +1403,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'                                 cpus = 2, # Remove the following line
 #'                                 test_mode = test_mode) %>% fxTWAPLS::pb()
 #' ## Test TWAPLS
-#' cv_pr_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
+#' cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
 #'                                  modern_pollen$Tmin,
 #'                                  nPLS = 5,
 #'                                  fxTWAPLS::TWAPLS.w,
@@ -1420,7 +1423,8 @@ cv.pr.w <- function(modern_taxa,
                     predictfun,
                     pseudo,
                     usefx = FALSE,
-                    fx = NA,
+                    fx_method = "bin",
+                    bin = NA,
                     cpus = 4,
                     test_mode = TRUE,
                     test_it = 5) {
@@ -1451,11 +1455,13 @@ cv.pr.w <- function(modern_taxa,
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind) %dopar% {
                                    leave <- unlist(pseudo[i])
-                                   fit <- trainfun(y[-leave, ], 
+                                   # Strip out zero-sum cols
+                                   fit <- trainfun(y[-leave,which(colSums(y) > 0) ], 
                                                    x[-leave], 
                                                    nPLS, 
-                                                   usefx, 
-                                                   fx[-leave])
+                                                   usefx,
+                                                   fx_method,
+                                                   bin,)
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
                                    p()
                                    data.frame(x[i], xnew)
