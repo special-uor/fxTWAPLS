@@ -129,7 +129,8 @@ fx_pspline<-function (x, bin, show_plot = FALSE)
 
 #' WA-PLS training function
 #' 
-#' WA-PLS training function, which can perform \code{fx} correction.
+#' WA-PLS training function, which can perform \code{fx} correction. 1/fx^2 
+#' correction will be applied at step 7.
 #' 
 #' @importFrom stats lm
 #' 
@@ -138,10 +139,12 @@ fx_pspline<-function (x, bin, show_plot = FALSE)
 #' @param modern_climate The modern climate value at each sampling site.
 #' @param nPLS The number of components to be extracted.
 #' @param usefx Boolean flag on whether or not use \code{fx} correction.
-#' @param fx The frequency of the climate value for \code{fx} correction: if 
-#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, this should 
-#'     be obtained from the \code{\link{fx}} function.
-#'
+#' @param fx_method Binned or p-spline smoothed \code{fx} correction: if 
+#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, 
+#'     \code{\link{fx}} function will be used when choosing "bin";
+#'     \code{\link{fx_pspline}} function will be used when choosing "pspline".
+#' @param bin Binwidth to get fx, needed for both binned and p-splined method.
+#'     if \code{usefx = FALSE}, this should be \code{NA};
 #' @return A list of the training results, which will be used by the predict 
 #'     function. Each element in the list is described below:
 #'     \describe{
@@ -178,8 +181,6 @@ fx_pspline<-function (x, bin, show_plot = FALSE)
 #' 
 #' # Get the frequency of each climate variable fx
 #' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 #' 
 #' # MTCO
 #' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
@@ -187,7 +188,8 @@ fx_pspline<-function (x, bin, show_plot = FALSE)
 #'                                 modern_pollen$Tmin, 
 #'                                 nPLS = 5, 
 #'                                 usefx = TRUE, 
-#'                                 fx = fx_Tmin)
+#'                                 fx_method = "binned",
+#'                                 bin = 0.02)
 #' }
 #' 
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, and
@@ -196,7 +198,8 @@ WAPLS.w <- function(modern_taxa,
                     modern_climate, 
                     nPLS = 5, 
                     usefx = FALSE, 
-                    fx = NA) {
+                    fx_method = "bin",
+                    bin = NA) {
   # Step 0. Centre the environmental variable by subtracting the weighted mean
   x <- modern_climate
   y <- modern_taxa
@@ -249,7 +252,14 @@ WAPLS.w <- function(modern_taxa,
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                     weights = sumk_yik / Ytottot)
   } else{
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+    
+    if(fx_method=="bin"){
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                      weights = 1 / fx(x,bin) ^ 2)
+    }else{
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                      weights = 1 / fx_pspline(x,bin) ^ 2)
+    }
   }
   
   fit[, pls] <- lm[["fitted.values"]]
@@ -299,7 +309,14 @@ WAPLS.w <- function(modern_taxa,
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = sumk_yik / Ytottot)
     } else{
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+      
+      if(fx_method=="bin"){
+        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                        weights = 1 / fx(x,bin) ^ 2)
+      }else{
+        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                        weights = 1 / fx_pspline(x,bin) ^ 2)
+      }
     }
     
     fit[, pls] <- lm[["fitted.values"]]
@@ -338,7 +355,8 @@ WAPLS.w <- function(modern_taxa,
 
 #' TWA-PLS training function
 #' 
-#' TWA-PLS training function, which can perform \code{fx} correction.
+#' TWA-PLS training function, which can perform \code{fx} correction.1/fx^2 
+#' correction will be applied at step 7.
 #' 
 #' @importFrom stats lm
 #' 
