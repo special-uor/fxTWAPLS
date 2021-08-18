@@ -1041,9 +1041,12 @@ sse.sample <- function(modern_taxa,
 #'     if \code{trainfun} is \code{\link{TWAPLS.w}}, then this should be 
 #'     \code{\link{TWAPLS.predict.w}}.
 #' @param usefx Boolean flag on whether or not use \code{fx} correction.
-#' @param fx The frequency of the climate value for \code{fx} correction: if 
-#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, this should 
-#'     be obtained from the \code{\link{fx}} function.
+#' @param fx_method Binned or p-spline smoothed \code{fx} correction: if 
+#'     \code{usefx = FALSE}, this should be \code{NA}; otherwise, 
+#'     \code{\link{fx}} function will be used when choosing "bin";
+#'     \code{\link{fx_pspline}} function will be used when choosing "pspline".
+#' @param bin Binwidth to get fx, needed for both binned and p-splined method.
+#'     if \code{usefx = FALSE}, this should be \code{NA};
 #' @param cpus Number of CPUs for simultaneous iterations to execute, check
 #'     \code{parallel::detectCores()} for available CPUs on your machine.
 #' @param test_mode boolean flag to execute the function with a limited number
@@ -1063,14 +1066,6 @@ sse.sample <- function(modern_taxa,
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # Get the frequency of each climate variable fx
-#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
-#' 
-#' # MTCO
-#' ## fx
-#' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' ## LOOCV
 #' test_mode <- TRUE # It should be set to FALSE before running
 #' ### without fx
@@ -1088,7 +1083,8 @@ sse.sample <- function(modern_taxa,
 #'                             fxTWAPLS::WAPLS.w,
 #'                             fxTWAPLS::WAPLS.predict.w,
 #'                             usefx = TRUE,
-#'                             fx = fx_Tmin,
+#'                             fx_method = "bin",
+#'                             bin = 0.02,
 #'                             cpus = 2, # Remove the following line
 #'                             test_mode = test_mode)  
 #' 
@@ -1109,7 +1105,8 @@ sse.sample <- function(modern_taxa,
 #'                             fxTWAPLS::WAPLS.w,
 #'                             fxTWAPLS::WAPLS.predict.w,
 #'                             usefx = TRUE,
-#'                             fx = fx_Tmin,
+#'                             fx_method = "bin",
+#'                             bin = 0.02,
 #'                             cpus = 2, # Remove the following line
 #'                             test_mode = test_mode) %>% fxTWAPLS::pb()
 #' }
@@ -1122,7 +1119,8 @@ cv.w <- function(modern_taxa,
                  trainfun,
                  predictfun,
                  usefx = FALSE,
-                 fx = NA,
+                 fx_method = "bin",
+                 bin = NA,
                  cpus = 4,
                  test_mode = FALSE,
                  test_it = 5) {
@@ -1153,11 +1151,13 @@ cv.w <- function(modern_taxa,
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind, #comb_pb(max(idx)),
                                  .verbose = FALSE) %dopar% {
-                                   fit <- trainfun(y[-i, ], 
+                                   # Strip out zero-sum cols
+                                   fit <- trainfun(y[-i, which(colSums(y) > 0)], 
                                                    x[-i], 
                                                    nPLS, 
-                                                   usefx, 
-                                                   fx[-i])
+                                                   usefx,
+                                                   fx_method,
+                                                   bin)
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
                                    p()
                                    data.frame(x[i], xnew)
