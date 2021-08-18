@@ -1152,7 +1152,10 @@ cv.w <- function(modern_taxa,
                                  .combine = rbind, #comb_pb(max(idx)),
                                  .verbose = FALSE) %dopar% {
                                    # Strip out zero-sum cols
-                                   fit <- trainfun(y[-i, which(colSums(y) > 0)], 
+                                   cvtaxa=y[-i,]
+                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa) > 0)]
+                                   
+                                   fit <- trainfun(cvtaxa, 
                                                    x[-i], 
                                                    nPLS, 
                                                    usefx,
@@ -1456,7 +1459,10 @@ cv.pr.w <- function(modern_taxa,
                                  .combine = rbind) %dopar% {
                                    leave <- unlist(pseudo[i])
                                    # Strip out zero-sum cols
-                                   fit <- trainfun(y[-leave,which(colSums(y) > 0) ], 
+                                   cvtaxa=y[-leave,]
+                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa) > 0)]
+                                   
+                                   fit <- trainfun(cvtaxa, 
                                                    x[-leave], 
                                                    nPLS, 
                                                    usefx,
