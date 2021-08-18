@@ -188,7 +188,7 @@ fx_pspline<-function (x, bin, show_plot = FALSE)
 #'                                 modern_pollen$Tmin, 
 #'                                 nPLS = 5, 
 #'                                 usefx = TRUE, 
-#'                                 fx_method = "binned",
+#'                                 fx_method = "bin",
 #'                                 bin = 0.02)
 #' }
 #' 
@@ -398,8 +398,6 @@ WAPLS.w <- function(modern_taxa,
 #' 
 #' # Get the frequency of each climate variable fx
 #' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 #' 
 #' # MTCO
 #' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
@@ -407,7 +405,8 @@ WAPLS.w <- function(modern_taxa,
 #'                                   modern_pollen$Tmin, 
 #'                                   nPLS = 5, 
 #'                                   usefx = TRUE, 
-#'                                   fx = fx_Tmin)
+#'                                   fx_method = "bin",
+#'                                   bin = 0.02)
 #' }
 #' 
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.predict.w}}, and
@@ -416,7 +415,8 @@ TWAPLS.w <- function(modern_taxa,
                      modern_climate,
                      nPLS = 5,
                      usefx = FALSE,
-                     fx = NA){
+                     fx_method = "bin",
+                     bin = NA){
   # Step 0. Centre the environmental variable by subtracting the weighted mean
   x <- modern_climate
   y <- modern_taxa
@@ -474,8 +474,15 @@ TWAPLS.w <- function(modern_taxa,
   if (usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                     weights = sumk_yik / Ytottot)
-  } else {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+  } else{
+    
+    if(fx_method=="bin"){
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                      weights = 1 / fx(x,bin) ^ 2)
+    }else{
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                      weights = 1 / fx_pspline(x,bin) ^ 2)
+    }
   }
   
   fit[, pls] <- lm[["fitted.values"]]
@@ -529,8 +536,15 @@ TWAPLS.w <- function(modern_taxa,
     if (usefx == FALSE) {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = sumk_yik / Ytottot)
-    } else {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], weights = 1 / fx ^ 2)
+    } else{
+      
+      if(fx_method=="bin"){
+        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                        weights = 1 / fx(x,bin) ^ 2)
+      }else{
+        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+                        weights = 1 / fx_pspline(x,bin) ^ 2)
+      }
     }
     
     fit[, pls] <- lm[["fitted.values"]]
