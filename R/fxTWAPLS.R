@@ -943,8 +943,9 @@ sse.sample <- function(modern_taxa,
                        nboot,
                        nPLS,
                        nsig,
-                       usefx,
-                       fx,
+                       usefx = FALSE,
+                       fx_method = "bin",
+                       bin = NA,
                        cpus = 4,
                        seed = NULL,
                        test_mode = FALSE,
@@ -1003,8 +1004,9 @@ sse.sample <- function(modern_taxa,
                                   mod <- trainfun(modern_taxak, 
                                                   modern_climatek, 
                                                   nPLS = nPLS, 
-                                                  usefx = TRUE, 
-                                                  fx = fxk)
+                                                  usefx = TRUE,
+                                                  fx_method = fx_method,
+                                                  bin = bin)
                                 }
                                 
                                 # Make reconstruction
