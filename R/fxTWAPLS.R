@@ -46,6 +46,87 @@ fx <- function(x, bin, show_plot = FALSE) {
   return(fx)
 }
 
+#' Get frequency of the climate value with p-spline smoothing
+#' 
+#' Function to get the frequency of the climate value, which will be used to 
+#'     provide \code{fx} correction for WA-PLS and TWA-PLS.
+#'
+#' @importFrom graphics plot
+#' 
+#' @param x Numeric vector with the modern climate values.
+#' @param bin Binwidth to get the frequency of the modern climate values, the curve will be p-spline smoothed later
+#' @param show_plot Boolean flag to show a plot of \code{fx ~ x}.
+#'
+#' @return Numeric vector with the frequency of the modern climate values.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Load modern pollen data
+#' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
+#' 
+#' # Get the frequency of each climate variable fx
+#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
+#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
+#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+#' }
+#' 
+#' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and 
+#'     \code{\link{sse.sample}}
+fx_pspline<-function (x, bin, show_plot = FALSE) 
+{
+  #P-spline
+  if(!require(SpATS)){install.packages("SpATS");library(SpATS)}
+  if(!require(fds)){install.packages("fds");library(fds)}
+  if(!require(SemiPar)){install.packages("SemiPar");library(SemiPar)}
+  if(!require(egg)){install.packages("egg");library(egg)}
+  if(!require(JOPS)){install.packages("JOPS");library(JOPS)}
+  
+  pbin <- round((max(x) - min(x)) / bin, digits = 0)
+  bin <- (max(x) - min(x)) / pbin
+  brks=seq(min(x) , max(x) , by = bin)
+  h = hist(x, breaks = brks, plot = show_plot)
+  mids = h$mids
+  counts = h$counts
+  Data = data.frame(mids,counts)
+  Dat = data.frame(x)
+  nseg = 20
+  lambda = 1
+  d = 3
+  
+  # Iterative smoothing , updating tuning based on diff of
+  # coeffs
+  for (it in 1:20) {
+    fit = psPoisson (mids, counts, nseg = nseg , pord = d, lambda = lambda , show = FALSE)
+    a = fit$pcoef
+    vr = sum (( diff(a, diff = d))^2)/ fit$effdim
+    lambda_new = 1/ vr
+    dla = abs (( lambda_new - lambda )/ lambda)
+    lambda = lambda_new
+    #cat(it, log10(lambda ) , "\n")
+    if ( dla < 1e-05)
+      break
+  }
+  # Gridded data for plotting
+  Fit1 = data.frame(xgrid = fit$xgrid , ygrid = fit$mugrid )
+  plt1 = ggplot(Dat , aes(x)) +
+    geom_histogram (fill = " wheat3 ", breaks = brks)+
+    geom_hline ( yintercept = 0) +
+    geom_line (data = Fit1 , aes(x = xgrid, y = ygrid), col = " steelblue ", size = 1) +
+    JOPS_theme ()
+  
+  fx <- rep(NA, length(x))
+  for (i in seq_len(length(x))) {
+    fx[i] <- Fit1[which.min(abs(x[i] - Fit1$xgrid)),"ygrid"]
+  }
+  if (any(fx == 0)) {
+    print("Some x have a count of 0!")
+  }
+  if (show_plot) 
+    plot(fx ~ x)
+  return(fx)
+}
+
 #' WA-PLS training function
 #' 
 #' WA-PLS training function, which can perform \code{fx} correction.
