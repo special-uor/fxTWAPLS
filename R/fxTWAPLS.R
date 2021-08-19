@@ -82,13 +82,6 @@ fx <- function(x, bin, show_plot = FALSE) {
 #'     \code{\link{sse.sample}}
 fx_pspline<-function (x, bin, show_plot = FALSE) 
 {
-  #P-spline
-  if(!require(SpATS)){install.packages("SpATS");library(SpATS)}
-  if(!require(fds)){install.packages("fds");library(fds)}
-  if(!require(SemiPar)){install.packages("SemiPar");library(SemiPar)}
-  if(!require(egg)){install.packages("egg");library(egg)}
-  if(!require(JOPS)){install.packages("JOPS");library(JOPS)}
-  
   pbin <- round((max(x) - min(x)) / bin, digits = 0)
   bin <- (max(x) - min(x)) / pbin
   brks=seq(min(x) , max(x) , by = bin)
@@ -104,7 +97,8 @@ fx_pspline<-function (x, bin, show_plot = FALSE)
   # Iterative smoothing , updating tuning based on diff of
   # coeffs
   for (it in 1:20) {
-    fit = psPoisson (mids, counts, nseg = nseg , pord = d, lambda = lambda , show = FALSE)
+    fit = JOPS::psPoisson (mids, counts, nseg = nseg , pord = d, 
+                           lambda = lambda , show = FALSE)
     a = fit$pcoef
     vr = sum (( diff(a, diff = d))^2)/ fit$effdim
     lambda_new = 1/ vr
@@ -116,12 +110,6 @@ fx_pspline<-function (x, bin, show_plot = FALSE)
   }
   # Gridded data for plotting
   Fit1 = data.frame(xgrid = fit$xgrid , ygrid = fit$mugrid )
-  plt1 = ggplot(Dat , aes(x)) +
-    geom_histogram (fill = " wheat3 ", breaks = brks)+
-    geom_hline ( yintercept = 0) +
-    geom_line (data = Fit1 , aes(x = xgrid, y = ygrid), col = " steelblue ", size = 1) +
-    JOPS_theme ()
-  
   fx <- rep(NA, length(x))
   for (i in seq_len(length(x))) {
     fx[i] <- Fit1[which.min(abs(x[i] - Fit1$xgrid)),"ygrid"]
