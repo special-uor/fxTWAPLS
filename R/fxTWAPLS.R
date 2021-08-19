@@ -21,9 +21,12 @@
 #' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
 #' 
 #' # Get the frequency of each climate variable fx
-#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02, 
+#' show_plot = T)
+#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20, 
+#' show_plot = T)
+#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002, 
+#' show_plot = T)
 #' }
 #' 
 #' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and 
@@ -54,7 +57,8 @@ fx <- function(x, bin, show_plot = FALSE) {
 #' @importFrom graphics plot
 #' 
 #' @param x Numeric vector with the modern climate values.
-#' @param bin Binwidth to get the frequency of the modern climate values, the curve will be p-spline smoothed later
+#' @param bin Binwidth to get the frequency of the modern climate values, the 
+#' curve will be p-spline smoothed later
 #' @param show_plot Boolean flag to show a plot of \code{fx ~ x}.
 #'
 #' @return Numeric vector with the frequency of the modern climate values.
@@ -66,9 +70,12 @@ fx <- function(x, bin, show_plot = FALSE) {
 #' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
 #' 
 #' # Get the frequency of each climate variable fx
-#' fx_pspline_Tmin <- fxTWAPLS::fx_pspline(modern_pollen$Tmin, bin = 0.02)
-#' fx_pspline_gdd <- fxTWAPLS::fx_pspline(modern_pollen$gdd, bin = 20)
-#' fx_pspline_alpha <- fxTWAPLS::fx_pspline(modern_pollen$alpha, bin = 0.002)
+#' fx_pspline_Tmin <- fxTWAPLS::fx_pspline(modern_pollen$Tmin, bin = 0.02, 
+#' show_plot = T)
+#' fx_pspline_gdd <- fxTWAPLS::fx_pspline(modern_pollen$gdd, bin = 20, 
+#' show_plot = T)
+#' fx_pspline_alpha <- fxTWAPLS::fx_pspline(modern_pollen$alpha, bin = 0.002, 
+#' show_plot = T)
 #' }
 #' 
 #' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and 
