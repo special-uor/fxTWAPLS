@@ -199,6 +199,8 @@ WAPLS.w <- function(modern_taxa,
   x <- modern_climate
   y <- modern_taxa
   y <- as.matrix(y)
+  y <- y/rowSums(y)
+  
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
   Ytottot <- sum(y)
@@ -416,6 +418,8 @@ TWAPLS.w <- function(modern_taxa,
   x <- modern_climate
   y <- modern_taxa
   y <- as.matrix(y)
+  y <- y/rowSums(y)
+  
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
   Ytottot <- sum(y)
