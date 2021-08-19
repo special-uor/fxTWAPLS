@@ -66,9 +66,9 @@ fx <- function(x, bin, show_plot = FALSE) {
 #' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
 #' 
 #' # Get the frequency of each climate variable fx
-#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
+#' fx_pspline_Tmin <- fxTWAPLS::fx_pspline(modern_pollen$Tmin, bin = 0.02)
+#' fx_pspline_gdd <- fxTWAPLS::fx_pspline(modern_pollen$gdd, bin = 20)
+#' fx_pspline_alpha <- fxTWAPLS::fx_pspline(modern_pollen$alpha, bin = 0.002)
 #' }
 #' 
 #' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and 
