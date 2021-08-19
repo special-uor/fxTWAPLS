@@ -1655,26 +1655,23 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # Get the frequency of each climate variable fx
-#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' fx_gdd <- fxTWAPLS::fx(modern_pollen$gdd, bin = 20)
-#' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
-#' 
 #' # MTCO
-#' ## WAPLS
+#' ## WAPLS and fxWAPLS
 #' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
 #'                                 modern_pollen$Tmin, 
 #'                                 nPLS = 5, 
 #'                                 usefx = TRUE, 
-#'                                 fx = fx_Tmin)
-#' ## TWAPLS
+#'                                 fx_method = "bin",
+#'                                 bin = 0.02)
+#' ## TWAPLS and fxTWAPLS
 #' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
 #'                                   modern_pollen$Tmin, 
 #'                                   nPLS = 5, 
 #'                                   usefx = TRUE, 
-#'                                   fx = fx_Tmin)
+#'                                   fx_method = "bin",
+#'                                   bin = 0.02)
 #' fxTWAPLS::plot_train(fit_Tmin, 3)
 #' fxTWAPLS::plot_train(fit_f_Tmin, 3)
 #' fxTWAPLS::plot_train(fit_t_Tmin, 3)
@@ -1732,20 +1729,22 @@ plot_train <- function(train_output, col) {
 #' fx_alpha <- fxTWAPLS::fx(modern_pollen$alpha, bin = 0.002)
 #' 
 #' # MTCO
-#' ## WAPLS
+#' ## WAPLS and fxWAPLS
 #' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
 #'                                 modern_pollen$Tmin, 
 #'                                 nPLS = 5, 
 #'                                 usefx = TRUE, 
-#'                                 fx = fx_Tmin)
-#' ## TWAPLS
+#'                                 fx_method = "bin",
+#'                                 bin = 0.02)
+#' ## TWAPLS and fxTWAPLS
 #' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
 #'                                   modern_pollen$Tmin, 
 #'                                   nPLS = 5, 
 #'                                   usefx = TRUE, 
-#'                                   fx = fx_Tmin)
+#'                                   fx_method = "bin",
+#'                                   bin = 0.02)
 #' fxTWAPLS::plot_residuals(fit_Tmin, 3)
 #' fxTWAPLS::plot_residuals(fit_f_Tmin, 3)
 #' fxTWAPLS::plot_residuals(fit_t_Tmin, 3)
