@@ -227,7 +227,7 @@ WAPLS.w <- function(modern_taxa,
   
   # Step 2. Calculate new species scores (uk* by weighted averaging of the 
   # site scores)
-  u[, pls] <- t(y) %*% x / sumi_yik # uk = sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+  u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk = sumi_yik*xi/sumi_yik; 1*nmodern_taxa
   
   # Step 3. Calculate new site scores (ri) by weighted averaging of the species 
   # scores
@@ -327,7 +327,8 @@ WAPLS.w <- function(modern_taxa,
   list <- list(fit, 
                modern_climate, 
                colnames(modern_taxa), 
-               optimum,comp, 
+               optimum,
+               comp, 
                u, 
                z, 
                s, 
@@ -446,10 +447,10 @@ TWAPLS.w <- function(modern_taxa,
   r[, pls] <- x - mean(x)
   
   # Step 2. Calculate uk and tk
-  u[, pls] <- t(y) %*% x / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+  u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
   n2 <- matrix(NA, nc, 1)
   for (k in 1:nc) {
-    t[k, pls] <- sqrt(sum(y[, k] * (x - u[k, pls]) ^ 2) / sumi_yik[k])
+    t[k, pls] <- sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
     n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
     t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
   }
