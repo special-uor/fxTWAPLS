@@ -1011,7 +1011,8 @@ sse.sample <- function(modern_taxa,
                                 # Make reconstruction
                                 out <- 
                                   predictfun(mod, 
-                                           fossil_taxa[, col_not0])$fit[, nsig]
+                                fossil_taxa[, which(colSums(modern_taxa[k, ] >0)
+                                                    >=2)])$fit[, nsig]
                                 p()
                                 out
                               }, error=function(e){})
@@ -1160,7 +1161,8 @@ cv.w <- function(modern_taxa,
                                                    usefx=usefx,
                                                    fx_method=fx_method,
                                                    bin=bin)
-                                   xnew <- predictfun(fit, y[i, ])[["fit"]]
+                                   xnew <- predictfun(fit, 
+                                   y[i, which(colSums(y[-i,]>0)>=2)])[["fit"]]
                                    p()
                                    data.frame(x[i], xnew)
                                  }
@@ -1471,7 +1473,8 @@ cv.pr.w <- function(modern_taxa,
                                                    usefx=usefx,
                                                    fx_method=fx_method,
                                                    bin=bin)
-                                   xnew <- predictfun(fit, y[i, ])[["fit"]]
+                                   xnew <- predictfun(fit, 
+                                   y[i, which(colSums(y[-leave,]>0)>=2)])[["fit"]]
                                    p()
                                    data.frame(x[i], xnew)
                                  }
