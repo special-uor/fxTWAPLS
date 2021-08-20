@@ -1150,9 +1150,9 @@ cv.w <- function(modern_taxa,
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind, #comb_pb(max(idx)),
                                  .verbose = FALSE) %dopar% {
-                                   # Strip out zero-sum cols
+                                   # Strip out cols with no value or one value
                                    cvtaxa=y[-i,]
-                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa) > 0)]
+                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa>0)>=2)]
                                    
                                    fit <- trainfun(modern_taxa=cvtaxa, 
                                                    modern_climate=x[-i], 
@@ -1461,9 +1461,9 @@ cv.pr.w <- function(modern_taxa,
   all.cv.out <- foreach::foreach(i = idx,
                                  .combine = rbind) %dopar% {
                                    leave <- unlist(pseudo[i])
-                                   # Strip out zero-sum cols
+                                   # Strip out cols with no value or one value
                                    cvtaxa=y[-leave,]
-                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa) > 0)]
+                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa>0)>=2)]
                                    
                                    fit <- trainfun(modern_taxa=cvtaxa, 
                                                    modern_climate=x[-leave], 
