@@ -989,10 +989,10 @@ sse.sample <- function(modern_taxa,
                                 # Reorganise modern_taxa obs in k order
                                 modern_taxak <- modern_taxa[k, ] 
                                 modern_climatek <- modern_climate[k]
-                                fxk<-fx[k]
-                                col_not0 <- which(colSums(modern_taxak) > 0)
-                                # Strip out zero-sum cols
-                                modern_taxak <- modern_taxak[, col_not0]
+                                # Strip out cols with no value or one value
+                                modern_taxak <- 
+                                  modern_taxak[, which(colSums(modern_taxak>0)>=2)]
+
                                 # Apply train function, with modern_climate also 
                                 # in k order
                                 if (usefx == FALSE) {
