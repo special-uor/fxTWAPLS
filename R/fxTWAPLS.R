@@ -1154,12 +1154,12 @@ cv.w <- function(modern_taxa,
                                    cvtaxa=y[-i,]
                                    cvtaxa <- cvtaxa[, which(colSums(cvtaxa) > 0)]
                                    
-                                   fit <- trainfun(cvtaxa, 
-                                                   x[-i], 
-                                                   nPLS, 
-                                                   usefx,
-                                                   fx_method,
-                                                   bin)
+                                   fit <- trainfun(modern_taxa=cvtaxa, 
+                                                   modern_climate=x[-i], 
+                                                   nPLS=nPLS, 
+                                                   usefx=usefx,
+                                                   fx_method=fx_method,
+                                                   bin=bin)
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
                                    p()
                                    data.frame(x[i], xnew)
@@ -1465,12 +1465,12 @@ cv.pr.w <- function(modern_taxa,
                                    cvtaxa=y[-leave,]
                                    cvtaxa <- cvtaxa[, which(colSums(cvtaxa) > 0)]
                                    
-                                   fit <- trainfun(cvtaxa, 
-                                                   x[-leave], 
-                                                   nPLS, 
-                                                   usefx,
-                                                   fx_method,
-                                                   bin,)
+                                   fit <- trainfun(modern_taxa=cvtaxa, 
+                                                   modern_climate=x[-leave], 
+                                                   nPLS=nPLS, 
+                                                   usefx=usefx,
+                                                   fx_method=fx_method,
+                                                   bin=bin)
                                    xnew <- predictfun(fit, y[i, ])[["fit"]]
                                    p()
                                    data.frame(x[i], xnew)
