@@ -6,6 +6,7 @@
 #' Function to get the frequency of the climate value, which will be used to 
 #'     provide \code{fx} correction for WA-PLS and TWA-PLS.
 #'
+#' @importFrom graphics hist
 #' @importFrom graphics plot
 #' 
 #' @param x Numeric vector with the modern climate values.
@@ -54,6 +55,7 @@ fx <- function(x, bin, show_plot = FALSE) {
 #' Function to get the frequency of the climate value, which will be used to 
 #'     provide \code{fx} correction for WA-PLS and TWA-PLS.
 #'
+#' @importFrom graphics hist
 #' @importFrom graphics plot
 #' 
 #' @param x Numeric vector with the modern climate values.
@@ -80,44 +82,47 @@ fx <- function(x, bin, show_plot = FALSE) {
 #' 
 #' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and 
 #'     \code{\link{sse.sample}}
-fx_pspline<-function (x, bin, show_plot = FALSE) 
-{
+fx_pspline <- function (x, bin, show_plot = FALSE) {
   pbin <- round((max(x) - min(x)) / bin, digits = 0)
   bin <- (max(x) - min(x)) / pbin
-  brks=seq(min(x) , max(x) , by = bin)
-  h = hist(x, breaks = brks, plot = show_plot)
-  mids = h$mids
-  counts = h$counts
-  Data = data.frame(mids,counts)
-  Dat = data.frame(x)
-  nseg = 20
-  lambda = 1
-  d = 3
+  brks <- seq(min(x) , max(x) , by = bin)
+  h <- hist(x, breaks = brks, plot = show_plot)
+  mids <- h$mids
+  counts <- h$counts
+  Data <- data.frame(mids, counts)
+  Dat <- data.frame(x)
+  nseg <- 20
+  lambda <- 1
+  d <- 3
   
   # Iterative smoothing , updating tuning based on diff of
   # coeffs
   for (it in 1:20) {
-    fit = JOPS::psPoisson (mids, counts, nseg = nseg , pord = d, 
-                           lambda = lambda , show = FALSE)
-    a = fit$pcoef
-    vr = sum (( diff(a, diff = d))^2)/ fit$effdim
-    lambda_new = 1/ vr
-    dla = abs (( lambda_new - lambda )/ lambda)
-    lambda = lambda_new
-    #cat(it, log10(lambda ) , "\n")
+    fit <- JOPS::psPoisson(mids,
+                           counts,
+                           nseg = nseg,
+                           pord = d,
+                           lambda = lambda,
+                           show = FALSE)
+    a <- fit$pcoef
+    vr <- sum ((diff(a, diff = d)) ^ 2) / fit$effdim
+    lambda_new <- 1 / vr
+    dla <- abs ((lambda_new - lambda) / lambda)
+    lambda <- lambda_new
+    # cat(it, log10(lambda ) , "\n")
     if ( dla < 1e-05)
       break
   }
   # Gridded data for plotting
-  Fit1 = data.frame(xgrid = fit$xgrid , ygrid = fit$mugrid )
+  Fit1 <- data.frame(xgrid = fit$xgrid , ygrid = fit$mugrid)
   fx <- rep(NA, length(x))
   for (i in seq_len(length(x))) {
-    fx[i] <- Fit1[which.min(abs(x[i] - Fit1$xgrid)),"ygrid"]
+    fx[i] <- Fit1[which.min(abs(x[i] - Fit1$xgrid)), "ygrid"]
   }
   if (any(fx == 0)) {
     print("Some x have a count of 0!")
   }
-  if (show_plot) 
+  if (show_plot)
     plot(fx ~ x)
   return(fx)
 }
