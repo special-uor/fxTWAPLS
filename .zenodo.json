@@ -1,0 +1,52 @@
+{
+   "license": "GPL-3", 
+   "upload_type": "software",
+   "creators": [
+      {
+         "name": "Liu Mengmeng",
+         "affiliation": "Imperial College London",
+         "orcid": "0000-0001-6250-0148"
+      }, 
+      {
+         "name": "Iain Colin Prentice",
+         "affiliation": "Imperial College London",
+         "orcid": "0000-0002-1296-6764"
+      }, 
+      {
+         "name": "Cajo J. F. ter Braak",
+         "affiliation": "Wageningen University & Research",
+         "orcid": "0000-0002-0414-8745"
+      }, 
+      {
+         "name": "Sandy P. Harrison",
+         "affiliation": "University of Reading",
+         "orcid": "0000-0001-5687-1903"
+      }, 
+      {
+         "name": "Roberto Villegas-Diaz",
+         "affiliation": "University of Reading",
+         "orcid": "0000-0001-5036-8661"
+      }
+   ],
+   "keywords": [
+     "climate reconstruction", 
+     "palaeoclimate", 
+     "wa-pls", 
+     "bias reduction", 
+     "model calibration", 
+     "pollen data"
+   ],
+   "title": "fxTWAPLS: An Improved Version of WA-PLS",
+   "related_identifiers": [
+      {
+          "scheme": "doi",
+          "identifier": "10.1098/rspa.2020.0346",
+          "relation": "isSupplementTo",
+          "resource_type": {
+              "type": "publication",
+              "subtype": "article"
+          }
+      }
+   ],
+   "access_right": "open"
+}
