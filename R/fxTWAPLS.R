@@ -254,10 +254,10 @@ WAPLS.w <- function(modern_taxa,
     
     if(fx_method=="bin"){
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = 1 / fxTWAPLS::fx(x,bin) ^ 2)
+                      weights = 1 / fx(x,bin) ^ 2)
     }else{
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = 1 / fxTWAPLS::fx_pspline(x,bin) ^ 2)
+                      weights = 1 / fx_pspline(x,bin) ^ 2)
     }
   }
   
@@ -311,10 +311,10 @@ WAPLS.w <- function(modern_taxa,
       
       if(fx_method=="bin"){
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                        weights = 1 / fxTWAPLS::fx(x,bin) ^ 2)
+                        weights = 1 / fx(x,bin) ^ 2)
       }else{
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                        weights = 1 / fxTWAPLS::fx_pspline(x,bin) ^ 2)
+                        weights = 1 / fx_pspline(x,bin) ^ 2)
       }
     }
     
@@ -477,10 +477,10 @@ TWAPLS.w <- function(modern_taxa,
     
     if(fx_method=="bin"){
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = 1 / fxTWAPLS::fx(x,bin) ^ 2)
+                      weights = 1 / fx(x,bin) ^ 2)
     }else{
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = 1 / fxTWAPLS::fx_pspline(x,bin) ^ 2)
+                      weights = 1 / fx_pspline(x,bin) ^ 2)
     }
   }
   
@@ -539,10 +539,10 @@ TWAPLS.w <- function(modern_taxa,
       
       if(fx_method=="bin"){
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                        weights = 1 / fxTWAPLS::fx(x,bin) ^ 2)
+                        weights = 1 / fx(x,bin) ^ 2)
       }else{
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                        weights = 1 / fxTWAPLS::fx_pspline(x,bin) ^ 2)
+                        weights = 1 / fx_pspline(x,bin) ^ 2)
       }
     }
     
