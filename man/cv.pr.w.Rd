@@ -83,46 +83,46 @@ pseudo_Tmin <- fxTWAPLS::get_pseudo(dist,
                                     test_mode = test_mode)
 
 cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-                                 modern_pollen$Tmin,
-                                 nPLS = 5,
-                                 fxTWAPLS::TWAPLS.w,
-                                 fxTWAPLS::TWAPLS.predict.w,
-                                 pseudo_Tmin,
-                                 cpus = 2, # Remove the following line
-                                 test_mode = test_mode)
+                                  modern_pollen$Tmin,
+                                  nPLS = 5,
+                                  fxTWAPLS::TWAPLS.w,
+                                  fxTWAPLS::TWAPLS.predict.w,
+                                  pseudo_Tmin,
+                                  cpus = 2, # Remove the following line
+                                  test_mode = test_mode)
 cv_pr_tf_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-                                 modern_pollen$Tmin,
-                                 nPLS = 5,
-                                 fxTWAPLS::TWAPLS.w,
-                                 fxTWAPLS::TWAPLS.predict.w,
-                                 pseudo_Tmin,
-                                 usefx = TRUE,
-                                 fx_method = "bin",
-                                 bin = 0.02,
-                                 cpus = 2, # Remove the following line
-                                 test_mode = test_mode)                                
+                                   modern_pollen$Tmin,
+                                   nPLS = 5,
+                                   fxTWAPLS::TWAPLS.w,
+                                   fxTWAPLS::TWAPLS.predict.w,
+                                   pseudo_Tmin,
+                                   usefx = TRUE,
+                                   fx_method = "bin",
+                                   bin = 0.02,
+                                   cpus = 2, # Remove the following line
+                                   test_mode = test_mode)                                
 
 # Run with progress bar
 `\%>\%` <- magrittr::`\%>\%`
 cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-                                 modern_pollen$Tmin,
-                                 nPLS = 5,
-                                 fxTWAPLS::TWAPLS.w,
-                                 fxTWAPLS::TWAPLS.predict.w,
-                                 pseudo_Tmin,
-                                 cpus = 2, # Remove the following line
-                                 test_mode = test_mode) \%>\% fxTWAPLS::pb()
+                                  modern_pollen$Tmin,
+                                  nPLS = 5,
+                                  fxTWAPLS::TWAPLS.w,
+                                  fxTWAPLS::TWAPLS.predict.w,
+                                  pseudo_Tmin,
+                                  cpus = 2, # Remove the following line
+                                  test_mode = test_mode) \%>\% fxTWAPLS::pb()
 cv_pr_tf_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-                                 modern_pollen$Tmin,
-                                 nPLS = 5,
-                                 fxTWAPLS::TWAPLS.w,
-                                 fxTWAPLS::TWAPLS.predict.w,
-                                 pseudo_Tmin,
-                                 usefx = TRUE,
-                                 fx_method = "bin",
-                                 bin = 0.02,
-                                 cpus = 2, # Remove the following line
-                                 test_mode = test_mode) \%>\% fxTWAPLS::pb()
+                                   modern_pollen$Tmin,
+                                   nPLS = 5,
+                                   fxTWAPLS::TWAPLS.w,
+                                   fxTWAPLS::TWAPLS.predict.w,
+                                   pseudo_Tmin,
+                                   usefx = TRUE,
+                                   fx_method = "bin",
+                                   bin = 0.02,
+                                   cpus = 2, # Remove the following line
+                                   test_mode = test_mode) \%>\% fxTWAPLS::pb()
                                  
 }
 

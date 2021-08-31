@@ -93,21 +93,7 @@ core <- Holocene[, taxaColMin:taxaColMax]
 nboot <- 5 # Recommended 1000
 ### without fx
 sse_t_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-                                       modern_climate = modern_pollen$Tmin,
-                                       fossil_taxa = core,
-                                       trainfun = fxTWAPLS::TWAPLS.w,
-                                       predictfun = 
-                                         fxTWAPLS::TWAPLS.predict.w,
-                                       nboot = nboot,
-                                       nPLS = 5,
-                                       nsig = 3,
-                                       usefx = FALSE,
-                                       cpus = 2,
-                                       seed = 1)
-### with fx
-sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-                                         modern_climate = 
-                                           modern_pollen$Tmin,
+                                         modern_climate = modern_pollen$Tmin,
                                          fossil_taxa = core,
                                          trainfun = fxTWAPLS::TWAPLS.w,
                                          predictfun = 
@@ -115,31 +101,31 @@ sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
                                          nboot = nboot,
                                          nPLS = 5,
                                          nsig = 3,
-                                         usefx = TRUE,
-                                         fx_method = "bin",
-                                         bin = 0.02,
+                                         usefx = FALSE,
                                          cpus = 2,
                                          seed = 1)
+### with fx
+sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+                                          modern_climate = 
+                                            modern_pollen$Tmin,
+                                          fossil_taxa = core,
+                                          trainfun = fxTWAPLS::TWAPLS.w,
+                                          predictfun = 
+                                            fxTWAPLS::TWAPLS.predict.w,
+                                          nboot = nboot,
+                                          nPLS = 5,
+                                          nsig = 3,
+                                          usefx = TRUE,
+                                          fx_method = "bin",
+                                          bin = 0.02,
+                                          cpus = 2,
+                                          seed = 1)
                                          
 # Run with progress bar
 `\%>\%` <- magrittr::`\%>\%`
 ### without fx
 sse_t_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-                                       modern_climate = modern_pollen$Tmin,
-                                       fossil_taxa = core,
-                                       trainfun = fxTWAPLS::TWAPLS.w,
-                                       predictfun = 
-                                         fxTWAPLS::TWAPLS.predict.w,
-                                       nboot = nboot,
-                                       nPLS = 5,
-                                       nsig = 3,
-                                       usefx = FALSE,
-                                       cpus = 2,
-                                       seed = 1) \%>\% fxTWAPLS::pb()
-### with fx
-sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-                                         modern_climate = 
-                                           modern_pollen$Tmin,
+                                         modern_climate = modern_pollen$Tmin,
                                          fossil_taxa = core,
                                          trainfun = fxTWAPLS::TWAPLS.w,
                                          predictfun = 
@@ -147,11 +133,25 @@ sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
                                          nboot = nboot,
                                          nPLS = 5,
                                          nsig = 3,
-                                         usefx = TRUE,
-                                         fx_method = "bin",
-                                         bin = 0.02,
+                                         usefx = FALSE,
                                          cpus = 2,
                                          seed = 1) \%>\% fxTWAPLS::pb()
+### with fx
+sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+                                          modern_climate = 
+                                            modern_pollen$Tmin,
+                                          fossil_taxa = core,
+                                          trainfun = fxTWAPLS::TWAPLS.w,
+                                          predictfun = 
+                                            fxTWAPLS::TWAPLS.predict.w,
+                                          nboot = nboot,
+                                          nPLS = 5,
+                                          nsig = 3,
+                                          usefx = TRUE,
+                                          fx_method = "bin",
+                                          bin = 0.02,
+                                          cpus = 2,
+                                          seed = 1) \%>\% fxTWAPLS::pb()
 }
 
 }

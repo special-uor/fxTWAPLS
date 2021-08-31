@@ -73,45 +73,45 @@ taxa <- modern_pollen[, taxaColMin:taxaColMax]
 test_mode <- TRUE # It should be set to FALSE before running
 ### without fx
 cv_t_Tmin <- fxTWAPLS::cv.w(taxa,
-                          modern_pollen$Tmin,
-                          nPLS = 5,
-                          fxTWAPLS::TWAPLS.w,
-                          fxTWAPLS::TWAPLS.predict.w,
-                          cpus = 2, # Remove the following line
-                          test_mode = test_mode)
-### with fx
-cv_tf_Tmin <- fxTWAPLS::cv.w(taxa,
                             modern_pollen$Tmin,
                             nPLS = 5,
                             fxTWAPLS::TWAPLS.w,
                             fxTWAPLS::TWAPLS.predict.w,
-                            usefx = TRUE,
-                            fx_method = "bin",
-                            bin = 0.02,
                             cpus = 2, # Remove the following line
-                            test_mode = test_mode)  
+                            test_mode = test_mode)
+### with fx
+cv_tf_Tmin <- fxTWAPLS::cv.w(taxa,
+                             modern_pollen$Tmin,
+                             nPLS = 5,
+                             fxTWAPLS::TWAPLS.w,
+                             fxTWAPLS::TWAPLS.predict.w,
+                             usefx = TRUE,
+                             fx_method = "bin",
+                             bin = 0.02,
+                             cpus = 2, # Remove the following line
+                             test_mode = test_mode)  
 
 # Run with progress bar
 `\%>\%` <- magrittr::`\%>\%`
 ### without fx
 cv_t_Tmin <- fxTWAPLS::cv.w(taxa,
-                          modern_pollen$Tmin,
-                          nPLS = 5,
-                          fxTWAPLS::TWAPLS.w,
-                          fxTWAPLS::TWAPLS.predict.w,
-                          cpus = 2, # Remove the following line
-                          test_mode = test_mode) \%>\% fxTWAPLS::pb()
-### with fx
-cv_tf_Tmin <- fxTWAPLS::cv.w(taxa,
                             modern_pollen$Tmin,
                             nPLS = 5,
                             fxTWAPLS::TWAPLS.w,
                             fxTWAPLS::TWAPLS.predict.w,
-                            usefx = TRUE,
-                            fx_method = "bin",
-                            bin = 0.02,
                             cpus = 2, # Remove the following line
                             test_mode = test_mode) \%>\% fxTWAPLS::pb()
+### with fx
+cv_tf_Tmin <- fxTWAPLS::cv.w(taxa,
+                             modern_pollen$Tmin,
+                             nPLS = 5,
+                             fxTWAPLS::TWAPLS.w,
+                             fxTWAPLS::TWAPLS.predict.w,
+                             usefx = TRUE,
+                             fx_method = "bin",
+                             bin = 0.02,
+                             cpus = 2, # Remove the following line
+                             test_mode = test_mode) \%>\% fxTWAPLS::pb()
 }
 }
 \seealso{
