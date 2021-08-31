@@ -12,3 +12,5 @@
 ^README\.Rmd$
 ^inst/extdata$
 ^inst/images$
+^\.zenodo\.json$
+^documentation$

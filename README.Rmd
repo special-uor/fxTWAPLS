@@ -17,10 +17,10 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 <!-- `r badger::badge_code_size("special-uor/fxTWAPLS")` -->
-`r badger::badge_cran_release("fxTWAPLS", "blue")`
 `r badger::badge_devel("special-uor/fxTWAPLS", "yellow")`
+`r badger::badge_cran_release("fxTWAPLS", "black")`
 `r badger::badge_github_actions("special-uor/fxTWAPLS")`
-`r badger::badge_doi("10.1098/rspa.2020.0346", "black")`
+`r badger::badge_doi("10.1098/rspa.2020.0346", "blue")`
 <!-- `r badger::badge_codecov("special-uor/fxTWAPLS", "Q6SYL7AOGR")` -->
 <!-- [![R build status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions) -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/fxTWAPLS)](https://CRAN.R-project.org/package=fxTWAPLS) -->

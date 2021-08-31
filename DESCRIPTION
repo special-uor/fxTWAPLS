@@ -1,6 +1,6 @@
 Package: fxTWAPLS
 Title: An Improved Version of WA-PLS
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: c(
     person(given = "Mengmeng",
            family = "Liu",
@@ -47,6 +47,7 @@ Imports:
     future,
     geosphere,
     ggplot2,
+    JOPS,
     MASS,
     parallel,
     progressr
