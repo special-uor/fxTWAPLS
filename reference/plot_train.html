@@ -74,7 +74,7 @@ of overall compression." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -158,26 +158,23 @@ how many number of components you want to use.</p></td>
 <span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"taxaN"</span><span class='op'>)</span>
 <span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
 
-<span class='co'># Get the frequency of each climate variable fx</span>
-<span class='va'>fx_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, bin <span class='op'>=</span> <span class='fl'>0.02</span><span class='op'>)</span>
-<span class='va'>fx_gdd</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>gdd</span>, bin <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
-<span class='va'>fx_alpha</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>alpha</span>, bin <span class='op'>=</span> <span class='fl'>0.002</span><span class='op'>)</span>
-
 <span class='co'># MTCO</span>
-<span class='co'>## WAPLS</span>
+<span class='co'>## WAPLS and fxWAPLS</span>
 <span class='va'>fit_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='WAPLS.w.html'>WAPLS.w</a></span><span class='op'>(</span><span class='va'>taxa</span>, <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, nPLS <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>fit_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='WAPLS.w.html'>WAPLS.w</a></span><span class='op'>(</span><span class='va'>taxa</span>, 
                                 <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
                                 nPLS <span class='op'>=</span> <span class='fl'>5</span>, 
                                 usefx <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-                                fx <span class='op'>=</span> <span class='va'>fx_Tmin</span><span class='op'>)</span>
-<span class='co'>## TWAPLS</span>
+                                fx_method <span class='op'>=</span> <span class='st'>"bin"</span>,
+                                bin <span class='op'>=</span> <span class='fl'>0.02</span><span class='op'>)</span>
+<span class='co'>## TWAPLS and fxTWAPLS</span>
 <span class='va'>fit_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='TWAPLS.w.html'>TWAPLS.w</a></span><span class='op'>(</span><span class='va'>taxa</span>, <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, nPLS <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>fit_tf_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='TWAPLS.w.html'>TWAPLS.w</a></span><span class='op'>(</span><span class='va'>taxa</span>, 
                                   <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
                                   nPLS <span class='op'>=</span> <span class='fl'>5</span>, 
                                   usefx <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-                                  fx <span class='op'>=</span> <span class='va'>fx_Tmin</span><span class='op'>)</span>
+                                  fx_method <span class='op'>=</span> <span class='st'>"bin"</span>,
+                                  bin <span class='op'>=</span> <span class='fl'>0.02</span><span class='op'>)</span>
 <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_Tmin</span>, <span class='fl'>3</span><span class='op'>)</span>
 <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_f_Tmin</span>, <span class='fl'>3</span><span class='op'>)</span>
 <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>plot_train</span><span class='op'>(</span><span class='va'>fit_t_Tmin</span>, <span class='fl'>3</span><span class='op'>)</span>

@@ -73,7 +73,7 @@ rioja (https://cran.r-project.org/package=rioja)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -129,7 +129,8 @@ rioja (https://cran.r-project.org/package=rioja)." />
   <span class='va'>trainfun</span>,
   <span class='va'>predictfun</span>,
   usefx <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  fx <span class='op'>=</span> <span class='cn'>NA</span>,
+  fx_method <span class='op'>=</span> <span class='st'>"bin"</span>,
+  bin <span class='op'>=</span> <span class='cn'>NA</span>,
   cpus <span class='op'>=</span> <span class='fl'>4</span>,
   test_mode <span class='op'>=</span> <span class='cn'>FALSE</span>,
   test_it <span class='op'>=</span> <span class='fl'>5</span>
@@ -168,10 +169,16 @@ if <code>trainfun</code> is <code><a href='TWAPLS.w.html'>TWAPLS.w</a></code>, t
       <td><p>Boolean flag on whether or not use <code>fx</code> correction.</p></td>
     </tr>
     <tr>
-      <th>fx</th>
-      <td><p>The frequency of the climate value for <code>fx</code> correction: if
-<code>usefx = FALSE</code>, this should be <code>NA</code>; otherwise, this should
-be obtained from the <code><a href='fx.html'>fx</a></code> function.</p></td>
+      <th>fx_method</th>
+      <td><p>Binned or p-spline smoothed <code>fx</code> correction: if
+<code>usefx = FALSE</code>, this should be <code>NA</code>; otherwise,
+<code><a href='fx.html'>fx</a></code> function will be used when choosing "bin";
+<code><a href='fx_pspline.html'>fx_pspline</a></code> function will be used when choosing "pspline".</p></td>
+    </tr>
+    <tr>
+      <th>bin</th>
+      <td><p>Binwidth to get fx, needed for both binned and p-splined method.
+if <code>usefx = FALSE</code>, this should be <code>NA</code>;</p></td>
     </tr>
     <tr>
       <th>cpus</th>
@@ -208,55 +215,49 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></td>
 <span class='va'>taxaColMax</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"taxaN"</span><span class='op'>)</span>
 <span class='va'>taxa</span> <span class='op'>&lt;-</span> <span class='va'>modern_pollen</span><span class='op'>[</span>, <span class='va'>taxaColMin</span><span class='op'>:</span><span class='va'>taxaColMax</span><span class='op'>]</span>
 
-<span class='co'># Get the frequency of each climate variable fx</span>
-<span class='va'>fx_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, bin <span class='op'>=</span> <span class='fl'>0.02</span><span class='op'>)</span>
-<span class='va'>fx_gdd</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>gdd</span>, bin <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
-<span class='va'>fx_alpha</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='fx.html'>fx</a></span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>alpha</span>, bin <span class='op'>=</span> <span class='fl'>0.002</span><span class='op'>)</span>
-
-<span class='co'># MTCO</span>
-<span class='co'>## fx</span>
-<span class='va'>fit_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='WAPLS.w.html'>WAPLS.w</a></span><span class='op'>(</span><span class='va'>taxa</span>, <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, nPLS <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='co'>## LOOCV</span>
 <span class='va'>test_mode</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span> <span class='co'># It should be set to FALSE before running</span>
 <span class='co'>### without fx</span>
-<span class='va'>cv_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
-                          <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
-                          nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                          <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                          <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
-                          cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
-                          test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
-<span class='co'>### with fx</span>
-<span class='va'>cv_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+<span class='va'>cv_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
                             <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
                             nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
-                            usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                            fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
+                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
+                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
                             cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
-                            test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>  
+                            test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>
+<span class='co'>### with fx</span>
+<span class='va'>cv_tf_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+                             <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                             nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                             <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
+                             <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
+                             usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                             fx_method <span class='op'>=</span> <span class='st'>"bin"</span>,
+                             bin <span class='op'>=</span> <span class='fl'>0.02</span>,
+                             cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                             test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span>  
 
 <span class='co'># Run with progress bar</span>
 <span class='va'>`%&gt;%`</span> <span class='op'>&lt;-</span> <span class='fu'>magrittr</span><span class='fu'>::</span><span class='va'>`%&gt;%`</span>
 <span class='co'>### without fx</span>
-<span class='va'>cv_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
-                          <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
-                          nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                          <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                          <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
-                          cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
-                          test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='co'>### with fx</span>
-<span class='va'>cv_f_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+<span class='va'>cv_t_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
                             <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
                             nPLS <span class='op'>=</span> <span class='fl'>5</span>,
-                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.w.html'>WAPLS.w</a></span>,
-                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='WAPLS.predict.w.html'>WAPLS.predict.w</a></span>,
-                            usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                            fx <span class='op'>=</span> <span class='va'>fx_Tmin</span>,
+                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
+                            <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
                             cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
                             test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'>### with fx</span>
+<span class='va'>cv_tf_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>cv.w</span><span class='op'>(</span><span class='va'>taxa</span>,
+                             <span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>,
+                             nPLS <span class='op'>=</span> <span class='fl'>5</span>,
+                             <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.w.html'>TWAPLS.w</a></span>,
+                             <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='va'><a href='TWAPLS.predict.w.html'>TWAPLS.predict.w</a></span>,
+                             usefx <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                             fx_method <span class='op'>=</span> <span class='st'>"bin"</span>,
+                             bin <span class='op'>=</span> <span class='fl'>0.02</span>,
+                             cpus <span class='op'>=</span> <span class='fl'>2</span>, <span class='co'># Remove the following line</span>
+                             test_mode <span class='op'>=</span> <span class='va'>test_mode</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'><a href='pb.html'>pb</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

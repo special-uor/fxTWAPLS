@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>fxTWAPLS: An Improved Version of WA-PLS — fxTWAPLS-package • fxTWAPLS</title>
+<title>Get frequency of the climate value with p-spline smoothing — fx_pspline • fxTWAPLS</title>
 
 
 <!-- jquery -->
@@ -39,14 +39,9 @@
 
 
 
-<meta property="og:title" content="fxTWAPLS: An Improved Version of WA-PLS — fxTWAPLS-package" />
-<meta property="og:description" content="The goal of this package is to provide an improved version of 
-    WA-PLS (Weighted Averaging Partial Least Squares) by including the 
-    tolerances of taxa and the frequency of the sampled climate variable. 
-    This package also provides a way of leave-out cross-validation that 
-    removes both the test site and sites that are both geographically 
-    close and climatically close for each cycle, to avoid the risk of 
-    pseudo-replication." />
+<meta property="og:title" content="Get frequency of the climate value with p-spline smoothing — fx_pspline" />
+<meta property="og:description" content="Function to get the frequency of the climate value, which will be used to
+provide fx correction for WA-PLS and TWA-PLS." />
 
 
 
@@ -117,49 +112,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>fxTWAPLS: An Improved Version of WA-PLS</h1>
+    <h1>Get frequency of the climate value with p-spline smoothing</h1>
     <small class="dont-index">Source: <a href='https://github.com/special-uor/fxTWAPLS/blob/master/R/fxTWAPLS.R'><code>R/fxTWAPLS.R</code></a></small>
-    <div class="hidden name"><code>fxTWAPLS-package.Rd</code></div>
+    <div class="hidden name"><code>fx_pspline.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The goal of this package is to provide an improved version of 
-    WA-PLS (Weighted Averaging Partial Least Squares) by including the 
-    tolerances of taxa and the frequency of the sampled climate variable. 
-    This package also provides a way of leave-out cross-validation that 
-    removes both the test site and sites that are both geographically 
-    close and climatically close for each cycle, to avoid the risk of 
-    pseudo-replication.</p>
+    <p>Function to get the frequency of the climate value, which will be used to
+provide <code>fx</code> correction for WA-PLS and TWA-PLS.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>fx_pspline</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>bin</span>, show_plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Numeric vector with the modern climate values.</p></td>
+    </tr>
+    <tr>
+      <th>bin</th>
+      <td><p>Binwidth to get the frequency of the modern climate values, the
+curve will be p-spline smoothed later</p></td>
+    </tr>
+    <tr>
+      <th>show_plot</th>
+      <td><p>Boolean flag to show a plot of <code>fx ~ x</code>.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Numeric vector with the frequency of the modern climate values.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://github.com/special-uor/fxTWAPLS/'>https://github.com/special-uor/fxTWAPLS/</a></p></li>
-<li><p><a href='https://special-uor.github.io/fxTWAPLS/'>https://special-uor.github.io/fxTWAPLS/</a></p></li>
-<li><p><a href='https://research.reading.ac.uk/palaeoclimate/'>https://research.reading.ac.uk/palaeoclimate/</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/special-uor/fxTWAPLS/issues/'>https://github.com/special-uor/fxTWAPLS/issues/</a></p></li>
-</ul>
+    <div class='dont-index'><p><code><a href='cv.w.html'>cv.w</a></code>, <code><a href='cv.pr.w.html'>cv.pr.w</a></code>, and
+<code><a href='sse.sample.html'>sse.sample</a></code></p></div>
 
-</div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Load modern pollen data</span>
+<span class='va'>modern_pollen</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"/path/to/modern_pollen.csv"</span><span class='op'>)</span>
 
-    <p><strong>Maintainer</strong>: Roberto Villegas-Diaz <a href='mailto:r.villegas-diaz@reading.ac.uk'>r.villegas-diaz@reading.ac.uk</a> (<a href='https://orcid.org/0000-0001-5036-8661'>ORCID</a>)</p>
-<p>Authors:</p><ul>
-<li><p>Mengmeng Liu <a href='mailto:m.liu18@imperial.ac.uk'>m.liu18@imperial.ac.uk</a> (<a href='https://orcid.org/0000-0001-6250-0148'>ORCID</a>)</p></li>
-<li><p>Iain Colin Prentice <a href='mailto:c.prentice@imperial.ac.uk'>c.prentice@imperial.ac.uk</a> (<a href='https://orcid.org/0000-0002-1296-6764'>ORCID</a>)</p></li>
-<li><p>Cajo J. F. ter Braak <a href='mailto:cajo.terbraak@wur.nl'>cajo.terbraak@wur.nl</a> (<a href='https://orcid.org/0000-0002-0414-8745'>ORCID</a>)</p></li>
-<li><p>Sandy P. Harrison <a href='mailto:s.p.harrison@reading.ac.uk'>s.p.harrison@reading.ac.uk</a> (<a href='https://orcid.org/0000-0001-5687-1903'>ORCID</a>)</p></li>
-</ul>
+<span class='co'># Get the frequency of each climate variable fx</span>
+<span class='va'>fx_pspline_Tmin</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>fx_pspline</span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>Tmin</span>, 
+                                        bin <span class='op'>=</span> <span class='fl'>0.02</span>, 
+                                        show_plot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>fx_pspline_gdd</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>fx_pspline</span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>gdd</span>, 
+                                       bin <span class='op'>=</span> <span class='fl'>20</span>,
+                                       show_plot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>fx_pspline_alpha</span> <span class='op'>&lt;-</span> <span class='fu'>fxTWAPLS</span><span class='fu'>::</span><span class='fu'>fx_pspline</span><span class='op'>(</span><span class='va'>modern_pollen</span><span class='op'>$</span><span class='va'>alpha</span>, 
+                                         bin <span class='op'>=</span> <span class='fl'>0.002</span>, 
+                                         show_plot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<p>Other contributors:</p><ul>
-<li><p>SPECIAL Research Group @ University of Reading [copyright holder]</p></li>
-</ul>
-
-
-
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
