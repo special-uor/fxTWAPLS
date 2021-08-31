@@ -110,7 +110,7 @@ fx_pspline <- function (x, bin, show_plot = FALSE) {
     dla <- abs ((lambda_new - lambda) / lambda)
     lambda <- lambda_new
     # cat(it, log10(lambda ) , "\n")
-    if ( dla < 1e-05)
+    if (dla < 1e-05)
       break
   }
   # Gridded data for plotting
@@ -201,7 +201,7 @@ WAPLS.w <- function(modern_taxa,
   x <- modern_climate
   y <- modern_taxa
   y <- as.matrix(y)
-  y <- y/rowSums(y)
+  y <- y / rowSums(y)
   
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
@@ -247,15 +247,14 @@ WAPLS.w <- function(modern_taxa,
   
   # Step 7. Regress the environmental variable (xJ on the components obtained 
   # so far using weights and take the fitted values as current estimates
-  if(usefx == FALSE) {
+  if (usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                     weights = sumk_yik / Ytottot)
-  } else{
-    
-    if(fx_method=="bin"){
+  } else {
+    if (fx_method == "bin"){
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = 1 / fx(x,bin) ^ 2)
-    }else{
+    } else {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = 1 / fx_pspline(x,bin) ^ 2)
     }
@@ -266,7 +265,7 @@ WAPLS.w <- function(modern_taxa,
   u_sd[, pls] <- (u[, pls] - z[, pls]) / s[, pls]
   optimum[, pls] <- alpha[[pls]][1] + u_sd[, pls] * alpha[[pls]][2]
   
-  for(pls in 2:nPLS) {
+  for (pls in 2:nPLS) {
     # Go to Step 2 with the residuals of the regression as the new site 
     # scores (rJ.
     r[, pls] <- lm[["residuals"]]
@@ -304,15 +303,14 @@ WAPLS.w <- function(modern_taxa,
     
     # Step 7. Regress the environmental variable on the components obtained so 
     # far using weights and take the fitted values as current estimates 
-    if(usefx == FALSE) {
+    if (usefx == FALSE) {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = sumk_yik / Ytottot)
-    } else{
-      
-      if(fx_method=="bin"){
+    } else {
+      if (fx_method=="bin"){
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                         weights = 1 / fx(x,bin) ^ 2)
-      }else{
+      } else {
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                         weights = 1 / fx_pspline(x,bin) ^ 2)
       }
@@ -473,12 +471,11 @@ TWAPLS.w <- function(modern_taxa,
   if (usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                     weights = sumk_yik / Ytottot)
-  } else{
-    
-    if(fx_method=="bin"){
+  } else {
+    if (fx_method=="bin"){
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = 1 / fx(x,bin) ^ 2)
-    }else{
+    } else {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = 1 / fx_pspline(x,bin) ^ 2)
     }
@@ -535,12 +532,11 @@ TWAPLS.w <- function(modern_taxa,
     if (usefx == FALSE) {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                       weights = sumk_yik / Ytottot)
-    } else{
-      
-      if(fx_method=="bin"){
+    } else {
+      if (fx_method=="bin"){
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                         weights = 1 / fx(x,bin) ^ 2)
-      }else{
+      } else {
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
                         weights = 1 / fx_pspline(x,bin) ^ 2)
       }
@@ -669,7 +665,7 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   comp[, pls] <- r[, pls]
   fit[, 1] <- alpha[[pls]][1] + comp[, pls] * alpha[[pls]][2]
   
-  for(pls in 2:nPLS) {
+  for (pls in 2:nPLS) {
     # xi = sumk_yik*uk/sumk_yik; 1*nsite
     r[, pls] <- y %*% u[, pls] / sumk_yik # xi = sumk_yik*uk/sumk_yik; 1*nsite
     # orthoganlization the same way
@@ -782,7 +778,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   comp[, pls] <- r[, pls]
   fit[, 1] <- alpha[[pls]][1] + comp[, pls] * alpha[[pls]][2]
   
-  for(pls in 2:nPLS) {
+  for (pls in 2:nPLS) {
     # xi=sumk_yik*uk/sumk_yik; 1*nsite
     # xi; 1*nsite
     r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
@@ -1589,7 +1585,7 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
       summary(lm(cv.i ~ cv.x))[["coefficients"]][, "Std. Error"]
   }
   # get delta.RMSEP
-  for(i in 1:ncomp) {
+  for (i in 1:ncomp) {
     if (i == 1) {
       rmsep.null <- sqrt(mean((cv.x - mean(cv.x)) ^ 2))
       output[i, "delta.RMSEP"] <-
