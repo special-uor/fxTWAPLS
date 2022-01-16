@@ -25,6 +25,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,18 +39,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -58,7 +54,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/special-uor/fxTWAPLS/">
+  <a href="https://github.com/special-uor/fxTWAPLS/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -76,61 +72,61 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="fxtwapls-an-improved-version-of-wa-pls" class="section level2">
-<h2 class="hasAnchor">
-<a href="#fxtwapls-an-improved-version-of-wa-pls" class="anchor"></a>fxTWAPLS: An Improved Version of WA-PLS</h2>
+<div class="section level2">
+<h2 id="fxtwapls-an-improved-version-of-wa-pls">fxTWAPLS: An Improved Version of WA-PLS<a class="anchor" aria-label="anchor" href="#fxtwapls-an-improved-version-of-wa-pls"></a>
+</h2>
 <!-- <img src="https://raw.githubusercontent.com/special-uor/fxTWAPLS/master/inst/images/logo.png" alt="logo" align="right" height=200px/> -->
 <!-- badges: start -->
 <!-- [![](https://img.shields.io/github/languages/code-size/special-uor/fxTWAPLS.svg)](https://github.com/special-uor/fxTWAPLS) -->
 
 </div>
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
 <p>The goal of this package is to provide an improved version of WA-PLS by including the tolerances of taxa and the frequency of the sampled climate variable. This package also provides a way of leave-out cross-validation that removes both the test site and sites that are both geographically close and climatically close for each cycle, to avoid the risk of pseudo-replication.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <!-- ### Create a Personal Access Token (PAT) for Github -->
 <!-- This is needed to install packages from private repositories. Once configured, -->
 <!-- there is no need to configure it again. -->
-<p>You can install the released version of fxTWAPLS from <a href="https://cran.r-project.org/package=fxTWAPLS">CRAN</a> with:</p>
+<p>You can install the released version of fxTWAPLS from <a href="https://cran.r-project.org/package=fxTWAPLS" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"fxTWAPLS"</span><span class="op">)</span></code></pre></div>
-<p>And the development version from <a href="https://github.com/special-uor/fxTWAPLS/">GitHub</a> with: <!-- You can install the development version from [GitHub](https://github.com/) with: --></p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"fxTWAPLS"</span><span class="op">)</span></code></pre></div>
+<p>And the development version from <a href="https://github.com/special-uor/fxTWAPLS/" class="external-link">GitHub</a> with: <!-- You can install the development version from [GitHub](https://github.com/) with: --></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"special-uor/fxTWAPLS"</span>, <span class="st">"dev"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"special-uor/fxTWAPLS"</span>, <span class="st">"dev"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="publications" class="section level2">
-<h2 class="hasAnchor">
-<a href="#publications" class="anchor"></a>Publications</h2>
+<div class="section level2">
+<h2 id="publications">Publications<a class="anchor" aria-label="anchor" href="#publications"></a>
+</h2>
 <ul>
 <li>Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., Harrison Sandy P.. 2020 An improved statistical approach for reconstructing past climates from biotic assemblages. <em>Proc. R. Soc. A.</em> <strong>476</strong>:
-<ol>
+<ol start="20200346" style="list-style-type: decimal">
 <li>
-<a href="https://doi.org/10.1098/rspa.2020.0346" class="uri">https://doi.org/10.1098/rspa.2020.0346</a> - <a href="https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/"><code>fxTWAPLS v0.0.2</code></a>
+<a href="https://doi.org/10.1098/rspa.2020.0346" class="external-link uri">https://doi.org/10.1098/rspa.2020.0346</a> - <a href="https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/" class="external-link"><code>fxTWAPLS v0.0.2</code></a>
 </li>
 </ol>
 </li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"special-uor/fxTWAPLS@v0.0.2"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"special-uor/fxTWAPLS@v0.0.2"</span><span class="op">)</span></code></pre></div>
 <!-- ## Example -->
 <!-- This is a basic example which shows you how to solve a common problem: -->
 </div>
-<div id="notes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#notes" class="anchor"></a>Notes</h2>
+<div class="section level2">
+<h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
+</h2>
 <p>The following functions can be executed in parallel:</p>
 <ul>
-<li><a href="https://special-uor.github.io/fxTWAPLS/reference/cv.pr.w.html"><code>cv.pr.w</code></a></li>
-<li><a href="https://special-uor.github.io/fxTWAPLS/reference/cv.w.html"><code>cv.w</code></a></li>
-<li><a href="https://special-uor.github.io/fxTWAPLS/reference/get_distance.html"><code>get_distance</code></a></li>
-<li><a href="https://special-uor.github.io/fxTWAPLS/reference/get_pseudo.html"><code>get_pseudo</code></a></li>
-<li><a href="https://special-uor.github.io/fxTWAPLS/reference/sse.sample.html"><code>sse.sample</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/cv.pr.w.html" class="external-link"><code>cv.pr.w</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/cv.w.html" class="external-link"><code>cv.w</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/get_distance.html" class="external-link"><code>get_distance</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/get_pseudo.html" class="external-link"><code>get_pseudo</code></a></li>
+<li><a href="https://special-uor.github.io/fxTWAPLS/reference/sse.sample.html" class="external-link"><code>sse.sample</code></a></li>
 </ul>
 <p>To do so, include the <code>cpus</code> parameter. For example:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -168,60 +164,64 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=fxTWAPLS">https://​cloud.r-project.org/​package=fxTWAPLS</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/special-uor/fxTWAPLS/">https://​github.com/​special-uor/​fxTWAPLS/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/special-uor/fxTWAPLS/issues/">https://​github.com/​special-uor/​fxTWAPLS/​issues/​</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
-</ul>
-</div>
-<div class="citation">
-<h2>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html">Citing fxTWAPLS</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Mengmeng Liu <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6250-0148" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Iain Colin Prentice <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1296-6764" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Cajo J. F. ter Braak <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0414-8745" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Sandy P. Harrison <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5687-1903" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Roberto Villegas-Diaz <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5036-8661" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=fxTWAPLS" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/special-uor/fxTWAPLS/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/special-uor/fxTWAPLS/issues/" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/special-uor/fxTWAPLS"><img src="https://img.shields.io/badge/devel%20version-0.0.7-yellow.svg"></a></li>
-<li><a href="https://cran.r-project.org/package=fxTWAPLS"><img src="https://www.r-pkg.org/badges/version/fxTWAPLS?color=black"></a></li>
-<li><a href="https://github.com/special-uor/fxTWAPLS/actions"><img src="https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://doi.org/10.1098/rspa.2020.0346"><img src="https://img.shields.io/badge/doi-10.1098/rspa.2020.0346-blue.svg"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing fxTWAPLS</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Mengmeng Liu <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-6250-0148" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Iain Colin Prentice <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1296-6764" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Cajo J. F. ter Braak <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-0414-8745" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Sandy P. Harrison <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-5687-1903" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Roberto Villegas-Diaz <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-5036-8661" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/special-uor/fxTWAPLS" class="external-link"><img src="https://img.shields.io/badge/devel%20version-0.1.0-yellow.svg"></a></li>
+<li><a href="https://cran.r-project.org/package=fxTWAPLS" class="external-link"><img src="https://www.r-pkg.org/badges/version/fxTWAPLS?color=black"></a></li>
+<li><a href="https://github.com/special-uor/fxTWAPLS/actions" class="external-link"><img src="https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://doi.org/10.1098/rspa.2020.0346" class="external-link"><img src="https://img.shields.io/badge/doi-10.1098/rspa.2020.0346-blue.svg"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Mengmeng Liu, Iain Colin Prentice, Cajo J. F. ter Braak, Sandy P. Harrison, Roberto Villegas-Diaz.</p>
+  <p></p>
+<p>Developed by Mengmeng Liu, Iain Colin Prentice, Cajo J. F. ter Braak, Sandy P. Harrison, Roberto Villegas-Diaz.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -229,6 +229,8 @@
 
   
 
+
+  
 
   </body>
 </html>
