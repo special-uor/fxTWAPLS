@@ -129,8 +129,8 @@ fx_pspline <- function (x, bin, show_plot = FALSE) {
 
 #' WA-PLS training function
 #' 
-#' WA-PLS training function, which can perform \code{fx} correction. 1/fx^2 
-#' correction will be applied at step 7.
+#' WA-PLS training function, which can perform \code{fx} correction. 
+#' \code{1/fx^2} correction will be applied at step 7.
 #' 
 #' @importFrom stats lm
 #' 
@@ -353,8 +353,8 @@ WAPLS.w <- function(modern_taxa,
 
 #' TWA-PLS training function
 #' 
-#' TWA-PLS training function, which can perform \code{fx} correction.1/fx^2 
-#' correction will be applied at step 7.
+#' TWA-PLS training function, which can perform \code{fx} correction. 
+#' \code{1/fx^2} correction will be applied at step 7.
 #' 
 #' @importFrom stats lm
 #' 
@@ -579,10 +579,10 @@ TWAPLS.w <- function(modern_taxa,
   return(list)
 }
 
-#' WA-PLS training function 2
+#' WA-PLS training function v2
 #' 
-#' WA-PLS training function, which can perform \code{fx} correction. 1/fx 
-#' correction will be applied at step 2 and step 7.
+#' WA-PLS training function, which can perform \code{fx} correction. 
+#' \code{1/fx} correction will be applied at step 2 and step 7.
 #' 
 #' @importFrom stats lm
 #' 
@@ -637,11 +637,11 @@ TWAPLS.w <- function(modern_taxa,
 #' # MTCO
 #' fit_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, 
-#'                                 modern_pollen$Tmin, 
-#'                                 nPLS = 5, 
-#'                                 usefx = TRUE, 
-#'                                 fx_method = "bin",
-#'                                 bin = 0.02)
+#'                                   modern_pollen$Tmin, 
+#'                                   nPLS = 5, 
+#'                                   usefx = TRUE, 
+#'                                   fx_method = "bin",
+#'                                   bin = 0.02)
 #' }
 #' 
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, and
@@ -827,10 +827,10 @@ WAPLS.w2 <- function(modern_taxa,
   return(list)
 }
 
-#' TWA-PLS training function 2
+#' TWA-PLS training function v2
 #' 
-#' TWA-PLS training function, which can perform \code{fx} correction. 1/fx
-#' correction will be applied at step 2 and step 7.
+#' TWA-PLS training function, which can perform \code{fx} correction. 
+#' \code{1/fx} correction will be applied at step 2 and step 7.
 #' 
 #' @importFrom stats lm
 #' 
@@ -876,11 +876,11 @@ WAPLS.w2 <- function(modern_taxa,
 #' # MTCO
 #' fit_t_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, 
-#'                                   modern_pollen$Tmin, 
-#'                                   nPLS = 5, 
-#'                                   usefx = TRUE, 
-#'                                   fx_method = "bin",
-#'                                   bin = 0.02)
+#'                                     modern_pollen$Tmin, 
+#'                                     nPLS = 5, 
+#'                                     usefx = TRUE, 
+#'                                     fx_method = "bin",
+#'                                     bin = 0.02)
 #' }
 #' 
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.predict.w}}, and
