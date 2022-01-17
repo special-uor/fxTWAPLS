@@ -7,7 +7,7 @@
 <!-- badges: start -->
 <!-- [![](https://img.shields.io/github/languages/code-size/special-uor/fxTWAPLS.svg)](https://github.com/special-uor/fxTWAPLS) -->
 
-[![](https://img.shields.io/badge/devel%20version-0.1.0-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
+[![](https://img.shields.io/badge/devel%20version-0.1.0.9000-yellow.svg)](https://github.com/special-uor/fxTWAPLS)
 [![](https://www.r-pkg.org/badges/version/fxTWAPLS?color=black)](https://cran.r-project.org/package=fxTWAPLS)
 [![R build
 status](https://github.com/special-uor/fxTWAPLS/workflows/R-CMD-check/badge.svg)](https://github.com/special-uor/fxTWAPLS/actions)
