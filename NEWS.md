@@ -1,5 +1,8 @@
 # fxTWAPLS (development version)
 
+# fxTWAPLS 0.1.1
+* Update maintainer's contact information.
+
 # fxTWAPLS 0.1.0
 * New minor version.
 * Added new versions for the functions WAPLS (`WAPLS.w2`) and TWAPLS 

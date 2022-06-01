@@ -1,6 +1,6 @@
 Package: fxTWAPLS
 Title: An Improved Version of WA-PLS
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: c(
     person(given = "Mengmeng",
            family = "Liu",
@@ -25,7 +25,7 @@ Authors@R: c(
     person(given = "Roberto",
            family = "Villegas-Diaz",
            role = c("aut", "cre"),
-           email = "r.villegas-diaz@reading.ac.uk",
+           email = "r.villegas-diaz@outlook.com",
            comment = c(ORCID = "0000-0001-5036-8661")),
     person("SPECIAL Research Group @ University of Reading", role = c("cph")))
 Description: The goal of this package is to provide an improved version of 
