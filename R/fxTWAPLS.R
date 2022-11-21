@@ -1141,6 +1141,8 @@ TWAPLS.w2 <- function(modern_taxa,
 WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   y <- fossil_taxa
   y <- as.matrix(y)
+  y <- y/rowSums(y)
+  
   nc <- ncol(fossil_taxa)
   nr <- nrow(fossil_taxa)
   Ytottot <- sum(y)
@@ -1252,6 +1254,8 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   y <- fossil_taxa
   y <- as.matrix(y)
+  y <- y/rowSums(y)
+  
   nc <- ncol(fossil_taxa)
   nr <- nrow(fossil_taxa)
   Ytottot <- sum(y)
