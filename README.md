@@ -55,6 +55,11 @@ remotes::install_github("special-uor/fxTWAPLS", "dev")
     past climates from biotic assemblages. *Proc. R. Soc. A.* **476**:
     20200346. <https://doi.org/10.1098/rspa.2020.0346> -
     [`fxTWAPLS v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/)
+    
+``` r
+install.packages("remotes")
+remotes::install_github("special-uor/fxTWAPLS@v0.0.2")
+```
 
 -   Liu, M., Shen, Y., González-Sampériz, P., Gil-Romera, G., 
     ter Braak, C. J. F., Prentice, I. C., and Harrison, S. P.: Holocene climates 
@@ -63,12 +68,11 @@ remotes::install_github("special-uor/fxTWAPLS", "dev")
     [preprint], <https://doi.org/10.5194/cp-2021-174>, in review, 2021.-
     [`fxTWAPLS v0.1.0`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.1.0/)
 
-    
 ``` r
 install.packages("remotes")
-remotes::install_github("special-uor/fxTWAPLS@v0.0.2")
+remotes::install_github("special-uor/fxTWAPLS@v0.1.0")
 ```
-
+    
 <!-- ## Example -->
 <!-- This is a basic example which shows you how to solve a common problem: -->
 
@@ -76,49 +80,61 @@ remotes::install_github("special-uor/fxTWAPLS@v0.0.2")
 
 The following functions can be executed in parallel:
 
--   [`cv.pr.w`](https://special-uor.github.io/fxTWAPLS/reference/cv.pr.w.html)
+-   [`sse.sample`](https://special-uor.github.io/fxTWAPLS/reference/sse.sample.html)
 -   [`cv.w`](https://special-uor.github.io/fxTWAPLS/reference/cv.w.html)
 -   [`get_distance`](https://special-uor.github.io/fxTWAPLS/reference/get_distance.html)
 -   [`get_pseudo`](https://special-uor.github.io/fxTWAPLS/reference/get_pseudo.html)
--   [`sse.sample`](https://special-uor.github.io/fxTWAPLS/reference/sse.sample.html)
+-   [`cv.pr.w`](https://special-uor.github.io/fxTWAPLS/reference/cv.pr.w.html)
 
 To do so, include the `cpus` parameter. For example:
 
 ``` r
-# without fx
-cv_Tmin <- fxTWAPLS::cv.w(taxa,
-                          modern_pollen$Tmin,
-                          nPLS = 5,
-                          fxTWAPLS::WAPLS.w,
-                          fxTWAPLS::WAPLS.predict.w,
-                          cpus = 2)
+cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
+                                    modern_pollen$Tmin,
+                                    nPLS = 5,
+                                    fxTWAPLS::TWAPLS.w2,
+                                    fxTWAPLS::TWAPLS.predict.w,
+                                    pseudo_Tmin,
+                                    usefx = TRUE,
+                                    fx_method = "pspline",
+                                    bin = 0.02,
+                                    cpus = 2, # Remove the following line
+                                    test_mode = FALSE) 
+                          
 ```
 
 Optionally, a progress bar can be displayed for long computations. Just
 “pipe” the function call to `fxTWAPLS::pb()`.
 
 ``` r
-# without fx
 `%>%` <- magrittr::`%>%`
-cv_Tmin <- fxTWAPLS::cv.w(taxa,
-                          modern_pollen$Tmin,
-                          nPLS = 5,
-                          fxTWAPLS::WAPLS.w,
-                          fxTWAPLS::WAPLS.predict.w,
-                          cpus = 2) %>%
-  fxTWAPLS::pb()
+cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
+                                    modern_pollen$Tmin,
+                                    nPLS = 5,
+                                    fxTWAPLS::TWAPLS.w2,
+                                    fxTWAPLS::TWAPLS.predict.w,
+                                    pseudo_Tmin,
+                                    usefx = TRUE,
+                                    fx_method = "pspline",
+                                    bin = 0.02,
+                                    cpus = 2, # Remove the following line
+                                    test_mode = FALSE) %>% fxTWAPLS::pb()
 ```
 
 Alternatively, if you are not familiar with the “pipe” operator, you can
 run the following code:
 
 ``` r
-# without fx
-cv_Tmin <- fxTWAPLS::pb(fxTWAPLS::cv.w(taxa,
-                                       modern_pollen$Tmin,
-                                       nPLS = 5,
-                                       fxTWAPLS::WAPLS.w,
-                                       fxTWAPLS::WAPLS.predict.w,
-                                       cpus = 2))
+cv_pr_tf_Tmin2 <- fxTWAPLS::pb(fxTWAPLS::cv.pr.w(taxa,
+                                    modern_pollen$Tmin,
+                                    nPLS = 5,
+                                    fxTWAPLS::TWAPLS.w2,
+                                    fxTWAPLS::TWAPLS.predict.w,
+                                    pseudo_Tmin,
+                                    usefx = TRUE,
+                                    fx_method = "pspline",
+                                    bin = 0.02,
+                                    cpus = 2, # Remove the following line
+                                    test_mode = FALSE))
   
 ```
