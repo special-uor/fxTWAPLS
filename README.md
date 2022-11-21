@@ -56,6 +56,14 @@ remotes::install_github("special-uor/fxTWAPLS", "dev")
     20200346. <https://doi.org/10.1098/rspa.2020.0346> -
     [`fxTWAPLS v0.0.2`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.0.2/)
 
+-   Liu, M., Shen, Y., González-Sampériz, P., Gil-Romera, G., 
+    ter Braak, C. J. F., Prentice, I. C., and Harrison, S. P.: Holocene climates 
+    of the Iberian Peninsula: pollen-based reconstructions of changes in the 
+    west-east gradient of temperature and moisture, Clim. Past Discuss. 
+    [preprint], <https://doi.org/10.5194/cp-2021-174>, in review, 2021.-
+    [`fxTWAPLS v0.1.0`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.1.0/)
+
+    
 ``` r
 install.packages("remotes")
 remotes::install_github("special-uor/fxTWAPLS@v0.0.2")
