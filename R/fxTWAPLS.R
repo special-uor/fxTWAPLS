@@ -454,7 +454,8 @@ TWAPLS.w <- function(modern_taxa,
   
   # Step 3. Calculate new site scores (ri)
   #xi; 1*nsite
-  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
+  taxa_to_keep<-which(t[,pls]!=0) #remove those taxa with 0 tolerance
+  r[, pls] <- (y[,taxa_to_keep] %*% (u[taxa_to_keep,pls] / t[taxa_to_keep,pls] ^ 2)) / (y[,taxa_to_keep] %*% (1 /t[taxa_to_keep,pls] ^ 2))
   
   # Step 4. For the first axis go to Step 5.
   
@@ -503,7 +504,8 @@ TWAPLS.w <- function(modern_taxa,
     
     # Step 3. Calculate new site scores (r;) by weighted averaging of the 
     # species scores, i.e. new
-    r[,pls] <- (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
+    taxa_to_keep<-which(t[,pls]!=0) #remove those taxa with 0 tolerance
+    r[, pls] <- (y[,taxa_to_keep] %*% (u[taxa_to_keep,pls] / t[taxa_to_keep,pls] ^ 2)) / (y[,taxa_to_keep] %*% (1 /t[taxa_to_keep,pls] ^ 2))
     
     # Step 4. For second and higher components, make the new site scores (r;) 
     # uncorrelated with the previous components by orthogonalization 
@@ -950,7 +952,8 @@ TWAPLS.w2 <- function(modern_taxa,
   
   # Step 3. Calculate new site scores (ri)
   #xi; 1*nsite
-  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
+  taxa_to_keep<-which(t[,pls]!=0) #remove those taxa with 0 tolerance
+  r[, pls] <- (y[,taxa_to_keep] %*% (u[taxa_to_keep,pls] / t[taxa_to_keep,pls] ^ 2)) / (y[,taxa_to_keep] %*% (1 /t[taxa_to_keep,pls] ^ 2))
   
   # Step 4. For the first axis go to Step 5.
   
@@ -1013,7 +1016,8 @@ TWAPLS.w2 <- function(modern_taxa,
     
     # Step 3. Calculate new site scores (r;) by weighted averaging of the 
     # species scores, i.e. new
-    r[,pls] <- (y%*%(u[,pls]/t[,pls]^2))/(y%*%(1/t[,pls]^2)); #xi; 1*nsite
+    taxa_to_keep<-which(t[,pls]!=0) #remove those taxa with 0 tolerance
+    r[, pls] <- (y[,taxa_to_keep] %*% (u[taxa_to_keep,pls] / t[taxa_to_keep,pls] ^ 2)) / (y[,taxa_to_keep] %*% (1 /t[taxa_to_keep,pls] ^ 2))
     
     # Step 4. For second and higher components, make the new site scores (r;) 
     # uncorrelated with the previous components by orthogonalization 
