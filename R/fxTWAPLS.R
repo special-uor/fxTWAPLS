@@ -179,7 +179,7 @@ fx_pspline <- function (x, bin, show_plot = FALSE) {
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # MTCO
+#' # Training
 #' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
 #'                                 modern_pollen$Tmin, 
@@ -394,7 +394,7 @@ WAPLS.w <- function(modern_taxa,
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # MTCO
+#' # Training
 #' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
 #'                                   modern_pollen$Tmin, 
@@ -633,10 +633,7 @@ TWAPLS.w <- function(modern_taxa,
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # Get the frequency of each climate variable fx
-#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' 
-#' # MTCO
+#' # Training
 #' fit_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, 
 #'                                   modern_pollen$Tmin, 
@@ -872,10 +869,7 @@ WAPLS.w2 <- function(modern_taxa,
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # Get the frequency of each climate variable fx
-#' fx_Tmin <- fxTWAPLS::fx(modern_pollen$Tmin, bin = 0.02)
-#' 
-#' # MTCO
+#' # Training
 #' fit_t_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, 
 #'                                     modern_pollen$Tmin, 
@@ -1127,7 +1121,6 @@ TWAPLS.w2 <- function(modern_taxa,
 #' taxaColMax <- which(colnames(Holocene) == "taxaN")
 #' core <- Holocene[, taxaColMin:taxaColMax]
 #' 
-#' # MTCO
 #' ## Train
 #' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
@@ -1136,9 +1129,18 @@ TWAPLS.w2 <- function(modern_taxa,
 #'                                 usefx = TRUE, 
 #'                                 fx_method = "bin",
 #'                                 bin = 0.02)
+#' fit_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
+#' fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, 
+#'                                   modern_pollen$Tmin, 
+#'                                   nPLS = 5, 
+#'                                   usefx = TRUE, 
+#'                                   fx_method = "bin",
+#'                                   bin = 0.02)
 #' ## Predict
 #' fossil_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_Tmin, core)
 #' fossil_f_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_f_Tmin, core)
+#' fossil_Tmin2 <- fxTWAPLS::WAPLS.predict.w(fit_Tmin2, core)
+#' fossil_f_Tmin2 <- fxTWAPLS::WAPLS.predict.w(fit_f_Tmin2, core)
 #' }
 #' 
 #' @seealso \code{\link{WAPLS.w}}
@@ -1239,7 +1241,6 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #' taxaColMax <- which(colnames(Holocene) == "taxaN")
 #' core <- Holocene[, taxaColMin:taxaColMax]
 #' 
-#' # MTCO
 #' ## Train
 #' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
 #' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
@@ -1248,10 +1249,19 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #'                                   usefx = TRUE, 
 #'                                   fx_method = "bin",
 #'                                   bin = 0.02)
+#' fit_t_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
+#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, 
+#'                                     modern_pollen$Tmin, 
+#'                                     nPLS = 5, 
+#'                                     usefx = TRUE, 
+#'                                     fx_method = "bin",
+#'                                     bin = 0.02)                                  
 #'     
 #' ## Predict
 #' fossil_t_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, core)
 #' fossil_tf_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin, core)
+#' fossil_t_Tmin2 <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin2, core)
+#' fossil_tf_Tmin2 <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin2, core)
 #' }
 #' 
 #' @seealso \code{\link{TWAPLS.w}}
@@ -1379,67 +1389,37 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #' 
 #' ## SSE
 #' nboot <- 5 # Recommended 1000
-#' ### without fx
-#' sse_t_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-#'                                          modern_climate = modern_pollen$Tmin,
-#'                                          fossil_taxa = core,
-#'                                          trainfun = fxTWAPLS::TWAPLS.w,
-#'                                          predictfun = 
-#'                                            fxTWAPLS::TWAPLS.predict.w,
-#'                                          nboot = nboot,
-#'                                          nPLS = 5,
-#'                                          nsig = 3,
-#'                                          usefx = FALSE,
-#'                                          cpus = 2,
-#'                                          seed = 1)
-#' ### with fx
-#' sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-#'                                           modern_climate = 
-#'                                             modern_pollen$Tmin,
-#'                                           fossil_taxa = core,
-#'                                           trainfun = fxTWAPLS::TWAPLS.w,
-#'                                           predictfun = 
-#'                                             fxTWAPLS::TWAPLS.predict.w,
-#'                                           nboot = nboot,
-#'                                           nPLS = 5,
-#'                                           nsig = 3,
-#'                                           usefx = TRUE,
-#'                                           fx_method = "bin",
-#'                                           bin = 0.02,
-#'                                           cpus = 2,
-#'                                           seed = 1)
+#' nsig<-3 #This should be got from the random t-test of the cross validation
+#' 
+#' sse_tf_Tmin2 <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+#'                                      modern_climate = modern_pollen$Tmin,
+#'                                      fossil_taxa = core,
+#'                                      trainfun = fxTWAPLS::TWAPLS.w2,
+#'                                      predictfun = fxTWAPLS::TWAPLS.predict.w,
+#'                                      nboot = nboot,
+#'                                      nPLS = 5,
+#'                                      nsig = nsig,
+#'                                      usefx = TRUE,
+#'                                      fx_method = "bin",
+#'                                      bin = 0.02,
+#'                                      cpus = 2,
+#'                                      seed = 1)
 #'                                          
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' ### without fx
-#' sse_t_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-#'                                          modern_climate = modern_pollen$Tmin,
-#'                                          fossil_taxa = core,
-#'                                          trainfun = fxTWAPLS::TWAPLS.w,
-#'                                          predictfun = 
-#'                                            fxTWAPLS::TWAPLS.predict.w,
-#'                                          nboot = nboot,
-#'                                          nPLS = 5,
-#'                                          nsig = 3,
-#'                                          usefx = FALSE,
-#'                                          cpus = 2,
-#'                                          seed = 1) %>% fxTWAPLS::pb()
-#' ### with fx
-#' sse_tf_Tmin_WAPLS <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-#'                                           modern_climate = 
-#'                                             modern_pollen$Tmin,
-#'                                           fossil_taxa = core,
-#'                                           trainfun = fxTWAPLS::TWAPLS.w,
-#'                                           predictfun = 
-#'                                             fxTWAPLS::TWAPLS.predict.w,
-#'                                           nboot = nboot,
-#'                                           nPLS = 5,
-#'                                           nsig = 3,
-#'                                           usefx = TRUE,
-#'                                           fx_method = "bin",
-#'                                           bin = 0.02,
-#'                                           cpus = 2,
-#'                                           seed = 1) %>% fxTWAPLS::pb()
+#' sse_tf_Tmin2 <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+#'                                      modern_climate = modern_pollen$Tmin,
+#'                                      fossil_taxa = core,
+#'                                      trainfun = fxTWAPLS::TWAPLS.w2,
+#'                                      predictfun = fxTWAPLS::TWAPLS.predict.w,
+#'                                      nboot = nboot,
+#'                                      nPLS = 5,
+#'                                      nsig = nsig,
+#'                                      usefx = TRUE,
+#'                                      fx_method = "bin",
+#'                                      bin = 0.02,
+#'                                      cpus = 2,
+#'                                      seed = 1) %>% fxTWAPLS::pb()
 #' }
 #' 
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, 
@@ -1579,19 +1559,10 @@ sse.sample <- function(modern_taxa,
 #' 
 #' ## LOOCV
 #' test_mode <- TRUE # It should be set to FALSE before running
-#' ### without fx
-#' cv_t_Tmin <- fxTWAPLS::cv.w(taxa,
-#'                             modern_pollen$Tmin,
-#'                             nPLS = 5,
-#'                             fxTWAPLS::TWAPLS.w,
-#'                             fxTWAPLS::TWAPLS.predict.w,
-#'                             cpus = 2, # Remove the following line
-#'                             test_mode = test_mode)
-#' ### with fx
-#' cv_tf_Tmin <- fxTWAPLS::cv.w(taxa,
+#' cv_tf_Tmin2 <- fxTWAPLS::cv.w(taxa,
 #'                              modern_pollen$Tmin,
 #'                              nPLS = 5,
-#'                              fxTWAPLS::TWAPLS.w,
+#'                              fxTWAPLS::TWAPLS.w2,
 #'                              fxTWAPLS::TWAPLS.predict.w,
 #'                              usefx = TRUE,
 #'                              fx_method = "bin",
@@ -1601,25 +1572,16 @@ sse.sample <- function(modern_taxa,
 #' 
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' ### without fx
-#' cv_t_Tmin <- fxTWAPLS::cv.w(taxa,
-#'                             modern_pollen$Tmin,
-#'                             nPLS = 5,
-#'                             fxTWAPLS::TWAPLS.w,
-#'                             fxTWAPLS::TWAPLS.predict.w,
-#'                             cpus = 2, # Remove the following line
-#'                             test_mode = test_mode) %>% fxTWAPLS::pb()
-#' ### with fx
-#' cv_tf_Tmin <- fxTWAPLS::cv.w(taxa,
+#' cv_tf_Tmin2 <- fxTWAPLS::cv.w(taxa,
 #'                              modern_pollen$Tmin,
 #'                              nPLS = 5,
-#'                              fxTWAPLS::TWAPLS.w,
+#'                              fxTWAPLS::TWAPLS.w2,
 #'                              fxTWAPLS::TWAPLS.predict.w,
 #'                              usefx = TRUE,
 #'                              fx_method = "bin",
 #'                              bin = 0.02,
 #'                              cpus = 2, # Remove the following line
-#'                              test_mode = test_mode) %>% fxTWAPLS::pb()
+#'                              test_mode = test_mode)  %>% fxTWAPLS::pb()
 #' }
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, 
 #'     \code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and 
@@ -1888,18 +1850,10 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'                                     cpus = 2, # Remove the following line
 #'                                     test_mode = test_mode)
 #' 
-#' cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-#'                                   modern_pollen$Tmin,
-#'                                   nPLS = 5,
-#'                                   fxTWAPLS::TWAPLS.w,
-#'                                   fxTWAPLS::TWAPLS.predict.w,
-#'                                   pseudo_Tmin,
-#'                                   cpus = 2, # Remove the following line
-#'                                   test_mode = test_mode)
-#' cv_pr_tf_Tmin <- fxTWAPLS::cv.pr.w(taxa,
+#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
 #'                                    modern_pollen$Tmin,
 #'                                    nPLS = 5,
-#'                                    fxTWAPLS::TWAPLS.w,
+#'                                    fxTWAPLS::TWAPLS.w2,
 #'                                    fxTWAPLS::TWAPLS.predict.w,
 #'                                    pseudo_Tmin,
 #'                                    usefx = TRUE,
@@ -1910,25 +1864,17 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' 
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' cv_pr_t_Tmin <- fxTWAPLS::cv.pr.w(taxa,
-#'                                   modern_pollen$Tmin,
-#'                                   nPLS = 5,
-#'                                   fxTWAPLS::TWAPLS.w,
-#'                                   fxTWAPLS::TWAPLS.predict.w,
-#'                                   pseudo_Tmin,
-#'                                   cpus = 2, # Remove the following line
-#'                                   test_mode = test_mode) %>% fxTWAPLS::pb()
-#' cv_pr_tf_Tmin <- fxTWAPLS::cv.pr.w(taxa,
+#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
 #'                                    modern_pollen$Tmin,
 #'                                    nPLS = 5,
-#'                                    fxTWAPLS::TWAPLS.w,
+#'                                    fxTWAPLS::TWAPLS.w2,
 #'                                    fxTWAPLS::TWAPLS.predict.w,
 #'                                    pseudo_Tmin,
 #'                                    usefx = TRUE,
 #'                                    fx_method = "bin",
 #'                                    bin = 0.02,
 #'                                    cpus = 2, # Remove the following line
-#'                                    test_mode = test_mode) %>% fxTWAPLS::pb()
+#'                                    test_mode = test_mode)  %>% fxTWAPLS::pb()
 #'                                  
 #' }
 #' 
@@ -2051,29 +1997,23 @@ cv.pr.w <- function(modern_taxa,
 #' 
 #' ## LOOCV
 #' test_mode <- TRUE # It should be set to FALSE before running
-#' ### without fx
-#' cv_t_Tmin <- fxTWAPLS::cv.w(taxa,
-#'                             modern_pollen$Tmin,
-#'                             nPLS = 5,
-#'                             fxTWAPLS::TWAPLS.w,
-#'                             fxTWAPLS::TWAPLS.predict.w,
-#'                             cpus = 2, # Remove the following line
-#'                             test_mode = test_mode) %>% fxTWAPLS::pb()
-#' ### with fx
-#' cv_tf_Tmin <- fxTWAPLS::cv.w(taxa,
-#'                              modern_pollen$Tmin,
-#'                              nPLS = 5,
-#'                              fxTWAPLS::TWAPLS.w,
-#'                              fxTWAPLS::TWAPLS.predict.w,
-#'                              usefx = TRUE,
-#'                              fx_method = "bin",
-#'                              bin = 0.02,
-#'                              cpus = 2, # Remove the following line
-#'                              test_mode = test_mode) %>% fxTWAPLS::pb()
+#' 
+#' # Run with progress bar
+#' `%>%` <- magrittr::`%>%`
+#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
+#'                                    modern_pollen$Tmin,
+#'                                    nPLS = 5,
+#'                                    fxTWAPLS::TWAPLS.w2,
+#'                                    fxTWAPLS::TWAPLS.predict.w,
+#'                                    pseudo_Tmin,
+#'                                    usefx = TRUE,
+#'                                    fx_method = "bin",
+#'                                    bin = 0.02,
+#'                                    cpus = 2, # Remove the following line
+#'                                    test_mode = test_mode)  %>% fxTWAPLS::pb()
 #'                             
 #' ## Random t-test
-#' rand_t_Tmin <- fxTWAPLS::rand.t.test.w(cv_t_Tmin, n.perm = 999)
-#' rand_tf_Tmin <- fxTWAPLS::rand.t.test.w(cv_tf_Tmin, n.perm = 999)
+#' rand_pr_tf_Tmin2 <- fxTWAPLS::rand.t.test.w(cv_pr_tf_Tmin2, n.perm = 999)
 #' }
 #' 
 #' @seealso \code{\link{cv.w}} and \code{\link{cv.pr.w}}
@@ -2165,27 +2105,16 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # MTCO
-#' ## WAPLS and fxWAPLS
-#' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
-#'                                 modern_pollen$Tmin, 
-#'                                 nPLS = 5, 
-#'                                 usefx = TRUE, 
-#'                                 fx_method = "bin",
-#'                                 bin = 0.02)
-#' ## TWAPLS and fxTWAPLS
-#' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
-#'                                   modern_pollen$Tmin, 
-#'                                   nPLS = 5, 
-#'                                   usefx = TRUE, 
-#'                                   fx_method = "bin",
-#'                                   bin = 0.02)
-#' fxTWAPLS::plot_train(fit_Tmin, 3)
-#' fxTWAPLS::plot_train(fit_f_Tmin, 3)
-#' fxTWAPLS::plot_train(fit_t_Tmin, 3)
-#' fxTWAPLS::plot_train(fit_tf_Tmin, 3)
+#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, 
+#'                                     modern_pollen$Tmin, 
+#'                                     nPLS = 5, 
+#'                                     usefx = TRUE, 
+#'                                     fx_method = "bin",
+#'                                     bin = 0.02)
+#'                                     
+#' nsig<-3 #This should be got from the random t-test of the cross validation
+#' fxTWAPLS::plot_train(fit_tf_Tmin2, nsig) 
+#' 
 #' }
 #' 
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
@@ -2233,27 +2162,16 @@ plot_train <- function(train_output, col) {
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' # MTCO
-#' ## WAPLS and fxWAPLS
-#' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa, 
-#'                                 modern_pollen$Tmin, 
-#'                                 nPLS = 5, 
-#'                                 usefx = TRUE, 
-#'                                 fx_method = "bin",
-#'                                 bin = 0.02)
-#' ## TWAPLS and fxTWAPLS
-#' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa, 
-#'                                   modern_pollen$Tmin, 
-#'                                   nPLS = 5, 
-#'                                   usefx = TRUE, 
-#'                                   fx_method = "bin",
-#'                                   bin = 0.02)
-#' fxTWAPLS::plot_residuals(fit_Tmin, 3)
-#' fxTWAPLS::plot_residuals(fit_f_Tmin, 3)
-#' fxTWAPLS::plot_residuals(fit_t_Tmin, 3)
-#' fxTWAPLS::plot_residuals(fit_tf_Tmin, 3)
+#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, 
+#'                                     modern_pollen$Tmin, 
+#'                                     nPLS = 5, 
+#'                                     usefx = TRUE, 
+#'                                     fx_method = "bin",
+#'                                     bin = 0.02)
+#'                                     
+#' nsig<-3 #This should be got from the random t-test of the cross validation
+#' fxTWAPLS::plot_residuals(fit_tf_Tmin2, nsig)
+#' 
 #' }
 #' 
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
