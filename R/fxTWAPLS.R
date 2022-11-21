@@ -1290,7 +1290,9 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   pls <- 1
   # xi=sumk_yik*uk/sumk_yik; 1*nsite
   # xi; 1*nsite
-  r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
+  taxa_to_keep<-which(t[,pls]!=0) #remove those taxa with 0 tolerance
+  r[, pls] <- (y[,taxa_to_keep] %*% (u[taxa_to_keep,pls] / t[taxa_to_keep,pls] ^ 2)) / (y[,taxa_to_keep] %*% (1 /t[taxa_to_keep,pls] ^ 2))
+  
   # standardize the same way
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   # multiply the same regression coefficients
