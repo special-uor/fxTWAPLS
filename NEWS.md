@@ -6,7 +6,7 @@
 * Add reference to the functions `WAPLS.w2` and `TWAPLS.w2`.
 
 # fxTWAPLS 0.1.1
-* Update maintainer’s contact information.
+* Update maintainer's contact information.
 
 # fxTWAPLS 0.1.0
 * New minor version.
