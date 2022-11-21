@@ -1990,6 +1990,13 @@ cv.pr.w <- function(modern_taxa,
 #'                             
 #' ## Random t-test
 #' rand_pr_tf_Tmin2 <- fxTWAPLS::rand.t.test.w(cv_pr_tf_Tmin2, n.perm = 999)
+#' 
+#' note: choose the last significant number of components based on the p-value, 
+#' see details at Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F., 
+#' Harrison Sandy P.. 2020 An improved statistical approach for reconstructing 
+#' past climates from biotic assemblages. Proc. R. Soc. A. 476: 20200346. 
+#' <https://doi.org/10.1098/rspa.2020.0346>
+#' 
 #' }
 #' 
 #' @seealso \code{\link{cv.w}} and \code{\link{cv.pr.w}}
