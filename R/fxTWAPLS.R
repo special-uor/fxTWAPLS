@@ -1987,30 +1987,6 @@ cv.pr.w <- function(modern_taxa,
 #'
 #' @examples
 #' \dontrun{
-#' # Load modern pollen data
-#' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
-#'                                       
-#' # Extract taxa
-#' taxaColMin <- which(colnames(modern_pollen) == "taxa0")
-#' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
-#' taxa <- modern_pollen[, taxaColMin:taxaColMax]
-#' 
-#' ## LOOCV
-#' test_mode <- TRUE # It should be set to FALSE before running
-#' 
-#' # Run with progress bar
-#' `%>%` <- magrittr::`%>%`
-#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
-#'                                    modern_pollen$Tmin,
-#'                                    nPLS = 5,
-#'                                    fxTWAPLS::TWAPLS.w2,
-#'                                    fxTWAPLS::TWAPLS.predict.w,
-#'                                    pseudo_Tmin,
-#'                                    usefx = TRUE,
-#'                                    fx_method = "bin",
-#'                                    bin = 0.02,
-#'                                    cpus = 2, # Remove the following line
-#'                                    test_mode = test_mode)  %>% fxTWAPLS::pb()
 #'                             
 #' ## Random t-test
 #' rand_pr_tf_Tmin2 <- fxTWAPLS::rand.t.test.w(cv_pr_tf_Tmin2, n.perm = 999)
