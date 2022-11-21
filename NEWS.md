@@ -1,5 +1,13 @@
 # fxTWAPLS (development version)
 
+# fxTWAPLS 0.1.2
+* Remove taxa with 0 tolerance.
+* Add example script to the main page.
+* Add reference to the functions `WAPLS.w2` and `TWAPLS.w2`.
+
+# fxTWAPLS 0.1.1
+* Update maintainer’s contact information.
+
 # fxTWAPLS 0.1.0
 * New minor version.
 * Added new versions for the functions WAPLS (`WAPLS.w2`) and TWAPLS 
