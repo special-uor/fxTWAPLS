@@ -1667,7 +1667,7 @@ cv.w <- function(modern_taxa,
 #' # Load modern pollen data
 #' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
 #' 
-#' point <- modern_pollen[, c("Longitude", "Latitude")]
+#' point <- modern_pollen[, c("Long", "Lat")]
 #' test_mode <- TRUE # It should be set to FALSE before running
 #' dist <- fxTWAPLS::get_distance(point, 
 #'                                cpus = 2, # Remove the following line
@@ -1682,7 +1682,7 @@ cv.w <- function(modern_taxa,
 #' @seealso \code{\link{get_pseudo}}
 get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   i <- NULL # Local binding
-  colnames(point) <- c("Longitude", "Latitude")
+  colnames(point) <- c("Long", "Lat")
   
   # Check the number of CPUs does not exceed the availability
   avail_cpus <- parallel::detectCores() - 1
@@ -1710,11 +1710,11 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   dist <- foreach::foreach(i = idx,
                            .combine = rbind) %dopar% {
                              tmp <- rep(0, nrow(point))
-                             lon1 <- point[i, "Longitude"]
-                             lat1 <- point[i, "Latitude"]
+                             lon1 <- point[i, "Long"]
+                             lat1 <- point[i, "Lat"]
                              for (j in seq_len(nrow(point))) {
-                               lon2 <- point[j, "Longitude"]
-                               lat2 <- point[j, "Latitude"]
+                               lon2 <- point[j, "Long"]
+                               lat2 <- point[j, "Lat"]
                                tmp[j] <- geosphere::distm(c(lon1, lat1),
                                                           c(lon2, lat2),
                                                           fun = geosphere::distHaversine)
@@ -1750,7 +1750,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' # Load modern pollen data
 #' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
 #' 
-#' point <- modern_pollen[, c("Longitude", "Latitude")]
+#' point <- modern_pollen[, c("Long", "Lat")]
 #' test_mode <- TRUE # It should be set to FALSE before running
 #' dist <- fxTWAPLS::get_distance(point, 
 #'                                cpus = 2, # Remove the following line
@@ -1840,7 +1840,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #' 
-#' point <- modern_pollen[, c("Longitude", "Latitude")]
+#' point <- modern_pollen[, c("Long", "Lat")]
 #' test_mode <- TRUE # It should be set to FALSE before running
 #' dist <- fxTWAPLS::get_distance(point, 
 #'                                cpus = 2, # Remove the following line
