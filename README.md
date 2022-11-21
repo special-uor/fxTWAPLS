@@ -138,3 +138,106 @@ cv_pr_tf_Tmin2 <- fxTWAPLS::pb(fxTWAPLS::cv.pr.w(taxa,
                                     test_mode = FALSE))
   
 ```
+
+## Example
+
+Training
+
+``` r
+ # Load modern data
+ modern_pollen <- read.csv("/path/to/modern_pollen.csv")
+                                       
+ # Extract modern pollen taxa
+ taxaColMin <- which(colnames(modern_pollen) == "taxa0")
+ taxaColMax <- which(colnames(modern_pollen) == "taxaN")
+ taxa <- modern_pollen[, taxaColMin:taxaColMax]
+ 
+ # Set the binwidth to get the sampling frequency of the climate (fx),
+ the fit is almost insenitive to binwidth when choosing pspline method.
+ bin<-0.02
+ 
+ # Use fxTWAPLSv2 to train
+ fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, 
+                                     modern_pollen$Tmin, 
+                                     nPLS = 5, 
+                                     usefx = TRUE, 
+                                     fx_method = "pspline",
+                                     bin = bin)
+
+```
+
+Cross validation
+
+``` r
+ # Set CPUS to run in parallel
+ CPUS<-6
+ 
+ # Add the progress bar
+ `%>%` <- magrittr::`%>%`
+ 
+ # Get the location information of each sample
+ point <- modern_pollen[, c("Long", "Lat")]
+ 
+ # Get the distance between each point
+ dist <- fxTWAPLS::get_distance(point, cpus = CPUS)
+ 
+ # Get the pseudo sites (which are both geographically close and climatically 
+ close to the test site) which should be removed in cross validation
+ pseudo_Tmin <- fxTWAPLS::get_pseudo(dist, 
+                                     modern_pollen$Tmin, 
+                                     cpus = CPUS)
+ 
+ # Leave-out cross validation
+ cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
+                                    modern_pollen$Tmin,
+                                    nPLS = 5,
+                                    fxTWAPLS::TWAPLS.w2,
+                                    fxTWAPLS::TWAPLS.predict.w,
+                                    pseudo_Tmin,
+                                    usefx = TRUE,
+                                    fx_method = "pspline",
+                                    bin = bin,
+                                    cpus = CPUS,
+                                    test_mode = FALSE)  %>% fxTWAPLS::pb()
+                                    
+ # Random t test to the cross validation result
+ rand_pr_tf_Tmin2 <- fxTWAPLS::rand.t.test.w(cv_pr_tf_Tmin2, n.perm = 999)
+
+```
+
+Reconstruction
+
+``` r
+ # Load fossil data
+ Holocene <- read.csv("/path/to/Holocene.csv")
+ 
+ # Extract fossil pollen taxa
+ taxaColMin <- which(colnames(Holocene) == "taxa0")
+ taxaColMax <- which(colnames(Holocene) == "taxaN")
+ core <- Holocene[, taxaColMin:taxaColMax]
+ 
+ # Choose nsig (the last significant number of components) based on the p-value
+ nsig<-3
+ 
+ # Predict
+ fossil_tf_Tmin2 <- fxTWAPLS::TWAPLS.predict.w(fit_tf_Tmin2, core)
+ 
+ # Get the sample specific errors
+ sse_tf_Tmin2 <- fxTWAPLS::sse.sample(modern_taxa = taxa,
+                                      modern_climate = modern_pollen$Tmin,
+                                      fossil_taxa = core,
+                                      trainfun = fxTWAPLS::TWAPLS.w2,
+                                      predictfun = fxTWAPLS::TWAPLS.predict.w,
+                                      nboot = nboot,
+                                      nPLS = 5,
+                                      nsig = nsig,
+                                      usefx = TRUE,
+                                      fx_method = "pspline",
+                                      bin = bin,
+                                      cpus = CPUS) %>% fxTWAPLS::pb()
+ # Output                                      
+ recon_result<-cbind.data.frame(recon_Tmin = fossil_tf_Tmin2[["fit"]][,nsig],
+                                sse_recon_Tmin = sse_tf_Tmin2)
+
+```
+
