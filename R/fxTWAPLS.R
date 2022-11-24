@@ -1271,11 +1271,7 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   nc <- ncol(fossil_taxa)
   nr <- nrow(fossil_taxa)
   
-  sumk_yik <- rowSums(y)
-  sumi_yik <- colSums(y)
-  
   nPLS <- TWAPLSoutput[["nPLS"]]
-  meanx <- TWAPLSoutput[["meanx"]]
   u <- TWAPLSoutput[["u"]]
   t <- TWAPLSoutput[["t"]]
   z <- TWAPLSoutput[["z"]]
