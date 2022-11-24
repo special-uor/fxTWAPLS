@@ -89,8 +89,6 @@ fx_pspline <- function (x, bin, show_plot = FALSE) {
   h <- hist(x, breaks = brks, plot = show_plot)
   mids <- h$mids
   counts <- h$counts
-  Data <- data.frame(mids, counts)
-  Dat <- data.frame(x)
   nseg <- 20
   lambda <- 1
   d <- 3
@@ -205,7 +203,7 @@ WAPLS.w <- function(modern_taxa,
   
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  Ytottot <- sum(y)
+  
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
   
@@ -239,7 +237,7 @@ WAPLS.w <- function(modern_taxa,
   
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   
   # Step 6. Take the standardized score as the new component
@@ -249,7 +247,7 @@ WAPLS.w <- function(modern_taxa,
   # so far using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                    weights = sumk_yik / Ytottot)
+                    weights = sumk_yik / sum(y))
   } else {
     if (fx_method == "bin"){
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
@@ -287,7 +285,7 @@ WAPLS.w <- function(modern_taxa,
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
       xi <- r[, pls]
-      v[pls - j] <- sum(sumk_yik * fi * xi) / Ytottot
+      v[pls - j] <- sum(sumk_yik * fi * xi) / sum(y)
       xinew <- xi - v[pls - j] * fi
     }
     orth[[pls]] <- v
@@ -295,7 +293,7 @@ WAPLS.w <- function(modern_taxa,
     
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
     
     # Step 6. Take the standardized score as the new component
@@ -305,7 +303,7 @@ WAPLS.w <- function(modern_taxa,
     # far using weights and take the fitted values as current estimates 
     if (usefx == FALSE) {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = sumk_yik / Ytottot)
+                      weights = sumk_yik / sum(y))
     } else {
       if (fx_method=="bin"){
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
@@ -420,7 +418,7 @@ TWAPLS.w <- function(modern_taxa,
   
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  Ytottot <- sum(y)
+  
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
   
@@ -461,7 +459,7 @@ TWAPLS.w <- function(modern_taxa,
   
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   
   # Step 6. Take the standardized score as the new component
@@ -471,7 +469,7 @@ TWAPLS.w <- function(modern_taxa,
   # using weights and take the fitted values as current estimates 
   if (usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                    weights = sumk_yik / Ytottot)
+                    weights = sumk_yik / sum(y))
   } else {
     if (fx_method=="bin"){
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
@@ -514,7 +512,7 @@ TWAPLS.w <- function(modern_taxa,
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
       xi <- r[, pls]
-      v[pls - j] <- sum(sumk_yik * fi * xi) / Ytottot
+      v[pls - j] <- sum(sumk_yik * fi * xi) / sum(y)
       xinew <- xi - v[pls - j] * fi
     }
     orth[[pls]] <- v
@@ -523,7 +521,7 @@ TWAPLS.w <- function(modern_taxa,
     
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
     
     # Step 6. Take the standardized scores as the new component
@@ -533,7 +531,7 @@ TWAPLS.w <- function(modern_taxa,
     # so far using weights and take the fitted values as current estimates 
     if (usefx == FALSE) {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = sumk_yik / Ytottot)
+                      weights = sumk_yik / sum(y))
     } else {
       if (fx_method=="bin"){
         lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
@@ -659,7 +657,7 @@ WAPLS.w2 <- function(modern_taxa,
   
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  Ytottot <- sum(y)
+  
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
   
@@ -704,7 +702,7 @@ WAPLS.w2 <- function(modern_taxa,
   
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   
   # Step 6. Take the standardized score as the new component
@@ -714,7 +712,7 @@ WAPLS.w2 <- function(modern_taxa,
   # so far using weights and take the fitted values as current estimates
   if(usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                    weights = sumk_yik / Ytottot)
+                    weights = sumk_yik / sum(y))
   } else{
     
     if(fx_method=="bin"){
@@ -761,7 +759,7 @@ WAPLS.w2 <- function(modern_taxa,
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
       xi <- r[, pls]
-      v[pls - j] <- sum(sumk_yik * fi * xi) / Ytottot
+      v[pls - j] <- sum(sumk_yik * fi * xi) / sum(y)
       xinew <- xi - v[pls - j] * fi
     }
     orth[[pls]] <- v
@@ -769,7 +767,7 @@ WAPLS.w2 <- function(modern_taxa,
     
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
     
     # Step 6. Take the standardized score as the new component
@@ -779,7 +777,7 @@ WAPLS.w2 <- function(modern_taxa,
     # far using weights and take the fitted values as current estimates 
     if(usefx == FALSE) {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = sumk_yik / Ytottot)
+                      weights = sumk_yik / sum(y))
     } else{
       
       if(fx_method=="bin"){
@@ -895,7 +893,7 @@ TWAPLS.w2 <- function(modern_taxa,
   
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  Ytottot <- sum(y)
+  
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
   
@@ -953,7 +951,7 @@ TWAPLS.w2 <- function(modern_taxa,
   
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
   
   # Step 6. Take the standardized score as the new component
@@ -963,7 +961,7 @@ TWAPLS.w2 <- function(modern_taxa,
   # using weights and take the fitted values as current estimates 
   if (usefx == FALSE) {
     lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                    weights = sumk_yik / Ytottot)
+                    weights = sumk_yik / sum(y))
   } else{
     
     if(fx_method=="bin"){
@@ -1020,7 +1018,7 @@ TWAPLS.w2 <- function(modern_taxa,
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
       xi <- r[, pls]
-      v[pls - j] <- sum(sumk_yik * fi * xi) / Ytottot
+      v[pls - j] <- sum(sumk_yik * fi * xi) / sum(y)
       xinew <- xi - v[pls - j] * fi
     }
     orth[[pls]] <- v
@@ -1029,7 +1027,7 @@ TWAPLS.w2 <- function(modern_taxa,
     
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / Ytottot)
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
     
     # Step 6. Take the standardized scores as the new component
@@ -1039,7 +1037,7 @@ TWAPLS.w2 <- function(modern_taxa,
     # so far using weights and take the fitted values as current estimates 
     if (usefx == FALSE) {
       lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = sumk_yik / Ytottot)
+                      weights = sumk_yik / sum(y))
     } else{
       
       if(fx_method=="bin"){
@@ -1151,12 +1149,11 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   
   nc <- ncol(fossil_taxa)
   nr <- nrow(fossil_taxa)
-  Ytottot <- sum(y)
+  
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
   
   nPLS <- WAPLSoutput[["nPLS"]]
-  meanx <- WAPLSoutput[["meanx"]]
   u <- WAPLSoutput[["u"]]
   z <- WAPLSoutput[["z"]]
   s <- WAPLSoutput[["s"]]
@@ -1272,12 +1269,8 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   
   nc <- ncol(fossil_taxa)
   nr <- nrow(fossil_taxa)
-  Ytottot <- sum(y)
-  sumk_yik <- rowSums(y)
-  sumi_yik <- colSums(y)
   
   nPLS <- TWAPLSoutput[["nPLS"]]
-  meanx <- TWAPLSoutput[["meanx"]]
   u <- TWAPLSoutput[["u"]]
   t <- TWAPLSoutput[["t"]]
   z <- TWAPLSoutput[["z"]]
@@ -1312,7 +1305,9 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   for (pls in 2:nPLS) {
     # xi=sumk_yik*uk/sumk_yik; 1*nsite
     # xi; 1*nsite
-    r[, pls] <- (y %*% (u[, pls] / t[, pls] ^ 2)) / (y %*% (1 / t[, pls] ^ 2))
+    taxa_to_keep<-which(t[,pls]!=0) #remove those taxa with 0 tolerance
+    r[, pls] <- (y[,taxa_to_keep] %*% (u[taxa_to_keep,pls] / t[taxa_to_keep,pls] ^ 2)) / (y[,taxa_to_keep] %*% (1 /t[taxa_to_keep,pls] ^ 2))
+    
     # orthoganlization the same way
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
@@ -1510,8 +1505,8 @@ sse.sample <- function(modern_taxa,
                             }
   
   avg.xboot <- rowMeans(xboot, na.rm = TRUE)
-  v1 <- boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
-  return(sqrt(v1))
+  boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
+  return(sqrt(boot.mean.square))
 }
 
 #' Leave-one-out cross-validation
