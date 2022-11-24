@@ -91,37 +91,41 @@ core <- Holocene[, taxaColMin:taxaColMax]
 
 ## SSE
 nboot <- 5 # Recommended 1000
-nsig<-3 #This should be got from the random t-test of the cross validation
+nsig <- 3 # This should be got from the random t-test of the cross validation
 
-sse_tf_Tmin2 <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-                                     modern_climate = modern_pollen$Tmin,
-                                     fossil_taxa = core,
-                                     trainfun = fxTWAPLS::TWAPLS.w2,
-                                     predictfun = fxTWAPLS::TWAPLS.predict.w,
-                                     nboot = nboot,
-                                     nPLS = 5,
-                                     nsig = nsig,
-                                     usefx = TRUE,
-                                     fx_method = "bin",
-                                     bin = 0.02,
-                                     cpus = 2,
-                                     seed = 1)
+sse_tf_Tmin2 <- fxTWAPLS::sse.sample(
+  modern_taxa = taxa,
+  modern_climate = modern_pollen$Tmin,
+  fossil_taxa = core,
+  trainfun = fxTWAPLS::TWAPLS.w2,
+  predictfun = fxTWAPLS::TWAPLS.predict.w,
+  nboot = nboot,
+  nPLS = 5,
+  nsig = nsig,
+  usefx = TRUE,
+  fx_method = "bin",
+  bin = 0.02,
+  cpus = 2,
+  seed = 1
+)
 
 # Run with progress bar
 `\%>\%` <- magrittr::`\%>\%`
-sse_tf_Tmin2 <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-                                     modern_climate = modern_pollen$Tmin,
-                                     fossil_taxa = core,
-                                     trainfun = fxTWAPLS::TWAPLS.w2,
-                                     predictfun = fxTWAPLS::TWAPLS.predict.w,
-                                     nboot = nboot,
-                                     nPLS = 5,
-                                     nsig = nsig,
-                                     usefx = TRUE,
-                                     fx_method = "bin",
-                                     bin = 0.02,
-                                     cpus = 2,
-                                     seed = 1) \%>\% fxTWAPLS::pb()
+sse_tf_Tmin2 <- fxTWAPLS::sse.sample(
+  modern_taxa = taxa,
+  modern_climate = modern_pollen$Tmin,
+  fossil_taxa = core,
+  trainfun = fxTWAPLS::TWAPLS.w2,
+  predictfun = fxTWAPLS::TWAPLS.predict.w,
+  nboot = nboot,
+  nPLS = 5,
+  nsig = nsig,
+  usefx = TRUE,
+  fx_method = "bin",
+  bin = 0.02,
+  cpus = 2,
+  seed = 1
+) \%>\% fxTWAPLS::pb()
 }
 
 }

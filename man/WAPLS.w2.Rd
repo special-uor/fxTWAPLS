@@ -70,12 +70,14 @@ taxa <- modern_pollen[, taxaColMin:taxaColMax]
 
 # Training
 fit_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
-fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa,
-                                  modern_pollen$Tmin,
-                                  nPLS = 5,
-                                  usefx = TRUE,
-                                  fx_method = "bin",
-                                  bin = 0.02)
+fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(
+  taxa,
+  modern_pollen$Tmin,
+  nPLS = 5,
+  usefx = TRUE,
+  fx_method = "bin",
+  bin = 0.02
+)
 }
 
 }

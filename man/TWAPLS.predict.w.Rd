@@ -43,19 +43,23 @@ core <- Holocene[, taxaColMin:taxaColMax]
 
 ## Train
 fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa,
-                                  modern_pollen$Tmin,
-                                  nPLS = 5,
-                                  usefx = TRUE,
-                                  fx_method = "bin",
-                                  bin = 0.02)
+fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(
+  taxa,
+  modern_pollen$Tmin,
+  nPLS = 5,
+  usefx = TRUE,
+  fx_method = "bin",
+  bin = 0.02
+)
 fit_t_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
-fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa,
-                                    modern_pollen$Tmin,
-                                    nPLS = 5,
-                                    usefx = TRUE,
-                                    fx_method = "bin",
-                                    bin = 0.02)
+fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(
+  taxa,
+  modern_pollen$Tmin,
+  nPLS = 5,
+  usefx = TRUE,
+  fx_method = "bin",
+  bin = 0.02
+)
 
 ## Predict
 fossil_t_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, core)
