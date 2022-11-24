@@ -1505,8 +1505,8 @@ sse.sample <- function(modern_taxa,
                             }
   
   avg.xboot <- rowMeans(xboot, na.rm = TRUE)
-  v1 <- boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
-  return(sqrt(v1))
+  boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
+  return(sqrt(boot.mean.square))
 }
 
 #' Leave-one-out cross-validation
