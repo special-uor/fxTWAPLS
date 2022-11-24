@@ -89,8 +89,6 @@ fx_pspline <- function (x, bin, show_plot = FALSE) {
   h <- hist(x, breaks = brks, plot = show_plot)
   mids <- h$mids
   counts <- h$counts
-  Data <- data.frame(mids, counts)
-  Dat <- data.frame(x)
   nseg <- 20
   lambda <- 1
   d <- 3
