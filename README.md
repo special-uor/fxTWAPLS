@@ -49,12 +49,12 @@ remotes::install_github("special-uor/fxTWAPLS", "dev")
 
 ## Publications
 
--   Liu, M., Shen, Y., González-Sampériz, P., Gil-Romera, G., ter
-    Braak, C. J. F., Prentice, I. C., and Harrison, S. P.: Holocene
-    climates of the Iberian Peninsula: pollen-based reconstructions of
-    changes in the west-east gradient of temperature and moisture, Clim.
-    Past Discuss. \[preprint\], <https://doi.org/10.5194/cp-2021-174>,
-    in review, 2021.-
+-   ***Latest:*** Liu, M., Shen, Y., González-Sampériz, P., Gil-Romera,
+    G., ter Braak, C. J. F., Prentice, I. C., and Harrison, S. P.:
+    Holocene climates of the Iberian Peninsula: pollen-based
+    reconstructions of changes in the west-east gradient of temperature
+    and moisture, Clim. Past Discuss. \[preprint\],
+    <https://doi.org/10.5194/cp-2021-174>, in review, 2021.-
     [`fxTWAPLS v0.1.0`](https://github.com/special-uor/fxTWAPLS/releases/tag/v0.1.0/)
 
     ``` r
@@ -107,6 +107,7 @@ Optionally, a progress bar can be displayed for long computations. Just
 “pipe” the function call to `fxTWAPLS::pb()`.
 
 ``` r
+`%>%` <- magrittr::`%>%`
 cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(
   taxa,
   modern_pollen$Tmin,
@@ -156,7 +157,7 @@ taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 taxa <- modern_pollen[, taxaColMin:taxaColMax]
 
 # Set the binwidth to get the sampling frequency of the climate (fx),
-the fit is almost insenitive to binwidth when choosing pspline method.
+# the fit is almost insenitive to binwidth when choosing pspline method.
 bin <- 0.02
 
 # Use fxTWAPLSv2 to train
@@ -176,7 +177,7 @@ fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(
 # Set CPUS to run in parallel
 CPUS <- 6
 
-# Add the progress bar
+# Import pipe operator to use with the progress bar
 `%>%` <- magrittr::`%>%`
 
 # Get the location information of each sample
@@ -204,7 +205,7 @@ cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(
   bin = bin,
   cpus = CPUS,
   test_mode = FALSE
-)  %>% 
+) %>%
   fxTWAPLS::pb()
 
 # Random t test to the cross validation result
@@ -243,10 +244,12 @@ sse_tf_Tmin2 <- fxTWAPLS::sse.sample(
   fx_method = "pspline",
   bin = bin,
   cpus = CPUS
-) %>% 
+) %>%
   fxTWAPLS::pb()
 # Output
 recon_result <-
-  cbind.data.frame(recon_Tmin = fossil_tf_Tmin2[["fit"]][, nsig],
-                   sse_recon_Tmin = sse_tf_Tmin2)
+  cbind.data.frame(
+    recon_Tmin = fossil_tf_Tmin2[["fit"]][, nsig],
+    sse_recon_Tmin = sse_tf_Tmin2
+  )
 ```

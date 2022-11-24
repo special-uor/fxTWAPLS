@@ -42,8 +42,9 @@ fx <- function(x, bin, show_plot = FALSE) {
   if (any(fx == 0)) {
     print("Some x have a count of 0!")
   }
-  if (show_plot)
+  if (show_plot) {
     plot(fx ~ x)
+  }
   return(fx)
 }
 
@@ -69,15 +70,21 @@ fx <- function(x, bin, show_plot = FALSE) {
 #' modern_pollen <- read.csv("/path/to/modern_pollen.csv")
 #'
 #' # Get the frequency of each climate variable fx
-#' fx_pspline_Tmin <- fxTWAPLS::fx_pspline(modern_pollen$Tmin,
-#'                                         bin = 0.02,
-#'                                         show_plot = TRUE)
-#' fx_pspline_gdd <- fxTWAPLS::fx_pspline(modern_pollen$gdd,
-#'                                        bin = 20,
-#'                                        show_plot = TRUE)
-#' fx_pspline_alpha <- fxTWAPLS::fx_pspline(modern_pollen$alpha,
-#'                                          bin = 0.002,
-#'                                          show_plot = TRUE)
+#' fx_pspline_Tmin <- fxTWAPLS::fx_pspline(
+#'   modern_pollen$Tmin,
+#'   bin = 0.02,
+#'   show_plot = TRUE
+#' )
+#' fx_pspline_gdd <- fxTWAPLS::fx_pspline(
+#'   modern_pollen$gdd,
+#'   bin = 20,
+#'   show_plot = TRUE
+#' )
+#' fx_pspline_alpha <- fxTWAPLS::fx_pspline(
+#'   modern_pollen$alpha,
+#'   bin = 0.002,
+#'   show_plot = TRUE
+#' )
 #' }
 #'
 #' @seealso \code{\link{cv.w}}, \code{\link{cv.pr.w}}, and
@@ -96,20 +103,22 @@ fx_pspline <- function(x, bin, show_plot = FALSE) {
   # Iterative smoothing , updating tuning based on diff of
   # coeffs
   for (it in 1:20) {
-    fit <- JOPS::psPoisson(mids,
-                           counts,
-                           nseg = nseg,
-                           pord = d,
-                           lambda = lambda,
-                           show = FALSE)
+    fit <- JOPS::psPoisson(
+      mids,
+      counts,
+      nseg = nseg,
+      pord = d,
+      lambda = lambda,
+      show = FALSE
+    )
     a <- fit$pcoef
-    vr <- sum((diff(a, diff = d)) ^ 2) / fit$effdim
+    vr <- sum((diff(a, diff = d))^2) / fit$effdim
     lambda_new <- 1 / vr
     dla <- abs((lambda_new - lambda) / lambda)
     lambda <- lambda_new
-    # cat(it, log10(lambda ) , "\n")
-    if (dla < 1e-05)
+    if (dla < 1e-05) {
       break
+    }
   }
   # Gridded data for plotting
   Fit1 <- data.frame(xgrid = fit$xgrid, ygrid = fit$mugrid)
@@ -120,8 +129,9 @@ fx_pspline <- function(x, bin, show_plot = FALSE) {
   if (any(fx == 0)) {
     print("Some x have a count of 0!")
   }
-  if (show_plot)
+  if (show_plot) {
     plot(fx ~ x)
+  }
   return(fx)
 }
 
@@ -179,12 +189,14 @@ fx_pspline <- function(x, bin, show_plot = FALSE) {
 #'
 #' # Training
 #' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa,
-#'                                 modern_pollen$Tmin,
-#'                                 nPLS = 5,
-#'                                 usefx = TRUE,
-#'                                 fx_method = "bin",
-#'                                 bin = 0.02)
+#' fit_f_Tmin <- fxTWAPLS::WAPLS.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #' }
 #'
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, and
@@ -227,17 +239,17 @@ WAPLS.w <- function(modern_taxa,
 
   # Step 2. Calculate new species scores (uk* by weighted averaging of the
   # site scores)
-  u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk = sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+  u[, pls] <- t(y) %*% r[, pls] / sumi_yik
 
   # Step 3. Calculate new site scores (ri) by weighted averaging of the species
   # scores
-  r[, pls] <- y %*% u[, pls] / sumk_yik # xi=sumk_yik*uk/sumk_yik; 1*nsite
+  r[, pls] <- y %*% u[, pls] / sumk_yik
 
   # Step 4. For the first axis go to Step 5.
 
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
   # Step 6. Take the standardized score as the new component
@@ -246,15 +258,21 @@ WAPLS.w <- function(modern_taxa,
   # Step 7. Regress the environmental variable (xJ on the components obtained
   # so far using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                    weights = sumk_yik / sum(y))
+    lm <- MASS::rlm(
+      modern_climate ~ comp[, 1:pls],
+      weights = sumk_yik / sum(y)
+    )
   } else {
     if (fx_method == "bin") {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx(x, bin) ^ 2)
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx(x, bin)^2
+      )
     } else {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx_pspline(x, bin) ^ 2)
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx_pspline(x, bin)^2
+      )
     }
   }
 
@@ -270,12 +288,10 @@ WAPLS.w <- function(modern_taxa,
 
     # Step 2. Calculate new species scores (uk* by weighted averaging of the
     # site scores)
-    # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
     u[, pls] <- t(y) %*% r[, pls] / sumi_yik
 
     # Step 3. Calculate new site scores (ri) by weighted averaging of the
     # species scores
-    # xi=sumk_yik*uk/sumk_yik; 1*nsite
     r[, pls] <- y %*% u[, pls] / sumk_yik
 
     # Step 4. For second and higher components, make the new site scores (ri)
@@ -293,7 +309,7 @@ WAPLS.w <- function(modern_taxa,
 
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
     # Step 6. Take the standardized score as the new component
@@ -302,15 +318,21 @@ WAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable on the components obtained so
     # far using weights and take the fitted values as current estimates
     if (usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = sumk_yik / sum(y))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = sumk_yik / sum(y)
+      )
     } else {
       if (fx_method == "bin") {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx(x, bin) ^ 2)
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx(x, bin)^2
+        )
       } else {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx_pspline(x, bin) ^ 2)
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx_pspline(x, bin)^2
+        )
       }
     }
 
@@ -322,30 +344,34 @@ WAPLS.w <- function(modern_taxa,
       alpha[[pls]][1] + u_sd[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
 
-  list <- list(fit,
-               modern_climate,
-               colnames(modern_taxa),
-               optimum,
-               comp,
-               u,
-               z,
-               s,
-               orth,
-               alpha,
-               mean(modern_climate),
-               nPLS)
-  names(list) <- c("fit",
-                   "x",
-                   "taxon_name",
-                   "optimum",
-                   "comp",
-                   "u",
-                   "z",
-                   "s",
-                   "orth",
-                   "alpha",
-                   "meanx",
-                   "nPLS")
+  list <- list(
+    fit,
+    modern_climate,
+    colnames(modern_taxa),
+    optimum,
+    comp,
+    u,
+    z,
+    s,
+    orth,
+    alpha,
+    mean(modern_climate),
+    nPLS
+  )
+  names(list) <- c(
+    "fit",
+    "x",
+    "taxon_name",
+    "optimum",
+    "comp",
+    "u",
+    "z",
+    "s",
+    "orth",
+    "alpha",
+    "meanx",
+    "nPLS"
+  )
   return(list)
 }
 
@@ -394,12 +420,14 @@ WAPLS.w <- function(modern_taxa,
 #'
 #' # Training
 #' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa,
-#'                                   modern_pollen$Tmin,
-#'                                   nPLS = 5,
-#'                                   usefx = TRUE,
-#'                                   fx_method = "bin",
-#'                                   bin = 0.02)
+#' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #' }
 #'
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.predict.w}}, and
@@ -422,7 +450,7 @@ TWAPLS.w <- function(modern_taxa,
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
 
-  #Define some matrix to store the values
+  # Define some matrix to store the values
   u <- matrix(NA, nc, nPLS) # u of each component
   # u of each component, standardized the same way as r
   u_sd <- matrix(NA, nc, nPLS)
@@ -442,24 +470,23 @@ TWAPLS.w <- function(modern_taxa,
   r[, pls] <- x - mean(x)
 
   # Step 2. Calculate uk and tk
-  u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
+  u[, pls] <- t(y) %*% r[, pls] / sumi_yik
   n2 <- matrix(NA, nc, 1)
   for (k in 1:nc) {
-    t[k, pls] <- sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
-    n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
+    t[k, pls] <- sqrt(sum(y[, k] * (r[, pls] - u[k, pls])^2) / sumi_yik[k])
+    n2[k] <- 1 / sum((y[, k] / sum(y[, k]))^2)
     t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
   }
 
   # Step 3. Calculate new site scores (ri)
-  #xi; 1*nsite
-  taxa_to_keep <- which(t[, pls] != 0) #remove those taxa with 0 tolerance
-  r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls] ^ 2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls] ^ 2))
+  taxa_to_keep <- which(t[, pls] != 0) # remove those taxa with 0 tolerance
+  r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls]^2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls]^2))
 
   # Step 4. For the first axis go to Step 5.
 
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
   # Step 6. Take the standardized score as the new component
@@ -468,15 +495,21 @@ TWAPLS.w <- function(modern_taxa,
   # Step 7. Regress the environmental variable on the components obtained so far
   # using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                    weights = sumk_yik / sum(y))
+    lm <- MASS::rlm(
+      modern_climate ~ comp[, 1:pls],
+      weights = sumk_yik / sum(y)
+    )
   } else {
     if (fx_method == "bin") {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx(x, bin) ^ 2)
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx(x, bin)^2
+      )
     } else {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx_pspline(x, bin) ^ 2)
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx_pspline(x, bin)^2
+      )
     }
   }
 
@@ -491,19 +524,18 @@ TWAPLS.w <- function(modern_taxa,
     r[, pls] <- lm[["residuals"]]
 
     # Step 2. Calculate new uk and tk
-    # uk=sumi_yik*xi/sumi_yik; 1*nmodern_taxa
     u[, pls] <- t(y) %*% r[, pls] / sumi_yik
     n2 <- matrix(NA, nc, 1)
     for (k in 1:nc) {
-      t[k, pls] <- sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
-      n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
+      t[k, pls] <- sqrt(sum(y[, k] * (r[, pls] - u[k, pls])^2) / sumi_yik[k])
+      n2[k] <- 1 / sum((y[, k] / sum(y[, k]))^2)
       t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
     }
 
     # Step 3. Calculate new site scores (r;) by weighted averaging of the
     # species scores, i.e. new
-    taxa_to_keep <- which(t[, pls] != 0) #remove those taxa with 0 tolerance
-    r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls] ^ 2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls] ^ 2))
+    taxa_to_keep <- which(t[, pls] != 0) # remove those taxa with 0 tolerance
+    r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls]^2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls]^2))
 
     # Step 4. For second and higher components, make the new site scores (r;)
     # uncorrelated with the previous components by orthogonalization
@@ -516,12 +548,11 @@ TWAPLS.w <- function(modern_taxa,
       xinew <- xi - v[pls - j] * fi
     }
     orth[[pls]] <- v
-    # plot(xinew~r[,pls]);abline(0,1)
     r[, pls] <- xinew
 
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
     # Step 6. Take the standardized scores as the new component
@@ -530,15 +561,21 @@ TWAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable (xJ on the components obtained
     # so far using weights and take the fitted values as current estimates
     if (usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = sumk_yik / sum(y))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = sumk_yik / sum(y)
+      )
     } else {
       if (fx_method == "bin") {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx(x, bin) ^ 2)
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx(x, bin)^2
+        )
       } else {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx_pspline(x, bin) ^ 2)
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx_pspline(x, bin)^2
+        )
       }
     }
 
@@ -550,32 +587,36 @@ TWAPLS.w <- function(modern_taxa,
       alpha[[pls]][1] + u_sd[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
 
-  list <- list(fit,
-               modern_climate,
-               colnames(modern_taxa),
-               optimum,
-               comp,
-               u,
-               t,
-               z,
-               s,
-               orth,
-               alpha,
-               mean(modern_climate),
-               nPLS)
-  names(list) <- c("fit",
-                   "x",
-                   "taxon_name",
-                   "optimum",
-                   "comp",
-                   "u",
-                   "t",
-                   "z",
-                   "s",
-                   "orth",
-                   "alpha",
-                   "meanx",
-                   "nPLS")
+  list <- list(
+    fit,
+    modern_climate,
+    colnames(modern_taxa),
+    optimum,
+    comp,
+    u,
+    t,
+    z,
+    s,
+    orth,
+    alpha,
+    mean(modern_climate),
+    nPLS
+  )
+  names(list) <- c(
+    "fit",
+    "x",
+    "taxon_name",
+    "optimum",
+    "comp",
+    "u",
+    "t",
+    "z",
+    "s",
+    "orth",
+    "alpha",
+    "meanx",
+    "nPLS"
+  )
   return(list)
 }
 
@@ -633,12 +674,14 @@ TWAPLS.w <- function(modern_taxa,
 #'
 #' # Training
 #' fit_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa,
-#'                                   modern_pollen$Tmin,
-#'                                   nPLS = 5,
-#'                                   usefx = TRUE,
-#'                                   fx_method = "bin",
-#'                                   bin = 0.02)
+#' fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #' }
 #'
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}}, and
@@ -684,16 +727,13 @@ WAPLS.w2 <- function(modern_taxa,
   # Step 2. Calculate new species scores (uk* by weighted averaging of the
   # site scores)
   if (usefx == FALSE) {
-    # uk = sumi_yik*xi/sumi_yik;
     u[, pls] <- t(y) %*% r[, pls] / sumi_yik
-
   } else {
     if (fx_method == "bin") {
       fr[, pls] <- fxTWAPLS::fx(r[, pls], bin = bin)
     } else {
       fr[, pls] <- fxTWAPLS::fx_pspline(r[, pls], bin = bin)
     }
-    #uk=sumi_(yik*xi/fxi)/sumi_(yik/fxi);
     u[, pls] <- t(y / fr[, pls]) %*% r[, pls] / colSums(y / fr[, pls])
   }
 
@@ -705,7 +745,7 @@ WAPLS.w2 <- function(modern_taxa,
 
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
   # Step 6. Take the standardized score as the new component
@@ -714,15 +754,21 @@ WAPLS.w2 <- function(modern_taxa,
   # Step 7. Regress the environmental variable (xJ on the components obtained
   # so far using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                    weights = sumk_yik / sum(y))
+    lm <- MASS::rlm(
+      modern_climate ~ comp[, 1:pls],
+      weights = sumk_yik / sum(y)
+    )
   } else {
     if (fx_method == "bin") {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx(x, bin))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx(x, bin)
+      )
     } else {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx_pspline(x, bin))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx_pspline(x, bin)
+      )
     }
   }
 
@@ -739,23 +785,18 @@ WAPLS.w2 <- function(modern_taxa,
     # Step 2. Calculate new species scores (uk* by weighted averaging of the
     # site scores) uk=sumi_(yik*xi/fxi)/sumi_(yik/fxi);
     if (usefx == FALSE) {
-      # uk = sumi_yik*xi/sumi_yik;
       u[, pls] <- t(y) %*% r[, pls] / sumi_yik
-
     } else {
       if (fx_method == "bin") {
         fr[, pls] <- fxTWAPLS::fx(r[, pls], bin = bin)
       } else {
         fr[, pls] <- fxTWAPLS::fx_pspline(r[, pls], bin = bin)
       }
-      #uk=sumi_(yik*xi/fxi)/sumi_(yik/fxi);
-      u[, pls] <- t(y / fr[, pls]) %*% r[, pls] / colSums(y / fr[, pls]
-      )
+      u[, pls] <- t(y / fr[, pls]) %*% r[, pls] / colSums(y / fr[, pls])
     }
 
     # Step 3. Calculate new site scores (ri) by weighted averaging of the
     # species scores
-    # xi=sumk_yik*uk/sumk_yik; 1*nsite
     r[, pls] <- y %*% u[, pls] / rowSums(y)
 
     # Step 4. For second and higher components, make the new site scores (ri)
@@ -773,7 +814,7 @@ WAPLS.w2 <- function(modern_taxa,
 
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
     # Step 6. Take the standardized score as the new component
@@ -782,15 +823,21 @@ WAPLS.w2 <- function(modern_taxa,
     # Step 7. Regress the environmental variable on the components obtained so
     # far using weights and take the fitted values as current estimates
     if (usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                     weights = sumk_yik / sum(y))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = sumk_yik / sum(y)
+      )
     } else {
       if (fx_method == "bin") {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx(x, bin))
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx(x, bin)
+        )
       } else {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx_pspline(x, bin))
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx_pspline(x, bin)
+        )
       }
     }
 
@@ -802,30 +849,34 @@ WAPLS.w2 <- function(modern_taxa,
       alpha[[pls]][1] + u_sd[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
 
-  list <- list(fit,
-               modern_climate,
-               colnames(modern_taxa),
-               optimum,
-               comp,
-               u,
-               z,
-               s,
-               orth,
-               alpha,
-               mean(modern_climate),
-               nPLS)
-  names(list) <- c("fit",
-                   "x",
-                   "taxon_name",
-                   "optimum",
-                   "comp",
-                   "u",
-                   "z",
-                   "s",
-                   "orth",
-                   "alpha",
-                   "meanx",
-                   "nPLS")
+  list <- list(
+    fit,
+    modern_climate,
+    colnames(modern_taxa),
+    optimum,
+    comp,
+    u,
+    z,
+    s,
+    orth,
+    alpha,
+    mean(modern_climate),
+    nPLS
+  )
+  names(list) <- c(
+    "fit",
+    "x",
+    "taxon_name",
+    "optimum",
+    "comp",
+    "u",
+    "z",
+    "s",
+    "orth",
+    "alpha",
+    "meanx",
+    "nPLS"
+  )
   return(list)
 }
 
@@ -874,12 +925,14 @@ WAPLS.w2 <- function(modern_taxa,
 #'
 #' # Training
 #' fit_t_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa,
-#'                                     modern_pollen$Tmin,
-#'                                     nPLS = 5,
-#'                                     usefx = TRUE,
-#'                                     fx_method = "bin",
-#'                                     bin = 0.02)
+#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #' }
 #'
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.predict.w}}, and
@@ -928,8 +981,8 @@ TWAPLS.w2 <- function(modern_taxa,
     n2 <- matrix(NA, nc, 1)
     for (k in 1:nc) {
       t[k, pls] <-
-        sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
-      n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
+        sqrt(sum(y[, k] * (r[, pls] - u[k, pls])^2) / sumi_yik[k])
+      n2[k] <- 1 / sum((y[, k] / sum(y[, k]))^2)
       t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
     }
   } else {
@@ -938,27 +991,26 @@ TWAPLS.w2 <- function(modern_taxa,
     } else {
       fr[, pls] <- fxTWAPLS::fx_pspline(r[, pls], bin = bin)
     }
-    #uk=sumi_(yik*xi/fxi)/sumi_(yik/fxi);
     u[, pls] <- t(y / fr[, pls]) %*% r[, pls] / colSums(y / fr[, pls])
     n2 <- matrix(NA, nc, 1)
     for (k in 1:nc) {
       t[k, pls] <-
-        sqrt(sum(y[, k] / fr[, pls] * (r[, pls] - u[k, pls]) ^ 2) / colSums(y / fr[, pls])[k])
-      n2[k] <- 1 / sum((y[, k] / fr[, pls] / sum(y[, k] / fr[, pls])) ^ 2)
+        sqrt(sum(y[, k] / fr[, pls] * (r[, pls] - u[k, pls])^2) / colSums(y / fr[, pls])[k])
+      n2[k] <- 1 / sum((y[, k] / fr[, pls] / sum(y[, k] / fr[, pls]))^2)
       t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
     }
   }
 
   # Step 3. Calculate new site scores (ri)
-  #xi; 1*nsite
-  taxa_to_keep <- which(t[, pls] != 0) #remove those taxa with 0 tolerance
-  r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls] ^ 2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls] ^ 2))
+  # xi; 1*nsite
+  taxa_to_keep <- which(t[, pls] != 0) # remove those taxa with 0 tolerance
+  r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls]^2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls]^2))
 
   # Step 4. For the first axis go to Step 5.
 
   # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
   z[, pls] <- mean(r[, pls], na.rm = TRUE)
-  s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+  s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
   # Step 6. Take the standardized score as the new component
@@ -967,15 +1019,21 @@ TWAPLS.w2 <- function(modern_taxa,
   # Step 7. Regress the environmental variable on the components obtained so far
   # using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                    weights = sumk_yik / sum(y))
+    lm <- MASS::rlm(
+      modern_climate ~ comp[, 1:pls],
+      weights = sumk_yik / sum(y)
+    )
   } else {
     if (fx_method == "bin") {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx(x, bin))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx(x, bin)
+      )
     } else {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = 1 / fxTWAPLS::fx_pspline(x, bin))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = 1 / fxTWAPLS::fx_pspline(x, bin)
+      )
     }
   }
 
@@ -991,12 +1049,12 @@ TWAPLS.w2 <- function(modern_taxa,
 
     # Step 2. Calculate new uk and tk
     if (usefx == FALSE) {
-      u[, pls] <- t(y) %*% r[, pls] / sumi_yik # uk=sumi_yik*xi/sumi_yik;
+      u[, pls] <- t(y) %*% r[, pls] / sumi_yik
       n2 <- matrix(NA, nc, 1)
       for (k in 1:nc) {
         t[k, pls] <-
-          sqrt(sum(y[, k] * (r[, pls] - u[k, pls]) ^ 2) / sumi_yik[k])
-        n2[k] <- 1 / sum((y[, k] / sum(y[, k])) ^ 2)
+          sqrt(sum(y[, k] * (r[, pls] - u[k, pls])^2) / sumi_yik[k])
+        n2[k] <- 1 / sum((y[, k] / sum(y[, k]))^2)
         t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
       }
     } else {
@@ -1005,22 +1063,21 @@ TWAPLS.w2 <- function(modern_taxa,
       } else {
         fr[, pls] <- fxTWAPLS::fx_pspline(r[, pls], bin = bin)
       }
-      #uk=sumi_(yik*xi/fxi)/sumi_(yik/fxi);
       u[, pls] <- t(y / fr[, pls]) %*% r[, pls] / colSums(y / fr[, pls])
       n2 <- matrix(NA, nc, 1)
       for (k in 1:nc) {
         t[k, pls] <-
-          sqrt(sum(y[, k] / fr[, pls] * (r[, pls] - u[k, pls]) ^ 2) / colSums(y / fr[, pls])[k])
+          sqrt(sum(y[, k] / fr[, pls] * (r[, pls] - u[k, pls])^2) / colSums(y / fr[, pls])[k])
         n2[k] <-
-          1 / sum((y[, k] / fr[, pls] / sum(y[, k] / fr[, pls])) ^ 2)
+          1 / sum((y[, k] / fr[, pls] / sum(y[, k] / fr[, pls]))^2)
         t[k, pls] <- t[k, pls] / sqrt(1 - 1 / n2[k])
       }
     }
 
     # Step 3. Calculate new site scores (r;) by weighted averaging of the
     # species scores, i.e. new
-    taxa_to_keep <- which(t[, pls] != 0) #remove those taxa with 0 tolerance
-    r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls] ^ 2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls] ^ 2))
+    taxa_to_keep <- which(t[, pls] != 0) # remove those taxa with 0 tolerance
+    r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls]^2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls]^2))
 
     # Step 4. For second and higher components, make the new site scores (r;)
     # uncorrelated with the previous components by orthogonalization
@@ -1033,12 +1090,11 @@ TWAPLS.w2 <- function(modern_taxa,
       xinew <- xi - v[pls - j] * fi
     }
     orth[[pls]] <- v
-    # plot(xinew~r[,pls]);abline(0,1)
     r[, pls] <- xinew
 
     # Step 5. Standardize the new site scores (ri) ter braak 1987 5.2.c
     z[, pls] <- mean(r[, pls], na.rm = TRUE)
-    s[, pls] <- sqrt(sum((r[, pls] - z[, pls]) ^ 2, na.rm = TRUE) / sum(y))
+    s[, pls] <- sqrt(sum((r[, pls] - z[, pls])^2, na.rm = TRUE) / sum(y))
     r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
 
     # Step 6. Take the standardized scores as the new component
@@ -1047,15 +1103,21 @@ TWAPLS.w2 <- function(modern_taxa,
     # Step 7. Regress the environmental variable (xJ on the components obtained
     # so far using weights and take the fitted values as current estimates
     if (usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                      weights = sumk_yik / sum(y))
+      lm <- MASS::rlm(
+        modern_climate ~ comp[, 1:pls],
+        weights = sumk_yik / sum(y)
+      )
     } else {
       if (fx_method == "bin") {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx(x, bin))
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx(x, bin)
+        )
       } else {
-        lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
-                        weights = 1 / fxTWAPLS::fx_pspline(x, bin))
+        lm <- MASS::rlm(
+          modern_climate ~ comp[, 1:pls],
+          weights = 1 / fxTWAPLS::fx_pspline(x, bin)
+        )
       }
     }
 
@@ -1067,32 +1129,36 @@ TWAPLS.w2 <- function(modern_taxa,
       alpha[[pls]][1] + u_sd[, 1:pls] %*% as.matrix(alpha[[pls]][2:(pls + 1)])
   }
 
-  list <- list(fit,
-               modern_climate,
-               colnames(modern_taxa),
-               optimum,
-               comp,
-               u,
-               t,
-               z,
-               s,
-               orth,
-               alpha,
-               mean(modern_climate),
-               nPLS)
-  names(list) <- c("fit",
-                   "x",
-                   "taxon_name",
-                   "optimum",
-                   "comp",
-                   "u",
-                   "t",
-                   "z",
-                   "s",
-                   "orth",
-                   "alpha",
-                   "meanx",
-                   "nPLS")
+  list <- list(
+    fit,
+    modern_climate,
+    colnames(modern_taxa),
+    optimum,
+    comp,
+    u,
+    t,
+    z,
+    s,
+    orth,
+    alpha,
+    mean(modern_climate),
+    nPLS
+  )
+  names(list) <- c(
+    "fit",
+    "x",
+    "taxon_name",
+    "optimum",
+    "comp",
+    "u",
+    "t",
+    "z",
+    "s",
+    "orth",
+    "alpha",
+    "meanx",
+    "nPLS"
+  )
   return(list)
 }
 
@@ -1131,19 +1197,23 @@ TWAPLS.w2 <- function(modern_taxa,
 #'
 #' ## Train
 #' fit_Tmin <- fxTWAPLS::WAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_f_Tmin <- fxTWAPLS::WAPLS.w(taxa,
-#'                                 modern_pollen$Tmin,
-#'                                 nPLS = 5,
-#'                                 usefx = TRUE,
-#'                                 fx_method = "bin",
-#'                                 bin = 0.02)
+#' fit_f_Tmin <- fxTWAPLS::WAPLS.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #' fit_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(taxa,
-#'                                   modern_pollen$Tmin,
-#'                                   nPLS = 5,
-#'                                   usefx = TRUE,
-#'                                   fx_method = "bin",
-#'                                   bin = 0.02)
+#' fit_f_Tmin2 <- fxTWAPLS::WAPLS.w2(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #' ## Predict
 #' fossil_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_Tmin, core)
 #' fossil_f_Tmin <- fxTWAPLS::WAPLS.predict.w(fit_f_Tmin, core)
@@ -1249,19 +1319,23 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 #'
 #' ## Train
 #' fit_t_Tmin <- fxTWAPLS::TWAPLS.w(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(taxa,
-#'                                   modern_pollen$Tmin,
-#'                                   nPLS = 5,
-#'                                   usefx = TRUE,
-#'                                   fx_method = "bin",
-#'                                   bin = 0.02)
+#' fit_tf_Tmin <- fxTWAPLS::TWAPLS.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #' fit_t_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa, modern_pollen$Tmin, nPLS = 5)
-#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa,
-#'                                     modern_pollen$Tmin,
-#'                                     nPLS = 5,
-#'                                     usefx = TRUE,
-#'                                     fx_method = "bin",
-#'                                     bin = 0.02)
+#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #'
 #' ## Predict
 #' fossil_t_Tmin <- fxTWAPLS::TWAPLS.predict.w(fit_t_Tmin, core)
@@ -1299,10 +1373,8 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   comp <- matrix(NA, nr, nPLS)
 
   pls <- 1
-  # xi=sumk_yik*uk/sumk_yik; 1*nsite
-  # xi; 1*nsite
-  taxa_to_keep <- which(t[, pls] != 0) #remove those taxa with 0 tolerance
-  r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls] ^ 2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls] ^ 2))
+  taxa_to_keep <- which(t[, pls] != 0) # remove those taxa with 0 tolerance
+  r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls]^2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls]^2))
 
   # standardize the same way
   r[, pls] <- (r[, pls] - z[, pls]) / s[, pls]
@@ -1311,10 +1383,8 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   fit[, 1] <- alpha[[pls]][1] + comp[, pls] * alpha[[pls]][2]
 
   for (pls in 2:nPLS) {
-    # xi=sumk_yik*uk/sumk_yik; 1*nsite
-    # xi; 1*nsite
-    taxa_to_keep <- which(t[, pls] != 0) #remove those taxa with 0 tolerance
-    r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls] ^ 2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls] ^ 2))
+    taxa_to_keep <- which(t[, pls] != 0) # remove those taxa with 0 tolerance
+    r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls]^2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls]^2))
 
     # orthoganlization the same way
     for (j in 1:(pls - 1)) {
@@ -1392,37 +1462,41 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
 #'
 #' ## SSE
 #' nboot <- 5 # Recommended 1000
-#' nsig<-3 #This should be got from the random t-test of the cross validation
+#' nsig <- 3 # This should be got from the random t-test of the cross validation
 #'
-#' sse_tf_Tmin2 <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-#'                                      modern_climate = modern_pollen$Tmin,
-#'                                      fossil_taxa = core,
-#'                                      trainfun = fxTWAPLS::TWAPLS.w2,
-#'                                      predictfun = fxTWAPLS::TWAPLS.predict.w,
-#'                                      nboot = nboot,
-#'                                      nPLS = 5,
-#'                                      nsig = nsig,
-#'                                      usefx = TRUE,
-#'                                      fx_method = "bin",
-#'                                      bin = 0.02,
-#'                                      cpus = 2,
-#'                                      seed = 1)
+#' sse_tf_Tmin2 <- fxTWAPLS::sse.sample(
+#'   modern_taxa = taxa,
+#'   modern_climate = modern_pollen$Tmin,
+#'   fossil_taxa = core,
+#'   trainfun = fxTWAPLS::TWAPLS.w2,
+#'   predictfun = fxTWAPLS::TWAPLS.predict.w,
+#'   nboot = nboot,
+#'   nPLS = 5,
+#'   nsig = nsig,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02,
+#'   cpus = 2,
+#'   seed = 1
+#' )
 #'
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' sse_tf_Tmin2 <- fxTWAPLS::sse.sample(modern_taxa = taxa,
-#'                                      modern_climate = modern_pollen$Tmin,
-#'                                      fossil_taxa = core,
-#'                                      trainfun = fxTWAPLS::TWAPLS.w2,
-#'                                      predictfun = fxTWAPLS::TWAPLS.predict.w,
-#'                                      nboot = nboot,
-#'                                      nPLS = 5,
-#'                                      nsig = nsig,
-#'                                      usefx = TRUE,
-#'                                      fx_method = "bin",
-#'                                      bin = 0.02,
-#'                                      cpus = 2,
-#'                                      seed = 1) %>% fxTWAPLS::pb()
+#' sse_tf_Tmin2 <- fxTWAPLS::sse.sample(
+#'   modern_taxa = taxa,
+#'   modern_climate = modern_pollen$Tmin,
+#'   fossil_taxa = core,
+#'   trainfun = fxTWAPLS::TWAPLS.w2,
+#'   predictfun = fxTWAPLS::TWAPLS.predict.w,
+#'   nboot = nboot,
+#'   nPLS = 5,
+#'   nsig = nsig,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02,
+#'   cpus = 2,
+#'   seed = 1
+#' ) %>% fxTWAPLS::pb()
 #' }
 #'
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}},
@@ -1449,21 +1523,20 @@ sse.sample <- function(modern_taxa,
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
 
   # Start parallel backend
-  # cl <- parallel::makeCluster(cpus)
-  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  # oplan <- future::plan(future::cluster, workers = cl)
   oplan <- future::plan(future::multisession, workers = cpus)
   on.exit(future::plan(oplan), add = TRUE)
 
   # Set seed for reproducibility
   set.seed(seed)
 
-  # Make list of row numbers by sampling with
-  # replacement
-  k_samples <- replicate(nboot, sample(seq_len(nrow(modern_taxa)),
-                                       size = nrow(modern_taxa),
-                                       replace = TRUE))
+  # Make list of row numbers by sampling with replacement
+  k_samples <- replicate(
+    nboot, 
+    sample(seq_len(nrow(modern_taxa)),
+    size = nrow(modern_taxa),
+    replace = TRUE
+  ))
 
   # Create list of indices to loop through
   idx <- 1:nboot
@@ -1473,48 +1546,59 @@ sse.sample <- function(modern_taxa,
   }
   # Set up progress API
   p <- progressr::progressor(along = idx)
-  xboot <- foreach::foreach(i = idx,
-                            .combine = cbind) %dopar% {
-                              tryCatch({
-                                # Extract list of row numbers by sampling with
-                                # replacement
-                                k <- k_samples[, i]
+  xboot <- foreach::foreach(
+    i = idx,
+    .combine = cbind
+  ) %dopar% {
+    tryCatch(
+      {
+        # Extract list of row numbers by sampling with
+        # replacement
+        k <- k_samples[, i]
 
-                                # Reorganise modern_taxa obs in k order
-                                modern_taxak <- modern_taxa[k, ]
-                                modern_climatek <- modern_climate[k]
-                                # Strip out cols with no value or one value
-                                modern_taxak <-
-                                  modern_taxak[, which(colSums(modern_taxak > 0) >= 2)]
+        # Reorganise modern_taxa obs in k order
+        modern_taxak <- modern_taxa[k, ]
+        modern_climatek <- modern_climate[k]
+        # Strip out cols with no value or one value
+        modern_taxak <-
+          modern_taxak[, which(colSums(modern_taxak > 0) >= 2)]
 
-                                # Apply train function, with modern_climate also
-                                # in k order
-                                if (usefx == FALSE) {
-                                  mod <- trainfun(modern_taxak,
-                                                  modern_climatek,
-                                                  nPLS = nPLS)
-                                } else {
-                                  mod <- trainfun(modern_taxak,
-                                                  modern_climatek,
-                                                  nPLS = nPLS,
-                                                  usefx = TRUE,
-                                                  fx_method = fx_method,
-                                                  bin = bin)
-                                }
+        # Apply train function, with modern_climate also
+        # in k order
+        if (usefx == FALSE) {
+          mod <- trainfun(
+            modern_taxak,
+            modern_climatek,
+            nPLS = nPLS
+          )
+        } else {
+          mod <- trainfun(
+            modern_taxak,
+            modern_climatek,
+            nPLS = nPLS,
+            usefx = TRUE,
+            fx_method = fx_method,
+            bin = bin
+          )
+        }
 
-                                # Make reconstruction
-                                out <-
-                                  predictfun(mod,
-                                             fossil_taxa[, which(colSums(modern_taxa[k, ] > 0) >= 2)])$fit[, nsig]
-                                p()
-                                out
-                              }, error = function(e) {
+        # Make reconstruction
+        out <-
+          predictfun(
+            mod,
+            fossil_taxa[, which(colSums(modern_taxa[k, ] > 0) >= 2)]
+          )$fit[, nsig]
+        p()
+        out
+      },
+      error = function(e) {
 
-                              })
-                            }
+      }
+    )
+  }
 
   avg.xboot <- rowMeans(xboot, na.rm = TRUE)
-  boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2, na.rm = TRUE)
+  boot.mean.square <- rowMeans((xboot - avg.xboot)^2, na.rm = TRUE)
   return(sqrt(boot.mean.square))
 }
 
@@ -1563,29 +1647,33 @@ sse.sample <- function(modern_taxa,
 #'
 #' ## LOOCV
 #' test_mode <- TRUE # It should be set to FALSE before running
-#' cv_tf_Tmin2 <- fxTWAPLS::cv.w(taxa,
-#'                              modern_pollen$Tmin,
-#'                              nPLS = 5,
-#'                              fxTWAPLS::TWAPLS.w2,
-#'                              fxTWAPLS::TWAPLS.predict.w,
-#'                              usefx = TRUE,
-#'                              fx_method = "bin",
-#'                              bin = 0.02,
-#'                              cpus = 2, # Remove the following line
-#'                              test_mode = test_mode)
+#' cv_tf_Tmin2 <- fxTWAPLS::cv.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   fxTWAPLS::TWAPLS.w2,
+#'   fxTWAPLS::TWAPLS.predict.w,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' )
 #'
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' cv_tf_Tmin2 <- fxTWAPLS::cv.w(taxa,
-#'                              modern_pollen$Tmin,
-#'                              nPLS = 5,
-#'                              fxTWAPLS::TWAPLS.w2,
-#'                              fxTWAPLS::TWAPLS.predict.w,
-#'                              usefx = TRUE,
-#'                              fx_method = "bin",
-#'                              bin = 0.02,
-#'                              cpus = 2, # Remove the following line
-#'                              test_mode = test_mode)  %>% fxTWAPLS::pb()
+#' cv_tf_Tmin2 <- fxTWAPLS::cv.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   fxTWAPLS::TWAPLS.w2,
+#'   fxTWAPLS::TWAPLS.predict.w,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' ) %>% fxTWAPLS::pb()
 #' }
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}},
 #'     \code{\link{TWAPLS.predict.w}}, \code{\link{WAPLS.w}}, and
@@ -1610,10 +1698,7 @@ cv.w <- function(modern_taxa,
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
 
   # Start parallel backend
-  # cl <- parallel::makeCluster(cpus)
-  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  # oplan <- future::plan(future::cluster, workers = cl)
   oplan <- future::plan(future::multisession, workers = cpus)
   on.exit(future::plan(oplan), add = TRUE)
 
@@ -1625,24 +1710,30 @@ cv.w <- function(modern_taxa,
   }
   # Set up progress API
   p <- progressr::progressor(along = idx)
-  all.cv.out <- foreach::foreach(i = idx,
-                                 .combine = rbind, #comb_pb(max(idx)),
-                                 .verbose = FALSE) %dopar% {
-                                   # Strip out cols with no value or one value
-                                   cvtaxa <- y[-i, ]
-                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa > 0) >= 2)]
+  all.cv.out <- foreach::foreach(
+    i = idx,
+    .combine = rbind,
+    .verbose = FALSE
+  ) %dopar% {
+    # Strip out cols with no value or one value
+    cvtaxa <- y[-i, ]
+    cvtaxa <- cvtaxa[, which(colSums(cvtaxa > 0) >= 2)]
 
-                                   fit <- trainfun(modern_taxa = cvtaxa,
-                                                   modern_climate = x[-i],
-                                                   nPLS = nPLS,
-                                                   usefx = usefx,
-                                                   fx_method = fx_method,
-                                                   bin = bin)
-                                   xnew <- predictfun(fit,
-                                   y[i, which(colSums(y[-i, ] > 0) >= 2)])[["fit"]]
-                                   p()
-                                   data.frame(x[i], xnew)
-                                 }
+    fit <- trainfun(
+      modern_taxa = cvtaxa,
+      modern_climate = x[-i],
+      nPLS = nPLS,
+      usefx = usefx,
+      fx_method = fx_method,
+      bin = bin
+    )
+    xnew <- predictfun(
+      fit,
+      y[i, which(colSums(y[-i, ] > 0) >= 2)]
+    )[["fit"]]
+    p()
+    data.frame(x[i], xnew)
+  }
   colnames(all.cv.out) <- c("test.x", paste0("comp", 1:nPLS))
   return(all.cv.out)
 }
@@ -1673,14 +1764,18 @@ cv.w <- function(modern_taxa,
 #'
 #' point <- modern_pollen[, c("Long", "Lat")]
 #' test_mode <- TRUE # It should be set to FALSE before running
-#' dist <- fxTWAPLS::get_distance(point,
-#'                                cpus = 2, # Remove the following line
-#'                                test_mode = test_mode)
+#' dist <- fxTWAPLS::get_distance(
+#'   point,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' )
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' dist <- fxTWAPLS::get_distance(point,
-#'                                cpus = 2, # Remove the following line
-#'                                test_mode = test_mode) %>% fxTWAPLS::pb()
+#' dist <- fxTWAPLS::get_distance(
+#'   point,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' ) %>% fxTWAPLS::pb()
 #' }
 #'
 #' @seealso \code{\link{get_pseudo}}
@@ -1693,10 +1788,7 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
 
   # Start parallel backend
-  # cl <- parallel::makeCluster(cpus)
-  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  # oplan <- future::plan(future::cluster, workers = cl)
   oplan <- future::plan(future::multisession, workers = cpus)
   on.exit(future::plan(oplan), add = TRUE)
 
@@ -1711,21 +1803,24 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
   # Set up progress API
   p <- progressr::progressor(along = idx)
 
-  dist <- foreach::foreach(i = idx,
-                           .combine = rbind) %dopar% {
-                             tmp <- rep(0, nrow(point))
-                             lon1 <- point[i, "Long"]
-                             lat1 <- point[i, "Lat"]
-                             for (j in seq_len(nrow(point))) {
-                               lon2 <- point[j, "Long"]
-                               lat2 <- point[j, "Lat"]
-                               tmp[j] <- geosphere::distm(c(lon1, lat1),
-                                                          c(lon2, lat2),
-                                                          fun = geosphere::distHaversine)
-                             }
-                             p()
-                             tmp
-                           }
+  dist <- foreach::foreach(
+    i = idx,
+    .combine = rbind
+  ) %dopar% {
+    tmp <- rep(0, nrow(point))
+    lon1 <- point[i, "Long"]
+    lat1 <- point[i, "Lat"]
+    for (j in seq_len(nrow(point))) {
+      lon2 <- point[j, "Long"]
+      lat2 <- point[j, "Lat"]
+      tmp[j] <- geosphere::distm(c(lon1, lat1),
+        c(lon2, lat2),
+        fun = geosphere::distHaversine
+      )
+    }
+    p()
+    tmp
+  }
   return(dist)
 }
 
@@ -1756,19 +1851,25 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'
 #' point <- modern_pollen[, c("Long", "Lat")]
 #' test_mode <- TRUE # It should be set to FALSE before running
-#' dist <- fxTWAPLS::get_distance(point,
-#'                                cpus = 2, # Remove the following line
-#'                                test_mode = test_mode)
-#' pseudo_Tmin <- fxTWAPLS::get_pseudo(dist,
-#'                                     modern_pollen$Tmin,
-#'                                     cpus = 2, # Remove the following line
-#'                                     test_mode = test_mode)
+#' dist <- fxTWAPLS::get_distance(
+#'   point,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' )
+#' pseudo_Tmin <- fxTWAPLS::get_pseudo(
+#'   dist,
+#'   modern_pollen$Tmin,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' )
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' pseudo_Tmin <- fxTWAPLS::get_pseudo(dist,
-#'                                     modern_pollen$Tmin,
-#'                                     cpus = 2, # Remove the following line
-#'                                     test_mode = test_mode) %>% fxTWAPLS::pb()
+#' pseudo_Tmin <- fxTWAPLS::get_pseudo(
+#'   dist,
+#'   modern_pollen$Tmin,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' ) %>% fxTWAPLS::pb()
 #' }
 #' @seealso \code{\link{get_distance}}
 get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
@@ -1778,10 +1879,7 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
 
   # Start parallel backend
-  # cl <- parallel::makeCluster(cpus)
-  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  # oplan <- future::plan(future::cluster, workers = cl)
   oplan <- future::plan(future::multisession, workers = cpus)
   on.exit(future::plan(oplan), add = TRUE)
 
@@ -1846,40 +1944,48 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'
 #' point <- modern_pollen[, c("Long", "Lat")]
 #' test_mode <- TRUE # It should be set to FALSE before running
-#' dist <- fxTWAPLS::get_distance(point,
-#'                                cpus = 2, # Remove the following line
-#'                                test_mode = test_mode)
-#' pseudo_Tmin <- fxTWAPLS::get_pseudo(dist,
-#'                                     modern_pollen$Tmin,
-#'                                     cpus = 2, # Remove the following line
-#'                                     test_mode = test_mode)
+#' dist <- fxTWAPLS::get_distance(
+#'   point,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' )
+#' pseudo_Tmin <- fxTWAPLS::get_pseudo(
+#'   dist,
+#'   modern_pollen$Tmin,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' )
 #'
-#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
-#'                                    modern_pollen$Tmin,
-#'                                    nPLS = 5,
-#'                                    fxTWAPLS::TWAPLS.w2,
-#'                                    fxTWAPLS::TWAPLS.predict.w,
-#'                                    pseudo_Tmin,
-#'                                    usefx = TRUE,
-#'                                    fx_method = "bin",
-#'                                    bin = 0.02,
-#'                                    cpus = 2, # Remove the following line
-#'                                    test_mode = test_mode)
+#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   fxTWAPLS::TWAPLS.w2,
+#'   fxTWAPLS::TWAPLS.predict.w,
+#'   pseudo_Tmin,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' )
 #'
 #' # Run with progress bar
 #' `%>%` <- magrittr::`%>%`
-#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(taxa,
-#'                                    modern_pollen$Tmin,
-#'                                    nPLS = 5,
-#'                                    fxTWAPLS::TWAPLS.w2,
-#'                                    fxTWAPLS::TWAPLS.predict.w,
-#'                                    pseudo_Tmin,
-#'                                    usefx = TRUE,
-#'                                    fx_method = "bin",
-#'                                    bin = 0.02,
-#'                                    cpus = 2, # Remove the following line
-#'                                    test_mode = test_mode)  %>% fxTWAPLS::pb()
-#'
+#' cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   fxTWAPLS::TWAPLS.w2,
+#'   fxTWAPLS::TWAPLS.predict.w,
+#'   pseudo_Tmin,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02,
+#'   cpus = 2, # Remove the following line
+#'   test_mode = test_mode
+#' ) %>% 
+#' fxTWAPLS::pb()
 #' }
 #'
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}},
@@ -1906,10 +2012,7 @@ cv.pr.w <- function(modern_taxa,
   cpus <- ifelse(cpus > avail_cpus, avail_cpus, cpus)
 
   # Start parallel backend
-  # cl <- parallel::makeCluster(cpus)
-  # on.exit(parallel::stopCluster(cl), add = TRUE) # Stop cluster
   doFuture::registerDoFuture()
-  # oplan <- future::plan(future::cluster, workers = cl)
   oplan <- future::plan(future::multisession, workers = cpus)
   on.exit(future::plan(oplan), add = TRUE)
 
@@ -1921,24 +2024,30 @@ cv.pr.w <- function(modern_taxa,
   }
   # Set up progress API
   p <- progressr::progressor(along = idx)
-  all.cv.out <- foreach::foreach(i = idx,
-                                 .combine = rbind) %dopar% {
-                                   leave <- unlist(pseudo[i])
-                                   # Strip out cols with no value or one value
-                                   cvtaxa <- y[-leave, ]
-                                   cvtaxa <- cvtaxa[, which(colSums(cvtaxa > 0) >= 2)]
+  all.cv.out <- foreach::foreach(
+    i = idx,
+    .combine = rbind
+  ) %dopar% {
+    leave <- unlist(pseudo[i])
+    # Strip out cols with no value or one value
+    cvtaxa <- y[-leave, ]
+    cvtaxa <- cvtaxa[, which(colSums(cvtaxa > 0) >= 2)]
 
-                                   fit <- trainfun(modern_taxa = cvtaxa,
-                                                   modern_climate = x[-leave],
-                                                   nPLS = nPLS,
-                                                   usefx = usefx,
-                                                   fx_method = fx_method,
-                                                   bin = bin)
-                                   xnew <- predictfun(fit,
-                                   y[i, which(colSums(y[-leave, ] > 0) >= 2)])[["fit"]]
-                                   p()
-                                   data.frame(x[i], xnew)
-                                 }
+    fit <- trainfun(
+      modern_taxa = cvtaxa,
+      modern_climate = x[-leave],
+      nPLS = nPLS,
+      usefx = usefx,
+      fx_method = fx_method,
+      bin = bin
+    )
+    xnew <- predictfun(
+      fit,
+      y[i, which(colSums(y[-leave, ] > 0) >= 2)]
+    )[["fit"]]
+    p()
+    data.frame(x[i], xnew)
+  }
 
   # assign column names to all.cv.out
   colnames(all.cv.out) <- c("test.x", paste0("comp", 1:nPLS))
@@ -1994,35 +2103,36 @@ cv.pr.w <- function(modern_taxa,
 #' ## Random t-test
 #' rand_pr_tf_Tmin2 <- fxTWAPLS::rand.t.test.w(cv_pr_tf_Tmin2, n.perm = 999)
 #'
-#' note: choose the last significant number of components based on the p-value,
-#' see details at Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F.,
-#' Harrison Sandy P.. 2020 An improved statistical approach for reconstructing
-#' past climates from biotic assemblages. Proc. R. Soc. A. 476: 20200346.
-#' <https://doi.org/10.1098/rspa.2020.0346>
-#'
+#' # note: choose the last significant number of components based on the p-value,
+#' # see details at Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F.,
+#' # Harrison Sandy P.. 2020 An improved statistical approach for reconstructing
+#' # past climates from biotic assemblages. Proc. R. Soc. A. 476: 20200346.
+#' # <https://doi.org/10.1098/rspa.2020.0346>
 #' }
 #'
 #' @seealso \code{\link{cv.w}} and \code{\link{cv.pr.w}}
 rand.t.test.w <- function(cvoutput, n.perm = 999) {
   ncomp <- ncol(cvoutput) - 1
   output <- matrix(NA, ncomp, 11)
-  colnames(output) <- c("R2",
-                        "Avg.Bias",
-                        "Max.Bias",
-                        "Min.Bias",
-                        "RMSEP",
-                        "delta.RMSEP",
-                        "p",
-                        "Compre.b0",
-                        "Compre.b1",
-                        "Compre.b0.se",
-                        "Compre.b1.se")
+  colnames(output) <- c(
+    "R2",
+    "Avg.Bias",
+    "Max.Bias",
+    "Min.Bias",
+    "RMSEP",
+    "delta.RMSEP",
+    "p",
+    "Compre.b0",
+    "Compre.b1",
+    "Compre.b0.se",
+    "Compre.b1.se"
+  )
 
   for (i in 1:ncomp) {
     cv.x <- cvoutput[, 1]
     cv.i <- cvoutput[, 1 + i]
-    output[i, "RMSEP"] <- sqrt(mean((cv.i - cv.x) ^ 2))
-    output[i, "R2"] <- cor(cv.i, cv.x) ^ 2
+    output[i, "RMSEP"] <- sqrt(mean((cv.i - cv.x)^2))
+    output[i, "R2"] <- cor(cv.i, cv.x)^2
     output[i, "Avg.Bias"] <- mean(cv.i - cv.x)
     output[i, "Max.Bias"] <- max(abs(cv.i - cv.x))
     output[i, "Min.Bias"] <- min(abs(cv.i - cv.x))
@@ -2034,7 +2144,7 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
   # get delta.RMSEP
   for (i in 1:ncomp) {
     if (i == 1) {
-      rmsep.null <- sqrt(mean((cv.x - mean(cv.x)) ^ 2))
+      rmsep.null <- sqrt(mean((cv.x - mean(cv.x))^2))
       output[i, "delta.RMSEP"] <-
         (output[i, "RMSEP"] - rmsep.null) * 100 / rmsep.null
     } else {
@@ -2052,7 +2162,7 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
   t.res[] <- NA
   n <- nrow(e)
   for (i in 1:ncomp) {
-    d <- e[, i] ^ 2 - e[, i + 1] ^ 2
+    d <- e[, i]^2 - e[, i + 1]^2
     t[1] <- mean(d, na.rm = TRUE)
     for (j in 1:n.perm) {
       sig <- 2 * rbinom(n, 1, 0.5) - 1
@@ -2091,16 +2201,17 @@ rand.t.test.w <- function(cvoutput, n.perm = 999) {
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #'
-#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa,
-#'                                     modern_pollen$Tmin,
-#'                                     nPLS = 5,
-#'                                     usefx = TRUE,
-#'                                     fx_method = "bin",
-#'                                     bin = 0.02)
+#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #'
-#' nsig<-3 #This should be got from the random t-test of the cross validation
+#' nsig <- 3 # This should be got from the random t-test of the cross validation
 #' fxTWAPLS::plot_train(fit_tf_Tmin2, nsig)
-#'
 #' }
 #'
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
@@ -2115,12 +2226,16 @@ plot_train <- function(train_output, col) {
   # plot the fitted curve, the black line is the 1:1 line, the red line is the
   # linear regression line to fitted and x, which shows the overall compression
   ggplot2::ggplot(plotdata, ggplot2::aes(x, fitted)) +
-    ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
+    ggplot2::geom_point(size = 0.4) +
+    ggplot2::theme_bw() +
     ggplot2::geom_abline(slope = 1, intercept = 0) +
-    ggplot2::xlim(min, max) + ggplot2::ylim(min, max) +
-    ggplot2::geom_smooth(method = "lm",
-                         formula = y ~ x,
-                         color = "red")
+    ggplot2::xlim(min, max) +
+    ggplot2::ylim(min, max) +
+    ggplot2::geom_smooth(
+      method = "lm",
+      formula = y ~ x,
+      color = "red"
+    )
 }
 
 #' Plot the residuals
@@ -2148,16 +2263,17 @@ plot_train <- function(train_output, col) {
 #' taxaColMax <- which(colnames(modern_pollen) == "taxaN")
 #' taxa <- modern_pollen[, taxaColMin:taxaColMax]
 #'
-#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(taxa,
-#'                                     modern_pollen$Tmin,
-#'                                     nPLS = 5,
-#'                                     usefx = TRUE,
-#'                                     fx_method = "bin",
-#'                                     bin = 0.02)
+#' fit_tf_Tmin2 <- fxTWAPLS::TWAPLS.w2(
+#'   taxa,
+#'   modern_pollen$Tmin,
+#'   nPLS = 5,
+#'   usefx = TRUE,
+#'   fx_method = "bin",
+#'   bin = 0.02
+#' )
 #'
-#' nsig<-3 #This should be got from the random t-test of the cross validation
+#' nsig <- 3 # This should be got from the random t-test of the cross validation
 #' fxTWAPLS::plot_residuals(fit_tf_Tmin2, nsig)
-#'
 #' }
 #'
 #' @seealso \code{\link{TWAPLS.w}} and \code{\link{WAPLS.w}}
@@ -2171,11 +2287,15 @@ plot_residuals <- function(train_output, col) {
   # plot the residuals, the black line is 0 line, the red line is the locally
   # estimated scatterplot smoothing, which shows the degree of local compression
   ggplot2::ggplot(plotdata, ggplot2::aes(x, residuals)) +
-    ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
+    ggplot2::geom_point(size = 0.4) +
+    ggplot2::theme_bw() +
     ggplot2::geom_abline(slope = 0, intercept = 0) +
-    ggplot2::xlim(min(x), max(x)) + ggplot2::ylim(-maxr, maxr) +
-    ggplot2::geom_smooth(method = "loess",
-                         color = "red",
-                         formula = "y ~ x",
-                         se = FALSE)
+    ggplot2::xlim(min(x), max(x)) +
+    ggplot2::ylim(-maxr, maxr) +
+    ggplot2::geom_smooth(
+      method = "loess",
+      color = "red",
+      formula = "y ~ x",
+      se = FALSE
+    )
 }
