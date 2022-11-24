@@ -203,7 +203,7 @@ WAPLS.w <- function(modern_taxa,
 
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  
+
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
 
@@ -246,7 +246,7 @@ WAPLS.w <- function(modern_taxa,
   # Step 7. Regress the environmental variable (xJ on the components obtained
   # so far using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
                     weights = sumk_yik / sum(y))
   } else {
     if (fx_method == "bin") {
@@ -302,7 +302,7 @@ WAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable on the components obtained so
     # far using weights and take the fitted values as current estimates
     if (usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
                       weights = sumk_yik / sum(y))
     } else {
       if (fx_method == "bin") {
@@ -418,7 +418,7 @@ TWAPLS.w <- function(modern_taxa,
 
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  
+
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
 
@@ -468,7 +468,7 @@ TWAPLS.w <- function(modern_taxa,
   # Step 7. Regress the environmental variable on the components obtained so far
   # using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
                     weights = sumk_yik / sum(y))
   } else {
     if (fx_method == "bin") {
@@ -530,7 +530,7 @@ TWAPLS.w <- function(modern_taxa,
     # Step 7. Regress the environmental variable (xJ on the components obtained
     # so far using weights and take the fitted values as current estimates
     if (usefx == FALSE) {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
                       weights = sumk_yik / sum(y))
     } else {
       if (fx_method == "bin") {
@@ -657,7 +657,7 @@ WAPLS.w2 <- function(modern_taxa,
 
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  
+
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
 
@@ -713,17 +713,16 @@ WAPLS.w2 <- function(modern_taxa,
 
   # Step 7. Regress the environmental variable (xJ on the components obtained
   # so far using weights and take the fitted values as current estimates
-  if(usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+  if (usefx == FALSE) {
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
                     weights = sumk_yik / sum(y))
   } else {
-    
-    if(fx_method=="bin"){
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = 1 / fxTWAPLS::fx(x,bin) )
+    if (fx_method == "bin") {
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
+                      weights = 1 / fxTWAPLS::fx(x, bin))
     } else {
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = 1 / fxTWAPLS::fx_pspline(x,bin) )
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
+                      weights = 1 / fxTWAPLS::fx_pspline(x, bin))
     }
   }
 
@@ -899,7 +898,7 @@ TWAPLS.w2 <- function(modern_taxa,
 
   nc <- ncol(modern_taxa)
   nr <- nrow(modern_taxa)
-  
+
   sumk_yik <- rowSums(y)
   sumi_yik <- colSums(y)
 
@@ -968,15 +967,14 @@ TWAPLS.w2 <- function(modern_taxa,
   # Step 7. Regress the environmental variable on the components obtained so far
   # using weights and take the fitted values as current estimates
   if (usefx == FALSE) {
-    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+    lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
                     weights = sumk_yik / sum(y))
-  } else{
-    
-    if(fx_method=="bin"){
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
-                      weights = 1 / fxTWAPLS::fx(x,bin) )
-    }else{
-      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls], 
+  } else {
+    if (fx_method == "bin") {
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
+                      weights = 1 / fxTWAPLS::fx(x, bin))
+    } else {
+      lm <- MASS::rlm(modern_climate ~ comp[, 1:pls],
                       weights = 1 / fxTWAPLS::fx_pspline(x, bin))
     }
   }
@@ -1161,9 +1159,8 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
 
   nc <- ncol(fossil_taxa)
   nr <- nrow(fossil_taxa)
-  
+
   sumk_yik <- rowSums(y)
-  sumi_yik <- colSums(y)
 
   nPLS <- WAPLSoutput[["nPLS"]]
   u <- WAPLSoutput[["u"]]
@@ -1316,9 +1313,9 @@ TWAPLS.predict.w <- function(TWAPLSoutput, fossil_taxa) {
   for (pls in 2:nPLS) {
     # xi=sumk_yik*uk/sumk_yik; 1*nsite
     # xi; 1*nsite
-    taxa_to_keep<-which(t[,pls]!=0) #remove those taxa with 0 tolerance
-    r[, pls] <- (y[,taxa_to_keep] %*% (u[taxa_to_keep,pls] / t[taxa_to_keep,pls] ^ 2)) / (y[,taxa_to_keep] %*% (1 /t[taxa_to_keep,pls] ^ 2))
-    
+    taxa_to_keep <- which(t[, pls] != 0) #remove those taxa with 0 tolerance
+    r[, pls] <- (y[, taxa_to_keep] %*% (u[taxa_to_keep, pls] / t[taxa_to_keep, pls] ^ 2)) / (y[, taxa_to_keep] %*% (1 / t[taxa_to_keep, pls] ^ 2))
+
     # orthoganlization the same way
     for (j in 1:(pls - 1)) {
       fi <- r[, pls - j]
@@ -1512,12 +1509,12 @@ sse.sample <- function(modern_taxa,
                                 p()
                                 out
                               }, error = function(e) {
-                                
+
                               })
                             }
 
   avg.xboot <- rowMeans(xboot, na.rm = TRUE)
-  boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2 , na.rm = TRUE)
+  boot.mean.square <- rowMeans((xboot - avg.xboot) ^ 2, na.rm = TRUE)
   return(sqrt(boot.mean.square))
 }
 
@@ -1938,14 +1935,13 @@ cv.pr.w <- function(modern_taxa,
                                                    fx_method = fx_method,
                                                    bin = bin)
                                    xnew <- predictfun(fit,
-                                   y[i, which(colSums(y[-leave,] > 0) >= 2)])[["fit"]]
+                                   y[i, which(colSums(y[-leave, ] > 0) >= 2)])[["fit"]]
                                    p()
                                    data.frame(x[i], xnew)
                                  }
 
   # assign column names to all.cv.out
   colnames(all.cv.out) <- c("test.x", paste0("comp", 1:nPLS))
-
   return(all.cv.out)
 }
 
@@ -2122,9 +2118,9 @@ plot_train <- function(train_output, col) {
     ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
     ggplot2::geom_abline(slope = 1, intercept = 0) +
     ggplot2::xlim(min, max) + ggplot2::ylim(min, max) +
-    ggplot2::geom_smooth(method = 'lm',
+    ggplot2::geom_smooth(method = "lm",
                          formula = y ~ x,
-                         color = 'red')
+                         color = "red")
 }
 
 #' Plot the residuals
@@ -2178,8 +2174,8 @@ plot_residuals <- function(train_output, col) {
     ggplot2::geom_point(size = 0.4) + ggplot2::theme_bw() +
     ggplot2::geom_abline(slope = 0, intercept = 0) +
     ggplot2::xlim(min(x), max(x)) + ggplot2::ylim(-maxr, maxr) +
-    ggplot2::geom_smooth(method = 'loess',
-                         color = 'red',
+    ggplot2::geom_smooth(method = "loess",
+                         color = "red",
                          formula = "y ~ x",
                          se = FALSE)
 }
