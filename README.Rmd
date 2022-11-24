@@ -188,9 +188,11 @@ dist <- fxTWAPLS::get_distance(point, cpus = CPUS)
 
 # Get the pseudo sites (which are both geographically close and climatically
 # close to the test site) which should be removed in cross validation
-pseudo_Tmin <- fxTWAPLS::get_pseudo(dist,
-                                    modern_pollen$Tmin,
-                                    cpus = CPUS)
+pseudo_Tmin <- fxTWAPLS::get_pseudo(
+  dist,
+  modern_pollen$Tmin,
+  cpus = CPUS
+)
 
 # Leave-out cross validation
 cv_pr_tf_Tmin2 <- fxTWAPLS::cv.pr.w(

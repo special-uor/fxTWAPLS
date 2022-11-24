@@ -1532,11 +1532,13 @@ sse.sample <- function(modern_taxa,
 
   # Make list of row numbers by sampling with replacement
   k_samples <- replicate(
-    nboot, 
-    sample(seq_len(nrow(modern_taxa)),
-    size = nrow(modern_taxa),
-    replace = TRUE
-  ))
+    nboot,
+    sample(
+      seq_len(nrow(modern_taxa)),
+      size = nrow(modern_taxa),
+      replace = TRUE
+    )
+  )
 
   # Create list of indices to loop through
   idx <- 1:nboot
@@ -1984,8 +1986,8 @@ get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'   bin = 0.02,
 #'   cpus = 2, # Remove the following line
 #'   test_mode = test_mode
-#' ) %>% 
-#' fxTWAPLS::pb()
+#' ) %>%
+#'   fxTWAPLS::pb()
 #' }
 #'
 #' @seealso \code{\link{fx}}, \code{\link{TWAPLS.w}},
