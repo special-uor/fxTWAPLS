@@ -1154,7 +1154,6 @@ WAPLS.predict.w <- function(WAPLSoutput, fossil_taxa) {
   sumi_yik <- colSums(y)
   
   nPLS <- WAPLSoutput[["nPLS"]]
-  meanx <- WAPLSoutput[["meanx"]]
   u <- WAPLSoutput[["u"]]
   z <- WAPLSoutput[["z"]]
   s <- WAPLSoutput[["s"]]
