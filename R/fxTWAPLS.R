@@ -1777,8 +1777,8 @@ cv.w <- function(modern_taxa,
 #'   point,
 #'   cpus = 2, # Remove the following line
 #'   test_mode = test_mode
-#' ) %>% 
-#' fxTWAPLS::pb()
+#' ) %>%
+#'   fxTWAPLS::pb()
 #' }
 #'
 #' @seealso \code{\link{get_pseudo}}
@@ -1872,8 +1872,8 @@ get_distance <- function(point, cpus = 4, test_mode = FALSE, test_it = 5) {
 #'   modern_pollen$Tmin,
 #'   cpus = 2, # Remove the following line
 #'   test_mode = test_mode
-#' ) %>% 
-#' fxTWAPLS::pb()
+#' ) %>%
+#'   fxTWAPLS::pb()
 #' }
 #' @seealso \code{\link{get_distance}}
 get_pseudo <- function(dist, x, cpus = 4, test_mode = FALSE, test_it = 5) {
