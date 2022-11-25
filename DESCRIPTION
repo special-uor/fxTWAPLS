@@ -1,6 +1,6 @@
 Package: fxTWAPLS
 Title: An Improved Version of WA-PLS
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person(given = "Mengmeng",
            family = "Liu",
@@ -52,12 +52,15 @@ Imports:
     parallel,
     progressr
 Suggests:
+    lintr (>= 3.0.0),
     magrittr,
     progress,
     scales,
+    spelling,
+    styler,
     tictoc
 Depends: 
     R (>= 3.6)
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.2
 Language: en-GB
