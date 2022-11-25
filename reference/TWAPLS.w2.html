@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
       </span>
     </div>
 
@@ -55,14 +55,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">TWAPLS.w2</span><span class="op">(</span>
-  <span class="va">modern_taxa</span>,
-  <span class="va">modern_climate</span>,
-  nPLS <span class="op">=</span> <span class="fl">5</span>,
-  usefx <span class="op">=</span> <span class="cn">FALSE</span>,
-  fx_method <span class="op">=</span> <span class="st">"bin"</span>,
-  bin <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">TWAPLS.w2</span><span class="op">(</span></span>
+<span>  <span class="va">modern_taxa</span>,</span>
+<span>  <span class="va">modern_climate</span>,</span>
+<span>  nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  usefx <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span>
+<span>  bin <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -70,24 +70,37 @@
     <dl><dt>modern_taxa</dt>
 <dd><p>The modern taxa abundance data, each row represents a
 sampling site, each column represents a taxon.</p></dd>
+
+
 <dt>modern_climate</dt>
 <dd><p>The modern climate value at each sampling site.</p></dd>
+
+
 <dt>nPLS</dt>
 <dd><p>The number of components to be extracted.</p></dd>
+
+
 <dt>usefx</dt>
 <dd><p>Boolean flag on whether or not use <code>fx</code> correction.</p></dd>
+
+
 <dt>fx_method</dt>
 <dd><p>Binned or p-spline smoothed <code>fx</code> correction: if
 <code>usefx = FALSE</code>, this should be <code>NA</code>; otherwise,
 <code><a href="fx.html">fx</a></code> function will be used when choosing "bin";
 <code><a href="fx_pspline.html">fx_pspline</a></code> function will be used when choosing "pspline".</p></dd>
+
+
 <dt>bin</dt>
 <dd><p>Binwidth to get fx, needed for both binned and p-splined method.
 if <code>usefx = FALSE</code>, this should be <code>NA</code>;</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of the training results, which will be used by the predict
+    
+
+<p>A list of the training results, which will be used by the predict
 function. Each element in the list is described below:</p><dl><dt><code>fit</code></dt>
 <dd><p>the fitted values using each number of components.</p></dd>
 
@@ -141,28 +154,27 @@ regression).</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Load modern pollen data</span></span>
-<span class="r-in"><span class="va">modern_pollen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"/path/to/modern_pollen.csv"</span><span class="op">)</span></span>
-<span class="r-in">                                      </span>
-<span class="r-in"><span class="co"># Extract taxa</span></span>
-<span class="r-in"><span class="va">taxaColMin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxa0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">taxaColMax</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxaN"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="va">modern_pollen</span><span class="op">[</span>, <span class="va">taxaColMin</span><span class="op">:</span><span class="va">taxaColMax</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get the frequency of each climate variable fx</span></span>
-<span class="r-in"><span class="va">fx_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="fx.html">fx</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>, bin <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># MTCO</span></span>
-<span class="r-in"><span class="va">fit_t_Tmin2</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">TWAPLS.w2</span><span class="op">(</span><span class="va">taxa</span>, <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>, nPLS <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit_tf_Tmin2</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">TWAPLS.w2</span><span class="op">(</span><span class="va">taxa</span>, </span>
-<span class="r-in">                                    <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>, </span>
-<span class="r-in">                                    nPLS <span class="op">=</span> <span class="fl">5</span>, </span>
-<span class="r-in">                                    usefx <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span class="r-in">                                    fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span>
-<span class="r-in">                                    bin <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Load modern pollen data</span></span></span>
+<span class="r-in"><span><span class="va">modern_pollen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"/path/to/modern_pollen.csv"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Extract taxa</span></span></span>
+<span class="r-in"><span><span class="va">taxaColMin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxa0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">taxaColMax</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxaN"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="va">modern_pollen</span><span class="op">[</span>, <span class="va">taxaColMin</span><span class="op">:</span><span class="va">taxaColMax</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Training</span></span></span>
+<span class="r-in"><span><span class="va">fit_t_Tmin2</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">TWAPLS.w2</span><span class="op">(</span><span class="va">taxa</span>, <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>, nPLS <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit_tf_Tmin2</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">TWAPLS.w2</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">taxa</span>,</span></span>
+<span class="r-in"><span>  <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span></span>
+<span class="r-in"><span>  nPLS <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>  usefx <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span></span>
+<span class="r-in"><span>  bin <span class="op">=</span> <span class="fl">0.02</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -177,7 +189,7 @@ regression).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

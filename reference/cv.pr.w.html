@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
       </span>
     </div>
 
@@ -53,20 +53,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">cv.pr.w</span><span class="op">(</span>
-  <span class="va">modern_taxa</span>,
-  <span class="va">modern_climate</span>,
-  nPLS <span class="op">=</span> <span class="fl">5</span>,
-  <span class="va">trainfun</span>,
-  <span class="va">predictfun</span>,
-  <span class="va">pseudo</span>,
-  usefx <span class="op">=</span> <span class="cn">FALSE</span>,
-  fx_method <span class="op">=</span> <span class="st">"bin"</span>,
-  bin <span class="op">=</span> <span class="cn">NA</span>,
-  cpus <span class="op">=</span> <span class="fl">4</span>,
-  test_mode <span class="op">=</span> <span class="cn">TRUE</span>,
-  test_it <span class="op">=</span> <span class="fl">5</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cv.pr.w</span><span class="op">(</span></span>
+<span>  <span class="va">modern_taxa</span>,</span>
+<span>  <span class="va">modern_climate</span>,</span>
+<span>  nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  <span class="va">trainfun</span>,</span>
+<span>  <span class="va">predictfun</span>,</span>
+<span>  <span class="va">pseudo</span>,</span>
+<span>  usefx <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span>
+<span>  bin <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  cpus <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  test_mode <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  test_it <span class="op">=</span> <span class="fl">5</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -74,43 +74,68 @@
     <dl><dt>modern_taxa</dt>
 <dd><p>The modern taxa abundance data, each row represents a
 sampling site, each column represents a taxon.</p></dd>
+
+
 <dt>modern_climate</dt>
 <dd><p>The modern climate value at each sampling site.</p></dd>
+
+
 <dt>nPLS</dt>
 <dd><p>The number of components to be extracted.</p></dd>
+
+
 <dt>trainfun</dt>
 <dd><p>Training function you want to use, either
 <code><a href="WAPLS.w.html">WAPLS.w</a></code> or <code><a href="TWAPLS.w.html">TWAPLS.w</a></code>.</p></dd>
+
+
 <dt>predictfun</dt>
 <dd><p>Predict function you want to use: if <code>trainfun</code> is
 <code><a href="WAPLS.w.html">WAPLS.w</a></code>, then this should be <code><a href="WAPLS.predict.w.html">WAPLS.predict.w</a></code>;
 if <code>trainfun</code> is <code><a href="TWAPLS.w.html">TWAPLS.w</a></code>, then this should be
 <code><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></code>.</p></dd>
+
+
 <dt>pseudo</dt>
 <dd><p>The geographically and climatically close sites to each test
 site, obtained from <code><a href="get_pseudo.html">get_pseudo</a></code> function.</p></dd>
+
+
 <dt>usefx</dt>
 <dd><p>Boolean flag on whether or not use <code>fx</code> correction.</p></dd>
+
+
 <dt>fx_method</dt>
 <dd><p>Binned or p-spline smoothed <code>fx</code> correction: if
 <code>usefx = FALSE</code>, this should be <code>NA</code>; otherwise,
 <code><a href="fx.html">fx</a></code> function will be used when choosing "bin";
 <code><a href="fx_pspline.html">fx_pspline</a></code> function will be used when choosing "pspline".</p></dd>
+
+
 <dt>bin</dt>
 <dd><p>Binwidth to get fx, needed for both binned and p-splined method.
 if <code>usefx = FALSE</code>, this should be <code>NA</code>;</p></dd>
+
+
 <dt>cpus</dt>
 <dd><p>Number of CPUs for simultaneous iterations to execute, check
 <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code> for available CPUs on your machine.</p></dd>
+
+
 <dt>test_mode</dt>
 <dd><p>Boolean flag to execute the function with a limited number
 of iterations, <code>test_it</code>, for testing purposes only.</p></dd>
+
+
 <dt>test_it</dt>
 <dd><p>Number of iterations to use in the test mode.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Leave-one-out cross validation results.</p>
+    
+
+<p>Leave-one-out cross validation results.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -121,69 +146,61 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Load modern pollen data</span></span>
-<span class="r-in"><span class="va">modern_pollen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"/path/to/modern_pollen.csv"</span><span class="op">)</span></span>
-<span class="r-in">                                      </span>
-<span class="r-in"><span class="co"># Extract taxa</span></span>
-<span class="r-in"><span class="va">taxaColMin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxa0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">taxaColMax</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxaN"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="va">modern_pollen</span><span class="op">[</span>, <span class="va">taxaColMin</span><span class="op">:</span><span class="va">taxaColMax</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">point</span> <span class="op">&lt;-</span> <span class="va">modern_pollen</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Long"</span>, <span class="st">"Lat"</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">test_mode</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># It should be set to FALSE before running</span></span>
-<span class="r-in"><span class="va">dist</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="get_distance.html">get_distance</a></span><span class="op">(</span><span class="va">point</span>, </span>
-<span class="r-in">                               cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                               test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">pseudo_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="get_pseudo.html">get_pseudo</a></span><span class="op">(</span><span class="va">dist</span>, </span>
-<span class="r-in">                                    <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>, </span>
-<span class="r-in">                                    cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                                    test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">cv_pr_t_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">cv.pr.w</span><span class="op">(</span><span class="va">taxa</span>,</span>
-<span class="r-in">                                  <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span>
-<span class="r-in">                                  nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">                                  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w.html">TWAPLS.w</a></span>,</span>
-<span class="r-in">                                  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span>
-<span class="r-in">                                  <span class="va">pseudo_Tmin</span>,</span>
-<span class="r-in">                                  cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                                  test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cv_pr_tf_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">cv.pr.w</span><span class="op">(</span><span class="va">taxa</span>,</span>
-<span class="r-in">                                   <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span>
-<span class="r-in">                                   nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">                                   <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w.html">TWAPLS.w</a></span>,</span>
-<span class="r-in">                                   <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span>
-<span class="r-in">                                   <span class="va">pseudo_Tmin</span>,</span>
-<span class="r-in">                                   usefx <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                                   fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span>
-<span class="r-in">                                   bin <span class="op">=</span> <span class="fl">0.02</span>,</span>
-<span class="r-in">                                   cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                                   test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span>                                </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Run with progress bar</span></span>
-<span class="r-in"><span class="va">`%&gt;%`</span> <span class="op">&lt;-</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span>
-<span class="r-in"><span class="va">cv_pr_t_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">cv.pr.w</span><span class="op">(</span><span class="va">taxa</span>,</span>
-<span class="r-in">                                  <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span>
-<span class="r-in">                                  nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">                                  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w.html">TWAPLS.w</a></span>,</span>
-<span class="r-in">                                  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span>
-<span class="r-in">                                  <span class="va">pseudo_Tmin</span>,</span>
-<span class="r-in">                                  cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                                  test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="pb.html">pb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cv_pr_tf_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">cv.pr.w</span><span class="op">(</span><span class="va">taxa</span>,</span>
-<span class="r-in">                                   <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span>
-<span class="r-in">                                   nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">                                   <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w.html">TWAPLS.w</a></span>,</span>
-<span class="r-in">                                   <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span>
-<span class="r-in">                                   <span class="va">pseudo_Tmin</span>,</span>
-<span class="r-in">                                   usefx <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                                   fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span>
-<span class="r-in">                                   bin <span class="op">=</span> <span class="fl">0.02</span>,</span>
-<span class="r-in">                                   cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                                   test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="pb.html">pb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">                                 </span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Load modern pollen data</span></span></span>
+<span class="r-in"><span><span class="va">modern_pollen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"/path/to/modern_pollen.csv"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Extract taxa</span></span></span>
+<span class="r-in"><span><span class="va">taxaColMin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxa0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">taxaColMax</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxaN"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="va">modern_pollen</span><span class="op">[</span>, <span class="va">taxaColMin</span><span class="op">:</span><span class="va">taxaColMax</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">point</span> <span class="op">&lt;-</span> <span class="va">modern_pollen</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Long"</span>, <span class="st">"Lat"</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">test_mode</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># It should be set to FALSE before running</span></span></span>
+<span class="r-in"><span><span class="va">dist</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="get_distance.html">get_distance</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">point</span>,</span></span>
+<span class="r-in"><span>  cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span></span>
+<span class="r-in"><span>  test_mode <span class="op">=</span> <span class="va">test_mode</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pseudo_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="get_pseudo.html">get_pseudo</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">dist</span>,</span></span>
+<span class="r-in"><span>  <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span></span>
+<span class="r-in"><span>  cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span></span>
+<span class="r-in"><span>  test_mode <span class="op">=</span> <span class="va">test_mode</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">cv_pr_tf_Tmin2</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">cv.pr.w</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">taxa</span>,</span></span>
+<span class="r-in"><span>  <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span></span>
+<span class="r-in"><span>  nPLS <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w2.html">TWAPLS.w2</a></span>,</span></span>
+<span class="r-in"><span>  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span></span>
+<span class="r-in"><span>  <span class="va">pseudo_Tmin</span>,</span></span>
+<span class="r-in"><span>  usefx <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span></span>
+<span class="r-in"><span>  bin <span class="op">=</span> <span class="fl">0.02</span>,</span></span>
+<span class="r-in"><span>  cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span></span>
+<span class="r-in"><span>  test_mode <span class="op">=</span> <span class="va">test_mode</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Run with progress bar</span></span></span>
+<span class="r-in"><span><span class="va">`%&gt;%`</span> <span class="op">&lt;-</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va">`%&gt;%`</span></span></span>
+<span class="r-in"><span><span class="va">cv_pr_tf_Tmin2</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">cv.pr.w</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">taxa</span>,</span></span>
+<span class="r-in"><span>  <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span></span>
+<span class="r-in"><span>  nPLS <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w2.html">TWAPLS.w2</a></span>,</span></span>
+<span class="r-in"><span>  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span></span>
+<span class="r-in"><span>  <span class="va">pseudo_Tmin</span>,</span></span>
+<span class="r-in"><span>  usefx <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span></span>
+<span class="r-in"><span>  bin <span class="op">=</span> <span class="fl">0.02</span>,</span></span>
+<span class="r-in"><span>  cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span></span>
+<span class="r-in"><span>  test_mode <span class="op">=</span> <span class="va">test_mode</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="pb.html">pb</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -198,7 +215,7 @@ of iterations, <code>test_it</code>, for testing purposes only.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

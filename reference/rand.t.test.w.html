@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fxTWAPLS</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2</span>
       </span>
     </div>
 
@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rand.t.test.w</span><span class="op">(</span><span class="va">cvoutput</span>, n.perm <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rand.t.test.w</span><span class="op">(</span><span class="va">cvoutput</span>, n.perm <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -61,14 +61,19 @@
     <dl><dt>cvoutput</dt>
 <dd><p>Cross-validation output either from <code><a href="cv.w.html">cv.w</a></code> or
 <code><a href="cv.pr.w.html">cv.pr.w</a></code>.</p></dd>
+
+
 <dt>n.perm</dt>
 <dd><p>The number of permutation times to get the p value, which
 assesses whether using the current number of components is significantly
 different from using one less.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix of the statistics of the cross-validation results. Each
+    
+
+<p>A matrix of the statistics of the cross-validation results. Each
 component is described below:</p><dl><dt><code>R2</code></dt>
 <dd><p>the coefficient of determination (the larger, the
 better the fit).</p></dd>
@@ -115,42 +120,18 @@ overall compression).</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Load modern pollen data</span></span>
-<span class="r-in"><span class="va">modern_pollen</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"/path/to/modern_pollen.csv"</span><span class="op">)</span></span>
-<span class="r-in">                                      </span>
-<span class="r-in"><span class="co"># Extract taxa</span></span>
-<span class="r-in"><span class="va">taxaColMin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxa0"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">taxaColMax</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">modern_pollen</span><span class="op">)</span> <span class="op">==</span> <span class="st">"taxaN"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="va">modern_pollen</span><span class="op">[</span>, <span class="va">taxaColMin</span><span class="op">:</span><span class="va">taxaColMax</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## LOOCV</span></span>
-<span class="r-in"><span class="va">test_mode</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># It should be set to FALSE before running</span></span>
-<span class="r-in"><span class="co">### without fx</span></span>
-<span class="r-in"><span class="va">cv_t_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="cv.w.html">cv.w</a></span><span class="op">(</span><span class="va">taxa</span>,</span>
-<span class="r-in">                            <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span>
-<span class="r-in">                            nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">                            <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w.html">TWAPLS.w</a></span>,</span>
-<span class="r-in">                            <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span>
-<span class="r-in">                            cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                            test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="pb.html">pb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### with fx</span></span>
-<span class="r-in"><span class="va">cv_tf_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="cv.w.html">cv.w</a></span><span class="op">(</span><span class="va">taxa</span>,</span>
-<span class="r-in">                             <span class="va">modern_pollen</span><span class="op">$</span><span class="va">Tmin</span>,</span>
-<span class="r-in">                             nPLS <span class="op">=</span> <span class="fl">5</span>,</span>
-<span class="r-in">                             <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.w.html">TWAPLS.w</a></span>,</span>
-<span class="r-in">                             <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="va"><a href="TWAPLS.predict.w.html">TWAPLS.predict.w</a></span>,</span>
-<span class="r-in">                             usefx <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                             fx_method <span class="op">=</span> <span class="st">"bin"</span>,</span>
-<span class="r-in">                             bin <span class="op">=</span> <span class="fl">0.02</span>,</span>
-<span class="r-in">                             cpus <span class="op">=</span> <span class="fl">2</span>, <span class="co"># Remove the following line</span></span>
-<span class="r-in">                             test_mode <span class="op">=</span> <span class="va">test_mode</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu"><a href="pb.html">pb</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in">                            </span>
-<span class="r-in"><span class="co">## Random t-test</span></span>
-<span class="r-in"><span class="va">rand_t_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">rand.t.test.w</span><span class="op">(</span><span class="va">cv_t_Tmin</span>, n.perm <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">rand_tf_Tmin</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">rand.t.test.w</span><span class="op">(</span><span class="va">cv_tf_Tmin</span>, n.perm <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Random t-test</span></span></span>
+<span class="r-in"><span><span class="va">rand_pr_tf_Tmin2</span> <span class="op">&lt;-</span> <span class="fu">fxTWAPLS</span><span class="fu">::</span><span class="fu">rand.t.test.w</span><span class="op">(</span><span class="va">cv_pr_tf_Tmin2</span>, n.perm <span class="op">=</span> <span class="fl">999</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># note: choose the last significant number of components based on the p-value,</span></span></span>
+<span class="r-in"><span><span class="co"># see details at Liu Mengmeng, Prentice Iain Colin, ter Braak Cajo J. F.,</span></span></span>
+<span class="r-in"><span><span class="co"># Harrison Sandy P.. 2020 An improved statistical approach for reconstructing</span></span></span>
+<span class="r-in"><span><span class="co"># past climates from biotic assemblages. Proc. R. Soc. A. 476: 20200346.</span></span></span>
+<span class="r-in"><span><span class="co"># &lt;https://doi.org/10.1098/rspa.2020.0346&gt;</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -165,7 +146,7 @@ overall compression).</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
