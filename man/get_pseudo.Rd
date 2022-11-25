@@ -53,8 +53,8 @@ pseudo_Tmin <- fxTWAPLS::get_pseudo(
   modern_pollen$Tmin,
   cpus = 2, # Remove the following line
   test_mode = test_mode
-) \%>\% 
-fxTWAPLS::pb()
+) \%>\%
+  fxTWAPLS::pb()
 }
 }
 \seealso{
