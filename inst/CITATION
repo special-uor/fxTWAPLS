@@ -1,7 +1,7 @@
 citHeader("To cite fxTWAPLS in publications use:")
 
 bibentry(
-  entry    = "Article",
+  bibtype  = "Article",
   title    = "An improved statistical approach for reconstructing past climates from biotic assemblages",
   author   = c(as.person("Mengmeng Liu"),
   as.person("Iain Colin Prentice"),
