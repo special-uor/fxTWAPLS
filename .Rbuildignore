@@ -16,3 +16,4 @@
 ^documentation$
 ^.lintr$
 ^.DS_Store$
+^CRAN-SUBMISSION$
